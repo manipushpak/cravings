@@ -8,4 +8,5 @@ To Install:
 To Enter Development Mode:
 1. Type in terminal 'npm run start'
 2. Type in new terminal 'npm run react-dev'
-3. Yay
+3. Run on localhost:1337
+4. Yay
