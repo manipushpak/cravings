@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Home from './Home.jsx'
-import Map from './Map.jsx'
+import MyMapComponent from './Map.jsx'
 import Search from './Search.jsx'
 
 const Main = () => {
@@ -10,7 +10,7 @@ const Main = () => {
       <main>
          <Switch>
             <Route exact path='/' component={Home}/>
-            <Route path='/map' component={Map}/>
+            <Route path='/map' component={MyMapComponent}/>
             <Route path='/search' component={Search}/>
          </Switch>
       </main>
