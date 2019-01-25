@@ -4,13 +4,35 @@ import { withGoogleMap, GoogleMap } from 'react-google-maps';
 class Map extends React.Component {
    constructor(props) {
       super(props);
-      this.state = { }
+      this.state = { userLocation : {lat:38 , lng:38}, loading:true}
    }
 
+   componentDidMount(props) {
+      navigator.geolocation.getCurrentPosition(
+         position => {
+            const { latitude, longitude } = position.coords;
+
+            this.setState({
+            userLocation: { lat: latitude, lng: longitude },
+            loading: false
+            });
+         },
+         () => {
+            this.setState({ loading: false });
+         }
+      );
+      } 
+
+
+
    render() {
+      const { userLocation, loading} = this.state;
+      if (loading) {
+         return null;
+      }
       const GoogleMapExample = withGoogleMap(props => (
          <GoogleMap
-           defaultCenter = { { lat: 40.756795, lng: -73.954298 } }
+           defaultCenter = { userLocation }
            defaultZoom = { 13 }
          >
          </GoogleMap>
@@ -27,3 +49,4 @@ class Map extends React.Component {
 }
 
 export default Map;
+
