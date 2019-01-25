@@ -1,39 +1,29 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { compose, withProps } from "recompose";
-import {
-  withScriptjs,
-  withGoogleMap,
-  GoogleMap,
-  Marker
-} from "react-google-maps";
+import React from 'react';
+import { withGoogleMap, GoogleMap } from 'react-google-maps';
 
-const MyMapComponent = compose(
-  withProps({
-    /**
-     * Note: create and replace your own key in the Google console.
-     * https://console.developers.google.com/apis/dashboard
-     * The key "AIzaSyBkNaAGLEVq0YLQMi-PYEMabFeREadYe1Q" can be ONLY used in this sandbox (no forked).
-     */
-    googleMapURL:
-      "https://maps.googleapis.com/maps/api/js?key=AIzaSyCTcYy_as8sqfFJWdTZy6587_O0KV8WCHw&v=3.exp&libraries=geometry,drawing,places",
-    loadingElement: <div style={{ height: `100%` }} />,
-    containerElement: <div style={{ height: `400px`, width: '800px' }} />,
-    mapElement: <div style={{ height: `100%` }} />
-  }),
-  withScriptjs,
-  withGoogleMap
-)(props => (
-  <GoogleMap defaultZoom={8} defaultCenter={{ lat: 34.052235, lng: -118.243683 }}>
-    {props.isMarkerShown && (
-      <Marker position={{ lat: 34.052235, lng: -118.243683 }} />
-    )}
-  </GoogleMap>
-));
+class Map extends React.Component {
+   constructor(props) {
+      super(props);
+      this.state = { }
+   }
 
-ReactDOM.render(
-  <MyMapComponent isMarkerShown />,
-  document.getElementById("root")
-);
+   render() {
+      const GoogleMapExample = withGoogleMap(props => (
+         <GoogleMap
+           defaultCenter = { { lat: 40.756795, lng: -73.954298 } }
+           defaultZoom = { 13 }
+         >
+         </GoogleMap>
+      ));
+      return(
+         <div>
+           <GoogleMapExample
+             containerElement={ <div style={{ height: `500px`, width: '500px' }} /> }
+             mapElement={ <div style={{ height: `100%` }} /> }
+           />
+         </div>
+      );
+      }
+}
 
-export default MyMapComponent;
+export default Map;
