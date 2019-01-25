@@ -7,7 +7,6 @@ const Header = () => {
          <nav>
             <div><Link to='/'>Home</Link></div>
             <div><Link to='/map'>Map</Link></div>
-            <div><Link to='/search'>Search</Link></div>
          </nav>
       </header>
    )
