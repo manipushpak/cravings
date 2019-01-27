@@ -4,7 +4,10 @@ import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 class Map extends React.Component {
    constructor(props) {
       super(props);
-      this.state = { userLocation : {lat:38 , lng:38}, loading:true}
+      this.state = { 
+         userLocation: {lat:38 , lng:38}, 
+         loading: true
+      }
    }
 
    componentDidMount(props) {
@@ -24,9 +27,10 @@ class Map extends React.Component {
    }
 
    render() {
-      const { userLocation, loading} = this.state;
+      const { userLocation, loading } = this.state;
       
       if (loading) {
+         // TODO: Should replace with something signaling that map is loading
          return null;
       }
 
@@ -57,4 +61,3 @@ class Map extends React.Component {
 }
 
 export default Map;
-
