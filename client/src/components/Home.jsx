@@ -1,4 +1,5 @@
 import React from 'react';
+import { PageHeader } from 'react-bootstrap';
 
 class Home extends React.Component {
    constructor(props) {
@@ -9,7 +10,7 @@ class Home extends React.Component {
    render() {
       return(
          <div>
-            <h1>This is the homepage!</h1>
+            <PageHeader>This is the homepage!</PageHeader>
          </div>
       );
    }
