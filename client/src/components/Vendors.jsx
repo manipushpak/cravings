@@ -47,7 +47,7 @@ class Vendors extends React.Component {
                      open: true,
                   },
                   {
-                     name: "Devikas Cakes",
+                     name: "Devika's Cakes",
                      location: "Cake Blvd.",
                      open: false,
                   },
@@ -67,7 +67,7 @@ class Vendors extends React.Component {
                      open: true,
                   },
                   {
-                     name: "Devikas Cakes",
+                     name: "Devika's Cakes",
                      location: "Cake Blvd.",
                      open: false,
                   },
