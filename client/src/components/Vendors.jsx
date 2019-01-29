@@ -60,6 +60,26 @@ class Vendors extends React.Component {
                      name: "Sonali's Lemonade",
                      location: "Lemonade & Brownies",
                      open: true,
+                  },
+                  {
+                     name: "Sophia's Tacos",
+                     location: "Taco Street",
+                     open: true,
+                  },
+                  {
+                     name: "Devikas Cakes",
+                     location: "Cake Blvd.",
+                     open: false,
+                  },
+                  {
+                     name: "Mani's Sushi",
+                     location: "Sushi Lane",
+                     open: false,
+                  },
+                  {
+                     name: "Sonali's Lemonade",
+                     location: "Lemonade & Brownies",
+                     open: true,
                   }
                ]} />
             </div>
