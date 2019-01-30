@@ -2,7 +2,6 @@ import express from 'express';
 let router = express.Router();
 import Vendor from '../models/vendor';
 import VendorLocation from '../models/location';
-import SampleDB from '../data/sampledb';
 import DataManager from '../data/datamanager';
 /* GET home page. */
 var dm = new DataManager();

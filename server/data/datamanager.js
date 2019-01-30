@@ -1,6 +1,4 @@
 import SampleDB from '../data/sampledb';
-import Vendor from '../models/vendor';
-import VendorLocation from '../models/location';
 var filepath = "server/data/sampledb.json";
 export default class DataManager {
 
