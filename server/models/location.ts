@@ -1,6 +1,8 @@
 export default class VendorLocation {
 
-  constructor(address, coordinates){
+  address:string;
+  coordinates:number[];
+  constructor(address:string, coordinates:number[]){
        this.address = address;
        this.coordinates = coordinates;
      }

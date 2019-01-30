@@ -1,13 +1,15 @@
-import SampleDB from '../data/sampledb';
+import Vendor from "../models/vendor";
+
+//import {SampleDB }from '../data/sampledb.json';
 var filepath = "server/data/sampledb.json";
 export default class DataManager {
 
     constructor(){}
 
-    createVendor(vendor){
+    createVendor(vendor:Vendor){
         var fs = require('fs')
 
-        fs.readFile(filepath, 'utf-8', function(err, data) {
+        fs.readFile(filepath, 'utf-8', function(err:any, data:any) {
             if (err) throw err
         
             var arrayOfObjects = JSON.parse(data)
@@ -22,7 +24,7 @@ export default class DataManager {
             })
         
 
-            fs.writeFile(filepath, JSON.stringify(arrayOfObjects), 'utf-8', function(err) {
+            fs.writeFile(filepath, JSON.stringify(arrayOfObjects), 'utf-8', function(err:any) {
                 if (err) throw err
                 console.log('Done!')
             })
@@ -30,7 +32,7 @@ export default class DataManager {
     }
 
     getVendors(){
-    return SampleDB.vendors;
-
+  //return SampleDB.vendors;
+  return null;
     }
   }

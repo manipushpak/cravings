@@ -2,7 +2,11 @@ import VendorLocation from "./location";
 
 export default class Vendor {
 
-  constructor(name, location, keywords, phone){
+  name:string;
+  location:VendorLocation;
+  keywords:string[];
+  phone:string;
+  constructor(name:string, location:VendorLocation, keywords:string[], phone:string){
      this.name = name;
      this.location = location;
      this.keywords = keywords;
