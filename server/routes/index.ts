@@ -1,27 +1,38 @@
 import * as express from 'express';
-import * as bodyParser from 'body-parser';
 let router = express.Router();
-import Vendor from '../models/vendor';
-import VendorLocation from '../models/location';
 import DataManager from '../data/datamanager';
+import { Vendor } from '../models/types';
 /* GET home page. */
 var dm = new DataManager();
 
 router.get('/vendors', (req, res, next) => {
-    let vendors = dm.getVendors();
+    let vendors:Vendor[] = dm.getVendors();
     res.json(vendors);
 });
 
 router.post('/vendor/create', (req, res) => {
-   let vendor = new Vendor(req.body.name, 
-   req.body.location, req.body.keywords, req.body.phone);
+   let vendor:Vendor = 
+   {name: req.body.name, 
+   location: req.body.location,
+   keywords: req.body.keywords,
+   phone: req.body.phone};
+
    dm.createVendor(vendor);
    res.json(vendor);
 });
 
-router.get('/testing', (req, res) => {
-    let testing:string = "hello!";
-    res.json(testing);
- })
+// router.get('/testing', (req, res) => {
+//     let testing:string = "hello!";
+//     let vendor:Vendor = {
+//         name: "sonali",
+//         location: {
+//             address: "phi sig",
+//             coordinates: [23, 44]
+//         },
+//         phone: "650"
+//     }
+//     dm.createVendor(vendor);
+//     res.json(dm.getVendors());
+//  })
 
 export default router;

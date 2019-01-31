@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express = __importStar(require("express"));
 var router = express.Router();
-var vendor_1 = __importDefault(require("../models/vendor"));
 var datamanager_1 = __importDefault(require("../data/datamanager"));
 /* GET home page. */
 var dm = new datamanager_1.default();
@@ -21,12 +20,24 @@ router.get('/vendors', function (req, res, next) {
     res.json(vendors);
 });
 router.post('/vendor/create', function (req, res) {
-    var vendor = new vendor_1.default(req.body.name, req.body.location, req.body.keywords, req.body.phone);
+    var vendor = { name: req.body.name,
+        location: req.body.location,
+        keywords: req.body.keywords,
+        phone: req.body.phone };
     dm.createVendor(vendor);
     res.json(vendor);
 });
 router.get('/testing', function (req, res) {
     var testing = "hello!";
-    res.json(testing);
+    var vendor = {
+        name: "sonali",
+        location: {
+            address: "phi sig",
+            coordinates: [23, 44]
+        },
+        phone: "650"
+    };
+    dm.createVendor(vendor);
+    res.json(dm.getVendors());
 });
 exports.default = router;
