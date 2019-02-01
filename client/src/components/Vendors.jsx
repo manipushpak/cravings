@@ -7,8 +7,16 @@ import Map from './Map.jsx';
 class Vendors extends React.Component {
    constructor(props) {
       super(props);
-      this.state = { };
+      this.state = {
+         vendors: []
+      };
    }
+
+   // getVendors = () => {
+   //    fetch('/vendors')
+   //    .then(res => res.json())
+   //    .then(vendors => this.setState({ vendors }))
+   // }
 
    render() {
       const vendorsList = [
