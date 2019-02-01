@@ -9,6 +9,7 @@ var DataManager = /** @class */ (function () {
     }
     DataManager.prototype.createVendor = function (vendor) {
         sampledb_1.default.push(vendor);
+        console.log("ADDED A VENDOR");
     };
     DataManager.prototype.getVendors = function () {
         return sampledb_1.default;
