@@ -15,21 +15,37 @@ class Vendors extends React.Component {
          {
             name: "Sophia's Tacos",
             location: "Taco Street",
+            coords: {
+               lat: 34.0254,
+               lng: -118.2852
+            },
             open: true,
          },
          {
-            name: "Devikas Cakes",
+            name: "Devika's Cakes",
             location: "Cake Blvd.",
+            coords: {
+               lat: 34.0141,
+               lng: -118.2879
+            },
             open: false,
          },
          {
             name: "Mani's Sushi",
             location: "Sushi Lane",
+            coords: {
+               lat: 34.0224,
+               lng: -118.2851
+            },
             open: false,
          },
          {
             name: "Sonali's Lemonade",
             location: "Lemonade & Brownies",
+            coords: {
+               lat: 34.0232,
+               lng: -118.2801
+            },
             open: true,
          },
       ];
@@ -40,51 +56,10 @@ class Vendors extends React.Component {
                Search Bar Here
             </div>
             <div className={ styles.listColumn }>
-               <List vendors={[
-                  {
-                     name: "Sophia's Tacos",
-                     location: "Taco Street",
-                     open: true,
-                  },
-                  {
-                     name: "Devika's Cakes",
-                     location: "Cake Blvd.",
-                     open: false,
-                  },
-                  {
-                     name: "Mani's Sushi",
-                     location: "Sushi Lane",
-                     open: false,
-                  },
-                  {
-                     name: "Sonali's Lemonade",
-                     location: "Lemonade & Brownies",
-                     open: true,
-                  },
-                  {
-                     name: "Sophia's Tacos",
-                     location: "Taco Street",
-                     open: true,
-                  },
-                  {
-                     name: "Devika's Cakes",
-                     location: "Cake Blvd.",
-                     open: false,
-                  },
-                  {
-                     name: "Mani's Sushi",
-                     location: "Sushi Lane",
-                     open: false,
-                  },
-                  {
-                     name: "Sonali's Lemonade",
-                     location: "Lemonade & Brownies",
-                     open: true,
-                  }
-               ]} />
+               <List vendors={ vendorsList } />
             </div>
             <div className={ styles.mapColumn }>
-               <Map />
+               <Map vendors={ vendorsList }/>
             </div>
          </div>
       );
