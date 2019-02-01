@@ -27,17 +27,17 @@ router.post('/vendor/create', function (req, res) {
     dm.createVendor(vendor);
     res.json(vendor);
 });
-router.get('/testing', function (req, res) {
-    var testing = "hello!";
-    var vendor = {
-        name: "sonali",
-        location: {
-            address: "phi sig",
-            coordinates: [23, 44]
-        },
-        phone: "650"
-    };
-    dm.createVendor(vendor);
-    res.json(dm.getVendors());
-});
+// router.get('/testing', (req, res) => {
+//     let testing:string = "hello!";
+//     let vendor:Vendor = {
+//         name: "sonali",
+//         location: {
+//             address: "phi sig",
+//             coordinates: [23, 44]
+//         },
+//         phone: "650"
+//     }
+//     dm.createVendor(vendor);
+//     res.json(dm.getVendors());
+//  })
 exports.default = router;
