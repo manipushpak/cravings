@@ -7,6 +7,7 @@ export default class DataManager {
 
     createVendor(vendor:Vendor){
     vendors.push(vendor);
+    console.log("ADDED A VENDOR");
     }
 
     getVendors(){

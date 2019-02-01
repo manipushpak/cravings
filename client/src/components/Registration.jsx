@@ -32,20 +32,23 @@ class Registration extends React.Component {
       let completeAddress = this.state.address + " " +
       this.state.city + ", " + this.state.state + " " + this.state.zip;
 
-      var vendor = {
-         "name": this.state.name,
-         "phone": this.state.phone,
-         "address": completeAddress,
-         "coordinates": this.state.coordinates,
-         "keywords": this.state.keywords
-       };
-       
-      console.log(vendor); 
-
-      //make a call to the server to create the vendor
-      fetch('../../../server/data/datamanager/createVendor', {
+      fetch('/vendor/create',{
       method: 'POST',
-      body: vendor,
+      body: JSON.stringify({
+         name: this.state.name,
+         phone: this.state.phone,
+         location: {
+            address: completeAddress,
+            coordinate: this.state.coordinates
+         },
+         keywords: this.state.keywords
+      }),
+      headers: {"Content-Type": "application/json"}
+      })
+       .then(function(response){
+         return response.json()
+       }).then(function(body){
+         console.log(body);
        });
    }
 
