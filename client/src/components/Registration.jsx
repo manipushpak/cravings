@@ -42,11 +42,11 @@ class Registration extends React.Component {
        
       console.log(vendor); 
 
-      // //make a call to the server to create the vendor
-      // fetch('/server/data/datamanager/createVendor', {
-      // method: 'POST',
-      // body: vendor,
-      //  });
+      //make a call to the server to create the vendor
+      fetch('../../../server/data/datamanager/createVendor', {
+      method: 'POST',
+      body: vendor,
+       });
    }
 
    updateName(e) {
