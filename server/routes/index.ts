@@ -1,7 +1,8 @@
 import * as express from 'express';
 let router = express.Router();
 import DataManager from '../data/datamanager';
-import { Vendor } from '../models/types';
+import { Vendor, User } from '../models/types';
+import vendors from '../data/sampledb';
 /* GET home page. */
 var dm = new DataManager();
 
@@ -21,18 +22,47 @@ router.post('/vendor/create', (req, res) => {
    res.json(vendor);
 });
 
-// router.get('/testing', (req, res) => {
-//     let testing:string = "hello!";
-//     let vendor:Vendor = {
-//         name: "sonali",
-//         location: {
-//             address: "phi sig",
-//             coordinates: [23, 44]
-//         },
-//         phone: "650"
-//     }
-//     dm.createVendor(vendor);
-//     res.json(dm.getVendors());
-//  })
+router.get('/vendor/:filter/:term', (req, res) => {
+    let vendors:Vendor[] = dm.getVendorSearch(req.params.filter, req.params.term);
+    res.json(vendors);
+ }); 
+
+router.get('/users', (req, res, next) => {
+    let users:User[] = dm.getUsers();
+    res.json(users);
+});
+
+router.get('/user/:id', (req, res, next) => {
+    let user:any = dm.getUser(req.params.id);
+    res.json(user);
+});
+
+router.get('/vendor/:id', (req, res, next) => {
+    let vendor:any = dm.getVendor(req.params.id);
+    res.json(vendor);
+});
+
+router.post('/user/create', (req, res) => {
+   let user:User = 
+   {name: req.body.name, 
+   email: req.body.email,
+   username: req.body.username,
+   password: req.body.password};
+
+   dm.createUser(user);
+   res.json(user);
+});
+
+router.get('/testing', (req, res) => {
+    let searchres:any = dm.getVendor("2");
+    // let vendor:User= {
+    //     name: "sonali",
+    //     email: "sonalipa@usc.edu",
+    //     username: "sonalipa",
+    //     password: "squirttheturt"
+    // }
+    // dm.createUser(vendor);
+    res.json(searchres);
+ })
 
 export default router;

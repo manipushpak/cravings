@@ -2,21 +2,23 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var vendors = [
     {
-        "name": "Taco Stand",
-        "location": {
+        _id: "1",
+        name: "Taco Stand",
+        location: {
             "address": "3770 S Fig",
             "coordinates": [
                 60,
                 60
             ]
         },
-        "keywords": [
+        keywords: [
             "taco",
             "yummy"
         ],
-        "phone": "6508239461"
+        phone: "6508239461"
     },
     {
+        "_id": "2",
         "name": "Fruit Stand",
         "location": {
             "address": "3770 S Vermont",
@@ -32,6 +34,7 @@ var vendors = [
         "phone": "6503835333"
     },
     {
+        "_id": "3",
         "name": "devika's cakes",
         "location": {
             "address": "none of ur business",
