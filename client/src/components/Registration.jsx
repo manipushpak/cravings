@@ -77,7 +77,8 @@ class Registration extends React.Component {
    render() {
       return(
          <div className={styles.outercontainer}>
-            <h3>Register</h3>
+            <h3 className={styles.headeritem}>Register</h3>
+            
             <form className="registrationForm" onSubmit={this.handleSubmit}> 
                <div className = {styles.formrow}>
                   <label>Vendor Name:</label>
