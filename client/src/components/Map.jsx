@@ -39,13 +39,14 @@ class Map extends React.Component {
             defaultCenter = { userLocation }
             defaultZoom = { 13 }
          >
-            <Marker
-               id={"1"}
-               key={"key"}
-               position={ userLocation }
-               title="Current Location"
-            >
-            </Marker>
+            {
+               this.props.vendors.map(vendor => {
+                  return (<Marker
+                     key={ vendor.name }
+                     position={ vendor.coords }
+                  ></Marker>);
+               })
+            }            
          </GoogleMap>
       ));
 
