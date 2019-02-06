@@ -1,5 +1,4 @@
 import React from 'react';
-import { PageHeader } from 'react-bootstrap';
 
 class About extends React.Component {
    constructor(props) {
@@ -10,7 +9,7 @@ class About extends React.Component {
    render() {
       return(
          <div>
-            <PageHeader>This is the about page!</PageHeader>
+            <h1>This is the about page!</h1>
          </div>
       );
    }
