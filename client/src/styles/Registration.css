@@ -1,36 +1,9 @@
 :local .outercontainer{
-    /*background-color: rgba(119, 88, 69,0.8);*/
-
-    background: rgba(216, 212, 212, 0.925);
-      /*border-radius: 3px;*/
-      /*box-shadow: 0 1px 5px*/
-    
-    width: 40%;
-    height: 570px;
+    max-width: 800px;
     margin-right: auto;
     margin-left: auto;
     position: relative;
-    top: 5%;
-    transform: translateY(10%);
-    color: rgba(70, 68, 68, 0.925);
-    padding: 20px;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-}
-
-:local .headeritem{
-    font-size: 40px;
-	text-align: center;
-    margin-top: 0px;
-    margin-bottom: 25px;
-}
-
-:local .formrow{
-    text-align: center;
-}
-:local .formrowtwo{
-    margin-top: -5px;
-    margin-bottom: 15px;
-    text-align: center;
+    /* padding: 20px; */
 }
 
 :local .label{
@@ -40,18 +13,8 @@
     margin-right: 10px;
 }
 
-:local .formrowbutton{
-    text-align: center;
-    margin-top: 20px;
-}
-
 :local .button{
-    text-align: center;
-    width: 100px;
-    height: 40px;
-    border: 0;
-    color: #5b514a;
-    border-radius: 3px;
+    margin: 5px;
 }
 
 :local .input{
