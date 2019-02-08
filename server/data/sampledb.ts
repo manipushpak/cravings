@@ -7,8 +7,8 @@ const vendors: Vendor[] = [
         location: {
             address: "3770 S Fig",
             coordinates: {
-                lat: 60,
-                lng: 60
+                lat: 34.0254,
+                lng: -118.2852
             }
         },
         week:["Monday", "Tuesday"],
@@ -25,8 +25,8 @@ const vendors: Vendor[] = [
         location: {
             address: "Tuscany Apartments",
             coordinates: {
-                lat: 700,
-                lng: 700
+                lat: 34.0141,
+                lng: -118.2879
             }
         },
         week:["Sunday", "Tuesday"],
@@ -43,8 +43,8 @@ const vendors: Vendor[] = [
         location: {
             address: "TCC",
             coordinates: {
-                lat: 4,
-                lng: 45
+                lat: 34.0224,
+                lng: -118.2851
             }
         },
         week:["Saturday", "Sunday", "Monday"],
@@ -54,7 +54,75 @@ const vendors: Vendor[] = [
             "apple pies"
         ],
         phone: "6508239461"
-    }
+    },
+    {
+        name: "Sophia's Tacos",
+        location: {
+        address: "Taco Street",
+        coordinates: {
+           lat: 34.0254,
+           lng: -118.2852
+        }
+        },   
+        week:["Saturday", "Sunday", "Monday"],
+        hours: [930, 530],
+        keywords: [
+            "tacos",
+            "usc"
+        ],
+        phone: "6508239461"
+     },
+     {
+        name: "Devika's Cakes",
+        location: 
+        {address: "Cake Blvd.",
+        coordinates: {
+           lat: 34.0141,
+           lng: -118.2879
+        }
+        },
+        week:["Saturday", "Sunday", "Monday", "Tuesday"],
+        hours: [1030, 530],
+        keywords: [
+            "cakes",
+            "usc"
+        ],
+        phone: "6508239461"
+     },
+     {
+        name: "Mani's Sushi",
+        location: {
+            address: "Sushi Lane",
+        coordinates: {
+           lat: 34.0224,
+           lng: -118.2851
+        }
+        },
+        week:["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"],
+        hours: [1130, 600],
+        keywords: [
+            "sushi",
+            "salmon"
+        ],
+        phone: "6508239461"
+     },
+     {
+        name: "Sonali's Lemonade",
+        location: 
+        {address: "Lemonade & Brownies",
+        coordinates: {
+           lat: 34.0232,
+           lng: -118.2801
+        }
+        },
+        week:["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"],
+        hours: [1130, 600],
+        keywords: [
+            "lemonade",
+            "brownies"
+        ],
+        phone: "6508239461"
+     },
 ];
 
 export default vendors;
