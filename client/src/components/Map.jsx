@@ -1,11 +1,13 @@
 import React from 'react';
+import styles from '../styles/Map.css'
+
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 
 class Map extends React.Component {
    constructor(props) {
       super(props);
       this.state = { 
-         userLocation: {lat:38 , lng:38}, 
+         userLocation: {lat:34.0224 , lng:-118.2851}, 
          loading: true
       }
    }
@@ -31,7 +33,7 @@ class Map extends React.Component {
       
       if (loading) {
          // TODO: Should replace with something signaling that map is loading
-         return null;
+         return <div className={ styles.loadingDiv }>Loading...</div> ;
       }
 
       const GoogleMapExample = withGoogleMap(props => (
