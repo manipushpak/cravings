@@ -17,7 +17,8 @@ const vendors: Vendor[] = [
             "taco",
             "yummy"
         ],
-        phone: "6508239461"
+        phone: "6508239461",
+        open:true
     },
     {
         _id : "2",
@@ -35,7 +36,8 @@ const vendors: Vendor[] = [
             "ramen",
             "noods"
         ],
-        phone: "6508239461"
+        phone: "6508239461",
+        open:true
     },
     {
         _id : "3",
@@ -53,9 +55,11 @@ const vendors: Vendor[] = [
             "pies",
             "apple pies"
         ],
-        phone: "6508239461"
+        phone: "6508239461",
+        open:true
     },
     {
+        _id: "7",
         name: "Sophia's Tacos",
         location: {
         address: "Taco Street",
@@ -70,9 +74,11 @@ const vendors: Vendor[] = [
             "tacos",
             "usc"
         ],
-        phone: "6508239461"
+        phone: "6508239461",
+        open:true
      },
      {
+        _id: "8",
         name: "Devika's Cakes",
         location: 
         {address: "Cake Blvd.",
@@ -87,9 +93,11 @@ const vendors: Vendor[] = [
             "cakes",
             "usc"
         ],
-        phone: "6508239461"
+        phone: "6508239461",
+        open:true
      },
      {
+         _id: "9",
         name: "Mani's Sushi",
         location: {
             address: "Sushi Lane",
@@ -99,14 +107,15 @@ const vendors: Vendor[] = [
         }
         },
         week:["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"],
-        hours: [1130, 600],
         keywords: [
             "sushi",
             "salmon"
         ],
-        phone: "6508239461"
+        phone: "6508239461",
+        open:false
      },
      {
+         _id: "10",
         name: "Sonali's Lemonade",
         location: 
         {address: "Lemonade & Brownies",
@@ -115,13 +124,12 @@ const vendors: Vendor[] = [
            lng: -118.2801
         }
         },
-        week:["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"],
-        hours: [1130, 600],
         keywords: [
             "lemonade",
             "brownies"
         ],
-        phone: "6508239461"
+        phone: "6508239461",
+        open:false
      },
 ];
 
