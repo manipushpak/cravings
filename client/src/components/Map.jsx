@@ -33,9 +33,12 @@ class Map extends React.Component {
       
       if (loading) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
          // TODO: Should replace with something signaling that map is loading
 >>>>>>> component fixes
+=======
+>>>>>>> small fix on form check
          return <div className={ styles.loadingDiv }>Loading...</div> ;
       }
 
