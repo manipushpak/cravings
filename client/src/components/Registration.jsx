@@ -175,7 +175,7 @@ class Registration extends React.Component {
 
                   <Form.Group as={Col} controlId="zip" xs={12} md={3}>
                      <Form.Label>Zip</Form.Label>
-                     <Form.Control onChange={e => this.updateZip(e)} required />
+                     <Form.Control pattern="^\d{5}$" onChange={e => this.updateZip(e)} required />
                      <Form.Control.Feedback type="invalid">Please enter your zipcode.</Form.Control.Feedback>
                   </Form.Group>
                </Form.Row>
@@ -189,41 +189,13 @@ class Registration extends React.Component {
                   <Form.Group as={Col} controlId="openingDaysAndTimes" xs={12} md={6}>
                      <Form.Label>Opening Days (optional)</Form.Label>
                      <Form.Group>
-                        <Form.Check inline 
-                           label="M" 
-                           value="Monday"
-                           type="checkbox"
-                           onChange={(e) => this.updateWeek(e)} />
-                        <Form.Check inline 
-                           label="T" 
-                           value="Tuesday"
-                           type="checkbox"
-                           onChange={(e) => this.updateWeek(e)} />
-                        <Form.Check inline  
-                           label="W" 
-                           value="Wednesday"
-                           type="checkbox"
-                           onChange={(e) => this.updateWeek(e)} />
-                        <Form.Check inline 
-                           label="T" 
-                           value="Thursday"
-                           type="checkbox"
-                           onChange={(e) => this.updateWeek(e)} />
-                        <Form.Check inline 
-                           label="F" 
-                           value="Friday"
-                           type="checkbox"
-                           onChange={(e) => this.updateWeek(e)} />
-                        <Form.Check inline 
-                           label="S" 
-                           value="Saturday"
-                           type="checkbox"
-                           onChange={(e) => this.updateWeek(e)} />
-                        <Form.Check inline 
-                           label="S" 
-                           value="Sunday"
-                           type="checkbox"
-                           onChange={(e) => this.updateWeek(e)} />
+                        <Form.Check inline label="M" value="Monday" type="checkbox" onChange={(e) => this.updateWeek(e)} />
+                        <Form.Check inline label="T" value="Tuesday" type="checkbox" onChange={(e) => this.updateWeek(e)} />
+                        <Form.Check inline label="W" value="Wednesday" type="checkbox" onChange={(e) => this.updateWeek(e)} />
+                        <Form.Check inline label="T" value="Thursday" type="checkbox" onChange={(e) => this.updateWeek(e)} />
+                        <Form.Check inline label="F" value="Friday" type="checkbox" onChange={(e) => this.updateWeek(e)} />
+                        <Form.Check inline label="S" value="Saturday" type="checkbox" onChange={(e) => this.updateWeek(e)} />
+                        <Form.Check inline label="S" value="Sunday" type="checkbox" onChange={(e) => this.updateWeek(e)} />
                      </Form.Group>
                      <Form.Label>Opening Hours (optional)</Form.Label>
                      <Form.Row>
