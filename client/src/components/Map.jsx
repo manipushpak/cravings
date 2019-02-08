@@ -34,11 +34,14 @@ class Map extends React.Component {
       if (loading) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
          // TODO: Should replace with something signaling that map is loading
 >>>>>>> component fixes
 =======
 >>>>>>> small fix on form check
+=======
+>>>>>>> 4035363a3819c32e4eb1bf1676927b8245c99be5
          return <div className={ styles.loadingDiv }>Loading...</div> ;
       }
 
@@ -49,6 +52,7 @@ class Map extends React.Component {
          >
             {
                this.props.vendors.map(vendor => {
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -65,6 +69,9 @@ class Map extends React.Component {
 =======
                   return (<Marker key={ vendor.name } position={ vendor.coords }></Marker>);
 >>>>>>> merge conflectssszsz
+=======
+                  return (<Marker key={ vendor.name } position={ vendor.coords }></Marker>);
+>>>>>>> 4035363a3819c32e4eb1bf1676927b8245c99be5
                })
             }            
          </GoogleMap>
