@@ -41,7 +41,6 @@ class Map extends React.Component {
          >
             {
                this.props.vendors.map(vendor => {
-                  console.log(vendor);
                   return (<Marker
                      key={ vendor.name }
                      position={ vendor.location.coordinates }

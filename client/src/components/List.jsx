@@ -20,6 +20,7 @@ class List extends React.Component {
                      coordinates={vendor.location.coordinates}
                      keywords={vendor.keywords}
                      phone={vendor.phone}
+                     open={vendor.open}
                      />
                })
             }

@@ -4,7 +4,7 @@ import styles from '../styles/ListItem.css';
 class ListItem extends React.Component {
    constructor(props) {
       super(props);
-      this.state = { open: true};
+      this.state = {};
    }
 
    render() {
