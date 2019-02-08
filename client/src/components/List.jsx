@@ -16,8 +16,10 @@ class List extends React.Component {
                this.props.vendors.map(vendor => {
                   return <ListItem 
                      name={vendor.name} 
-                     location={vendor.location}
-                     open={vendor.open}
+                     location={vendor.location.address}
+                     coordinates={vendor.location.coordinates}
+                     keywords={vendor.keywords}
+                     phone={vendor.phone}
                      />
                })
             }

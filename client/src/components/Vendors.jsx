@@ -12,11 +12,13 @@ class Vendors extends React.Component {
       };
    }
 
-   // getVendors = () => {
-   //    fetch('/vendors')
-   //    .then(res => res.json())
-   //    .then(vendors => this.setState({ vendors }))
-   // }
+   componentDidMount() {
+      fetch('/vendors')
+      .then(res => res.json())
+      .then(vendors => {
+         this.setState({ vendors })
+      })
+   }
 
    render() {
       const vendorsList = [
@@ -64,10 +66,10 @@ class Vendors extends React.Component {
                Search Bar Here
             </div>
             <div className={ styles.listColumn }>
-               <List vendors={ vendorsList } />
+               <List vendors={ this.state.vendors } />
             </div>
             <div className={ styles.mapColumn }>
-               <Map vendors={ vendorsList }/>
+               <Map vendors={ this.state.vendors }/>
             </div>
          </div>
       );

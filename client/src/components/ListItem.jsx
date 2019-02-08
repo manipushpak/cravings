@@ -4,7 +4,7 @@ import styles from '../styles/ListItem.css';
 class ListItem extends React.Component {
    constructor(props) {
       super(props);
-      this.state = { };
+      this.state = { open: true};
    }
 
    render() {
@@ -15,7 +15,7 @@ class ListItem extends React.Component {
             </div>
             <div className={ styles.vendorInfo }>
                 <h3>{this.props.name}</h3>
-                <p>{this.props.location}</p>
+                <p>{this.props.address}</p>
             </div>   
          </div>
       );
