@@ -65,7 +65,7 @@ const vendors: Vendor[] = [
         address: "Taco Street",
         coordinates: {
            lat: 34.0254,
-           lng: -118.2852
+           lng: -119.2852
         }
         },   
         week:["Saturday", "Sunday", "Monday"],
@@ -84,7 +84,7 @@ const vendors: Vendor[] = [
         {address: "Cake Blvd.",
         coordinates: {
            lat: 34.0141,
-           lng: -118.2879
+           lng: -119.2879
         }
         },
         week:["Saturday", "Sunday", "Monday", "Tuesday"],
@@ -103,7 +103,7 @@ const vendors: Vendor[] = [
             address: "Sushi Lane",
         coordinates: {
            lat: 34.0224,
-           lng: -118.2851
+           lng: -119.2851
         }
         },
         week:["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"],
@@ -121,7 +121,7 @@ const vendors: Vendor[] = [
         {address: "Lemonade & Brownies",
         coordinates: {
            lat: 34.0232,
-           lng: -118.2801
+           lng: -119.2801
         }
         },
         keywords: [
