@@ -3,8 +3,8 @@ export interface Vendor{
     name:string;
     location:VendorLocation;
     keywords:string[];
-    week: string[];
-    hours:number[];
+    week?: string[];
+    hours?:number[];
     phone:string;
 
     //week, hours optional
