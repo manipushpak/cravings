@@ -6,7 +6,8 @@ const users: User[] = [
         name: "Devika",
         email: "devikaku@usc.edu",
         username: "devikaku",
-        password: "ilovecravings"
+        password: "ilovecravings",
+        phone: "6508239461"
     }
 ];
 

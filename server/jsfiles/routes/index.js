@@ -50,7 +50,8 @@ router.post('/user/create', function (req, res) {
     var user = { name: req.body.name,
         email: req.body.email,
         username: req.body.username,
-        password: req.body.password };
+        password: req.body.password,
+        phone: req.body.phone };
     dm.createUser(user);
     res.json(user);
 });
