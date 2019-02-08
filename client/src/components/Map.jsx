@@ -32,7 +32,6 @@ class Map extends React.Component {
       const { userLocation, loading } = this.state;
       
       if (loading) {
-         // TODO: Should replace with something signaling that map is loading
          return <div className={ styles.loadingDiv }>Loading...</div> ;
       }
 
