@@ -6,6 +6,7 @@ export interface Vendor{
     week?: string[];
     hours?:number[];
     phone:string;
+    open:boolean;
 
     //week, hours optional
 }

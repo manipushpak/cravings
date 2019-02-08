@@ -17,7 +17,8 @@ var vendors = [
             "taco",
             "yummy"
         ],
-        phone: "6508239461"
+        phone: "6508239461",
+        open: true
     },
     {
         _id: "2",
@@ -35,7 +36,8 @@ var vendors = [
             "ramen",
             "noods"
         ],
-        phone: "6508239461"
+        phone: "6508239461",
+        open: true
     },
     {
         _id: "3",
@@ -53,9 +55,11 @@ var vendors = [
             "pies",
             "apple pies"
         ],
-        phone: "6508239461"
+        phone: "6508239461",
+        open: true
     },
     {
+        _id: "7",
         name: "Sophia's Tacos",
         location: {
             address: "Taco Street",
@@ -70,9 +74,11 @@ var vendors = [
             "tacos",
             "usc"
         ],
-        phone: "6508239461"
+        phone: "6508239461",
+        open: true
     },
     {
+        _id: "8",
         name: "Devika's Cakes",
         location: { address: "Cake Blvd.",
             coordinates: {
@@ -86,9 +92,11 @@ var vendors = [
             "cakes",
             "usc"
         ],
-        phone: "6508239461"
+        phone: "6508239461",
+        open: true
     },
     {
+        _id: "9",
         name: "Mani's Sushi",
         location: {
             address: "Sushi Lane",
@@ -98,14 +106,15 @@ var vendors = [
             }
         },
         week: ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"],
-        hours: [1130, 600],
         keywords: [
             "sushi",
             "salmon"
         ],
-        phone: "6508239461"
+        phone: "6508239461",
+        open: false
     },
     {
+        _id: "10",
         name: "Sonali's Lemonade",
         location: { address: "Lemonade & Brownies",
             coordinates: {
@@ -113,13 +122,12 @@ var vendors = [
                 lng: -118.2801
             }
         },
-        week: ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"],
-        hours: [1130, 600],
         keywords: [
             "lemonade",
             "brownies"
         ],
-        phone: "6508239461"
+        phone: "6508239461",
+        open: false
     },
 ];
 exports.default = vendors;
