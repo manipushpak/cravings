@@ -11,7 +11,12 @@ export default class DataManager {
     //testing purposes:
     vendor._id = Math.floor(Math.random() * (1000 - 10) + 10).toString();
     vendors.push(vendor);
+<<<<<<< HEAD
   }
+=======
+    console.log("ADDED A VENDOR");
+    }
+>>>>>>> 02f05b8ec2adb62d1c2e41745f8b1a217cb486a3
 
   getVendors(): Vendor[] {
     return vendors;

@@ -29,6 +29,7 @@ router.post('/vendor/create', function (req, res) {
     dm.createVendor(vendor);
     res.json(vendor);
 });
+<<<<<<< HEAD
 router.get('/vendor/:filter/:term', function (req, res) {
     var vendors = dm.getVendorSearch(req.params.filter, req.params.term);
     res.json(vendors);
@@ -64,4 +65,19 @@ router.get('/testing', function (req, res) {
     // dm.createUser(vendor);
     res.json(searchres);
 });
+=======
+// router.get('/testing', (req, res) => {
+//     let testing:string = "hello!";
+//     let vendor:Vendor = {
+//         name: "sonali",
+//         location: {
+//             address: "phi sig",
+//             coordinates: [23, 44]
+//         },
+//         phone: "650"
+//     }
+//     dm.createVendor(vendor);
+//     res.json(dm.getVendors());
+//  })
+>>>>>>> 02f05b8ec2adb62d1c2e41745f8b1a217cb486a3
 exports.default = router;

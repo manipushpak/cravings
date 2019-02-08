@@ -1,14 +1,34 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
 
 const Header = () => {
    return(
       <header>
-         <nav>
-            <div><Link to='/'>Home</Link></div>
-            <div><Link to='/map'>Map</Link></div>
-            <div><Link to='/search'>Search</Link></div>
-         </nav>
+         <Navbar collapseOnSelect>
+            <Navbar.Header>
+               <Navbar.Brand>
+                  <Link to="/">Cravings</Link>
+               </Navbar.Brand>
+               <Navbar.Toggle />
+            </Navbar.Header>
+            <Navbar.Collapse>
+               <Nav>
+                  <LinkContainer to="/about">
+                     <NavItem eventKey={1}>About</NavItem>
+                  </LinkContainer>
+                  <LinkContainer to="/vendors">
+                     <NavItem eventKey={2}>Vendors</NavItem>
+                  </LinkContainer>
+               </Nav>
+               <Nav pullRight>
+                  <LinkContainer to="/registration">
+                     <NavItem eventKey={3}>Registration</NavItem>
+                  </LinkContainer>
+               </Nav>
+            </Navbar.Collapse>
+         </Navbar>
       </header>
    )
 }
