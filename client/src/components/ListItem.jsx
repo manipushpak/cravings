@@ -10,13 +10,15 @@ class ListItem extends React.Component {
    render() {
       return(
          <div className={ styles.outerContainer }>
-            <div className={ styles.vendorLogo }>
-               <span className={ this.props.open ? styles.storeOpen : styles.storeClosed }></span>
-            </div>
-            <div className={ styles.vendorInfo }>
-                <h3>{this.props.name}</h3>
-                <p>{this.props.address}</p>
-            </div>   
+            <h3>{this.props.name}</h3>
+            <p>
+               {this.props.location}
+               <br />
+               <span className={ this.props.open ? styles.storeOpen : styles.storeClosed }>
+                  { this.props.open ? "open " : "closed " }
+               </span>
+                9:00 AM - 5:00 PM
+            </p>
          </div>
       );
    }

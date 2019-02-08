@@ -1,34 +1,36 @@
 import React from 'react';
+
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 
 const Header = () => {
    return(
       <header>
-         <Navbar collapseOnSelect>
-            <Navbar.Header>
-               <Navbar.Brand>
-                  <Link to="/">Cravings</Link>
-               </Navbar.Brand>
-               <Navbar.Toggle />
-            </Navbar.Header>
-            <Navbar.Collapse>
-               <Nav>
+         <Navbar collapseOnSelect expand="lg" bg="light">
+            <Navbar.Brand>
+               <Link to="/">Cravings</Link>
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+               <Nav className="mr-auto">
                   <LinkContainer to="/about">
-                     <NavItem eventKey={1}>About</NavItem>
+                     <Nav.Link>About</Nav.Link>
                   </LinkContainer>
                   <LinkContainer to="/vendors">
-                     <NavItem eventKey={2}>Vendors</NavItem>
+                     <Nav.Link eventKey={2}>Vendors</Nav.Link>
                   </LinkContainer>
                </Nav>
-               <Nav pullRight>
+               <Nav>
                   <LinkContainer to="/registration">
-                     <NavItem eventKey={3}>Registration</NavItem>
+                     <Nav.Link eventKey={3}>Registration</Nav.Link>
+                  </LinkContainer>
+                  <LinkContainer to="/registration2">
+                     <Nav.Link eventKey={4}>Registration2</Nav.Link>
                   </LinkContainer>
                </Nav>
             </Navbar.Collapse>
-         </Navbar>
+         </Navbar> 
       </header>
    )
 }
