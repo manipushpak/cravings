@@ -1,9 +1,15 @@
 :local .outercontainer{
-    max-width: 800px;
-    margin-right: auto;
-    margin-left: auto;
+    width: 100%;
+    margin-left:15%;
+    margin-top: 5%;
     position: relative;
+    clear: both;
     /* padding: 20px; */
+}
+
+:local .column{
+    width:45%;
+    float:left;
 }
 
 :local .label{

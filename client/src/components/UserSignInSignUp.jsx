@@ -13,8 +13,6 @@ class UserSignInSignUp extends React.Component {
          lastName: '',
          phone: '',
          email: '',
-         usernameSignIn: '',
-         usernameSignUp: '',
          passwordSignIn: '',
          passwordSignUp: ''
       }
@@ -22,10 +20,8 @@ class UserSignInSignUp extends React.Component {
       this.updateLastName = this.updateLastName.bind(this);
       this.updatePhone = this.updatePhone.bind(this);
       this.updateEmail = this.updateEmail.bind(this);
-      this.updateusernameSignIn = this.updateusernameSignIn.bind(this);
-      this.updateusernameSignUp = this.updateusernameSignUp.bind(this);
-      this.updatepasswordSignIn = this.updatepasswordSignIn.bind(this);
-      this.updatepasswordSignUp = this.updatepasswordSignUp.bind(this);
+      this.updatePasswordSignIn = this.updatePasswordSignIn.bind(this);
+      this.updatePasswordSignUp = this.updatePasswordSignUp.bind(this);
       this.handleClearForm = this.handleClearForm.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
    }
@@ -66,8 +62,6 @@ class UserSignInSignUp extends React.Component {
          lastName: '',
          phone: '',
          email: '',
-         usernameSignIn: '',
-         usernameSignUp: '',
          passwordSignIn: '',
          passwordSignUp: ''
       });
@@ -90,75 +84,99 @@ class UserSignInSignUp extends React.Component {
       this.setState({ email: e.target.value });
    }
 
-   updateusernameSignIn(e){
-      this.setState({ usernameSignIn: e.target.value });
-   }
-
-   updateusernameSignUp(e){
-      this.setState({ usernameSignUp: e.target.value });
-   }
-
-   updatepasswordSignIn(e){
+   updatePasswordSignIn(e){
       this.setState({ passwordSignIn: e.target.value });
    }
 
-   updatepasswordSignUp(e){
+   updatePasswordSignUp(e){
       this.setState({ passwordSignUp: e.target.value });
    }
 
    render() {
       return(
          <div className={styles.outercontainer}>
-            <h1>Sign Up</h1>
-            <br />
-            <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
-               <Form.Row>
-                  <Form.Group as={Col} controlId="firstName" xs={12} md={3}>
-                     <Form.Label>First Name</Form.Label>
-                     <Form.Control placeholder="Enter first name" onChange={e => this.updateFirstName(e)} required />
-                     <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
-                  </Form.Group>
+            <div className={styles.column}>
+               <h1>Log In</h1>
+               <br />
+               <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
+                  <Form.Row>
+                     <Form.Group as={Col} controlId="email" xs={12} md={6}>
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control placeholder="Enter email" onChange={e => this.updateEmail(e)} required />
+                        <Form.Control.Feedback type="invalid">Please enter your email.</Form.Control.Feedback>
+                     </Form.Group>
+                  </Form.Row>
+                  <Form.Row>
+                     <Form.Group as={Col} controlId="passwordSignIn" xs={12} md={6}>
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control placeholder="********" type="password" onChange={e => this.updatePasswordSignIn(e)} required />
+                        <Form.Control.Feedback type="invalid">Please enter correct password.</Form.Control.Feedback>
+                     </Form.Group>
+                  </Form.Row>
+                  <Form.Row>
+                     <Button className={ styles.button } variant="primary" type="submit">
+                        Submit
+                     </Button>
+                     <Button className={ styles.button } variant="secondary" type="reset" onClick={ this.handleClearForm }>
+                        Reset
+                     </Button>
+                  </Form.Row>
+               </Form>
+            </div>
+            <div className={styles.column}>
+               <h1>Sign Up</h1>
+               <br />
+               <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
+                  <Form.Row>
+                     <Form.Group as={Col} controlId="firstName" xs={12} md={3}>
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control placeholder="Enter first name" onChange={e => this.updateFirstName(e)} required />
+                        <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
+                     </Form.Group>
 
-                  <Form.Group as={Col} controlId="lastName" xs={12} md={3}>
-                     <Form.Label>Last Name</Form.Label>
-                     <Form.Control placeholder="Enter last name" onChange={e => this.updateLastName(e)} required />
-                     <Form.Control.Feedback type="invalid">Please enter your last name.</Form.Control.Feedback>
-                  </Form.Group>
-               </Form.Row>
+                     <Form.Group as={Col} controlId="lastName" xs={12} md={3}>
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control placeholder="Enter last name" onChange={e => this.updateLastName(e)} required />
+                        <Form.Control.Feedback type="invalid">Please enter your last name.</Form.Control.Feedback>
+                     </Form.Group>
+                  </Form.Row>
 
-               <Form.Row>
-                  <Form.Group as={Col} controlId="email" xs={12} md={6}>
-                     <Form.Label>Email</Form.Label>
-                     <Form.Control placeholder="Enter email" onChange={e => this.updateEmail(e)} required />
-                     <Form.Control.Feedback type="invalid">Please enter your email.</Form.Control.Feedback>
-                  </Form.Group>
-               </Form.Row>
+                  <Form.Row>
+                     <Form.Group as={Col} controlId="email" xs={12} md={6}>
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control placeholder="Enter email" onChange={e => this.updateEmail(e)} required />
+                        <Form.Control.Feedback type="invalid">Please enter your email.</Form.Control.Feedback>
+                     </Form.Group>
+                  </Form.Row>
 
-               <Form.Row>
-                  <Form.Group as={Col} controlId="usernameSignUp" xs={12} md={6}>
-                     <Form.Label>Username</Form.Label>
-                     <Form.Control placeholder="Enter username" onChange={e => this.updateusernameSignUp(e)} required />
-                     <Form.Control.Feedback type="invalid">Please enter your username.</Form.Control.Feedback>
-                  </Form.Group>
-               </Form.Row>
+                  <Form.Row>
+                     <Form.Group as={Col} controlId="phoneNumber" xs={12} md={6}>
+                        <Form.Label>Phone Number</Form.Label>
+                        <Form.Control placeholder="123-456-7890" pattern="^\d{3}-\d{3}-\d{4}$" onChange={e => this.updatePhone(e)} required />
+                        <Form.Control.Feedback type="invalid">Please enter your phone number (xxx-xxx-xxxx).</Form.Control.Feedback>
+                     </Form.Group>
+                  </Form.Row>
 
-               <Form.Row>
-                  <Form.Group as={Col} controlId="phoneNumber" xs={12} md={6}>
-                     <Form.Label>Phone Number</Form.Label>
-                     <Form.Control placeholder="123-456-7890" pattern="^\d{3}-\d{3}-\d{4}$" onChange={e => this.updatePhone(e)} required />
-                     <Form.Control.Feedback type="invalid">Please enter your phone number (xxx-xxx-xxxx).</Form.Control.Feedback>
-                  </Form.Group>
-               </Form.Row>
+                  <Form.Row>
+                     <Form.Group as={Col} controlId="passwordSignUp" xs={12} md={6}>
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control placeholder="********" type="password" title="Password must be 8 characters including 1 uppercase letter, 1 lowercase letter and numeric characters" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}" onChange={e => this.updatePasswordSignUp(e)} required />
+                        <Form.Control.Feedback type="invalid">Please enter your password.</Form.Control.Feedback>
+                        <Form.Text className="text-muted">Password must be 8 characters including 1 uppercase letter, 1 lowercase letter and numeric characters</Form.Text>
+                     </Form.Group>
+                  </Form.Row>
 
-               <Form.Row>
-                  <Button className={ styles.button } variant="primary" type="submit">
-                     Submit
-                  </Button>
-                  <Button className={ styles.button } variant="secondary" type="reset" onClick={ this.handleClearForm }>
-                     Reset
-                  </Button>
-               </Form.Row>
-            </Form>
+
+                  <Form.Row>
+                     <Button className={ styles.button } variant="primary" type="submit">
+                        Submit
+                     </Button>
+                     <Button className={ styles.button } variant="secondary" type="reset" onClick={ this.handleClearForm }>
+                        Reset
+                     </Button>
+                  </Form.Row>
+               </Form>
+            </div>
          </div>
       );
    }
