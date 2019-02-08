@@ -44,6 +44,7 @@ class Map extends React.Component {
             {
                this.props.vendors.map(vendor => {
 <<<<<<< HEAD
+<<<<<<< HEAD
                   return (<Marker
                      key={ vendor.name }
                      position={ vendor.location.coordinates }
@@ -51,6 +52,9 @@ class Map extends React.Component {
 =======
                   return (<Marker key={ vendor.name } position={ vendor.coords }></Marker>);
 >>>>>>> passing ints for timeoptions
+=======
+                  return (<Marker key={ vendor.name } position={ vendor.coords }></Marker>);
+>>>>>>> ahhh
                })
             }            
          </GoogleMap>
