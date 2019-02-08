@@ -7,8 +7,8 @@ var vendors = [
         location: {
             address: "3770 S Fig",
             coordinates: {
-                lat: 60,
-                lng: 60
+                lat: 34.0254,
+                lng: -118.2852
             }
         },
         week: ["Monday", "Tuesday"],
@@ -25,8 +25,8 @@ var vendors = [
         location: {
             address: "Tuscany Apartments",
             coordinates: {
-                lat: 700,
-                lng: 700
+                lat: 34.0141,
+                lng: -118.2879
             }
         },
         week: ["Sunday", "Tuesday"],
@@ -43,8 +43,8 @@ var vendors = [
         location: {
             address: "TCC",
             coordinates: {
-                lat: 4,
-                lng: 45
+                lat: 34.0224,
+                lng: -118.2851
             }
         },
         week: ["Saturday", "Sunday", "Monday"],
