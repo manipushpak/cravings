@@ -16,6 +16,8 @@ router.post('/vendor/create', (req, res) => {
    {name: req.body.name, 
    location: req.body.location,
    keywords: req.body.keywords,
+   week: req.body.week,
+   hours: req.body.hours,
    phone: req.body.phone};
 
    dm.createVendor(vendor);

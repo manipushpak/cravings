@@ -3,12 +3,19 @@ export interface Vendor{
     name:string;
     location:VendorLocation;
     keywords:string[];
+    week?: string[];
+    hours?:number[];
     phone:string;
 }
 export interface VendorLocation{
     _id?:string;
-    address?:string;
-    coordinates?:number[];
+    address:string;
+    coordinates:LocationCoordinates;
+}
+
+export interface LocationCoordinates{
+    lat:number;
+    lng:number;
 }
 
 export interface User{

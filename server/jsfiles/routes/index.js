@@ -23,6 +23,8 @@ router.post('/vendor/create', function (req, res) {
     var vendor = { name: req.body.name,
         location: req.body.location,
         keywords: req.body.keywords,
+        week: req.body.week,
+        hours: req.body.hours,
         phone: req.body.phone };
     dm.createVendor(vendor);
     res.json(vendor);
