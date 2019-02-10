@@ -1,6 +1,7 @@
 import { Vendor, User } from "../models/types";
 import vendors from "./sampledb";
 import users from "./sampledbusers";
+import { any } from "prop-types";
 
 export default class DataManager {
 
@@ -54,6 +55,24 @@ export default class DataManager {
     }
     return res[0];
   }
+
+  authenticate(verification: any): any {
+   if(verification.email == null || verification.email == undefined || verification.email == ""
+   || verification.hash == null || verification.hash == undefined || verification.hash == ""){
+      return {success: false};
+   }
+
+   let users:User[] = this.getUsers();
+   for(let i = 0; i<users.length; i++){
+     let user:User = users[i];
+     if(user.email === verification.email &&
+      user.password === verification.hash){
+        return {success: true};
+      }
+  }
+
+  return false;
+}
 
   createUser(user: User): void {
     //testing purposes:
