@@ -6,7 +6,7 @@ import Home from './Home.jsx';
 import About from './About.jsx';
 import Vendors from './Vendors.jsx';
 import Registration from './Registration.jsx';
-import UserSignInSignUp from './UserSignInSignUp.jsx';
+import UserLogInSignUp from './UserLogInSignUp.jsx';
 
 const Main = () => {
    return(
@@ -16,7 +16,7 @@ const Main = () => {
             <Route path='/about' component={About}/>
             <Route path='/vendors' component={Vendors}/>
             <Route path='/registration' component={Registration}/>
-            <Route path='/usersigninsignup' component={UserSignInSignUp}/>
+            <Route path='/userloginsignup' component={UserLogInSignUp}/>
          </Switch>
       </main>
    )

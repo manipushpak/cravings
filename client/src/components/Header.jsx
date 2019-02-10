@@ -25,7 +25,7 @@ const Header = () => {
                   <LinkContainer to="/registration">
                      <Nav.Link eventKey={3}>Registration</Nav.Link>
                   </LinkContainer>
-                  <LinkContainer to="/usersigninsignup">
+                  <LinkContainer to="/userloginsignup">
                      <Nav.Link eventKey={4}>Login/Sign Up</Nav.Link>
                   </LinkContainer>
                </Nav>
