@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form';
 
+import md5 from 'md5';
+
 class SignUp extends React.Component {
    constructor(props) {
       super(props);
@@ -24,36 +26,6 @@ class SignUp extends React.Component {
       this.handleSubmit = this.handleSubmit.bind(this);
    }
 
-   handleSubmit(event) {
-      // // We don't want the form to submit, so we prevent the default behavior
-      // event.preventDefault();
-      // if (event.currentTarget.checkValidity() === false) {
-      //    event.stopPropagation;
-      //    this.setState({ validated: true });
-      // } else {
-      //    let completeAddress = this.state.address + (this.state.address2 === '' ? "" : " " + this.state.address2 )
-      //       + ", " + this.state.city + ", " + this.state.state + " " + this.state.zip;
-   
-      //    fetch('/vendor/create',{
-      //       method: 'POST',
-      //       body: JSON.stringify({
-      //          name: this.state.name,
-      //          phone: this.state.phone,
-      //          location: {
-      //             address: completeAddress,
-      //             coordinate: this.state.coordinates
-      //          },
-      //          keywords: this.state.keywords
-      //       }),
-      //       headers: {"Content-Type": "application/json"}
-      //    }).then(function(response){
-      //       alert("hell yeah");
-      //       return response.json();
-      //    });
-
-      // }
-   }
-
    handleClearForm() {
       this.setState({
          firstName: '',
@@ -64,6 +36,30 @@ class SignUp extends React.Component {
       });
    }
 
+   handleSubmit(event) {
+      // We don't want the form to submit, so we prevent the default behavior
+      event.preventDefault();
+      if (event.currentTarget.checkValidity() === false) {
+         event.stopPropagation;
+         this.setState({ validated: true });
+      } else {
+         let completeName = this.state.firstName + " " + this.state.lastName;
+   
+         fetch('/user/create',{
+            method: 'POST',
+            body: JSON.stringify({
+               name: completeName,
+               email: this.state.email,
+               password: this.state.password,
+               phone: this.state.phone
+            }),
+            headers: {"Content-Type": "application/json"}
+         }).then(function(response){
+            alert("hell yeah");
+            return response.json();
+         });
+      }
+   }
 
    updateFirstName(e){
       this.setState({ firstName: e.target.value });
@@ -82,7 +78,8 @@ class SignUp extends React.Component {
    }
 
    updatePassword(e){
-      this.setState({ password: e.target.value });
+      let hash = md5(e.target.value)
+      this.setState({ password: hash });
    }
 
    render() {
@@ -109,7 +106,7 @@ class SignUp extends React.Component {
                   <Form.Row>
                     <Form.Group as={Col} controlId="emailSignUp" xs={12} md={12}>
                     <Form.Label>Email</Form.Label>
-                    <Form.Control placeholder="Enter email" onChange={e => this.updateEmailp(e)} required />
+                    <Form.Control placeholder="Enter email" onChange={e => this.updateEmail(e)} required />
                     <Form.Control.Feedback type="invalid">Please enter your email.</Form.Control.Feedback>
                     </Form.Group>
                   </Form.Row>

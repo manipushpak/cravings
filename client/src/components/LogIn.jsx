@@ -5,62 +5,58 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form';
 
+import md5 from 'md5';
+
+
 class LogIn extends React.Component {
-   constructor(props) {
-      super(props);
-      this.state = { 
-         email: '',
-         password: ''
-      }
-      this.updateEmail = this.updateEmail.bind(this);
-      this.updatePassword = this.updatePassword.bind(this);
-      this.handleClearForm = this.handleClearForm.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
-   }
+    constructor(props) {
+        super(props);
+        this.state = { 
+            email: '',
+            password: ''
+        }
+        this.updateEmail = this.updateEmail.bind(this);
+        this.updatePassword = this.updatePassword.bind(this);
+        this.handleClearForm = this.handleClearForm.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
-   handleSubmit(event) {
-      // // We don't want the form to submit, so we prevent the default behavior
-      // event.preventDefault();
-      // if (event.currentTarget.checkValidity() === false) {
-      //    event.stopPropagation;
-      //    this.setState({ validated: true });
-      // } else {
-      //    let completeAddress = this.state.address + (this.state.address2 === '' ? "" : " " + this.state.address2 )
-      //       + ", " + this.state.city + ", " + this.state.state + " " + this.state.zip;
-   
-      //    fetch('/vendor/create',{
-      //       method: 'POST',
-      //       body: JSON.stringify({
-      //          name: this.state.name,
-      //          phone: this.state.phone,
-      //          location: {
-      //             address: completeAddress,
-      //             coordinate: this.state.coordinates
-      //          },
-      //          keywords: this.state.keywords
-      //       }),
-      //       headers: {"Content-Type": "application/json"}
-      //    }).then(function(response){
-      //       alert("hell yeah");
-      //       return response.json();
-      //    });
+    handleSubmit(event) {
+        // We don't want the form to submit, so we prevent the default behavior
+        event.preventDefault();
+        if (event.currentTarget.checkValidity() === false) {
+            event.stopPropagation;
+            this.setState({ validated: true });
+        } else {   
+            fetch('/user/login',{
+                method: 'POST',
+                body: JSON.stringify({
+                email: this.state.email,
+                password: this.state.password
+                }),
+                headers: {"Content-Type": "application/json"}
+            }).then(function(response){
+                console.log(response);
+                return response.json();
+            });
 
-      // }
-   }
+        }
+    }
 
-   handleClearForm() {
-      this.setState({
-         email: '',
-         password: ''
-      });
-   }
+    handleClearForm() {
+        this.setState({
+            email: '',
+            password: ''
+        });
+    }
 
-   updateEmail(e){
-      this.setState({ email: e.target.value });
-   }
+    updateEmail(e){
+        this.setState({ email: e.target.value });
+    }
 
    updatePassword(e){
-      this.setState({ password: e.target.value });
+        let hash = md5(e.target.value)
+        this.setState({ password: hash });
    }
 
    render() {
@@ -93,8 +89,8 @@ class LogIn extends React.Component {
                         </Button>
                     </Form.Row>
                     <Form.Row>
-                        <Form.Group as={Col} controlId="forgotpasword" xs={12} md={12}>
-                            <a class="small" href="#">Forgot password?</a>
+                        <Form.Group as={Col} xs={12} md={12}>
+                            <a className="small" href="#">Forgot password?</a>
                         </Form.Group>
                     </Form.Row>   
                 </Form>

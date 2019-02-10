@@ -85,7 +85,6 @@ class Registration extends React.Component {
             alert("hell yeah");
             return response.json();
          });
-
       }
    }
 
