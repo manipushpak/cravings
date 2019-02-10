@@ -1,8 +1,9 @@
 :local .outercontainer{
-    max-width: 65%;
+    max-width: 35%;
     margin-right: auto;
     margin-left: auto;
     position: relative;
+    margin-top: 5%;
 }
 
 :local .label{

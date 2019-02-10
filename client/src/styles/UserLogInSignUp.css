@@ -2,23 +2,8 @@
     display: flex;
 }
 
-:local .logIn{
+:local .component{
     width:50%;
     justify-content: center;
-    float:left;
-    margin-top: 3%;
-    padding-left: 15%;
 }
-
-:local .signUp{
-    width:50%;
-    justify-content: center;
-    float:right;
-    margin-top: 3%;
-    padding-right: 15%;
-}
-
-
-
-
 

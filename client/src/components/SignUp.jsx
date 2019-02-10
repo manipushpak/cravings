@@ -138,6 +138,12 @@ class SignUp extends React.Component {
                         Reset
                      </Button>
                   </Form.Row>
+
+                  <Form.Row>
+                     <Form.Group as={Col} controlId="passwordSignUp" xs={12} md={12}>
+                        <p><a href="#" className="small" href="javascript:void(0)" onClick={this.props.toggleLogInSignUp}>Already have an account?</a></p>
+                     </Form.Group>
+                  </Form.Row>
                </Form>
             </div>
          </div>

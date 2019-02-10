@@ -8,17 +8,30 @@ class UserLogInSignUp extends React.Component {
    constructor(props) {
       super(props);
       this.state = { 
+         logInHidden: false,
+         signUpHidden: true
       }
+      this.toggleLogInSignUp = this.toggleLogInSignUp.bind(this);
+   }
+
+   toggleLogInSignUp () {
+      console.log("COMING IN HERE");
+      this.setState({
+        logInHidden: !this.state.logInHidden,
+        signUpHidden: !this.state.signUpHidden
+      });
    }
 
    render() {
       return(
          <div className={ styles.outerContainer }>
-            <div className={ styles.logIn }>
-               <LogIn></LogIn>
+            <div className={ styles.login }>
+               {!this.state.logInHidden && <LogIn toggleLogInSignUp ={this.toggleLogInSignUp}
+                signUpHidden={this.props.signUpHidden}/>}
             </div>
-            <div className={ styles.signUp }>
-               <SignUp></SignUp>
+            <div className={ styles.signup }>
+               {!this.state.signUpHidden && <SignUp toggleLogInSignUp ={this.toggleLogInSignUp}
+                signUpHidden={this.props.signUpHidden} />}
             </div>
          </div>
       );

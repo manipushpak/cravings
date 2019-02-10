@@ -1,8 +1,10 @@
 :local .outercontainer{
-    max-width: 65%;
+    max-width: 30%;
     margin-right: auto;
     margin-left: auto;
     position: relative;
+    margin-top: 10%;
+    justify-content: center;
 }
 
 :local .label{

@@ -63,9 +63,9 @@ class LogIn extends React.Component {
         return(
             <div className={styles.outercontainer}>
                 <div className={styles.column}>
-                <h1>Log In</h1>
-                <br />
-                <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
+                    <h1>Log In</h1>
+                    <br />
+                    <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
                         <Form.Row>
                             <Form.Group as={Col} controlId="email" xs={12} md={12}>
                                 <Form.Label>Email</Form.Label>
@@ -81,17 +81,22 @@ class LogIn extends React.Component {
                             </Form.Group>
                         </Form.Row>
                         <Form.Row>
-                            <Button className={ styles.button } variant="primary" type="submit">
-                                Submit
-                            </Button>
-                            <Button className={ styles.button } variant="secondary" type="reset" onClick={ this.handleClearForm }>
-                                Reset
-                            </Button>
+                            <Form.Group as={Col} xs={12} md={12}>
+                                <Button className={ styles.button } variant="primary" type="submit">
+                                    Submit
+                                </Button>
+                                <Button className={ styles.button } variant="secondary" type="reset" onClick={ this.handleClearForm }>
+                                    Reset
+                                </Button>
+                            </Form.Group>
                         </Form.Row>
                         <Form.Row>
-                            <Form.Group as={Col} xs={12} md={12}>
-                                <a className="small" href="#">Forgot password?</a>
-                            </Form.Group>
+                            <a className="small" href="javascript:void();">Forgot password?</a>
+                        </Form.Row>  
+                        <Form.Row>
+                            <div className="d-flex justify-content-center links"></div>
+                            <Form.Text className="text-muted">Don't have an account? <a className= "medium"
+                             href="javascript:void(0)" onClick={this.props.toggleLogInSignUp}>Sign Up</a></Form.Text>
                         </Form.Row>   
                     </Form>
                 </div>
