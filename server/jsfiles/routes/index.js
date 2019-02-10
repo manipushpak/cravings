@@ -49,11 +49,16 @@ router.get('/vendor/:id', function (req, res, next) {
 router.post('/user/create', function (req, res) {
     var user = { name: req.body.name,
         email: req.body.email,
-        username: req.body.username,
         password: req.body.password,
         phone: req.body.phone };
     dm.createUser(user);
     res.json(user);
+});
+router.post('/user/login', function (req, res) {
+    var verification = { email: req.body.email,
+        hash: req.body.password };
+    var auth = dm.authenticate(verification);
+    res.json(auth);
 });
 router.get('/testing', function (req, res) {
     var searchres = dm.getVendor("2");
