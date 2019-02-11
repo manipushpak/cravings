@@ -52,8 +52,8 @@ router.post('/user/create', (req, res) => {
    password: req.body.password,
    phone: req.body.phone};
 
-   dm.createUser(user);
-   res.json(user);
+   let auth:any = dm.createUser(user);
+   res.json(auth);
 });
 
 router.post('/user/login', (req, res) => {

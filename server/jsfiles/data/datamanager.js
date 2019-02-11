@@ -68,9 +68,17 @@ var DataManager = /** @class */ (function () {
         return false;
     };
     DataManager.prototype.createUser = function (user) {
+        var users = this.getUsers();
+        for (var i = 0; i < users.length; i++) {
+            var u = users[i];
+            if (u.email === user.email) {
+                return { success: false };
+            }
+        }
         //testing purposes:
         user._id = Math.floor(Math.random() * (1000 - 10) + 10).toString();
-        sampledbusers_1.default.push(user);
+        users.push(user);
+        return { success: true };
     };
     DataManager.prototype.getUsers = function () {
         return sampledbusers_1.default;
