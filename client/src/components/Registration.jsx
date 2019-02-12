@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form';
 import StateOptions from './RegistrationElements/StateOptions.jsx';
 import TimeOptions from './RegistrationElements/TimeOptions.jsx';
+// import Geosuggest from 'react-bootstrap-geosuggest/';
 
 class Registration extends React.Component {
    constructor(props) {
@@ -30,6 +31,7 @@ class Registration extends React.Component {
       this.updateKeywords = this.updateKeywords.bind(this);
       this.handleClearForm = this.handleClearForm.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.activatePlacesSearch = this.activatePlacesSearch.bind(this);
    }
 
    handleClearForm() {
@@ -86,7 +88,8 @@ class Registration extends React.Component {
    updateLocation(location) {
       this.setState({ location: location });
    }
-   updateWeek(e) {
+   updateWeek(e, index) {
+      console.log(index);
       var newWeek = this.state.week.slice();
       if (e.target.checked) {
          newWeek.push(e.target.value);
@@ -105,7 +108,22 @@ class Registration extends React.Component {
       this.setState({ keywords: e.target.value.split(", ") });
    }
 
+   activatePlacesSearch() {
+      var self = this;
+      var autocomplete = new google.maps.places.Autocomplete(document.getElementById('vendorRegistrationLocation'));
+      google.maps.event.addListener(autocomplete, 'place_changed', function() {
+         var place = autocomplete.getPlace();
+         getAddressAndCoordinates(place.formatted_address, place.geometry.location.lat(), place.geometry.location.lng());
+      });
+
+      function getAddressAndCoordinates(address, lat, lng) {
+         self.updateLocation(address);
+      }
+  }
+
    render() {
+      google.maps.event.addDomListener(window, 'load', this.activatePlacesSearch);
+
       return(
          <div className={styles.outercontainer}>
             <h1>Vendor Registration</h1>
@@ -142,13 +160,13 @@ class Registration extends React.Component {
                   <Form.Group as={Col} controlId="openingDaysAndTimes" xs={12} md={6}>
                      <Form.Label>Opening Days (optional)</Form.Label>
                      <Form.Group>
-                        <Form.Check inline label="M" value="Monday" type="checkbox" onChange={(e) => this.updateWeek(e)} />
-                        <Form.Check inline label="T" value="Tuesday" type="checkbox" onChange={(e) => this.updateWeek(e)} />
-                        <Form.Check inline label="W" value="Wednesday" type="checkbox" onChange={(e) => this.updateWeek(e)} />
-                        <Form.Check inline label="T" value="Thursday" type="checkbox" onChange={(e) => this.updateWeek(e)} />
-                        <Form.Check inline label="F" value="Friday" type="checkbox" onChange={(e) => this.updateWeek(e)} />
-                        <Form.Check inline label="S" value="Saturday" type="checkbox" onChange={(e) => this.updateWeek(e)} />
-                        <Form.Check inline label="S" value="Sunday" type="checkbox" onChange={(e) => this.updateWeek(e)} />
+                        <Form.Check label="M" value="Monday" type="checkbox" onChange={(e) => this.updateWeek(e, 0)} />
+                        <Form.Check label="T" value="Tuesday" type="checkbox" onChange={(e) => this.updateWeek(e, 1)} />
+                        <Form.Check label="W" value="Wednesday" type="checkbox" onChange={(e) => this.updateWeek(e, 2)} />
+                        <Form.Check label="T" value="Thursday" type="checkbox" onChange={(e) => this.updateWeek(e, 3)} />
+                        <Form.Check label="F" value="Friday" type="checkbox" onChange={(e) => this.updateWeek(e, 4)} />
+                        <Form.Check label="S" value="Saturday" type="checkbox" onChange={(e) => this.updateWeek(e, 5)} />
+                        <Form.Check label="S" value="Sunday" type="checkbox" onChange={(e) => this.updateWeek(e, 6)} />
                      </Form.Group>
                      <Form.Label>Opening Hours (optional)</Form.Label>
                      <Form.Row>
@@ -190,6 +208,7 @@ class Registration extends React.Component {
                   </Button>
                </Form.Row>
             </Form>
+            
          </div>
       );
    }
