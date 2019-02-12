@@ -25,9 +25,6 @@ const Header = () => {
                   <LinkContainer to="/registration">
                      <Nav.Link eventKey={3}>Registration</Nav.Link>
                   </LinkContainer>
-                  <LinkContainer to="/registration2">
-                     <Nav.Link eventKey={4}>Registration2</Nav.Link>
-                  </LinkContainer>
                </Nav>
             </Navbar.Collapse>
          </Navbar> 

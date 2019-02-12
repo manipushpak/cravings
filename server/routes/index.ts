@@ -49,13 +49,22 @@ router.post('/user/create', (req, res) => {
    let user:User = 
    {name: req.body.name, 
    email: req.body.email,
-   username: req.body.username,
    password: req.body.password,
    phone: req.body.phone};
 
-   dm.createUser(user);
-   res.json(user);
+   let auth:any = dm.createUser(user);
+   res.json(auth);
 });
+
+router.post('/user/login', (req, res) => {
+    let verification:any = 
+    {email: req.body.email,
+    hash: req.body.password};
+ 
+    let auth:any = dm.authenticate(verification);
+    res.json(auth);
+ });
+
 
 router.get('/testing', (req, res) => {
     let searchres:any = dm.getVendor("2");
