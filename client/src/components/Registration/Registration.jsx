@@ -145,7 +145,7 @@ class Registration extends React.Component {
          setAddressAndCoordinates(place.formatted_address, place.geometry.location.lat(), place.geometry.location.lng());
       });
 
-      function setCoordinates(address, lat, lng) {
+      function setAddressAndCoordinates(address, lat, lng) {
          self.updateAddress(address);
          self.updateCoordinates(lat, lng);
       }
@@ -176,7 +176,7 @@ class Registration extends React.Component {
             }
          },
          () => {
-            document.getElementById("userLocationText").innerHTML = "Current location cannot be detected. Please try again or type in your stall address.";
+            document.getElementById("userLocationText").innerHTML = "Current location cannot be detected. Please try again or type in your street address.";
          }
       );
    }
@@ -206,13 +206,13 @@ class Registration extends React.Component {
 
                <Form.Group>
                   <Form.Label>Location</Form.Label>
+                  <Form.Text id="userLocationText" className="text-muted"></Form.Text>
                   <InputGroup className="mb-3">
                      <Form.Control id="vendorRegistrationLocation" value={this.state.address} onChange={e => updateAddress(e.target.value)} />
                      <InputGroup.Append>
                         <Button variant="outline-secondary" onClick={e => this.useCurrentLocation(e)}>Use Current Location</Button>
                      </InputGroup.Append>
                   </InputGroup>
-                  <Form.Text id="userLocationText" className="text-muted"></Form.Text>
                   <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
                </Form.Group>
 
