@@ -1,11 +1,12 @@
 import React from 'react';
-import styles from '../styles/Registration.css';
+import styles from '../../styles/Registration.css';
 
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row'
-import TimeOptions from './RegistrationTimeOptions.jsx';
+import WeekOptions from './WeekOptions.jsx';
 // import Geosuggest from 'react-bootstrap-geosuggest/';
 
 class Registration extends React.Component {
@@ -43,6 +44,7 @@ class Registration extends React.Component {
       this.handleClearForm = this.handleClearForm.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
       this.activatePlacesSearch = this.activatePlacesSearch.bind(this);
+      this.useCurrentLocation = this.useCurrentLocation.bind(this);
    }
 
    handleClearForm() {
@@ -140,14 +142,44 @@ class Registration extends React.Component {
       var autocomplete = new google.maps.places.Autocomplete(document.getElementById('vendorRegistrationLocation'));
       google.maps.event.addListener(autocomplete, 'place_changed', function() {
          var place = autocomplete.getPlace();
-         getAddressAndCoordinates(place.formatted_address, place.geometry.location.lat(), place.geometry.location.lng());
+         setAddressAndCoordinates(place.formatted_address, place.geometry.location.lat(), place.geometry.location.lng());
       });
 
-      function getAddressAndCoordinates(address, lat, lng) {
+      function setCoordinates(address, lat, lng) {
          self.updateAddress(address);
          self.updateCoordinates(lat, lng);
       }
-  }
+   }
+
+   useCurrentLocation(e) {
+      var self = this;
+      e.preventDefault();
+      
+      document.getElementById("userLocationText").innerHTML = "Detecting current location...";
+      
+      navigator.geolocation.getCurrentPosition(
+         position => {
+            const { latitude, longitude } = position.coords;
+            var gPosition = new google.maps.LatLng(latitude, longitude);
+
+            var gGeocoder = new google.maps.Geocoder();
+            gGeocoder.geocode({ 'latLng': gPosition }, function(results, status) {
+               if (status == google.maps.GeocoderStatus.OK && results[0]) {
+                  document.getElementById("userLocationText").innerHTML = "";
+                  setAddressAndCoordinates(results[0].formatted_address, latitude, longitude);
+               }
+            });
+
+            function setAddressAndCoordinates(address, lat, lng) {
+               self.updateAddress(address);
+               self.updateCoordinates(lat, lng);
+            }
+         },
+         () => {
+            document.getElementById("userLocationText").innerHTML = "Current location cannot be detected. Please try again or type in your stall address.";
+         }
+      );
+   }
 
    render() {
       google.maps.event.addDomListener(window, 'load', this.activatePlacesSearch);
@@ -172,92 +204,35 @@ class Registration extends React.Component {
                   </Form.Group>
                </Row>
 
-               <Form.Group controlId="location">
+               <Form.Group>
                   <Form.Label>Location</Form.Label>
-                  <Form.Control id="vendorRegistrationLocation" />
+                  <InputGroup className="mb-3">
+                     <Form.Control id="vendorRegistrationLocation" value={this.state.address} onChange={e => updateAddress(e.target.value)} />
+                     <InputGroup.Append>
+                        <Button variant="outline-secondary" onClick={e => this.useCurrentLocation(e)}>Use Current Location</Button>
+                     </InputGroup.Append>
+                  </InputGroup>
+                  <Form.Text id="userLocationText" className="text-muted"></Form.Text>
                   <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
                </Form.Group>
 
                <Row>
                   <Form.Group as={Col} controlId="openingDaysAndTimes" xs={12} md={6}>
                      <Form.Label>Opening Days and Hours (optional)</Form.Label>
-                     <Form.Row className={ styles.openingRow }>
-                        <Form.Group as={Col} xs={12} md={4}>
-                           <Form.Check label="Monday" type="checkbox" onChange={(e) => this.updateWeek(e,0)} />
-                        </Form.Group>
-                        <Form.Group as={Col} xs={6} md={4}>
-                           <TimeOptions disabled={!this.state.hours[0].open} placeholder="Start Time" onChange={e => this.updateStartTime(e,0)} />
-                        </Form.Group>
-                        <Form.Group as={Col} xs={6} md={4}>
-                           <TimeOptions disabled={!this.state.hours[0].open} placeholder="End Time" onChange={e => this.updateEndTime(e,0)} />
-                        </Form.Group>
-                     </Form.Row>
-                     <Form.Row className={ styles.openingRow }>
-                        <Form.Group as={Col} xs={12} md={4}>
-                           <Form.Check label="Tuesday" type="checkbox" onChange={(e) => this.updateWeek(e,1)} />                        
-                        </Form.Group>
-                        <Form.Group as={Col} xs={6} md={4}>
-                           <TimeOptions disabled={!this.state.hours[1].open} placeholder="Start Time" onChange={e => this.updateStartTime(e,1)} />
-                        </Form.Group>
-                        <Form.Group as={Col} xs={6} md={4}>
-                           <TimeOptions disabled={!this.state.hours[1].open} placeholder="End Time" onChange={e => this.updateEndTime(e,1)} />
-                        </Form.Group>
-                     </Form.Row>
-                     <Form.Row className={ styles.openingRow }>
-                        <Form.Group as={Col} xs={12} md={4}>
-                           <Form.Check inline label="Wednesday" type="checkbox" onChange={(e) => this.updateWeek(e,2)} />
-                        </Form.Group>
-                        <Form.Group as={Col} xs={6} md={4}>
-                           <TimeOptions disabled={!this.state.hours[2].open} placeholder="Start Time" onChange={e => this.updateStartTime(e,2)} />
-                        </Form.Group>
-                        <Form.Group as={Col} xs={6} md={4}>
-                           <TimeOptions disabled={!this.state.hours[2].open} placeholder="End Time" onChange={e => this.updateEndTime(e,2)} />
-                        </Form.Group>
-                     </Form.Row>
-                     <Form.Row className={ styles.openingRow }>
-                        <Form.Group as={Col} xs={12} md={4}>
-                           <Form.Check label="Thursday" type="checkbox" onChange={(e) => this.updateWeek(e,3)} />
-                        </Form.Group>
-                        <Form.Group as={Col} xs={6} md={4}>
-                           <TimeOptions disabled={!this.state.hours[3].open} placeholder="Start Time" onChange={e => this.updateStartTime(e,3)} />
-                        </Form.Group>
-                        <Form.Group as={Col} xs={6} md={4}>
-                           <TimeOptions disabled={!this.state.hours[3].open} placeholder="End Time" onChange={e => this.updateEndTime(e,3)} />
-                        </Form.Group>
-                     </Form.Row>
-                     <Form.Row className={ styles.openingRow }>
-                        <Form.Group as={Col} xs={12} md={4}>
-                           <Form.Check label="Friday" type="checkbox" onChange={(e) => this.updateWeek(e,4)} />
-                        </Form.Group>
-                        <Form.Group as={Col} xs={6} md={4}>
-                           <TimeOptions disabled={!this.state.hours[4].open} placeholder="Start Time" onChange={e => this.updateStartTime(e,4)} />
-                        </Form.Group>
-                        <Form.Group as={Col} xs={6} md={4}>
-                           <TimeOptions disabled={!this.state.hours[4].open} placeholder="End Time" onChange={e => this.updateEndTime(e,4)} />
-                        </Form.Group>
-                     </Form.Row>
-                     <Form.Row className={ styles.openingRow }>
-                        <Form.Group as={Col} xs={12} md={4}>
-                           <Form.Check label="Saturday" type="checkbox" onChange={(e) => this.updateWeek(e,5)} />
-                        </Form.Group>
-                        <Form.Group as={Col} xs={6} md={4}>
-                           <TimeOptions disabled={!this.state.hours[5].open} placeholder="Start Time" onChange={e => this.updateStartTime(e,5)} />
-                        </Form.Group>
-                        <Form.Group as={Col} xs={6} md={4}>
-                           <TimeOptions disabled={!this.state.hours[5].open} placeholder="End Time" onChange={e => this.updateEndTime(e,5)} />
-                        </Form.Group>
-                     </Form.Row>
-                     <Form.Row className={ styles.openingRow }>
-                        <Form.Group as={Col} xs={12} md={4}>
-                           <Form.Check label="Sunday" type="checkbox" onChange={(e) => this.updateWeek(e,6)} />
-                        </Form.Group>
-                        <Form.Group as={Col} xs={6} md={4}>
-                           <TimeOptions disabled={!this.state.hours[6].open} placeholder="Start Time" onChange={e => this.updateStartTime(e,6)} />
-                        </Form.Group>
-                        <Form.Group as={Col} xs={6} md={4}>
-                           <TimeOptions disabled={!this.state.hours[6].open} placeholder="End Time" onChange={e => this.updateEndTime(e,6)} />
-                        </Form.Group>
-                     </Form.Row>
+                     <WeekOptions label="Monday" disabled={!this.state.hours[0].open}
+                        ocCheck={e => this.updateWeek(e,0)} ocStart={e => this.updateStartTime(e,0)} ocEnd={e => this.updateEndTime(e,0)} />
+                     <WeekOptions label="Tuesday" disabled={!this.state.hours[1].open}
+                        ocCheck={e => this.updateWeek(e,1)} ocStart={e => this.updateStartTime(e,1)} ocEnd={e => this.updateEndTime(e,1)} />
+                     <WeekOptions label="Wednesday" disabled={!this.state.hours[2].open}
+                        ocCheck={e => this.updateWeek(e,2)} ocStart={e => this.updateStartTime(e,2)} ocEnd={e => this.updateEndTime(e,2)} />
+                     <WeekOptions label="Thursday" disabled={!this.state.hours[3].open}
+                        ocCheck={e => this.updateWeek(e,3)} ocStart={e => this.updateStartTime(e,3)} ocEnd={e => this.updateEndTime(e,3)} />
+                     <WeekOptions label="Friday" disabled={!this.state.hours[4].open}
+                        ocCheck={e => this.updateWeek(e,4)} ocStart={e => this.updateStartTime(e,4)} ocEnd={e => this.updateEndTime(e,4)} />
+                     <WeekOptions label="Saturday" disabled={!this.state.hours[5].open}
+                        ocCheck={e => this.updateWeek(e,5)} ocStart={e => this.updateStartTime(e,5)} ocEnd={e => this.updateEndTime(e,5)} />
+                     <WeekOptions label="Sunday" disabled={!this.state.hours[6].open}
+                        ocCheck={e => this.updateWeek(e,6)} ocStart={e => this.updateStartTime(e,6)} ocEnd={e => this.updateEndTime(e,6)} />
                   </Form.Group>
                   <Form.Group as={Col} controlId="keywords" xs={12} md={6}>
                      <Form.Label>Keywords (optional)</Form.Label>
@@ -266,7 +241,7 @@ class Registration extends React.Component {
                   </Form.Group>
                </Row>
 
-               <br /><br />
+               <br />
                <h3>Vendor Information</h3>
                <br />
 

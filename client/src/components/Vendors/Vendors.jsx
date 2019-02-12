@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/Vendors.css';
+import styles from '../../styles/Vendors.css';
 
 import List from './List.jsx';
 import Map from './Map.jsx';
