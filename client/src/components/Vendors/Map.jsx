@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/Map.css'
+import styles from '../../styles/Map.css'
 
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 
@@ -7,7 +7,7 @@ class Map extends React.Component {
    constructor(props) {
       super(props);
       this.state = { 
-         userLocation: { lat:34.0224 , lng:-118.2851 }, 
+         userLocation: { lat: 34.0224 , lng: -118.2851 }, 
          loading: true
       }
    }
