@@ -15,10 +15,6 @@ class Registration extends React.Component {
          name: '',
          phone: '',
          location: '',
-         address: '',
-         city: '',
-         state: '',
-         zip: '',
          week: [],
          startTime: null,
          endTime: null,
@@ -29,10 +25,6 @@ class Registration extends React.Component {
       this.updateName = this.updateName.bind(this);
       this.updatePhone = this.updatePhone.bind(this);
       this.updateLocation = this.updateLocation.bind(this);
-      this.updateAddress = this.updateAddress.bind(this);
-      this.updateCity = this.updateCity.bind(this);
-      this.updateState = this.updateState.bind(this);
-      this.updateZip = this.updateZip.bind(this);
       this.updateWeek = this.updateWeek.bind(this);
       this.updateStartTime = this.updateStartTime.bind(this);
       this.updateEndTime = this.updateEndTime.bind(this);
@@ -48,10 +40,6 @@ class Registration extends React.Component {
          name: '',
          phone: '',
          location: '',
-         address: '',
-         city: '',
-         state: '',
-         zip: '',
          week: [],
          startTime: null,
          endTime: null,
@@ -68,8 +56,8 @@ class Registration extends React.Component {
          event.stopPropagation;
          this.setState({ validated: true });
       } else {
-         let completeAddress = this.state.address + ", " + this.state.city
-         + ", " + this.state.state + " " + this.state.zip;
+         // let completeAddress = this.state.address + ", " + this.state.city
+         // + ", " + this.state.state + " " + this.state.zip;
    
          fetch('/vendor/create',{
             method: 'POST',
@@ -77,7 +65,7 @@ class Registration extends React.Component {
                name: this.state.name,
                phone: this.state.phone,
                location: {
-                  address: completeAddress,
+                  // address: completeAddress,
                   coordinate: this.state.coordinates
                },
                keywords: this.state.keywords
@@ -99,19 +87,6 @@ class Registration extends React.Component {
    }
    updateLocation(location) {
       this.setState({ location: location });
-      console.log("hello, " + location);
-   }
-   updateAddress(e) {
-      this.setState({ address: e.target.value });
-   }
-   updateCity(e) {
-      this.setState({ city: e.target.value });
-   }
-   updateState(e) {
-      this.setState({ state: e.target.value });
-   }
-   updateZip(e) {
-      this.setState({ zip: e.target.value });
    }
    updateWeek(e, index) {
       console.log(index);
@@ -152,13 +127,15 @@ class Registration extends React.Component {
       return(
          <div className={styles.outercontainer}>
             <h1>Vendor Registration</h1>
-            <br />
+            <br /> <br />
             <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
+               <h3>Stall Information</h3>
+               <br />
                <Form.Row>
-                  <Form.Group as={Col} controlId="vendorName" xs={12} md={6}>
-                     <Form.Label>Vendor Name</Form.Label>
-                     <Form.Control placeholder="Enter vendor name" onChange={e => this.updateName(e)} required />
-                     <Form.Control.Feedback type="invalid">Please enter your vendor name.</Form.Control.Feedback>
+                  <Form.Group as={Col} controlId="stallName" xs={12} md={6}>
+                     <Form.Label>Stall Name</Form.Label>
+                     <Form.Control placeholder="Enter stall name" onChange={e => this.updateName(e)} required />
+                     <Form.Control.Feedback type="invalid">Please enter your stall name (ex. Carlo's Mangoes).</Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="phoneNumber" xs={12} md={6}>
@@ -174,32 +151,6 @@ class Registration extends React.Component {
                   <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
                </Form.Group>
 
-               <Form.Group controlId="address">
-                  <Form.Label>Address</Form.Label>
-                  <Form.Control placeholder="1234 Main St." onChange={e => this.updateAddress(e)} required />
-                  <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
-               </Form.Group>
-
-               <Form.Row>
-                  <Form.Group as={Col} controlId="city" xs={12} md={6}>
-                     <Form.Label>City</Form.Label>
-                     <Form.Control onChange={e => this.updateCity(e)} required />
-                     <Form.Control.Feedback type="invalid">Please enter your city.</Form.Control.Feedback>
-                  </Form.Group>
-
-                  <Form.Group as={Col} controlId="state" xs={12} md={3}>
-                     <Form.Label>State</Form.Label>
-                     <StateOptions onChange={e => this.updateState(e)} />
-                     <Form.Control.Feedback type="invalid">Please select your state.</Form.Control.Feedback>
-                  </Form.Group>
-
-                  <Form.Group as={Col} controlId="zip" xs={12} md={3}>
-                     <Form.Label>Zip</Form.Label>
-                     <Form.Control pattern="^\d{5}$" onChange={e => this.updateZip(e)} required />
-                     <Form.Control.Feedback type="invalid">Please enter your zipcode.</Form.Control.Feedback>
-                  </Form.Group>
-               </Form.Row>
-
                <Form.Row>
                   <Form.Group as={Col} controlId="keywords" xs={12} md={6}>
                      <Form.Label>Keywords (optional)</Form.Label>
@@ -209,13 +160,13 @@ class Registration extends React.Component {
                   <Form.Group as={Col} controlId="openingDaysAndTimes" xs={12} md={6}>
                      <Form.Label>Opening Days (optional)</Form.Label>
                      <Form.Group>
-                        <Form.Check inline label="M" value="Monday" type="checkbox" onChange={(e) => this.updateWeek(e, 0)} />
-                        <Form.Check inline label="T" value="Tuesday" type="checkbox" onChange={(e) => this.updateWeek(e, 1)} />
-                        <Form.Check inline label="W" value="Wednesday" type="checkbox" onChange={(e) => this.updateWeek(e, 2)} />
-                        <Form.Check inline label="T" value="Thursday" type="checkbox" onChange={(e) => this.updateWeek(e, 3)} />
-                        <Form.Check inline label="F" value="Friday" type="checkbox" onChange={(e) => this.updateWeek(e, 4)} />
-                        <Form.Check inline label="S" value="Saturday" type="checkbox" onChange={(e) => this.updateWeek(e, 5)} />
-                        <Form.Check inline label="S" value="Sunday" type="checkbox" onChange={(e) => this.updateWeek(e, 6)} />
+                        <Form.Check label="M" value="Monday" type="checkbox" onChange={(e) => this.updateWeek(e, 0)} />
+                        <Form.Check label="T" value="Tuesday" type="checkbox" onChange={(e) => this.updateWeek(e, 1)} />
+                        <Form.Check label="W" value="Wednesday" type="checkbox" onChange={(e) => this.updateWeek(e, 2)} />
+                        <Form.Check label="T" value="Thursday" type="checkbox" onChange={(e) => this.updateWeek(e, 3)} />
+                        <Form.Check label="F" value="Friday" type="checkbox" onChange={(e) => this.updateWeek(e, 4)} />
+                        <Form.Check label="S" value="Saturday" type="checkbox" onChange={(e) => this.updateWeek(e, 5)} />
+                        <Form.Check label="S" value="Sunday" type="checkbox" onChange={(e) => this.updateWeek(e, 6)} />
                      </Form.Group>
                      <Form.Label>Opening Hours (optional)</Form.Label>
                      <Form.Row>
@@ -229,6 +180,25 @@ class Registration extends React.Component {
                   </Form.Group>
                </Form.Row>
 
+               <h3>Vendor Information</h3>
+               <br />
+
+               <Form.Row>
+                  <Form.Group as={Col} controlId="firstName" xs={12} md={6}>
+                     <Form.Label>First Name</Form.Label>
+                     <Form.Control placeholder="Enter first name" required />
+                     <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
+                  </Form.Group>
+
+                  <Form.Group as={Col} controlId="lastName" xs={12} md={6}>
+                     <Form.Label>Last Name</Form.Label>
+                     <Form.Control placeholder="Enter last name" required />
+                     <Form.Control.Feedback type="invalid">Please enter your last number.</Form.Control.Feedback>
+                  </Form.Group>
+               </Form.Row>
+
+               <br />
+               
                <Form.Row>
                   <Button className={ styles.button } variant="primary" type="submit">
                      Submit
@@ -238,7 +208,7 @@ class Registration extends React.Component {
                   </Button>
                </Form.Row>
             </Form>
-
+            
          </div>
       );
    }
