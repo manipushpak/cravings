@@ -4,8 +4,7 @@ import styles from '../styles/Registration.css';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form';
-import StateOptions from './RegistrationElements/StateOptions.jsx';
-import TimeOptions from './RegistrationElements/TimeOptions.jsx';
+import TimeOptions from './RegistrationTimeOptions.jsx';
 // import Geosuggest from 'react-bootstrap-geosuggest/';
 
 class Registration extends React.Component {
