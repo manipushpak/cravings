@@ -134,7 +134,7 @@ class Registration extends React.Component {
 
       const vendors = [];
       for (var i = 0; i < this.state.numVendors; i += 1) {
-        vendors.push(<RegistrationVendor key={i} number={i}/>);
+        vendors.push(<RegistrationVendor key={i} number={i} onRemoveVendor={this.onRemoveVendor}/>);
         console.log(vendors);
       };
 

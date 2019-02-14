@@ -25,7 +25,7 @@ class RegistrationVendor extends React.Component {
                 </Form.Group>
                 <Form.Group as={Col} controlId="remove" xs={12} md={1}>
                     <br></br>
-                    <p><a href="void:()">Remove</a></p>
+                    <p><a href="void:()" onClick={this.props.onRemoveVendor}>Remove</a></p>
                 </Form.Group>
             </Form.Row>
         );
