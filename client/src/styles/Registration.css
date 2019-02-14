@@ -1,4 +1,4 @@
-:local .outercontainer{
+:local .outerContainer{
     max-width: 800px;
     margin-right: auto;
     margin-left: auto;
@@ -6,18 +6,48 @@
     /* padding: 20px; */
 }
 
-:local .label{
+:local .label {
     width: 220px;
     float: left;
     text-align: right;
     margin-right: 10px;
 }
 
-:local .button{
+:local .button {
     margin: 5px;
 }
 
-:local .input{
+:local .input {
     width: 50%;
     align-content: center;
 }
+
+:local .openingRow {
+    display: flex;
+    align-items: center;
+}
+
+:local .inputGroupAppend > button {
+    border: 1px solid #ced4da;
+}
+
+:local .inputGroupButton {
+    width: 100%;
+    display: none;
+    margin-top: 5px;
+    border: 1px solid #ced4da;
+}
+
+@media (max-width: 480px) {
+    :local .inputStreetAddress {
+        border-radius: .25rem !important;
+    }
+
+    :local .inputGroupAppend {
+        display: none;
+    }
+    
+    :local .inputGroupButton {
+        display: block;
+    }
+  }
