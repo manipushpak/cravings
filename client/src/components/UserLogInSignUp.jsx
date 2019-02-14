@@ -15,7 +15,6 @@ class UserLogInSignUp extends React.Component {
    }
 
    toggleLogInSignUp () {
-      console.log("COMING IN HERE");
       this.setState({
         logInHidden: !this.state.logInHidden,
         signUpHidden: !this.state.signUpHidden
