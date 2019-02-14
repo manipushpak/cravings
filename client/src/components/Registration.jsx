@@ -34,6 +34,7 @@ class Registration extends React.Component {
       this.handleSubmit = this.handleSubmit.bind(this);
       this.activatePlacesSearch = this.activatePlacesSearch.bind(this);
       this.onAddVendor = this.onAddVendor.bind(this);
+      this.onRemoveVendor = this.onRemoveVendor.bind(this);
    }
 
    handleClearForm() {
@@ -80,6 +81,10 @@ class Registration extends React.Component {
 
    onAddVendor() {
       this.setState({ numVendors: this.state.numVendors + 1 });
+   }
+
+   onRemoveVendor() {
+      this.setState({ numVendors: this.state.numVendors -1 })
    }
 
    updateName(e) {
