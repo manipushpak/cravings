@@ -185,7 +185,7 @@ class Registration extends React.Component {
       google.maps.event.addDomListener(window, 'load', this.activatePlacesSearch);
 
       return(
-         <div className={styles.outercontainer}>
+         <div className={styles.outerContainer}>
             <h1>Vendor Registration</h1>
             <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
                <br /><br /><h3>Stall Information</h3><br />
@@ -205,14 +205,16 @@ class Registration extends React.Component {
                </Row>
 
                <Form.Group>
-                  <Form.Label>Location</Form.Label>
-                  <Form.Text id="userLocationText" className="text-muted"></Form.Text>
-                  <InputGroup className="mb-3">
-                     <Form.Control id="vendorRegistrationLocation" value={this.state.address} onChange={e => updateAddress(e.target.value)} />
-                     <InputGroup.Append>
-                        <Button variant="outline-secondary" onClick={e => this.useCurrentLocation(e)}>Use Current Location</Button>
+                  <Form.Label>Address</Form.Label>
+                  <InputGroup>
+                     <Form.Control placeholder="Enter street address" id="vendorRegistrationLocation" className= { styles.inputStreetAddress } value={this.state.address} onChange={e => this.updateAddress(e.target.value)} />
+                     <InputGroup.Append className={ styles.inputGroupAppend }>
+                        <Button variant="light" onClick={e => this.useCurrentLocation(e)}>Use Current Location</Button>
                      </InputGroup.Append>
                   </InputGroup>
+                  <Button size="sm" variant="light" className={ styles.inputGroupButton } onClick={e => this.useCurrentLocation(e)}>Use Current Location</Button>
+
+                  <Form.Text id="userLocationText" className="text-muted"></Form.Text>
                   <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
                </Form.Group>
 
