@@ -7,6 +7,8 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row'
 import WeekOptions from './WeekOptions.jsx';
+import RegistrationVendor from './RegistrationVendor.jsx';
+
 // import Geosuggest from 'react-bootstrap-geosuggest/';
 
 class Registration extends React.Component {
@@ -263,22 +265,7 @@ class Registration extends React.Component {
                <h3>Vendor Information</h3>
                <br />
 
-               <Row>
-                  <AllVendors addVendor={this.onAddVendor} vendors={vendors}></AllVendors>
-               </Row>
-               <Form.Row>
-                  <Form.Group as={Col} controlId="firstName" xs={12} md={6}>
-                     <Form.Label>First Name</Form.Label>
-                     <Form.Control placeholder="Enter first name" required />
-                     <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
-                  </Form.Group>
-
-                  <Form.Group as={Col} controlId="lastName" xs={12} md={6}>
-                     <Form.Label>Last Name</Form.Label>
-                     <Form.Control placeholder="Enter last name" required />
-                     <Form.Control.Feedback type="invalid">Please enter your last number.</Form.Control.Feedback>
-                  </Form.Group>
-               </Form.Row>
+               <AllVendors addVendor={this.onAddVendor} vendors={vendors}></AllVendors>
 
                <br />
                
