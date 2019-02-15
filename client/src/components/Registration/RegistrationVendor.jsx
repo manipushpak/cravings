@@ -2,7 +2,7 @@ import React from 'react';
  
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form';
-import styles from '../../styles/RegistrationVendor.css';
+import styles from '../../styles/Registration/RegistrationVendor.css';
 
 class RegistrationVendor extends React.Component {
     constructor(props) {

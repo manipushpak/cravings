@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/Registration.css';
+import styles from '../../styles/Registration/Registration.css';
 
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col'

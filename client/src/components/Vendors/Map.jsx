@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/Map.css'
+import styles from '../../styles/Vendors/Map.css'
 
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 

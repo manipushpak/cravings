@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/Registration.css';
+import styles from '../../styles/Registration/Registration.css';
 
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';

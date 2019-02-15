@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/List.css'
+import styles from '../../styles/Vendors/List.css'
 
 import ListItem from './ListItem.jsx'
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/UserLogInSignUp.css';
+import styles from '../../styles/UserLogInSignUp/UserLogInSignUp.css';
 
 import LogIn from './LogIn.jsx';
 import SignUp from './SignUp.jsx';

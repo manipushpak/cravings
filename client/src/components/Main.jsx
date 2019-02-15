@@ -6,7 +6,7 @@ import Home from './Home.jsx';
 import About from './About/About.jsx';
 import Vendors from './Vendors/Vendors.jsx';
 import Registration from './Registration/Registration.jsx';
-import UserLogInSignUp from './UserLogInSignUp.jsx';
+import UserLogInSignUp from './UserLogInSignUp/UserLogInSignUp.jsx';
 
 const Main = () => {
    return(
