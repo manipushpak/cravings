@@ -51,8 +51,8 @@ router.post('/user/create', function (req, res) {
         email: req.body.email,
         password: req.body.password,
         phone: req.body.phone };
-    dm.createUser(user);
-    res.json(user);
+    var auth = dm.createUser(user);
+    res.json(auth);
 });
 router.post('/user/login', function (req, res) {
     var verification = { email: req.body.email,
