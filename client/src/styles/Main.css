@@ -1,3 +1,10 @@
 :local .outerContainer {
     margin: 60px;
+    padding-top: 40px;
+}
+
+@media (max-width: 576px) {
+    :local .outerContainer {
+        margin: 40px;
+    }    
 }

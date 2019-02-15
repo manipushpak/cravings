@@ -3,9 +3,9 @@ import styles from './../styles/Main.css';
 import { Switch, Route } from 'react-router-dom';
 
 import Home from './Home.jsx';
-import About from './About.jsx';
-import Vendors from './Vendors.jsx';
-import Registration from './Registration.jsx';
+import About from './About/About.jsx';
+import Vendors from './Vendors/Vendors.jsx';
+import Registration from './Registration/Registration.jsx';
 import UserLogInSignUp from './UserLogInSignUp.jsx';
 
 const Main = () => {
