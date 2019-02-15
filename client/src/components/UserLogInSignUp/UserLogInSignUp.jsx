@@ -24,11 +24,11 @@ class UserLogInSignUp extends React.Component {
    render() {
       return(
          <div className={ styles.outerContainer }>
-            <div className={ styles.login }>
+            <div>
                {!this.state.logInHidden && <LogIn toggleLogInSignUp ={this.toggleLogInSignUp}
                 signUpHidden={this.props.signUpHidden}/>}
             </div>
-            <div className={ styles.signup }>
+            <div>
                {!this.state.signUpHidden && <SignUp toggleLogInSignUp ={this.toggleLogInSignUp}
                 signUpHidden={this.props.signUpHidden} />}
             </div>

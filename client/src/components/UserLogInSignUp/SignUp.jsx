@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/UserLogInSignUp/SignUp.css';
+import styles from '../../styles/UserLogInSignUp/UserLogInSignUp.css';
 
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col'
@@ -64,19 +64,15 @@ class SignUp extends React.Component {
    updateFirstName(e){
       this.setState({ firstName: e.target.value });
    }
-
    updateLastName(e){
       this.setState({ lastName: e.target.value });
    }
-
    updatePhone(e){
       this.setState({ phone: e.target.value });
    }
-
    updateEmail(e){
       this.setState({ email: e.target.value });
    }
-
    updatePassword(e){
       let hash = md5(e.target.value)
       this.setState({ password: hash });
@@ -84,7 +80,7 @@ class SignUp extends React.Component {
 
    render() {
       return(
-         <div className={styles.outercontainer}>
+         <div className={styles.innerContainer}>
             <div className={styles.column}>
                <h1>Sign Up</h1>
                <br />

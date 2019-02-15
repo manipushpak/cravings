@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/UserLogInSignUp/LogIn.css';
+import styles from '../../styles/UserLogInSignUp/UserLogInSignUp.css';
 
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col'
@@ -53,15 +53,14 @@ class LogIn extends React.Component {
     updateEmail(e){
         this.setState({ email: e.target.value });
     }
-
-   updatePassword(e){
+    updatePassword(e){
         let hash = md5(e.target.value)
         this.setState({ password: hash });
-   }
+    }
 
-   render() {
+    render() {
         return(
-            <div className={styles.outercontainer}>
+            <div className={styles.innerContainer}>
                 <div className={styles.column}>
                     <h1>Log In</h1>
                     <br />
