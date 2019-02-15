@@ -1,9 +1,0 @@
-:local .outercontainer{
-    display: flex;
-}
-
-:local .component{
-    width:50%;
-    justify-content: center;
-}
-

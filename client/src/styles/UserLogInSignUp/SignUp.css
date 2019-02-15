@@ -1,0 +1,27 @@
+:local .outercontainer{
+    max-width: 35%;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+    margin-top: 5%;
+}
+
+:local .label{
+    width: 220px;
+    float: left;
+    text-align: right;
+    margin-right: 10px;
+}
+
+:local .button{
+    margin: 5px;
+}
+
+:local .input{
+    width: 50%;
+    align-content: center;
+}
+
+
+
+
