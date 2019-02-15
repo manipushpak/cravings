@@ -211,9 +211,8 @@ class Registration extends React.Component {
                      <InputGroup.Append className={ styles.inputGroupAppend }>
                         <Button variant="light" onClick={e => this.useCurrentLocation(e)}>Use Current Location</Button>
                      </InputGroup.Append>
+                     <Button size="sm" variant="light" className={ styles.inputGroupButton } onClick={e => this.useCurrentLocation(e)}>Use Current Location</Button>
                   </InputGroup>
-                  <Button size="sm" variant="light" className={ styles.inputGroupButton } onClick={e => this.useCurrentLocation(e)}>Use Current Location</Button>
-
                   <Form.Text id="userLocationText" className="text-muted"></Form.Text>
                   <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
                </Form.Group>

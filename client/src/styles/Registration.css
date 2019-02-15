@@ -38,7 +38,7 @@
     border: 1px solid #ced4da;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 576px) {
     :local .inputStreetAddress {
         border-radius: .25rem !important;
     }
@@ -50,4 +50,4 @@
     :local .inputGroupButton {
         display: block;
     }
-  }
+}
