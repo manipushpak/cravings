@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form';
 import TimeOptions from './RegistrationTimeOptions.jsx';
+import RegistrationVendor from './RegistrationVendor.jsx';
 // import Geosuggest from 'react-bootstrap-geosuggest/';
 
 class Registration extends React.Component {
@@ -19,7 +20,8 @@ class Registration extends React.Component {
          endTime: null,
          coordinates: null,
          keywords: [],
-         validated: false
+         validated: false,
+         numVendors: 1
       }
       this.updateName = this.updateName.bind(this);
       this.updatePhone = this.updatePhone.bind(this);
@@ -31,6 +33,8 @@ class Registration extends React.Component {
       this.handleClearForm = this.handleClearForm.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
       this.activatePlacesSearch = this.activatePlacesSearch.bind(this);
+      this.onAddVendor = this.onAddVendor.bind(this);
+      this.onRemoveVendor = this.onRemoveVendor.bind(this);
    }
 
    handleClearForm() {
@@ -54,10 +58,7 @@ class Registration extends React.Component {
       if (event.currentTarget.checkValidity() === false) {
          event.stopPropagation;
          this.setState({ validated: true });
-      } else {
-         // let completeAddress = this.state.address + ", " + this.state.city
-         // + ", " + this.state.state + " " + this.state.zip;
-   
+      } else {   
          fetch('/vendor/create',{
             method: 'POST',
             body: JSON.stringify({
@@ -76,6 +77,14 @@ class Registration extends React.Component {
          });
 
       }
+   }
+
+   onAddVendor() {
+      this.setState({ numVendors: this.state.numVendors + 1 });
+   }
+
+   onRemoveVendor() {
+      this.setState({ numVendors: this.state.numVendors -1 })
    }
 
    updateName(e) {
@@ -118,10 +127,16 @@ class Registration extends React.Component {
       function getAddressAndCoordinates(address, lat, lng) {
          self.updateLocation(address);
       }
-  }
+   }
 
    render() {
       google.maps.event.addDomListener(window, 'load', this.activatePlacesSearch);
+
+      const vendors = [];
+      for (var i = 0; i < this.state.numVendors; i += 1) {
+        vendors.push(<RegistrationVendor key={i} number={i} onRemoveVendor={this.onRemoveVendor}/>);
+        console.log(vendors);
+      };
 
       return(
          <div className={styles.outercontainer}>
@@ -181,23 +196,9 @@ class Registration extends React.Component {
 
                <h3>Vendor Information</h3>
                <br />
-
-               <Form.Row>
-                  <Form.Group as={Col} controlId="firstName" xs={12} md={6}>
-                     <Form.Label>First Name</Form.Label>
-                     <Form.Control placeholder="Enter first name" required />
-                     <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
-                  </Form.Group>
-
-                  <Form.Group as={Col} controlId="lastName" xs={12} md={6}>
-                     <Form.Label>Last Name</Form.Label>
-                     <Form.Control placeholder="Enter last name" required />
-                     <Form.Control.Feedback type="invalid">Please enter your last number.</Form.Control.Feedback>
-                  </Form.Group>
-               </Form.Row>
-
+               <AllVendors addVendor={this.onAddVendor} vendors={vendors}>
+               </AllVendors>
                <br />
-               
                <Form.Row>
                   <Button className={ styles.button } variant="primary" type="submit">
                      Submit
@@ -212,5 +213,14 @@ class Registration extends React.Component {
       );
    }
 }
+
+const AllVendors = props => (
+   <div className="vendors">
+     <div id="vendors-pane">
+       {props.vendors}
+     </div>
+     <p><a href="void:()" onClick={props.addVendor}>+ Add Another Vendor</a></p>
+   </div>
+ );
 
 export default Registration;
