@@ -2,6 +2,7 @@ import React from 'react';
  
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form';
+import styles from '../styles/RegistrationVendor.css';
 
 class RegistrationVendor extends React.Component {
     constructor(props) {
@@ -24,8 +25,10 @@ class RegistrationVendor extends React.Component {
                     <Form.Control.Feedback type="invalid">Please enter your last number.</Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group as={Col} controlId="remove" xs={12} md={1}>
-                    <br></br>
-                    <p><a href="void:()" onClick={this.props.onRemoveVendor}>Remove</a></p>
+                    <br />
+                    <p><a className = {styles.aTag} href="void:()" onClick={this.props.onRemoveVendor}>
+                        <i className="far fa-trash-alt"></i>
+                    </a></p>
                 </Form.Group>
             </Form.Row>
         );
