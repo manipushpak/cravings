@@ -1,9 +1,26 @@
-:local .outercontainer{
-    display: flex;
+:local .outerContainer {
+    width: 400px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
 }
 
-:local .component{
-    width:50%;
-    justify-content: center;
+:local .innerContainer {
+    position: relative;
 }
 
+:local .label{
+    width: 220px;
+    float: left;
+    text-align: right;
+    margin-right: 10px;
+}
+
+:local .button{
+    margin: 5px;
+}
+
+:local .input{
+    width: 50%;
+    align-content: center;
+}
