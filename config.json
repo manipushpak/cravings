@@ -1,0 +1,5 @@
+{
+    "GCLOUD_PROJECT": "csci-401-capstone",
+    "DATA_BACKEND": "datastore",
+    "CLOUD_BUCKET": "csci-401-capstone.appspot.com"
+}

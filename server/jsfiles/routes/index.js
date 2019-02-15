@@ -61,14 +61,6 @@ router.post('/user/login', function (req, res) {
     res.json(auth);
 });
 router.get('/testing', function (req, res) {
-    var searchres = dm.getVendor("2");
-    // let vendor:User= {
-    //     name: "sonali",
-    //     email: "sonalipa@usc.edu",
-    //     username: "sonalipa",
-    //     password: "squirttheturt"
-    // }
-    // dm.createUser(vendor);
-    res.json(searchres);
+    dm.tester();
 });
 exports.default = router;

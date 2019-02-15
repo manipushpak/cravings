@@ -8,6 +8,9 @@ module.exports = {
   output: {
     filename: 'bundle.js',
     path: DIST_DIR,
+  }, 
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js']
   },
   module: {
     rules:[
@@ -27,6 +30,7 @@ module.exports = {
         test: /\.jsx?/,
         include: SRC_DIR,
         loader: 'babel-loader',
+        options: 'babelOptions'
       },
     ],
   },

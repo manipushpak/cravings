@@ -1,9 +1,11 @@
 import { Vendor, User } from "../models/types";
 import vendors from "./sampledb";
 import users from "./sampledbusers";
-import { any } from "prop-types";
+import  Database  from "../routes/database";
 
 export default class DataManager {
+
+  db = new Database();
 
 
   constructor() { }
@@ -75,7 +77,6 @@ export default class DataManager {
 }
 
   createUser(user: User): any {
-
     let users:User[] = this.getUsers();
     for(let i = 0; i<users.length; i++){
       let u:User = users[i];
@@ -102,5 +103,9 @@ export default class DataManager {
       return null;
     }
     return res[0];
+  }
+
+  tester(): any{
+    return this.db.testing();
   }
 }

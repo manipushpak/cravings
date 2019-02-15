@@ -5,8 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var sampledb_1 = __importDefault(require("./sampledb"));
 var sampledbusers_1 = __importDefault(require("./sampledbusers"));
+var database_1 = __importDefault(require("../routes/database"));
 var DataManager = /** @class */ (function () {
     function DataManager() {
+        this.db = new database_1.default();
     }
     DataManager.prototype.createVendor = function (vendor) {
         //testing purposes:
@@ -89,6 +91,9 @@ var DataManager = /** @class */ (function () {
             return null;
         }
         return res[0];
+    };
+    DataManager.prototype.tester = function () {
+        return this.db.testing();
     };
     return DataManager;
 }());

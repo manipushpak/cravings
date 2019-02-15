@@ -67,15 +67,7 @@ router.post('/user/login', (req, res) => {
 
 
 router.get('/testing', (req, res) => {
-    let searchres:any = dm.getVendor("2");
-    // let vendor:User= {
-    //     name: "sonali",
-    //     email: "sonalipa@usc.edu",
-    //     username: "sonalipa",
-    //     password: "squirttheturt"
-    // }
-    // dm.createUser(vendor);
-    res.json(searchres);
+    dm.tester();
  })
 
 export default router;
