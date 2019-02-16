@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
+
+import { Link } from 'react-router-dom';
 import ButtonSet from './ButtonSet.jsx';
 import RegistrationVendor from './RegistrationVendor.jsx';
 import WeekOptions from './WeekOptions.jsx';
@@ -17,8 +19,8 @@ class Registration extends React.Component {
       super(props);
       this.state = { 
          status: {
-            view: false,
-            edit: false
+            edit: props.isEdit,
+            view: props.isView
          },
          stallName: '',
          phone: '',
@@ -91,8 +93,8 @@ class Registration extends React.Component {
             alert("hell yeah");
             this.setState({
                status: {
-                  view: true,
-                  edit: false
+                  edit: false,
+                  view: true
                },
             });
             return response.json();
@@ -132,10 +134,10 @@ class Registration extends React.Component {
    }
 
    setToView() {
-      this.setState({ status: { view: true, edit: false} });
+      this.setState({ status: { edit: false, view: true } });
    }
    setToEdit() {
-      this.setState({ status: { view: false, edit: true} });
+      this.setState({ status: { edit:true, view: false } });
    }
 
    updateStallName(e) {
@@ -261,7 +263,7 @@ class Registration extends React.Component {
                   </Form.Group>
                </Row>
 
-               <AddressSet view={this.state.status.view} value={this.state.address} onChange={e => this.updateAddress(e.target.value)} />
+               <AddressSet view={this.state.status.view} value={this.state.address} onChange={e => this.updateAddress(e.target.value)} onClick={e => this.useCurrentLocation(e)} />
 
                <Row>
                   <Form.Group as={Col} controlId="openingDaysAndTimes" xs={12} md={6}>
@@ -296,8 +298,6 @@ class Registration extends React.Component {
 
                <br />
                
-               <Button className={ styles.button } variant="primary" onClick={ this.setToEdit }>EDIT</Button>
-               <Button className={ styles.button } variant="primary" onClick={ this.setToView }>VIEW</Button>
                <ButtonSet status={this.state.status} 
                   onClickCancel={ this.handleCancelEdit }
                   onClickEdit={ this.handleEditForm }
@@ -327,10 +327,10 @@ const AddressSet = props => {
             <InputGroup>
                <Form.Control placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddress } value={props.address} onChange={props.onChange} />
                <InputGroup.Append className={ styles.inputGroupAppend }>
-                  <Button variant="light" onClick={e => this.useCurrentLocation(e)}>Use Current Location</Button>
+                  <Button variant="light" onClick={props.onClick}>Use Current Location</Button>
                </InputGroup.Append>
             </InputGroup>
-            <Button size="sm" variant="light" className={ styles.inputGroupButton } onClick={e => this.useCurrentLocation(e)} block>Use Current Location</Button>
+            <Button size="sm" variant="light" className={ styles.inputGroupButton } onClick={props.onClick} block>Use Current Location</Button>
             <Form.Text id="userLocationText" className="text-muted"></Form.Text>
             <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
          </Form.Group>
