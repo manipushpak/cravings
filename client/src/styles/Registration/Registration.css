@@ -3,7 +3,6 @@
     margin-right: auto;
     margin-left: auto;
     position: relative;
-    /* padding: 20px; */
 }
 
 :local .label {
@@ -17,6 +16,15 @@
     margin: 5px;
 }
 
+:local .editButtonDiv {
+    height: 48px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+}
+
 :local .input {
     width: 50%;
     align-content: center;
@@ -27,12 +35,20 @@
     align-items: center;
 }
 
+:local .timeOptions {
+    text-align: center;
+}
+
+:local .inputStreetAddressView {
+    border-radius: .25rem !important;
+}
+
 :local .inputGroupAppend > button {
     border: 1px solid #ced4da;
 }
 
 :local .inputGroupButton {
-    width: 100%;
+    /* width: 100%; */
     display: none;
     margin-top: 5px;
     border: 1px solid #ced4da;
