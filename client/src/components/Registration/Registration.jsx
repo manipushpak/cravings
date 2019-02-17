@@ -7,12 +7,9 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 
-import { Link } from 'react-router-dom';
 import ButtonSet from './ButtonSet.jsx';
 import RegistrationVendor from './RegistrationVendor.jsx';
 import WeekOptions from './WeekOptions.jsx';
-
-// import Geosuggest from 'react-bootstrap-geosuggest/';
 
 class Registration extends React.Component {
    constructor(props) {
