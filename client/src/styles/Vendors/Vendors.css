@@ -6,11 +6,8 @@
 :local .searchBar {
     grid-column-start: 1;
     grid-column-end: 3;
-    height: 40px;
     border-bottom: 1px solid #DDD;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 20px;
 }
 
 :local .listColumn {
