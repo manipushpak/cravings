@@ -16,5 +16,5 @@ npm install
 npm run start
 npm run react-dev
 npm run build-server
-# open browser at localhost:1337
 ```
+> open browser at localhost:1337

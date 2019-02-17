@@ -5,16 +5,20 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Row from 'react-bootstrap/Row'
-import WeekOptions from './WeekOptions.jsx';
-import RegistrationVendor from './RegistrationVendor.jsx';
+import Row from 'react-bootstrap/Row';
 
-// import Geosuggest from 'react-bootstrap-geosuggest/';
+import ButtonSet from './ButtonSet.jsx';
+import RegistrationVendor from './RegistrationVendor.jsx';
+import WeekOptions from './WeekOptions.jsx';
 
 class Registration extends React.Component {
    constructor(props) {
       super(props);
       this.state = { 
+         status: {
+            edit: props.isEdit,
+            view: props.isView
+         },
          stallName: '',
          phone: '',
          address: '',
@@ -35,6 +39,17 @@ class Registration extends React.Component {
          numVendors: 1,
          validated: false
       }
+      
+      // External Form Functions
+      this.handleSubmit = this.handleSubmit.bind(this);
+      this.handleResetForm = this.handleResetForm.bind(this);
+      this.handleEditForm = this.handleEditForm.bind(this);
+      this.handleSaveEdit = this.handleSaveEdit.bind(this);
+      this.handleCancelEdit = this.handleCancelEdit.bind(this);
+
+      // Set State Functions
+      this.setToView = this.setToView.bind(this);
+      this.setToEdit = this.setToEdit.bind(this);
       this.updateStallName = this.updateStallName.bind(this);
       this.updatePhone = this.updatePhone.bind(this);
       this.updateAddress = this.updateAddress.bind(this);
@@ -44,37 +59,14 @@ class Registration extends React.Component {
       this.updateEndTime = this.updateEndTime.bind(this);
       this.updateHours = this.updateHours.bind(this);
       this.updateKeywords = this.updateKeywords.bind(this);
-      this.handleClearForm = this.handleClearForm.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
+
+      // Internal Form Functions
       this.activatePlacesSearch = this.activatePlacesSearch.bind(this);
       this.onAddVendor = this.onAddVendor.bind(this);
       this.onRemoveVendor = this.onRemoveVendor.bind(this);
       this.useCurrentLocation = this.useCurrentLocation.bind(this);
    }
-
-   handleClearForm() {
-      this.setState({
-         stallName: '',
-         phone: '',
-         address: '',
-         coordinates: {
-            lat: null,
-            lng: null
-         },
-         hours: [
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-         ],
-         keywords: [],
-         validated: false
-      });
-   }
-
+   
    handleSubmit(event) {
       event.preventDefault();
       if (event.currentTarget.checkValidity() === false) {
@@ -96,9 +88,53 @@ class Registration extends React.Component {
             headers: {"Content-Type": "application/json"}
          }).then(function(response){
             alert("hell yeah");
+            this.setState({
+               status: {
+                  edit: false,
+                  view: true
+               },
+            });
             return response.json();
          });
       }
+   }
+   handleResetForm() {
+      this.setState({
+         stallName: '',
+         phone: '',
+         address: '',
+         coordinates: {
+            lat: null,
+            lng: null
+         },
+         hours: [
+            {open: false, startTime: null, endTime: null},
+            {open: false, startTime: null, endTime: null},
+            {open: false, startTime: null, endTime: null},
+            {open: false, startTime: null, endTime: null},
+            {open: false, startTime: null, endTime: null},
+            {open: false, startTime: null, endTime: null},
+            {open: false, startTime: null, endTime: null},
+         ],
+         keywords: [],
+         validated: false
+      });
+   }
+   handleEditForm() {
+      this.setToEdit
+   }
+   handleSaveEdit(event) {
+      this.setToView();
+   }
+   handleCancelEdit(event) {
+      this.setToView();
+   }
+
+   setToView() {
+      this.setState({ status: { edit: false, view: true } });
+   }
+   setToEdit() {
+      this.setState({ status: { edit:true, view: false } });
    }
 
    updateStallName(e) {
@@ -145,7 +181,6 @@ class Registration extends React.Component {
    onAddVendor() {
       this.setState({ numVendors: this.state.numVendors + 1 });
    }
-
    onRemoveVendor() {
       this.setState({ numVendors: this.state.numVendors -1 })
    }
@@ -199,64 +234,55 @@ class Registration extends React.Component {
 
       const vendors = [];
       for (var i = 0; i < this.state.numVendors; i += 1) {
-        vendors.push(<RegistrationVendor key={i} number={i} onRemoveVendor={this.onRemoveVendor}/>);
+        vendors.push(<RegistrationVendor key={i} number={i} onRemoveVendor={this.onRemoveVendor} readOnly={this.state.status.view}/>);
         console.log(vendors);
       };
 
       return(
          <div className={styles.outerContainer}>
-            <h1>Vendor Registration</h1>
+            <h1>{ this.state.status.view || this.state.status.edit ? "My Account" : "Vendor Registration" }</h1>
             <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
-               <br /><br /><h3>Stall Information</h3><br />
+               <br /><br />
+               <h3>Stall Information</h3>
+               <br />
 
                <Row>
                   <Form.Group as={Col} controlId="stallName" xs={12} md={6}>
                      <Form.Label>Stall Name</Form.Label>
-                     <Form.Control placeholder="Enter stall name (ex. Carlo's Mangoes)" onChange={e => this.updateStallName(e)} required />
+                     <Form.Control readOnly={this.state.status.view} placeholder="Enter stall name (ex. Carlo's Mangoes)" onChange={e => this.updateStallName(e)} required />
                      <Form.Control.Feedback type="invalid">Please enter your stall name (ex. Carlo's Mangoes).</Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="phoneNumber" xs={12} md={6}>
                      <Form.Label>Phone Number</Form.Label>
-                     <Form.Control placeholder="Enter phone number (123-456-7890)" pattern="^\d{3}-\d{3}-\d{4}$" onChange={e => this.updatePhone(e)} required />
+                     <Form.Control readOnly={this.state.status.view} placeholder="Enter phone number (123-456-7890)" pattern="^\d{3}-\d{3}-\d{4}$" onChange={e => this.updatePhone(e)} required />
                      <Form.Control.Feedback type="invalid">Please enter your phone number (xxx-xxx-xxxx).</Form.Control.Feedback>
                   </Form.Group>
                </Row>
 
-               <Form.Group>
-                  <Form.Label>Address</Form.Label>
-                  <InputGroup>
-                     <Form.Control placeholder="Enter street address" id="vendorRegistrationLocation" className= { styles.inputStreetAddress } value={this.state.address} onChange={e => this.updateAddress(e.target.value)} />
-                     <InputGroup.Append className={ styles.inputGroupAppend }>
-                        <Button variant="light" onClick={e => this.useCurrentLocation(e)}>Use Current Location</Button>
-                     </InputGroup.Append>
-                     <Button size="sm" variant="light" className={ styles.inputGroupButton } onClick={e => this.useCurrentLocation(e)}>Use Current Location</Button>
-                  </InputGroup>
-                  <Form.Text id="userLocationText" className="text-muted"></Form.Text>
-                  <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
-               </Form.Group>
+               <AddressSet view={this.state.status.view} value={this.state.address} onChange={e => this.updateAddress(e.target.value)} onClick={e => this.useCurrentLocation(e)} />
 
                <Row>
                   <Form.Group as={Col} controlId="openingDaysAndTimes" xs={12} md={6}>
                      <Form.Label>Opening Days and Hours (optional)</Form.Label>
-                     <WeekOptions label="Monday" disabled={!this.state.hours[0].open}
+                     <WeekOptions label="Monday" disabled={!this.state.hours[0].open} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,0)} ocStart={e => this.updateStartTime(e,0)} ocEnd={e => this.updateEndTime(e,0)} />
-                     <WeekOptions label="Tuesday" disabled={!this.state.hours[1].open}
+                     <WeekOptions label="Tuesday" disabled={!this.state.hours[1].open} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,1)} ocStart={e => this.updateStartTime(e,1)} ocEnd={e => this.updateEndTime(e,1)} />
-                     <WeekOptions label="Wednesday" disabled={!this.state.hours[2].open}
+                     <WeekOptions label="Wednesday" disabled={!this.state.hours[2].open} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,2)} ocStart={e => this.updateStartTime(e,2)} ocEnd={e => this.updateEndTime(e,2)} />
-                     <WeekOptions label="Thursday" disabled={!this.state.hours[3].open}
+                     <WeekOptions label="Thursday" disabled={!this.state.hours[3].open} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,3)} ocStart={e => this.updateStartTime(e,3)} ocEnd={e => this.updateEndTime(e,3)} />
-                     <WeekOptions label="Friday" disabled={!this.state.hours[4].open}
+                     <WeekOptions label="Friday" disabled={!this.state.hours[4].open} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,4)} ocStart={e => this.updateStartTime(e,4)} ocEnd={e => this.updateEndTime(e,4)} />
-                     <WeekOptions label="Saturday" disabled={!this.state.hours[5].open}
+                     <WeekOptions label="Saturday" disabled={!this.state.hours[5].open} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,5)} ocStart={e => this.updateStartTime(e,5)} ocEnd={e => this.updateEndTime(e,5)} />
-                     <WeekOptions label="Sunday" disabled={!this.state.hours[6].open}
+                     <WeekOptions label="Sunday" disabled={!this.state.hours[6].open} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,6)} ocStart={e => this.updateStartTime(e,6)} ocEnd={e => this.updateEndTime(e,6)} />
                   </Form.Group>
                   <Form.Group as={Col} controlId="keywords" xs={12} md={6}>
                      <Form.Label>Keywords (optional)</Form.Label>
-                     <Form.Control as="textarea" rows="5" cols="60" onChange={e => this.updateKeywords(e)}/>
+                     <Form.Control as="textarea" rows="5" cols="60" readOnly={this.state.status.view} onChange={e => this.updateKeywords(e)}/>
                      <Form.Text className="text-muted">Separate your keywords by comma (e.g. "tacos, mexican food, burritos")</Form.Text>
                   </Form.Group>
                </Row>
@@ -265,20 +291,46 @@ class Registration extends React.Component {
                <h3>Vendor Information</h3>
                <br />
 
-               <AllVendors addVendor={this.onAddVendor} vendors={vendors}></AllVendors>
+               <AllVendors addVendor={this.onAddVendor} vendors={vendors} />
 
                <br />
                
-               <Form.Row>
-                  <Button className={ styles.button } variant="primary" type="submit">
-                     Submit
-                  </Button>
-                  <Button className={ styles.button } variant="secondary" type="reset" onClick={ this.handleClearForm }>
-                     Reset
-                  </Button>
-               </Form.Row>
+               <ButtonSet status={this.state.status} 
+                  onClickCancel={ this.handleCancelEdit }
+                  onClickEdit={ this.handleEditForm }
+                  onClickReset={ this.handleResetForm }
+                  onClickSave={ this.handleSaveEdit }
+               />
             </Form>
          </div>
+      );
+   }
+}
+
+const AddressSet = props => {
+   if (props.view) {
+      return(
+         <Form.Group>
+            <Form.Label>Address</Form.Label>
+            <Form.Control readOnly placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddressView } value={props.address} onChange={props.onChange} />
+            <Form.Text id="userLocationText" className="text-muted"></Form.Text>
+            <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
+         </Form.Group>
+      );
+   } else {
+      return (
+         <Form.Group>
+            <Form.Label>Address</Form.Label>
+            <InputGroup>
+               <Form.Control placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddress } value={props.address} onChange={props.onChange} />
+               <InputGroup.Append className={ styles.inputGroupAppend }>
+                  <Button variant="light" onClick={props.onClick}>Use Current Location</Button>
+               </InputGroup.Append>
+            </InputGroup>
+            <Button size="sm" variant="light" className={ styles.inputGroupButton } onClick={props.onClick} block>Use Current Location</Button>
+            <Form.Text id="userLocationText" className="text-muted"></Form.Text>
+            <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
+         </Form.Group>
       );
    }
 }
