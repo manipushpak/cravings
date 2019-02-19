@@ -8,6 +8,7 @@ import Registration from './Registration/Registration.jsx';
 import UserLogInSignUp from './UserLogInSignUp/UserLogInSignUp.jsx';
 import Vendors from './Vendors/Vendors.jsx';
 import VendorPortal from './Registration/VendorPortal.jsx';
+import VendorSignUp from './Registration/VendorSignUp.jsx';
 
 
 const Main = () => {
@@ -21,6 +22,7 @@ const Main = () => {
             <Route path={'/vendorportal/register'} render={() => <Registration isEdit={false} isView={false}/>} />
             <Route path={'/vendorportal/account'} render={() => <Registration isEdit={false} isView={true}/>} />
             <Route path='/userloginsignup' component={UserLogInSignUp}/>
+            <Route path ='/vendorsignup' component ={VendorSignUp}/>
          </Switch>
       </main>
    )
