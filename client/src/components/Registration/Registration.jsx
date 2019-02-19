@@ -69,6 +69,7 @@ class Registration extends React.Component {
    
    handleSubmit(event) {
       event.preventDefault();
+      window.location.assign('/#/vendorportal/account');
       if (event.currentTarget.checkValidity() === false) {
          event.stopPropagation;
          this.setState({ validated: true });
@@ -87,7 +88,6 @@ class Registration extends React.Component {
             }),
             headers: {"Content-Type": "application/json"}
          }).then(function(response){
-            alert("hell yeah");
             this.setState({
                status: {
                   edit: false,

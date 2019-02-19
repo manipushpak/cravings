@@ -4,7 +4,6 @@ import styles from '../../styles/Registration/VendorPortal.css';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form';
-import { Redirect, Route } from 'react-router-dom';
 
 import md5 from 'md5';
 
