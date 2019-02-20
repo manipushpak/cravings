@@ -21,7 +21,7 @@ export default class DataManager {
   getVendorSearch(filter: string, term: string): Vendor[] {
     //talk about filtering by address bc a little more complicated
     if (filter.trim() === "name") {
-      return this.getVendors().filter(v => v.name.trim().toLowerCase().indexOf(term.trim().toLowerCase()) > -1);
+      return this.getVendors().filter(v => v.stallName.trim().toLowerCase().indexOf(term.trim().toLowerCase()) > -1);
     }else if (filter.trim() === "keywords") {
       let filtered:Vendor[] = [];
 

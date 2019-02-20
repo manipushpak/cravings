@@ -6,6 +6,10 @@ import vendors from '../data/sampledb';
 /* GET home page. */
 var dm = new DataManager();
 
+//retrieve vendor by email
+//validate vendor
+//
+
 router.get('/vendors', (req, res, next) => {
     let vendors:Vendor[] = dm.getVendors();
     res.json(vendors);
@@ -13,7 +17,10 @@ router.get('/vendors', (req, res, next) => {
 
 router.post('/vendor/create', (req, res) => {
    let vendor:Vendor = 
-   {name: req.body.name, 
+   {email:req.body.email,
+    password:req.body.password,
+    stallName:req.body.stallName,
+    vendorName:req.body.vendorName,
    location: req.body.location,
    keywords: req.body.keywords,
    week: req.body.week,

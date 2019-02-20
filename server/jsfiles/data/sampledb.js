@@ -3,7 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var vendors = [
     {
         _id: "1",
-        name: "Taco Stand",
+        stallName: "Taco Stand",
+        email: "sonali@usc.edu",
+        vendorName: [
+            "Sonali", "Pia"
+        ],
         location: {
             address: "3770 S Fig",
             coordinates: {
@@ -12,7 +16,12 @@ var vendors = [
             }
         },
         week: ["Monday", "Tuesday"],
-        hours: [900, 500],
+        password: "ilovecravings1",
+        hours: [
+            { open: true,
+                startTime: 900,
+                endTime: 500 }
+        ],
         keywords: [
             "taco",
             "yummy"
@@ -22,7 +31,11 @@ var vendors = [
     },
     {
         _id: "2",
-        name: "Sonali's Noodles",
+        stallName: "Sonali's Noodles",
+        email: "sonali2@usc.edu",
+        vendorName: [
+            "Sonali", "Pia"
+        ],
         location: {
             address: "Tuscany Apartments",
             coordinates: {
@@ -31,7 +44,12 @@ var vendors = [
             }
         },
         week: ["Sunday", "Tuesday"],
-        hours: [1000, 500],
+        password: "ilovecravings2",
+        hours: [
+            { open: true,
+                startTime: 1000,
+                endTime: 500 }
+        ],
         keywords: [
             "ramen",
             "noods"
@@ -41,7 +59,11 @@ var vendors = [
     },
     {
         _id: "3",
-        name: "Pia's Pies",
+        stallName: "Pia's Pies",
+        email: "pia@usc.edu",
+        vendorName: [
+            "Sonali", "Pia"
+        ],
         location: {
             address: "TCC",
             coordinates: {
@@ -50,7 +72,12 @@ var vendors = [
             }
         },
         week: ["Saturday", "Sunday", "Monday"],
-        hours: [930, 530],
+        password: "ilovecravings4",
+        hours: [
+            { open: true,
+                startTime: 900,
+                endTime: 500 }
+        ],
         keywords: [
             "pies",
             "apple pies"
@@ -60,7 +87,11 @@ var vendors = [
     },
     {
         _id: "7",
-        name: "Sophia's Tacos",
+        stallName: "Sophia's Tacos",
+        email: "sonali3@usc.edu",
+        vendorName: [
+            "Sonali", "Pia"
+        ],
         location: {
             address: "Taco Street",
             coordinates: {
@@ -69,7 +100,12 @@ var vendors = [
             }
         },
         week: ["Saturday", "Sunday", "Monday"],
-        hours: [930, 530],
+        password: "ilovecravings1",
+        hours: [
+            { open: true,
+                startTime: 900,
+                endTime: 500 }
+        ],
         keywords: [
             "tacos",
             "usc"
@@ -79,7 +115,11 @@ var vendors = [
     },
     {
         _id: "8",
-        name: "Devika's Cakes",
+        stallName: "Devika's Cakes",
+        email: "sonali5@usc.edu",
+        vendorName: [
+            "Sonali", "Devika"
+        ],
         location: { address: "Cake Blvd.",
             coordinates: {
                 lat: 34.0141,
@@ -87,7 +127,12 @@ var vendors = [
             }
         },
         week: ["Saturday", "Sunday", "Monday", "Tuesday"],
-        hours: [1030, 530],
+        password: "ilovecravings1",
+        hours: [
+            { open: true,
+                startTime: 900,
+                endTime: 500 }
+        ],
         keywords: [
             "cakes",
             "usc"
@@ -97,7 +142,11 @@ var vendors = [
     },
     {
         _id: "9",
-        name: "Mani's Sushi",
+        stallName: "Mani's Sushi",
+        email: "mani@usc.edu",
+        vendorName: [
+            "Sonali", "Mani"
+        ],
         location: {
             address: "Sushi Lane",
             coordinates: {
@@ -106,6 +155,12 @@ var vendors = [
             }
         },
         week: ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"],
+        password: "ilovecravings1",
+        hours: [
+            { open: true,
+                startTime: 900,
+                endTime: 500 }
+        ],
         keywords: [
             "sushi",
             "salmon"
@@ -115,13 +170,23 @@ var vendors = [
     },
     {
         _id: "10",
-        name: "Sonali's Lemonade",
+        stallName: "Sonali's Lemonade",
+        email: "sonali7@usc.edu",
+        vendorName: [
+            "Devika", "Pia"
+        ],
         location: { address: "Lemonade & Brownies",
             coordinates: {
                 lat: 34.0232,
                 lng: -119.2801
             }
         },
+        password: "ilovecravings1",
+        hours: [
+            { open: true,
+                startTime: 900,
+                endTime: 500 }
+        ],
         keywords: [
             "lemonade",
             "brownies"

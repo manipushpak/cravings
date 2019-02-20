@@ -1,10 +1,13 @@
 export interface Vendor{
     _id?:string;
-    name:string;
+    email:string;
+    password:string;
+    stallName:string;
+    vendorName:string[];
     location:VendorLocation;
     keywords:string[];
     week?: string[];
-    hours?:number[];
+    hours?:TimeFrame[];
     phone:string;
     open:boolean;
 
@@ -14,6 +17,12 @@ export interface VendorLocation{
     _id?:string;
     address:string;
     coordinates:LocationCoordinates;
+}
+
+export interface TimeFrame{
+    open:boolean;
+    startTime: number;
+    endTime: number;
 }
 
 export interface LocationCoordinates{

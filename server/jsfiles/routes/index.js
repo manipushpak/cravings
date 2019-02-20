@@ -15,12 +15,18 @@ var router = express.Router();
 var datamanager_1 = __importDefault(require("../data/datamanager"));
 /* GET home page. */
 var dm = new datamanager_1.default();
+//retrieve vendor by email
+//validate vendor
+//
 router.get('/vendors', function (req, res, next) {
     var vendors = dm.getVendors();
     res.json(vendors);
 });
 router.post('/vendor/create', function (req, res) {
-    var vendor = { name: req.body.name,
+    var vendor = { email: req.body.email,
+        password: req.body.password,
+        stallName: req.body.stallName,
+        vendorName: req.body.vendorName,
         location: req.body.location,
         keywords: req.body.keywords,
         week: req.body.week,
