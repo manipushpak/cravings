@@ -45,14 +45,36 @@ var DataManager = /** @class */ (function () {
             return [];
         }
     };
-    DataManager.prototype.getVendor = function (id) {
+    DataManager.prototype.getVendorById = function (id) {
         var res = sampledb_1.default.filter(function (v) { return v._id === id; });
         if (res == null || res == undefined || res.length == 0) {
             return null;
         }
         return res[0];
     };
-    DataManager.prototype.authenticate = function (verification) {
+    DataManager.prototype.getVendorByEmail = function (email) {
+        var res = sampledb_1.default.filter(function (v) { return v.email === email; });
+        if (res == null || res == undefined || res.length == 0) {
+            return null;
+        }
+        return res[0];
+    };
+    DataManager.prototype.authenticateVendor = function (verification) {
+        if (verification.email == null || verification.email == undefined || verification.email == ""
+            || verification.hash == null || verification.hash == undefined || verification.hash == "") {
+            return { success: false };
+        }
+        var vendors = this.getVendors();
+        for (var i = 0; i < vendors.length; i++) {
+            var vendor = vendors[i];
+            if (vendor.email === verification.email &&
+                vendor.password === verification.hash) {
+                return { success: true };
+            }
+        }
+        return false;
+    };
+    DataManager.prototype.authenticateUser = function (verification) {
         if (verification.email == null || verification.email == undefined || verification.email == ""
             || verification.hash == null || verification.hash == undefined || verification.hash == "") {
             return { success: false };

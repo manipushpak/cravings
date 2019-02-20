@@ -48,9 +48,19 @@ router.get('/user/:id', function (req, res, next) {
     var user = dm.getUser(req.params.id);
     res.json(user);
 });
-router.get('/vendor/:id', function (req, res, next) {
-    var vendor = dm.getVendor(req.params.id);
+router.get('/vendorId/:id', function (req, res, next) {
+    var vendor = dm.getVendorById(req.params.id);
     res.json(vendor);
+});
+router.get('/vendorEmail/:email', function (req, res, next) {
+    var vendor = dm.getVendorByEmail(req.params.email);
+    res.json(vendor);
+});
+router.post('/vendor/authenticate', function (req, res) {
+    var verification = { email: req.body.email,
+        hash: req.body.password };
+    var auth = dm.authenticateVendor(verification);
+    res.json(auth);
 });
 router.post('/user/create', function (req, res) {
     var user = { name: req.body.name,
@@ -63,11 +73,11 @@ router.post('/user/create', function (req, res) {
 router.post('/user/login', function (req, res) {
     var verification = { email: req.body.email,
         hash: req.body.password };
-    var auth = dm.authenticate(verification);
+    var auth = dm.authenticateUser(verification);
     res.json(auth);
 });
 router.get('/testing', function (req, res) {
-    var searchres = dm.getVendor("2");
+    // let searchres:any = dm.getVendor("2");
     // let vendor:User= {
     //     name: "sonali",
     //     email: "sonalipa@usc.edu",
@@ -75,6 +85,6 @@ router.get('/testing', function (req, res) {
     //     password: "squirttheturt"
     // }
     // dm.createUser(vendor);
-    res.json(searchres);
+    //res.json(searchres);
 });
 exports.default = router;

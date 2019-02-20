@@ -48,7 +48,7 @@ export default class DataManager {
     }
   }
 
-  getVendor(id: string): any {
+  getVendorById(id: string): any {
     let res: Vendor[] = vendors.filter(v => v._id === id);
     if (res == null || res == undefined || res.length == 0) {
       return null;
@@ -56,7 +56,33 @@ export default class DataManager {
     return res[0];
   }
 
-  authenticate(verification: any): any {
+  getVendorByEmail(email: string): any {
+    let res: Vendor[] = vendors.filter(v => v.email === email);
+    if (res == null || res == undefined || res.length == 0) {
+      return null;
+    }
+    return res[0];
+  }
+
+  authenticateVendor(verification:any): any{
+    if(verification.email == null || verification.email == undefined || verification.email == ""
+    || verification.hash == null || verification.hash == undefined || verification.hash == ""){
+       return {success: false};
+    }
+ 
+    let vendors:Vendor[] = this.getVendors();
+    for(let i = 0; i<vendors.length; i++){
+      let vendor:Vendor = vendors[i];
+      if(vendor.email === verification.email &&
+       vendor.password === verification.hash){
+         return {success: true};
+       }
+   }
+ 
+   return false;
+  }
+
+  authenticateUser(verification: any): any {
    if(verification.email == null || verification.email == undefined || verification.email == ""
    || verification.hash == null || verification.hash == undefined || verification.hash == ""){
       return {success: false};

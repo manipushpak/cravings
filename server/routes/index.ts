@@ -47,10 +47,24 @@ router.get('/user/:id', (req, res, next) => {
     res.json(user);
 });
 
-router.get('/vendor/:id', (req, res, next) => {
-    let vendor:any = dm.getVendor(req.params.id);
+router.get('/vendorId/:id', (req, res, next) => {
+    let vendor:any = dm.getVendorById(req.params.id);
     res.json(vendor);
 });
+
+router.get('/vendorEmail/:email', (req, res, next) => {
+    let vendor:any = dm.getVendorByEmail(req.params.email);
+    res.json(vendor); 
+});
+
+router.post('/vendor/authenticate', (req, res) => {
+    let verification:any = 
+    {email: req.body.email,
+    hash: req.body.password};
+ 
+    let auth:any = dm.authenticateVendor(verification);
+    res.json(auth);
+ });
 
 router.post('/user/create', (req, res) => {
    let user:User = 
@@ -68,13 +82,13 @@ router.post('/user/login', (req, res) => {
     {email: req.body.email,
     hash: req.body.password};
  
-    let auth:any = dm.authenticate(verification);
+    let auth:any = dm.authenticateUser(verification);
     res.json(auth);
  });
 
 
 router.get('/testing', (req, res) => {
-    let searchres:any = dm.getVendor("2");
+    // let searchres:any = dm.getVendor("2");
     // let vendor:User= {
     //     name: "sonali",
     //     email: "sonalipa@usc.edu",
@@ -82,7 +96,7 @@ router.get('/testing', (req, res) => {
     //     password: "squirttheturt"
     // }
     // dm.createUser(vendor);
-    res.json(searchres);
+    //res.json(searchres);
  })
 
 export default router;
