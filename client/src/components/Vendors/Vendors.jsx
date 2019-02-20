@@ -24,7 +24,8 @@ class Vendors extends React.Component {
          userLat: "",
          userLong: ""
       };
-      this.didProvideLocation = this.didProvideLocation.bind(this);
+      this.handleInputChange = this.handleInputChange.bind(this);
+      this.componentDidMount = this.componentDidMount.bind(this);
    }
 
    didProvideLocation() {
