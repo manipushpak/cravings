@@ -20,7 +20,7 @@ npm run build-server
 ```
 > open browser at localhost:1337
 
-##Troubleshooting
+## Troubleshooting
 
 Problems with MongoDB connection:
 
