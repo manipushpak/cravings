@@ -5,6 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build-server": "tsc -p tsconfig.json",
+    "mongoose": "mongodb-osx-x86_64-4.0.6/bin/mongod",
     "start": "nodemon server/app.js --watch server --exec babel-node",
     "react-dev": "webpack -d --watch"
   },
@@ -23,12 +24,14 @@
     "@types/googlemaps": "^3.30.16",
     "@types/jest": "^23.3.13",
     "@types/markerclustererplus": "^2.1.33",
+    "@types/mongoose": "^5.3.18",
     "@types/react": "^16.7.22",
     "@types/react-dom": "^16.0.11",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.2.1",
     "express": "^4.16.4",
     "jquery": "^3.3.1",
+    "mongoose": "^5.4.14",
     "nodemon": "^1.18.9",
     "react": "^16.7.0",
     "react-bootstrap": "^1.0.0-beta.5",

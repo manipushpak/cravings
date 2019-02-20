@@ -14,7 +14,6 @@ export interface Vendor{
     //week, hours optional
 }
 export interface VendorLocation{
-    _id?:string;
     address:string;
     coordinates:LocationCoordinates;
 }

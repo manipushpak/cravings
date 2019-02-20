@@ -2,7 +2,6 @@ import { Vendor, User } from "../models/types";
 
 const vendors: Vendor[] = [
     {
-        _id : "1",
         stallName: "Taco Stand",
         email: "sonali@usc.edu",
         vendorName: [
@@ -30,7 +29,6 @@ const vendors: Vendor[] = [
         open:true
     },
     {
-        _id : "2",
         stallName:  "Sonali's Noodles",
         email: "sonali2@usc.edu",
         vendorName: [
@@ -58,7 +56,6 @@ const vendors: Vendor[] = [
         open:true
     },
     {
-        _id : "3",
         stallName:  "Pia's Pies",
         email: "pia@usc.edu",
         vendorName: [
@@ -86,7 +83,6 @@ const vendors: Vendor[] = [
         open:true
     },
     {
-        _id: "7",
         stallName:  "Sophia's Tacos",
         email: "sonali3@usc.edu",
         vendorName: [
@@ -114,7 +110,6 @@ const vendors: Vendor[] = [
         open:true
      },
      {
-        _id: "8",
         stallName:  "Devika's Cakes",
         email: "sonali5@usc.edu",
         vendorName: [
@@ -142,7 +137,6 @@ const vendors: Vendor[] = [
         open:true
      },
      {
-         _id: "9",
          stallName:  "Mani's Sushi",
         email: "mani@usc.edu",
         vendorName: [
@@ -170,7 +164,6 @@ const vendors: Vendor[] = [
         open:false
      },
      {
-         _id: "10",
         stallName: "Sonali's Lemonade",
         email: "sonali7@usc.edu",
         vendorName: [
