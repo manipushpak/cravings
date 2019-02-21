@@ -1,9 +1,9 @@
 export interface Vendor{
     _id?:string;
-    email:string;
-    password:string;
     stallName:string;
     vendorName:string[];
+    email:string;
+    password:string;
     location:VendorLocation;
     keywords:string[];
     week?: string[];

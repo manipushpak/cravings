@@ -25,7 +25,6 @@ var uri = 'mongodb://127.0.0.1:27017/Cravings';
 //
 mongoose.connect(uri, { useNewUrlParser: true }, function (err) {
     if (err) {
-        console.log("ERROR");
         console.log(err.message);
     }
     else {
@@ -43,7 +42,8 @@ router.get('/vendors', function (req, res, next) {
     });
 });
 router.post('/vendor/create', function (req, res) {
-    var vendor = { email: req.body.email,
+    var vendor = {
+        email: req.body.email,
         password: req.body.password,
         stallName: req.body.stallName,
         vendorName: req.body.vendorName,
@@ -52,15 +52,29 @@ router.post('/vendor/create', function (req, res) {
         week: req.body.week,
         hours: req.body.hours,
         phone: req.body.phone,
-        open: req.body.open };
+        open: req.body.open
+    };
     var saveVendor = new vendormanager_1.default(vendor);
-    saveVendor.save(function (err) {
+    vendormanager_1.default.findOne({
+        email: vendor.email
+    }, function (err, vendor) {
         if (err) {
-            res.json(err);
+            res.json({ success: false, error: err });
         }
         else {
-            console.log(saveVendor);
-            res.json(saveVendor);
+            if (vendor) {
+                res.json({ success: false });
+            }
+            else {
+                saveVendor.save(function (err) {
+                    if (err) {
+                        res.json(err);
+                    }
+                    else {
+                        res.json({ success: true });
+                    }
+                });
+            }
         }
     });
 });
@@ -101,33 +115,13 @@ router.get('/vendor/:filter/:term', function (req, res) {
         }
     });
 });
-router.get('/users', function (req, res, next) {
-    usermanager_1.default.find(function (err, users) {
-        if (err) {
-            res.json("Error");
-        }
-        else {
-            res.json(users);
-        }
-    });
-});
-router.get('/user/:id', function (req, res, next) {
-    usermanager_1.default.findById(req.params.id, function (err, user) {
-        if (err) {
-            res.send(err);
-        }
-        else {
-            res.send(user);
-        }
-    });
-});
 router.get('/vendorId/:id', function (req, res, next) {
     vendormanager_1.default.findById(req.params.id, function (err, vendor) {
         if (err) {
-            res.send(err);
+            res.json(err);
         }
         else {
-            res.send(vendor);
+            res.json(vendor);
         }
     });
 });
@@ -144,8 +138,10 @@ router.get('/vendorEmail/:email', function (req, res, next) {
     });
 });
 router.post('/vendor/authenticate', function (req, res) {
-    var verification = { email: req.body.email,
-        hash: req.body.password };
+    var verification = {
+        email: req.body.email,
+        hash: req.body.password
+    };
     if (verification.email == null || verification.email == undefined || verification.email == ""
         || verification.hash == null || verification.hash == undefined || verification.hash == "") {
         res.json({ success: false });
@@ -158,28 +154,73 @@ router.post('/vendor/authenticate', function (req, res) {
             res.json({ success: false, error: err });
         }
         else {
-            res.json({ success: true });
+            {
+                if (vendor) {
+                    res.json({ success: true });
+                }
+                else {
+                    res.json({ success: false });
+                }
+            }
         }
     });
 });
-router.post('/user/create', function (req, res) {
-    var user = { name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        phone: req.body.phone };
-    var saveUser = new usermanager_1.default(user);
-    saveUser.save(function (err) {
+router.get('/users', function (req, res, next) {
+    usermanager_1.default.find(function (err, users) {
+        if (err) {
+            res.json("Error");
+        }
+        else {
+            res.json(users);
+        }
+    });
+});
+router.get('/user/:id', function (req, res, next) {
+    usermanager_1.default.findById(req.params.id, function (err, user) {
         if (err) {
             res.json(err);
         }
         else {
-            res.json(saveUser);
+            res.json(user);
+        }
+    });
+});
+router.post('/user/create', function (req, res) {
+    var user = {
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        phone: req.body.phone
+    };
+    var saveUser = new usermanager_1.default(user);
+    usermanager_1.default.findOne({
+        email: user.email
+    }, function (err, user) {
+        if (err) {
+            res.json({ success: false, error: err });
+        }
+        else {
+            if (user) {
+                res.json({ success: false });
+            }
+            else {
+                saveUser.save(function (err) {
+                    if (err) {
+                        res.json(err);
+                    }
+                    else {
+                        res.json({ success: true });
+                    }
+                });
+            }
         }
     });
 });
 router.post('/user/login', function (req, res) {
-    var verification = { email: req.body.email,
-        hash: req.body.password };
+    var verification = {
+        email: req.body.email,
+        hash: req.body.password
+    };
     if (verification.email == null || verification.email == undefined || verification.email == ""
         || verification.hash == null || verification.hash == undefined || verification.hash == "") {
         res.json({ success: false });
@@ -192,7 +233,14 @@ router.post('/user/login', function (req, res) {
             res.json({ success: false, error: err });
         }
         else {
-            res.json({ success: true });
+            {
+                if (user) {
+                    res.json({ success: true });
+                }
+                else {
+                    res.json({ success: false });
+                }
+            }
         }
     });
 });
@@ -217,5 +265,47 @@ router.get('/initvendors', function (req, res) {
     });
 });
 router.get('/test', function (req, res) {
+    // let vendor: Vendor =
+    // {
+    //     stallName: "Taco Stand",
+    //     email: "sonalai@usc.edu",
+    //     vendorName: [
+    //         "Sonali", "Pia"
+    //     ],
+    //     location: {
+    //         address: "3770 S Fig",
+    //         coordinates: {
+    //             lat: 34.0254,
+    //             lng: -118.2852
+    //         }
+    //     },
+    //     password: "ilovecravings1",
+    //     keywords: [
+    //         "taco",
+    //         "yummy"
+    //     ],
+    //     phone: "6508239461",
+    //     open: true
+    // };
+    // var saveVendor = new IVendor(vendor);
+    // IVendor.findOne({
+    //     email: vendor.email
+    // }, (err: any, vendor: any) => {
+    //     if (err) {
+    //         res.json({ success: false, error: err });
+    //     } else {
+    //         if (vendor) {
+    //             res.json({ success: false });
+    //         } else {
+    //             saveVendor.save((err: any) => {
+    //                 if (err) {
+    //                     res.json(err);
+    //                 } else {
+    //                     res.json({ success: true });
+    //                 }
+    //             });
+    //         }
+    //     }
+    // });
 });
 exports.default = router;
