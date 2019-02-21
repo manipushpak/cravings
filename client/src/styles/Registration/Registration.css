@@ -1,0 +1,69 @@
+:local .outerContainer{
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+    position: relative;
+}
+
+:local .label {
+    width: 220px;
+    float: left;
+    text-align: right;
+    margin-right: 10px;
+}
+
+:local .button {
+    margin: 5px;
+}
+
+:local .editButtonDiv {
+    height: 48px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+}
+
+:local .input {
+    width: 50%;
+    align-content: center;
+}
+
+:local .openingRow {
+    display: flex;
+    align-items: center;
+}
+
+:local .timeOptions {
+    text-align: center;
+}
+
+:local .inputStreetAddressView {
+    border-radius: .25rem !important;
+}
+
+:local .inputGroupAppend > button {
+    border: 1px solid #ced4da;
+}
+
+:local .inputGroupButton {
+    /* width: 100%; */
+    display: none;
+    margin-top: 5px;
+    border: 1px solid #ced4da;
+}
+
+@media (max-width: 576px) {
+    :local .inputStreetAddress {
+        border-radius: .25rem !important;
+    }
+
+    :local .inputGroupAppend {
+        display: none;
+    }
+    
+    :local .inputGroupButton {
+        display: block;
+    }
+}
