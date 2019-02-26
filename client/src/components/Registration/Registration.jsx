@@ -312,7 +312,7 @@ const AddressSet = props => {
       return(
          <Form.Group>
             <Form.Label>Address</Form.Label>
-            <Form.Control readOnly placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddressView } value={props.address} onChange={props.onChange} />
+            <Form.Control readOnly placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddressView } value={props.value} onChange={props.onChange} />
             <Form.Text id="userLocationText" className="text-muted"></Form.Text>
             <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
          </Form.Group>
@@ -322,7 +322,7 @@ const AddressSet = props => {
          <Form.Group>
             <Form.Label>Address</Form.Label>
             <InputGroup>
-               <Form.Control placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddress } value={props.address} onChange={props.onChange} />
+               <Form.Control placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddress } value={props.value} onChange={props.onChange} />
                <InputGroup.Append className={ styles.inputGroupAppend }>
                   <Button variant="light" onClick={props.onClick}>Use Current Location</Button>
                </InputGroup.Append>
