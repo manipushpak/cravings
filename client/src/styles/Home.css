@@ -5,7 +5,7 @@
 }
 
 :local .outerContainer {
-    max-width: 600px;
+    max-width: 550px;
     margin-right: auto;
     margin-left: auto;
 }
@@ -21,7 +21,7 @@
 :local .img {
     width: 30%;
     height: 30%;
-    margin-top: 40px;
+    margin-top: 35px;
     float: left;
 }
 
@@ -43,7 +43,7 @@
    margin-left: 80px;
    padding: 10px;
    width: 200px;
-   height: 80px;
+   height: 70px;
    background: #ffffff;
    -webkit-border-radius: 10px;
    -moz-border-radius: 10px;
