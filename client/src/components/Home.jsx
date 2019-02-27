@@ -6,7 +6,6 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 
-
 class Home extends React.Component {
    constructor(props) {
       super(props);
@@ -62,6 +61,31 @@ class Home extends React.Component {
       })
      
    }
+
+   // handleInputChange(e) {
+   //    var searchTerm = e.target.value;
+   //    if(searchTerm == ""){
+   //       fetch('/vendors')
+   //       .then(res => res.json())
+   //       .then(vendors => {
+   //          this.setState({ vendors })
+   //       })
+   //    }
+   //    else{
+   //       fetch('/vendor/keywords/'+searchTerm, {
+   //          headers : { 
+   //            'Content-Type': 'application/json',
+   //            'Accept': 'application/json'
+   //          }
+   //       })
+   //       .then(res => res.json())
+   //       .then(vendors => {
+   //          if(vendors != null){
+   //             this.setState({ vendors })
+   //          }
+   //       })
+   //    }
+   //  }
 
    render() {
       return(
