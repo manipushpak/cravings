@@ -56,18 +56,7 @@ class Vendors extends React.Component {
    render() {
       return(
          <div className={ styles.outerContainer }>
-            <div className={ styles.searchBar }>
-               <InputGroup>
-                  <Form.Control controlId="searchTerm" size="lg" placeholder="What are you looking for?" onChange={e => this.handleInputChange(e)}/>
-                  <DropdownButton as={InputGroup.Append} variant="outline-secondary" alignRight>
-                     <DropdownItem>Search All</DropdownItem>
-                     <Dropdown.Divider />
-                     <Dropdown.Header>Filters</Dropdown.Header>
-                     <Dropdown.Item>Stall Name</Dropdown.Item>
-                     <Dropdown.Item>Keywords</Dropdown.Item>
-                  </DropdownButton>
-               </InputGroup>
-            </div>
+            <h1 className={styles.h1}>Spots near you</h1>
             <div className={ styles.listColumn }>
                <List vendors={ this.state.vendors } />
             </div>
