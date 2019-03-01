@@ -45,6 +45,8 @@
 
 :local .inputGroupAppend > button {
     border: 1px solid #ced4da;
+    border-top-right-radius: .25rem !important;
+    border-bottom-right-radius: .25rem !important;
 }
 
 :local .inputGroupButton {
