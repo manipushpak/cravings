@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from '../../styles/Vendors/ListItem.css';
 
+
 const ListItem = props => {
    return(
       <div className={ styles.outerContainer }>
