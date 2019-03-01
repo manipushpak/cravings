@@ -35,6 +35,11 @@ class Registration extends React.Component {
             {open: false, startTime: null, endTime: null},
             {open: false, startTime: null, endTime: null},
          ],
+         dietary: {
+            vegetarian: false,
+            vegan: false,
+            dairyfree: false
+         },
          keywords: [],
          numVendors: 1,
          validated: false
@@ -281,9 +286,17 @@ class Registration extends React.Component {
                         ocCheck={e => this.updateWeek(e,6)} ocStart={e => this.updateStartTime(e,6)} ocEnd={e => this.updateEndTime(e,6)} />
                   </Form.Group>
                   <Form.Group as={Col} controlId="keywords" xs={12} md={6}>
-                     <Form.Label>Keywords (optional)</Form.Label>
-                     <Form.Control as="textarea" rows="5" cols="60" readOnly={this.state.status.view} onChange={e => this.updateKeywords(e)}/>
-                     <Form.Text className="text-muted">Separate your keywords by comma (e.g. "tacos, mexican food, burritos")</Form.Text>
+                     <Form.Group>
+                        <Form.Label>Dietary Options</Form.Label>
+                        <Form.Check disabled={this.state.status.view} type="checkbox" label="Vegetarian"   />
+                        <Form.Check disabled={this.state.status.view} type="checkbox" label="Vegan"  />
+                        <Form.Check disabled={this.state.status.view} type="checkbox" label="Dairy-Free"  />
+                     </Form.Group>
+                     <Form.Group>
+                        <Form.Label>Keywords (optional)</Form.Label>
+                        <Form.Control as="textarea" rows="5" cols="60" readOnly={this.state.status.view} onChange={e => this.updateKeywords(e)}/>
+                        <Form.Text className="text-muted">Separate your keywords by comma (e.g. "tacos, mexican food, burritos")</Form.Text>
+                     </Form.Group>
                   </Form.Group>
                </Row>
 
