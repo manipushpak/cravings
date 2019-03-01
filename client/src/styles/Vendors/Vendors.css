@@ -3,13 +3,6 @@
     grid-template-columns: 60% 40%;
 }
 
-:local .searchBar {
-    grid-column-start: 1;
-    grid-column-end: 3;
-    border-bottom: 1px solid #DDD;
-    padding: 20px;
-}
-
 :local .listColumn {
     grid-column-start: 1;
     grid-column-end: 2;
@@ -18,4 +11,10 @@
 :local .mapColumn {
     grid-column-start: 2;
     grid-column-end: 3;
+}
+
+:local .h1 {
+    font-size: 300%;
+    font-family: 'Nunito', sans-serif;
+    margin-top: 2%;
 }
