@@ -1,7 +1,13 @@
 :local .h1 {
     font-size: 500%;
     font-family: 'Nunito', sans-serif;
-    margin-top: 27%;
+    margin-top: 27%;      
+}
+
+@media (max-width: 576px) {
+    :local .h1 {
+        font-size: 300%;
+    }    
 }
 
 :local .outerContainer {
