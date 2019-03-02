@@ -1,7 +1,7 @@
 :local .outerContainer {
-    border-bottom: 1px solid #E9E9E9;
-    padding-top: 16px;
-    padding-left: 16px;
+    padding: 16px;
+    width: 300px;
+    text-align: center;
 }
 
 :local .storeOpen {
@@ -12,12 +12,15 @@
     color: maroon;
 }
 
-:local .img {
-    width: 50%;
-    height: 50%;
-}
-
 :local .h3 {
     font-family: 'Nunito', sans-serif;
     font-size: 20px;
+    margin-top: -15px;
+}
+
+:local .greyBox {
+    width:200px;
+    height:200px;
+    background: grey;
+    margin: auto;
 }
