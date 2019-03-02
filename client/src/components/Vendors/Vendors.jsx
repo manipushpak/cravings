@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../../styles/Vendors/Vendors.css';
+import modalStyles from '../../styles/Vendors/ListModal.css';
 
 import Map from './Map.jsx';
 import List from './List.jsx';
@@ -124,6 +125,13 @@ class Vendors extends React.Component {
             <div className={ styles.mapColumn }>
                <Map vendors={ this.state.vendors }/>
             </div>
+            <ReactModal 
+               isOpen={this.state.showModal}
+               onRequestClose={this.handleCloseModal}
+               className={modalStyles.modalContainer}
+            >
+               <ListModal handleCloseModal={ this.handleCloseModal } />
+            </ReactModal>
          </div>
       );
    }
