@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../../styles/Vendors/Vendors.css';
+import modalStyles from '../../styles/Vendors/ListModal.css';
 
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -94,9 +95,8 @@ class Vendors extends React.Component {
             </div>
             <ReactModal 
                isOpen={this.state.showModal}
-               contentLabel="onRequestClose Example"
                onRequestClose={this.handleCloseModal}
-               className={styles.modalContainer}
+               className={modalStyles.modalContainer}
             >
                <ListModal handleCloseModal={ this.handleCloseModal } />
             </ReactModal>

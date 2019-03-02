@@ -1,0 +1,76 @@
+:local .modalContainer {
+    position: absolute;
+    top: 15%;
+    bottom: 15%;
+    left: 15%;
+    right: 15%;
+}
+
+:local .listModal {
+    height: 100%;
+    position: relative;
+    padding: 20px;
+    border: 1px solid #ECECEC;
+    background: white;
+    display: flex;
+    overflow: scroll;
+    display: flex;
+    flex-direction: row;
+}
+
+:local .listModalButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    border: none;
+    font-size: 20px;
+    height: 30px;
+    width: 30px;
+}
+
+:local .imageDiv {
+    background: red;
+    height: 100%;
+    width: 40%;
+}
+
+:local .infoDiv {
+    background: blue;
+    height: 100%;
+    width: 60%;
+    overflow: scroll;
+    padding: 15px;
+}
+
+.carousel-inner {
+    height: 100%
+}
+
+/* For tablets and smaller devices */
+@media(max-width: 1024px) {
+    :local .listModal {
+        flex-direction:  column;
+    }
+
+    :local .imageDiv {
+        background: red;
+        height: 100%;
+        width: 100%;
+    }
+    
+    :local .infoDiv {
+        background: blue;
+        width: 100%;
+        overflow: scroll;
+        padding: 15px;
+    }
+}
+
+/* For phones and smaller devices */
+@media (max-width: 575px) {
+    :local .modalContainer {
+        left: 10%;
+        right: 10%;
+    }
+}
