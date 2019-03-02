@@ -3,6 +3,7 @@ import styles from '../../styles/Vendors/Vendors.css';
 
 import Map from './Map.jsx';
 import List from './List.jsx';
+<<<<<<< HEAD
 import ListItem from './ListItem.jsx';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -12,6 +13,11 @@ import appStyles from '../../styles/App.css';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 
 
+=======
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+
+>>>>>>> vendors in grid and map using custom marker
 
 class Vendors extends React.Component {
    constructor(props) {
@@ -81,11 +87,16 @@ class Vendors extends React.Component {
             <div className = {styles.filters}>
                <Form.Row>
                   <Form.Group as={Col} xs={6} sm={2}>
+<<<<<<< HEAD
                      <Form.Check label={"Vegetarian"} type="checkbox" />
+=======
+                     <Form.Check label={"Veg Options"} type="checkbox" />
+>>>>>>> vendors in grid and map using custom marker
                   </Form.Group>
                   <Form.Group as={Col} xs={6} sm={2}>
                      <Form.Check label={"Open Now"} type="checkbox" />
                   </Form.Group>
+<<<<<<< HEAD
                   <Form.Group as={Col} xs={6} sm={2}>
                      <Form.Check label={"Gluten Free"} type="checkbox" />
                   </Form.Group>
@@ -98,10 +109,13 @@ class Vendors extends React.Component {
                   <Form.Group as={Col} xs={6} sm={2}>
                      <Form.Check label={"Halal"} type="checkbox" />
                   </Form.Group>
+=======
+>>>>>>> vendors in grid and map using custom marker
                </Form.Row>
             </div>
             <br />
             <div className = {styles.vendorList}>
+<<<<<<< HEAD
                <h3 className={styles.h3}>Less than 5 min walk away</h3>
                <ScrollMenu
                   data={menu}
@@ -120,6 +134,9 @@ class Vendors extends React.Component {
                   arrowLeft={ArrowLeft}
                   arrowRight={ArrowRight}
                />
+=======
+               <List vendors={ this.state.vendors } />
+>>>>>>> vendors in grid and map using custom marker
             </div>
             {/* <div className = {styles.vendorList}>
                <List vendors={ this.state.vendors } />
