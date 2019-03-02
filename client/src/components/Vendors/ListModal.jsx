@@ -33,9 +33,9 @@ const ListModal = props => {
                 </Carousel.Item>
             </Carousel>
             <div className={styles.infoDiv}>
-                <h3>{props.name}</h3>
+                <h3>Name of Vendor</h3>
                 <p>
-                    {props.location}
+                    Location Address, CA 90007
                     <br />
                     <span className={ props.open ? styles.storeOpen : styles.storeClosed }>
                     { props.open ? "open " : "closed " }
