@@ -3,11 +3,6 @@
     grid-template-columns: 60% 40%;
 }
 
-:local .listColumn {
-    grid-column-start: 1;
-    grid-column-end: 2;
-}
-
 :local .mapColumn {
     grid-column-start: 2;
     grid-column-end: 3;
@@ -15,6 +10,24 @@
 
 :local .h1 {
     font-size: 300%;
+    grid-column-start: 1;
+    grid-column-end: 3;
     font-family: 'Nunito', sans-serif;
-    margin-top: 2%;
+    margin-left: 5%;
+}
+
+:local .vendorList {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    margin-left: 1%;
+}
+
+:local .filters {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: 40px;
+    margin-left: 5%;
+    padding-top: 15px;
+    border-top: 1px solid lightgrey; border-bottom: 1px solid lightgrey;
 }

@@ -6,7 +6,8 @@
   "scripts": {
     "build-server": "tsc -p tsconfig.json",
     "start": "nodemon server/app.js --watch server --exec babel-node",
-    "react-dev": "webpack -d --watch"
+    "react-dev": "webpack -d --watch",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
