@@ -1,23 +1,31 @@
 import React from 'react';
 import styles from '../../styles/Vendors/Vendors.css';
 
+import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import DropdownItem from 'react-bootstrap/DropdownItem';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import ReactModal from 'react-modal';
 
 import List from './List.jsx';
+import ListModal from './ListModal.jsx';
 import Map from './Map.jsx';
-import DropdownItem from 'react-bootstrap/DropdownItem';
+
+ReactModal.setAppElement(document.getElementById('vendors'));
 
 class Vendors extends React.Component {
    constructor(props) {
       super(props);
       this.state = {
-         vendors: []
+         vendors: [],
+         showModal: false
       };
-      this.handleInputChange = this.handleInputChange.bind(this);
       this.componentDidMount = this.componentDidMount.bind(this);
+      this.handleInputChange = this.handleInputChange.bind(this);
+      this.handleOpenModal = this.handleOpenModal.bind(this);
+      this.handleCloseModal = this.handleCloseModal.bind(this);
    }
 
    componentDidMount() {
@@ -51,12 +59,22 @@ class Vendors extends React.Component {
             }
          })
       }
-    }
+   }
+
+   handleOpenModal() {
+      this.setState({showModal: true});
+   }
+
+   handleCloseModal() {
+      this.setState({showModal: false});
+   }
+
 
    render() {
       return(
-         <div className={ styles.outerContainer }>
+         <div className={ styles.outerContainer } controlId='vendors'>
             <div className={ styles.searchBar }>
+               <Button onClick={this.handleOpenModal}>boop.</Button>
                <InputGroup>
                   <Form.Control controlId="searchTerm" size="lg" placeholder="What are you looking for?" onChange={e => this.handleInputChange(e)}/>
                   <DropdownButton as={InputGroup.Append} variant="outline-secondary" alignRight>
@@ -74,6 +92,14 @@ class Vendors extends React.Component {
             <div className={ styles.mapColumn }>
                <Map vendors={ this.state.vendors }/>
             </div>
+            <ReactModal 
+               isOpen={this.state.showModal}
+               contentLabel="onRequestClose Example"
+               onRequestClose={this.handleCloseModal}
+               className={styles.modalContainer}
+            >
+               <ListModal handleCloseModal={ this.handleCloseModal } />
+            </ReactModal>
          </div>
       );
    }

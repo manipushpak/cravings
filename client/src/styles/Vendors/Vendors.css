@@ -19,3 +19,32 @@
     grid-column-start: 2;
     grid-column-end: 3;
 }
+
+:local .modalContainer {
+    position: absolute;
+    top: 20%;
+    bottom: 20%;
+    left: 20%;
+    right: 20%;
+}
+
+:local .listModal {
+    height: 100%;
+    position: relative;
+    padding: 5px;
+    border: 1px solid #ECECEC;
+    background: white;
+    display: flex;
+    overflow: scroll;
+}
+
+:local .listModalButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    border: none;
+    font-size: 20px;
+    height: 30px;
+    width: 30px;
+}
