@@ -54,7 +54,8 @@
     border: 1px solid #ced4da;
 }
 
-@media (max-width: 576px) {
+/* For phones and smaller devices */
+@media (max-width: 575px) {
     :local .inputStreetAddress {
         border-radius: .25rem !important;
     }

@@ -11,6 +11,7 @@ import Form from 'react-bootstrap/Form';
 import appStyles from '../../styles/App.css';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 
+ReactModal.setAppElement("#App");
 
 class Vendors extends React.Component {
    constructor(props) {
@@ -128,7 +129,8 @@ class Vendors extends React.Component {
             <ReactModal 
                isOpen={this.state.showModal}
                onRequestClose={this.handleCloseModal}
-               className={modalStyles.modalContainer}
+               overlayClassName={modalStyles.modalOverlay}
+               className={modalStyles.modalContent}
             >
                <ListModal handleCloseModal={ this.handleCloseModal } />
             </ReactModal>
