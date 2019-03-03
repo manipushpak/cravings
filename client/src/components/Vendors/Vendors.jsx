@@ -70,7 +70,6 @@ class Vendors extends React.Component {
       this.setState({showModal: false});
    }
 
-
    render() {
       return(
          <div className={ styles.outerContainer } controlId='vendors'>
