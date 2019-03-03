@@ -65,12 +65,13 @@ class Home extends React.Component {
    render() {
       return(
          <div className={styles.outerContainer}>
-            <h1 className={styles.h1}>I'm Craving...</h1>
+            <h1 className={styles.h1 }>I'm Craving...</h1>
             <div className={ styles.searchBar }>
                <InputGroup>
-                  <Form.Control controlId="searchTerm" size="lg" placeholder="Tacos, Elote, Mexican Food, etc."
-                   onChange={e=>this.handleChange(e)}/>
-                  <button type="submit" onClick={this.handleSearch}><i class="fa fa-search"></i></button>
+                  <Form.Control controlId="searchTerm" size="lg" placeholder="Tacos, Elote, Mexican Food, etc." onChange={e => this.handleInputChange(e)}/>
+                  <InputGroup.Append>
+                     <Button type="submit" variant="outline-secondary"><i class="fa fa-search"></i></Button>
+                  </InputGroup.Append>
                </InputGroup>
             </div>
             <div className={styles.bubble}>Not sure what you want? Click Explore!</div>

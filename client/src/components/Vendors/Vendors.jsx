@@ -49,7 +49,6 @@ class Vendors extends React.Component {
       );
    }
 
-
    render() {
       this.didProvideLocation();
 

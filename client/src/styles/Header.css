@@ -1,0 +1,20 @@
+:local .menuItem {
+    text-decoration: none;
+    color: #454545;
+}
+
+:local .menuItem:hover {
+    text-decoration: none;
+    color: #E04D05;
+}
+
+:local .menuItem:focus {
+    outline: none;
+}
+
+:local .menuItemText {
+    padding-left: 15px;
+    font-family: 'Concert One';
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}

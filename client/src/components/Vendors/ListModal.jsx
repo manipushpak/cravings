@@ -33,15 +33,15 @@ const ListModal = props => {
                 </Carousel.Item>
             </Carousel>
             <div className={styles.infoDiv}>
-                <h3>Name of Vendor</h3>
-                <p>
-                    Location Address, CA 90007
+                <p className={styles.infoName}>Name of Vendor</p>
+                <div className={styles.infoList}>
+                    <i className="fa-fw fa fa-map-marker-alt"></i>  Location Address, CA 90007
                     <br />
-                    <span className={ props.open ? styles.storeOpen : styles.storeClosed }>
-                    { props.open ? "open " : "closed " }
-                    </span>
-                    9:00 AM - 5:00 PM
-                </p>
+                    <i className="fa-fw fa fa-clock"></i>  9:00 AM - 5:00 PM
+                        <span className={ props.open ? styles.storeOpen : styles.storeClosed }>
+                        { props.open ? " (open now)" : " (closed)" }
+                        </span>
+                </div>
             </div>
             <button onClick={props.handleCloseModal} className={styles.listModalButton}>
                 <i class="fas fa-times"></i>

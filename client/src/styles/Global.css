@@ -1,0 +1,39 @@
+:local .outerContainer {
+    background: #eebb00;
+    height: 100vh;
+    overflow: scroll;
+}
+
+:local .floatingWindow {
+    background: #fcfcfc;
+    border-radius: 10px;
+    box-shadow: -25px 25px #c99d01;
+}
+
+:local .headerText {
+    font-family: 'Berkshire Swash', 'Georgia', 'Times New Roman', 'Times', serif;
+}
+
+:local .h1 {
+    composes: headerText;
+    font-size: 120px;
+}
+
+:local .h2 {    
+    composes: headerText;
+    font-family: 'Concert One';
+    text-transform: uppercase;
+    font-size: 60px;
+}
+
+:local .formContainer {
+    font-family: 'Rubik', Arial, Helvetica, sans-serif;
+}
+
+:local .formHeader {
+    font-weight: bold;
+}
+
+:local .formControl {
+    
+}
