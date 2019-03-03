@@ -42,6 +42,38 @@ const ListModal = props => {
                     </span>
                     9:00 AM - 5:00 PM
                 </p>
+                <p>
+                    Location Address, CA 90007
+                    <br />
+                    <span className={ props.open ? styles.storeOpen : styles.storeClosed }>
+                    { props.open ? "open " : "closed " }
+                    </span>
+                    9:00 AM - 5:00 PM
+                </p>
+                <p>
+                    Location Address, CA 90007
+                    <br />
+                    <span className={ props.open ? styles.storeOpen : styles.storeClosed }>
+                    { props.open ? "open " : "closed " }
+                    </span>
+                    9:00 AM - 5:00 PM
+                </p>
+                <p>
+                    Location Address, CA 90007
+                    <br />
+                    <span className={ props.open ? styles.storeOpen : styles.storeClosed }>
+                    { props.open ? "open " : "closed " }
+                    </span>
+                    9:00 AM - 5:00 PM
+                </p>
+                <p>
+                    Location Address, CA 90007
+                    <br />
+                    <span className={ props.open ? styles.storeOpen : styles.storeClosed }>
+                    { props.open ? "open " : "closed " }
+                    </span>
+                    9:00 AM - 5:00 PM
+                </p>
             </div>
             <button onClick={props.handleCloseModal} className={styles.listModalButton}>
                 <i class="fas fa-times"></i>
