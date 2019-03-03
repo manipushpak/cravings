@@ -7,14 +7,12 @@ import Footer from './Footer.jsx';
 class App extends React.Component {
    constructor(props) {
       super(props);
-      this.state = {
-         // Define App state object contents here
-      };
+      this.state = {};
    }
    
    render() {
       return(
-         <div className>
+         <div>
             <Header />
             <Main />
             <Footer />

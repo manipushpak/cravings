@@ -7,7 +7,7 @@ const ListModal = props => {
     return(
         <div className={styles.listModal}>
             <Carousel className={styles.imageDiv}>
-                <Carousel.Item>
+                <Carousel.Item style={{height: '100%'}}>
                     <img
                     className="d-block w-100"
                     src="https://kittenrescue.org/wp-content/uploads/2017/03/KittenRescue_KittenCareHandbook.jpg"
@@ -15,7 +15,7 @@ const ListModal = props => {
                     style={{objectFit: 'cover', height: '100%'}}
                     />
                 </Carousel.Item>
-                <Carousel.Item>
+                <Carousel.Item style={{height: '100%'}}>
                     <img
                     className="d-block w-100"
                     src="https://www.catster.com/wp-content/uploads/2017/12/A-gray-kitten-meowing.jpg"
@@ -23,7 +23,7 @@ const ListModal = props => {
                     style={{objectFit: 'cover', height: '100%'}}
                     />
                 </Carousel.Item>
-                <Carousel.Item>
+                <Carousel.Item style={{height: '100%'}}>
                     <img
                     className="d-block w-100"
                     src="https://www.thehappycatsite.com/wp-content/uploads/2017/10/best-treats-for-kittens.jpg"
@@ -43,7 +43,9 @@ const ListModal = props => {
                     9:00 AM - 5:00 PM
                 </p>
             </div>
-            <button onClick={props.handleCloseModal} className={styles.listModalButton}>×</button>
+            <button onClick={props.handleCloseModal} className={styles.listModalButton}>
+                <i class="fas fa-times"></i>
+            </button>
         </div>
     );
 }

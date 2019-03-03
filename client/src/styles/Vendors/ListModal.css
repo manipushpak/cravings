@@ -1,18 +1,33 @@
-:local .modalContainer {
+:local .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(245, 245, 245, 0.7);
+}
+
+:local .modalContent {
     position: absolute;
-    top: 15%;
-    bottom: 15%;
-    left: 15%;
-    right: 15%;
+    z-index: 500;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 60%;
+    max-width: 850px;
+    height: 720px;
+    max-height: 80%;
+    outline: none;
+    padding: 30px;
+    background: #FFF;
+    
+    /* webkit styling */
+    -webkit-transform: translate(-50%,-50%);
+    -webkit-overflow-scrolling: touch;
 }
 
 :local .listModal {
     height: 100%;
-    position: relative;
-    padding: 20px;
-    border: 1px solid #ECECEC;
-    background: white;
-    display: flex;
     overflow: scroll;
     display: flex;
     flex-direction: row;
@@ -23,44 +38,43 @@
     top: 0;
     right: 0;
     background: none;
+    height: 40px;
+    width: 40px;
     border: none;
-    font-size: 20px;
-    height: 30px;
-    width: 30px;
+    /* font-size: 20px; */
 }
 
 :local .imageDiv {
-    background: red;
     height: 100%;
-    width: 40%;
+    width: 45%;
 }
 
 :local .infoDiv {
     background: blue;
-    height: 100%;
-    width: 60%;
+    height: 100% !important; 
+    width: 55%;
     overflow: scroll;
     padding: 15px;
 }
 
-.carousel-inner {
-    height: 100%
-}
-
 /* For tablets and smaller devices */
 @media(max-width: 1024px) {
+    :local .modalContent {
+        width: 80%;
+    }
+    
     :local .listModal {
         flex-direction:  column;
     }
 
     :local .imageDiv {
-        background: red;
         height: 100%;
+        max-height: 350px;
         width: 100%;
+        overflow: hidden;
     }
     
     :local .infoDiv {
-        background: blue;
         width: 100%;
         overflow: scroll;
         padding: 15px;
@@ -69,8 +83,12 @@
 
 /* For phones and smaller devices */
 @media (max-width: 575px) {
-    :local .modalContainer {
-        left: 10%;
-        right: 10%;
+    :local .modalContent {
+        height: calc(100% - 56px);
+        width: 100%;
+        transform: translate(0px, 56px);
+        -webkit-transform: translate(0px, 56px);
+        top: 0;
+        left: 0;
     }
 }

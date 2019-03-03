@@ -14,7 +14,7 @@ import List from './List.jsx';
 import ListModal from './ListModal.jsx';
 import Map from './Map.jsx';
 
-ReactModal.setAppElement(document.getElementById('vendors'));
+ReactModal.setAppElement("#App");
 
 class Vendors extends React.Component {
    constructor(props) {
@@ -96,7 +96,8 @@ class Vendors extends React.Component {
             <ReactModal 
                isOpen={this.state.showModal}
                onRequestClose={this.handleCloseModal}
-               className={modalStyles.modalContainer}
+               overlayClassName={modalStyles.modalOverlay}
+               className={modalStyles.modalContent}
             >
                <ListModal handleCloseModal={ this.handleCloseModal } />
             </ReactModal>
