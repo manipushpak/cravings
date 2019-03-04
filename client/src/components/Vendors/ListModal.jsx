@@ -33,11 +33,13 @@ const ListModal = props => {
                 </Carousel.Item>
             </Carousel>
             <div className={styles.infoDiv}>
-                <p className={styles.infoName}>Name of Vendor</p>
+                <p className={styles.infoName}>
+                    {props.name === '' ? "Sample Vendor Name" : props.name}
+                </p>
                 <div className={styles.infoList}>
-                    <i className="fa-fw fa fa-map-marker-alt"></i>  Location Address, CA 90007
+                    <i className="fa-fw fa fa-map-marker-alt"></i>  {props.address === '' ? "Sample Location Address, CA 90007" : props.address}
                     <br />
-                    <i className="fa-fw fa fa-clock"></i>  9:00 AM - 5:00 PM
+                    <i className="fa-fw fa fa-clock"></i>  {props.hours === '' ? "0:00 AM - 0:00 PM" : props.hours}
                         <span className={ props.open ? styles.storeOpen : styles.storeClosed }>
                         { props.open ? " (open now)" : " (closed)" }
                         </span>

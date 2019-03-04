@@ -41,7 +41,11 @@
     height: 40px;
     width: 40px;
     border: none;
+<<<<<<< HEAD
     /* font-size: 20px; */
+=======
+    outline:none;
+>>>>>>> yeah bish
 }
 
 :local .imageDiv {

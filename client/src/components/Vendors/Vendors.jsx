@@ -22,7 +22,13 @@ class Vendors extends React.Component {
          vendors: vendors.vendors,
          locationProvided: false,
          userLat: "",
-         userLong: ""
+         userLong: "",
+         showModal: false,
+         modalInfo: {
+            name: '',
+            address: '',
+            hours: ''
+         }
       };
       this.didProvideLocation = this.didProvideLocation.bind(this);
    }
@@ -47,6 +53,19 @@ class Vendors extends React.Component {
             // document.getElementById("userLocationText").innerHTML = "Detecting current location...";document.getElementById("userLocationText").innerHTML = "Current location cannot be detected. Please try again or type in your street address.";
          }
       );
+   handleOpenModal(name, address, hours) {
+      this.setState({
+         showModal: true,
+         modalInfo: {
+            name: name,
+            address: address,
+            hours: hours
+         }
+      });
+   }
+
+   handleCloseModal() {
+      this.setState({showModal: false});
    }
 
    render() {
@@ -131,7 +150,12 @@ class Vendors extends React.Component {
                overlayClassName={modalStyles.modalOverlay}
                className={modalStyles.modalContent}
             >
-               <ListModal handleCloseModal={ this.handleCloseModal } />
+               <ListModal 
+                  handleCloseModal={ this.handleCloseModal } 
+                  name={ this.state.modalInfo.name }
+                  address={ this.state.modalInfo.address }
+                  hours={ this.state.modalInfo.hours }
+               />
             </ReactModal>
          </div>
       );
