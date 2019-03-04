@@ -87,10 +87,10 @@ class Vendors extends React.Component {
                </InputGroup>
             </div>
             <div className={ styles.listColumn }>
-               <List vendors={ this.state.vendors } />
+               <List vendors={ this.state.vendors } openModal={ this.handleOpenModal } />
             </div>
             <div className={ styles.mapColumn }>
-               <Map vendors={ this.state.vendors }/>
+               <Map vendors={ this.state.vendors } openModal={ this.handleOpenModal } />
             </div>
             <ReactModal 
                isOpen={this.state.showModal}

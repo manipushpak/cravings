@@ -2,14 +2,16 @@ import React from 'react';
 import styles from '../../styles/Vendors/ListItem.css';
 
 const ListItem = props => {
+   var vendor = props.vendor;
+
    return(
-      <div className={ styles.outerContainer }>
-         <h3>{props.name}</h3>
+      <div className={ styles.outerContainer } onClick = { props.openModal }>
+         <h3>{vendor.name}</h3>
          <p>
-            {props.location}
+            {vendor.location.address}
             <br />
-            <span className={ props.open ? styles.storeOpen : styles.storeClosed }>
-               { props.open ? "open " : "closed " }
+            <span className={ vendor.open ? styles.storeOpen : styles.storeClosed }>
+               { vendor.open ? "open " : "closed " }
             </span>
                9:00 AM - 5:00 PM
          </p>
