@@ -4,6 +4,11 @@
     padding-left: 16px;
 }
 
+:local .outerContainer:hover {
+    background: #fcfcfc;
+    cursor: pointer;
+}
+
 :local .storeOpen {
     color: green;
 }

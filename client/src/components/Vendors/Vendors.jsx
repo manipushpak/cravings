@@ -21,7 +21,12 @@ class Vendors extends React.Component {
       super(props);
       this.state = {
          vendors: [],
-         showModal: false
+         showModal: false,
+         modalInfo: {
+            name: '',
+            address: '',
+            hours: ''
+         }
       };
       this.componentDidMount = this.componentDidMount.bind(this);
       this.handleInputChange = this.handleInputChange.bind(this);
@@ -62,8 +67,15 @@ class Vendors extends React.Component {
       }
    }
 
-   handleOpenModal() {
-      this.setState({showModal: true});
+   handleOpenModal(name, address, hours) {
+      this.setState({
+         showModal: true,
+         modalInfo: {
+            name: name,
+            address: address,
+            hours: hours
+         }
+      });
    }
 
    handleCloseModal() {
@@ -74,7 +86,7 @@ class Vendors extends React.Component {
       return(
          <div className={ styles.outerContainer } controlId='vendors'>
             <div className={ styles.searchBar }>
-               <Button onClick={this.handleOpenModal}>boop.</Button>
+               <Button onClick={() => this.handleOpenModal('', '', '')}>boop.</Button>
                <InputGroup>
                   <Form.Control controlId="searchTerm" size="lg" placeholder="What are you looking for?" onChange={e => this.handleInputChange(e)}/>
                   <DropdownButton as={InputGroup.Append} variant="outline-secondary" alignRight>
@@ -98,7 +110,12 @@ class Vendors extends React.Component {
                overlayClassName={modalStyles.modalOverlay}
                className={modalStyles.modalContent}
             >
-               <ListModal handleCloseModal={ this.handleCloseModal } />
+               <ListModal 
+                  handleCloseModal={ this.handleCloseModal } 
+                  name={ this.state.modalInfo.name }
+                  address={ this.state.modalInfo.address }
+                  hours={ this.state.modalInfo.hours }
+               />
             </ReactModal>
          </div>
       );
