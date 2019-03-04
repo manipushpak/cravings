@@ -40,8 +40,7 @@ class Map extends React.Component {
          return <div className={ styles.loadingDiv }>Loading...</div> ;
       }
 
-      const GoogleMapExample = withGoogleMap(props => (
-         
+      const GoogleMapElement = withGoogleMap(props => (
          <GoogleMap
             defaultCenter = { userLocation }
             defaultZoom = { 13 }
@@ -60,7 +59,7 @@ class Map extends React.Component {
 
       return(
          <div>
-            <GoogleMapExample
+            <GoogleMapElement
                containerElement={ <div style={{ height: '500px', width: '100%' }} /> }
                mapElement={ <div style={{ height: '100%' }} /> }
             />
