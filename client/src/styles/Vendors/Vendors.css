@@ -16,7 +16,7 @@
     margin-left: 5%;
 }
 
-:local .vendorList {
+:local .vendorColumn {
     grid-column-start: 1;
     grid-column-end: 2;
     margin-left: 1%;

@@ -1,6 +1,7 @@
 :local .outerContainer {
     margin: 60px;
     padding-top: 60px;
+    box-sizing: border-box;
 }
 
 @media (max-width: 576px) {

@@ -133,7 +133,7 @@ class Registration extends React.Component {
       this.setState({ status: { edit: false, view: true } });
    }
    setToEdit() {
-      this.setState({ status: { edit:true, view: false } });
+      this.setState({ status: { edit: true, view: false } });
    }
 
    updateStallName(e) {
