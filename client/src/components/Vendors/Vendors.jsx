@@ -3,12 +3,7 @@ import styles from '../../styles/Vendors/Vendors.css';
 import modalStyles from '../../styles/Vendors/ListModal.css';
 
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import DropdownItem from 'react-bootstrap/DropdownItem';
 import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import ReactModal from 'react-modal';
 
 import List from './List.jsx';
@@ -23,11 +18,7 @@ class Vendors extends React.Component {
       this.state = {
          vendors: [],
          showModal: false,
-         modalInfo: {
-            name: '',
-            address: '',
-            hours: ''
-         }
+         vendorModal: null
       };
       this.componentDidMount = this.componentDidMount.bind(this);
       this.handleInputChange = this.handleInputChange.bind(this);
@@ -68,31 +59,27 @@ class Vendors extends React.Component {
       }
    }
 
-   handleOpenModal(name, address, hours) {
+   handleOpenModal(vendor) {
       this.setState({
          showModal: true,
-         modalInfo: {
-            name: name,
-            address: address,
-            hours: hours
-         }
+         vendorModal: vendor
       });
    }
 
    handleCloseModal() {
-      this.setState({showModal: false});
+      this.setState({ showModal: false });
    }
 
    render() {
       return(
-         <div className={ styles.outerContainer } controlId='vendors'>
+         <div className={ styles.outerContainer } controlid='vendors'>
             <h1 className={styles.h1}>Spots near you</h1> <br />
             <div className = {styles.filters}>
                <Form.Row>
-                  <Form.Group as={Col} xs={6} sm={2}>
+                  <Form.Group as={Col} xs={6} sm={3} md={2}>
                      <Form.Check label={"Veg Options"} type="checkbox" />
                   </Form.Group>
-                  <Form.Group as={Col} xs={6} sm={2}>
+                  <Form.Group as={Col} xs={6} sm={3} md={2}>
                      <Form.Check label={"Open Now"} type="checkbox" />
                   </Form.Group>
                </Form.Row>
@@ -112,9 +99,7 @@ class Vendors extends React.Component {
             >
                <ListModal 
                   handleCloseModal={ this.handleCloseModal } 
-                  name={ this.state.modalInfo.name }
-                  address={ this.state.modalInfo.address }
-                  hours={ this.state.modalInfo.hours }
+                  vendor={ this.state.vendorModal }
                />
             </ReactModal>
          </div>

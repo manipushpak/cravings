@@ -5,7 +5,7 @@ const ListItem = props => {
    return(
       <div 
          className={ styles.outerContainer } 
-         onClick = { () => props.openModal(props.vendor.name, props.vendor.location.address, "9:00 AM - 5:00 PM") }
+         onClick = { () => props.openModal(props.vendor) }
       >
          <div className={styles.greyBox}></div>
          <br />
