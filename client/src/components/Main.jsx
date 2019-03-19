@@ -21,7 +21,6 @@ const Main = () => {
             <Route exact path='/vendorportal' component={VendorPortal}/>
             <Route path={'/vendorportal/register'} render={() => <Registration isEdit={false} isView={false}/>} />
             <Route path={'/vendorportal/account'} render={() => <Registration isEdit={false} isView={true}/>} />
-            <Route path='/userloginsignup' component={UserLogInSignUp}/>
             <Route path ='/vendorsignup' component ={VendorSignUp}/>
          </Switch>
       </main>
