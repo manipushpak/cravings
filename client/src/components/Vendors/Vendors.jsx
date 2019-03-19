@@ -7,6 +7,7 @@ import List from './List.jsx';
 import ListItem from './ListItem.jsx';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
+import ReactModal from 'react-modal';
 
 import appStyles from '../../styles/App.css';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
@@ -24,11 +25,7 @@ class Vendors extends React.Component {
          userLat: "",
          userLong: "",
          showModal: false,
-         modalInfo: {
-            name: '',
-            address: '',
-            hours: ''
-         }
+         vendorModal: null
       };
       this.didProvideLocation = this.didProvideLocation.bind(this);
    }
@@ -53,19 +50,17 @@ class Vendors extends React.Component {
             // document.getElementById("userLocationText").innerHTML = "Detecting current location...";document.getElementById("userLocationText").innerHTML = "Current location cannot be detected. Please try again or type in your street address.";
          }
       );
-   handleOpenModal(name, address, hours) {
+   }
+   
+   handleOpenModal(vendor) {
       this.setState({
          showModal: true,
-         modalInfo: {
-            name: name,
-            address: address,
-            hours: hours
-         }
+         vendorModal: vendor
       });
    }
 
    handleCloseModal() {
-      this.setState({showModal: false});
+      this.setState({ showModal: false });
    }
 
    render() {
@@ -100,7 +95,7 @@ class Vendors extends React.Component {
                   <Form.Group as={Col} xs={6} sm={2}>
                      <Form.Check label={"Vegetarian"} type="checkbox" />
                   </Form.Group>
-                  <Form.Group as={Col} xs={6} sm={2}>
+                  <Form.Group as={Col} xs={6} sm={3} md={2}>
                      <Form.Check label={"Open Now"} type="checkbox" />
                   </Form.Group>
                   <Form.Group as={Col} xs={6} sm={2}>
@@ -152,9 +147,7 @@ class Vendors extends React.Component {
             >
                <ListModal 
                   handleCloseModal={ this.handleCloseModal } 
-                  name={ this.state.modalInfo.name }
-                  address={ this.state.modalInfo.address }
-                  hours={ this.state.modalInfo.hours }
+                  vendor={ this.state.vendorModal }
                />
             </ReactModal>
          </div>

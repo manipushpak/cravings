@@ -41,11 +41,7 @@
     height: 40px;
     width: 40px;
     border: none;
-<<<<<<< HEAD
-    /* font-size: 20px; */
-=======
-    outline:none;
->>>>>>> yeah bish
+    outline: none;
 }
 
 :local .imageDiv {
@@ -100,11 +96,17 @@
 /* For phones and smaller devices */
 @media (max-width: 575px) {
     :local .modalContent {
-        height: calc(100% - 56px);
+        height: 100vh;
+        min-height: calc(100vh - 56px);
+        max-height: calc(100vh - 56px);
         width: 100%;
         transform: translate(0px, 56px);
         -webkit-transform: translate(0px, 56px);
         top: 0;
         left: 0;
+    }
+    
+    :local .imageDiv {
+        max-height: 300px;
     }
 }

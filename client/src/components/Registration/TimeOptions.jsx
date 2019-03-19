@@ -59,4 +59,15 @@ const TimeOptions = props => {
     );
 }
 
+export function TimeConversion(time) {
+    var hour = parseInt(time)/100;
+    var min = parseInt(time)%100;
+
+    var output = (hour%12 < 10 ? "0" : "") + hour%12 + ":";
+    output += (min%60 < 10 ? "0" : "") + min%60 + " ";
+    output += (hour < 12 ? "AM" : "PM"); 
+
+    return output;
+}
+
 export default TimeOptions;
