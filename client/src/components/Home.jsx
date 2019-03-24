@@ -27,20 +27,31 @@ class Home extends React.Component {
    handleSearch() {
       var searchTerm = this.state.searchTerm;
    
-      fetch('/vendor/keywords/'+searchTerm, {
-         headers : { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-         }
-      })
-      .then(res => res.json())
-      .then(vendors => {
-         this.props.history.push({
-            pathname:"/vendors",
-            state:{
-                vendors:vendors
-             }
-           });
+      // fetch('/vendor/keywords/'+searchTerm, {
+      //    headers : { 
+      //       'Content-Type': 'application/json',
+      //       'Accept': 'application/json'
+      //    }
+      // })
+      // .then(res => res.json())
+      // .then(vendors => {
+      //    this.props.history.push({
+      //       pathname:"/vendors",
+      //       state:{
+      //           vendors:vendors
+      //        }
+      //      });
+      // })
+
+      fetch('/vendors')
+         .then(res => res.json())
+         .then(vendors => {
+            this.props.history.push({
+               pathname:"/vendors",
+               state:{
+                     vendors:vendors
+                  }
+               });
       })
    }
 
