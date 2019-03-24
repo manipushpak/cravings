@@ -52,12 +52,13 @@ class Vendors extends React.Component {
 
    render() {
       this.didProvideLocation()
+      console.log(this.state.vendors);
 
       const Menu = (list) =>
          list.map(vendor => {
             return <ListItem 
-               name={vendor.name} 
-               location={vendor.location.address}
+               name={vendor.vendorInfo.stallName}
+               key={vendor.vendorInfo.stallName}
                />
       });
       

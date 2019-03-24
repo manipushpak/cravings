@@ -51,7 +51,7 @@ class Map extends React.Component {
                   return (<Marker
                      key={ vendor.name }
                      icon={this.state.markerIcon}
-                     position={ vendor.location.coordinates }
+                     position={ vendor.vendorInfo.address.coordinates }
                   ></Marker>);
                })
             }            
