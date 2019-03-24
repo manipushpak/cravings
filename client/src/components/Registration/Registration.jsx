@@ -290,7 +290,7 @@ class Registration extends React.Component {
                <h3>Vendor Information</h3>
                <br />
 
-               <AllVendors addVendor={this.onAddVendor} vendors={vendors} />
+               <AllVendors addVendor={this.onAddVendor} vendors={vendors} toShow={this.state.status.edit} />
 
                <br />
                
@@ -339,7 +339,7 @@ const AllVendors = props => (
      <div id="vendors-pane">
        {props.vendors}
      </div>
-     <p><a href="void:()" onClick={props.addVendor}>+ Add Another Vendor</a></p>
+     <p show={props.toShow}><a href="void:()" onClick={props.addVendor}>+ Add Another Vendor</a></p>
    </div>
 );
 
