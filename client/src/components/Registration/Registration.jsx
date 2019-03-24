@@ -36,6 +36,13 @@ class Registration extends React.Component {
             {open: false, startTime: null, endTime: null},
          ],
          keywords: [],
+         flags: {
+            v: false,
+            gf: false,
+            lf: false,
+            k: false,
+            h: false
+         },
          numVendors: 1,
          validated: false
       }
@@ -59,6 +66,7 @@ class Registration extends React.Component {
       this.updateEndTime = this.updateEndTime.bind(this);
       this.updateHours = this.updateHours.bind(this);
       this.updateKeywords = this.updateKeywords.bind(this);
+      this.updateFlags = this.updateFlags.bind(this);
 
       // Internal Form Functions
       this.activatePlacesSearch = this.activatePlacesSearch.bind(this);
@@ -158,6 +166,7 @@ class Registration extends React.Component {
    updateStartTime(e, index) {
       var weekday = this.state.hours[index];
       weekday.startTime = e.target.value;
+      console.log(e.target.value);
       this.updateHours(index, weekday);
    }
    updateEndTime(e, index) {
@@ -176,12 +185,26 @@ class Registration extends React.Component {
    updateKeywords(e) {
       this.setState({ keywords: e.target.value.split(", ") });
    }
+   updateFlags(e, flag) {
+      if (flag === "v") {
+         this.setState({ flags: { v: e.target.checked } });
+      } else if (flag === "lf") {
+         this.setState({ flags: { gf: e.target.checked} });
+      } else if (flag === "df") {
+         this.setState({ flags: { lf: e.target.checked} });
+      } else if (flag === "k") {
+         this.setState({ flags: { k: e.target.checked} });
+      } else if (flag === "h") {
+         this.setState({ flags: { h: e.target.checked} });
+      }
+      console.log(this.state.flags);
+   }
 
    onAddVendor() {
       this.setState({ numVendors: this.state.numVendors + 1 });
    }
    onRemoveVendor() {
-      this.setState({ numVendors: this.state.numVendors -1 })
+      this.setState({ numVendors: this.state.numVendors - 1 });
    }
 
    activatePlacesSearch() {
@@ -289,14 +312,13 @@ class Registration extends React.Component {
                         <Form.Label>Dietary Options (optional)</Form.Label>
                         <Form.Row>
                            <Form.Group as={Col} xs={6}>
-                              <Form.Check label={"Vegetarian"} type="checkbox" />
-                              <Form.Check label={"Vegan"} type="checkbox" />
-                              <Form.Check label={"Lactose-free"} type="checkbox" />
+                              <Form.Check label="Vegetarian/Vegan" name="v" type="checkbox" onChange={e => this.updateFlags(e, 'v')} />
+                              <Form.Check label="Gluten-free" name="l-f" type="checkbox" onChange={e => this.updateFlags(e, 'lf')} />
+                              <Form.Check label="Dairy-free" name="d-f" type="checkbox" onChange={e => this.updateFlags(e, 'df')} />
                            </Form.Group>
                            <Form.Group as={Col} xs={6}>
-                              <Form.Check label={"Dairy-free"} type="checkbox" />
-                              <Form.Check label={"Kosher"} type="checkbox" />
-                              <Form.Check label={"Halal"} type="checkbox" />
+                              <Form.Check label="Kosher" name="k" type="checkbox" onChange={e => this.updateFlags(e, 'k')} />
+                              <Form.Check label="Halal" name="h" type="checkbox" onChange={e => this.updateFlags(e, 'h')} />
                            </Form.Group>
                         </Form.Row>
                      </Form.Group>

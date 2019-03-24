@@ -8,7 +8,7 @@ const ButtonSet = props => {
     if (props.status.view) {
         return (
             <div className={ styles.editButtonDiv }>
-                <Button variant="light" onClick={props.onClickEdit}> <i class="far fa-edit" /></Button>
+                <Button variant="light" onClick={props.onClickEdit}> <i className="far fa-edit" /></Button>
             </div>
         );
     } else if (props.status.edit) {
