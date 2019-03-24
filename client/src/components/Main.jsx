@@ -5,7 +5,6 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './Home.jsx';
 import About from './About/About.jsx';
 import Registration from './Registration/Registration.jsx';
-import UserLogInSignUp from './UserLogInSignUp/UserLogInSignUp.jsx';
 import Vendors from './Vendors/Vendors.jsx';
 import VendorPortal from './Registration/VendorPortal.jsx';
 import VendorSignUp from './Registration/VendorSignUp.jsx';
