@@ -7,28 +7,10 @@ import ListItem from './ListItem.jsx';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
+import appStyles from '../../styles/App.css';
+
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 
-export const Menu = (list) =>
-    list.map(vendor => {
-      return <ListItem 
-         name={vendor.name} 
-         location={vendor.location.address}
-         />
-});
- 
- 
-const Arrow = ({ text, className }) => {
-  return (
-    <div
-      className={className}
-    >{text}</div>
-  );
-};
- 
- 
-const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev'});
-const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
 
 
 class Vendors extends React.Component {
@@ -70,6 +52,27 @@ class Vendors extends React.Component {
 
    render() {
       this.didProvideLocation()
+
+      const Menu = (list) =>
+         list.map(vendor => {
+            return <ListItem 
+               name={vendor.name} 
+               location={vendor.location.address}
+               />
+      });
+      
+      
+      const Arrow = ({ text, className }) => {
+         return (
+            <div
+               className={className}
+            >{text}</div>
+         );
+      };
+ 
+      
+      const ArrowLeft = Arrow({ text: '<', className: appStyles.arrowPrev });
+      const ArrowRight = Arrow({ text: '>', className: appStyles.arrowNext });
       const menu = Menu(this.state.vendors);
       return(
          <div className={ styles.outerContainer }>
@@ -86,19 +89,19 @@ class Vendors extends React.Component {
             </div>
             <br />
             <div className = {styles.vendorList}>
-               <h3>Less than 5 min walk away</h3>
+               <h3 className={styles.h3}>Less than 5 min walk away</h3>
                <ScrollMenu
                   data={menu}
                   arrowLeft={ArrowLeft}
                   arrowRight={ArrowRight}
-               />
-               <h3>Less than 10 min walk away</h3>
+               /> <br />
+               <h3 className={styles.h3}>Less than 10 min walk away</h3>
                <ScrollMenu
                   data={menu}
                   arrowLeft={ArrowLeft}
                   arrowRight={ArrowRight}
-               />
-               <h3>Uber ride away</h3>
+               /> <br />
+               <h3 className={styles.h3}>Uber ride away</h3>
                <ScrollMenu
                   data={menu}
                   arrowLeft={ArrowLeft}

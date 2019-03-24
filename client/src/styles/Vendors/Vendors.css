@@ -16,10 +16,21 @@
     margin-left: 5%;
 }
 
+:local .h3 {
+    grid-column-start: 1;
+    margin-right: 9%;
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: 20px;
+    margin-left: 8%;
+    padding-top: 15px;
+    border-bottom: 1px solid lightgrey;
+}
+
 :local .vendorList {
     grid-column-start: 1;
     grid-column-end: 2;
     margin-left: 1%;
+    margin-right: 5%;
 }
 
 :local .filters {
@@ -31,3 +42,4 @@
     padding-top: 15px;
     border-top: 1px solid lightgrey; border-bottom: 1px solid lightgrey;
 }
+
