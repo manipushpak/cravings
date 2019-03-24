@@ -23,6 +23,7 @@ var client = new MongoClient(uri, { useNewUrlParser: true });
 var database;
 var vendorDB;
 var userDB;
+var keywordDB;
 // client.connect((err:any) => {
 //   const collection = client.db("test").collection("devices");
 //   // perform actions on the collection object
@@ -40,6 +41,7 @@ client.connect(function (err, client) {
         database = client.db("401Capstone");
         vendorDB = database.collection("Vendors");
         userDB = database.collection("Users");
+        keywordDB = database.collection("Keywords");
         console.log("connected to test");
     }
 });
@@ -50,6 +52,27 @@ router.get('/vendors', function (req, res, next) {
         }
         else {
             res.send(documents);
+        }
+    });
+});
+router.get('/keywords', function (req, res, next) {
+    keywordDB.find({}).toArray(function (err, documents) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.send(documents);
+        }
+    });
+});
+router.get('/keywords/random', function (req, res, next) {
+    keywordDB.find({}).toArray(function (err, documents) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            var num = Math.floor(Math.random() * documents.length);
+            res.send(documents[num].keyword);
         }
     });
 });
@@ -68,22 +91,42 @@ router.post('/vendor/create', function (req, res) {
     };
     vendorDB.findOne({
         email: vendor.email
-    }, function (err, vendor) {
+    }, function (err, v) {
         if (err) {
-            res.json({ success: false, error: err });
+            res.json({ success: false, error: err, place: "first" });
         }
         else {
-            if (vendor) {
-                res.json({ success: false });
+            if (v) {
+                res.json({ success: false, place: "second" });
             }
             else {
                 vendorDB.insertOne(vendor, function (error, response) {
                     if (error) {
-                        res.json({ success: false, error: error });
+                        res.json({ success: false, error: error, place: "third" });
                         // return 
                     }
                     else {
-                        res.json({ success: true });
+                        var arr = [];
+                        for (var key in vendor.keywords) {
+                            var obj = {
+                                keyword: vendor.keywords[key]
+                            };
+                            arr.push(obj);
+                        }
+                        console.log(arr);
+                        if (arr.length == 0) {
+                            res.json({ success: true });
+                        }
+                        else {
+                            keywordDB.insertMany(arr, function (err, ress) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                else {
+                                    res.json({ success: true });
+                                }
+                            });
+                        }
                     }
                 });
             }
@@ -267,7 +310,34 @@ router.get('/initusers', function (req, res) {
     });
 });
 router.get('/initvendors', function (req, res) {
-    database.collection("Vendors").insertMany(sampledb_1.default, function (err) {
+    vendorDB.insertMany(sampledb_1.default, function (err) {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.send("success");
+        }
+    });
+});
+router.get('/initkeywords', function (req, res) {
+    var keywords = [
+        {
+            keyword: "taco"
+        },
+        {
+            keyword: "ramen"
+        },
+        {
+            keyword: "usc"
+        },
+        {
+            keyword: "lemonade"
+        },
+        {
+            keyword: "noods"
+        }
+    ];
+    keywordDB.insertMany(keywords, function (err) {
         if (err) {
             res.send(err);
         }
@@ -277,30 +347,71 @@ router.get('/initvendors', function (req, res) {
     });
 });
 router.get('/test', function (req, res) {
-    var user = {
-        name: "rahil",
-        email: "rahil97@usc.edu",
-        password: "fgdfgdfgd",
-        phone: "dfgdgdfg"
+    var vendor = {
+        stallName: "Taco Stand",
+        email: "eqqqq@usc.edu",
+        vendorName: [
+            "Sonali", "Pia"
+        ],
+        location: {
+            address: "3770 S Fig",
+            coordinates: {
+                lat: 34.0254,
+                lng: -118.2852
+            }
+        },
+        week: ["Monday", "Tuesday"],
+        password: "ilovecravings1",
+        hours: [
+            { open: true,
+                startTime: 900,
+                endTime: 500 }
+        ],
+        keywords: [
+            "hello",
+            "thi"
+        ],
+        phone: "6508239461",
+        open: true
     };
-    userDB.findOne({
-        email: user.email
-    }, function (err, u) {
+    vendorDB.findOne({
+        email: vendor.email
+    }, function (err, v) {
         if (err) {
-            res.json({ success: false, error: err });
+            res.json({ success: false, error: err, place: "first" });
         }
         else {
-            if (u) {
-                res.json({ success: false });
+            if (v) {
+                res.json({ success: false, place: "second" });
             }
             else {
-                userDB.insertOne(user, function (error, response) {
+                vendorDB.insertOne(vendor, function (error, response) {
                     if (error) {
-                        res.json({ success: false, error: error });
+                        res.json({ success: false, error: error, place: "third" });
                         // return 
                     }
                     else {
-                        res.json({ success: true });
+                        var arr = [];
+                        for (var key in vendor.keywords) {
+                            var obj = {
+                                keyword: vendor.keywords[key]
+                            };
+                            arr.push(obj);
+                        }
+                        console.log(arr);
+                        if (arr.length == 0) {
+                            res.json({ success: true });
+                        }
+                        else {
+                            keywordDB.insertMany(arr, function (err, ress) {
+                                if (err) {
+                                    console.log(err);
+                                }
+                                else {
+                                    res.json({ success: true });
+                                }
+                            });
+                        }
                     }
                 });
             }

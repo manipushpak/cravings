@@ -13,6 +13,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true });
 var database:any;
 var vendorDB:any;
 var userDB:any;
+var keywordDB:any;
 // client.connect((err:any) => {
 //   const collection = client.db("test").collection("devices");
 //   // perform actions on the collection object
@@ -33,6 +34,7 @@ var userDB:any;
                 database = client.db("401Capstone");
                 vendorDB = database.collection("Vendors");
                 userDB = database.collection("Users");
+                keywordDB = database.collection("Keywords");
                 console.log("connected to test");
             }
         });
@@ -48,6 +50,26 @@ router.get('/vendors', (req, res, next) => { //DONE
     });
 });
 
+router.get('/keywords', (req, res, next) => { //DONE
+    keywordDB.find({}).toArray((err: any, documents: any)=> {
+        if (err){ 
+            res.send(err)
+        }else{
+            res.send(documents);
+        }
+    });
+});
+
+router.get('/keywords/random', (req, res, next) => { //DONE
+    keywordDB.find({}).toArray((err: any, documents: any)=> {
+        if (err){ 
+            res.send(err)
+        }else{
+            let num = Math.floor(Math.random()*documents.length);
+            res.send(documents[num].keyword);
+        }
+    });
+});
 router.post('/vendor/create', (req, res) => { //DONE
     let vendor: Vendor =
     {
@@ -66,19 +88,39 @@ router.post('/vendor/create', (req, res) => { //DONE
 
     vendorDB.findOne({
         email: vendor.email
-    }, (err: any, vendor: any) => {
+    }, (err: any, v: any) => {
         if (err) {
-            res.json({ success: false, error: err });
+            res.json({ success: false, error: err, place: "first" });
         } else {
-            if (vendor) {
-                res.json({ success: false });
+            if (v) {
+                res.json({ success: false , place: "second"});
             } else {
                 vendorDB.insertOne(vendor, function (error:any, response:any) {
                     if(error) {
-                        res.json({ success: false , error: error});
+                        res.json({ success: false , error: error, place:"third"});
                        // return 
                     } else {
-                        res.json({ success: true });
+                        let arr:any[] = [];
+                        for(let key in vendor.keywords){
+                            let obj = {
+                                keyword: vendor.keywords[key]
+                            }
+                            arr.push(obj);
+                        }
+                        console.log(arr);
+                        if(arr.length == 0){
+                            res.json({ success: true });
+                        }else{
+                            keywordDB.insertMany(arr, (err: any, ress: any)=>{
+                                if(err){
+                                    console.log(err);
+                                }else{
+                                    res.json({ success: true });
+                                }
+                            });
+                        }
+                    
+                    
                     }
                 });
             }
@@ -276,7 +318,36 @@ router.get('/initusers', (req, res) => { //DONE
 
 router.get('/initvendors', (req, res) => { //DONE
 
-    database.collection("Vendors").insertMany(vendors, (err: any) => {
+    vendorDB.insertMany(vendors, (err: any) => {
+        if (err) {
+            res.send(err)
+        } else {
+            res.send("success");
+        }
+    });
+});
+
+router.get('/initkeywords', (req, res) => { //DONE
+
+    let keywords:any[] = [
+        {
+            keyword: "taco"
+        },
+        {
+            keyword: "ramen"
+        },
+        {
+            keyword: "usc"
+        },
+        {
+            keyword: "lemonade"
+        },
+        {
+            keyword: "noods"
+        }
+    ]
+
+    keywordDB.insertMany(keywords, (err: any) => {
         if (err) {
             res.send(err)
         } else {
@@ -287,29 +358,72 @@ router.get('/initvendors', (req, res) => { //DONE
 
 router.get('/test', (req, res) => {
 
-    let user: User =
+
+    let vendor: Vendor =
     {
-        name: "rahil",
-        email: "rahil97@usc.edu",
-        password: "fgdfgdfgd",
-        phone: "dfgdgdfg"
+        stallName: "Taco Stand",
+        email: "eqqqq@usc.edu",
+        vendorName: [
+            "Sonali", "Pia"
+        ],
+        location: {
+            address: "3770 S Fig",
+            coordinates: {
+                lat: 34.0254,
+                lng: -118.2852
+            }
+        },
+        week:["Monday", "Tuesday"],
+        password: "ilovecravings1",
+        hours: [
+            {open: true,
+            startTime: 900,
+            endTime: 500}
+        ],
+        keywords: [
+            "hello",
+            "thi"
+        ],
+        phone: "6508239461",
+        open:true
     };
 
-    userDB.findOne({
-        email: user.email
-    }, (err: any, u: any) => {
+
+    vendorDB.findOne({
+        email: vendor.email
+    }, (err: any, v: any) => {
         if (err) {
-            res.json({ success: false, error: err });
+            res.json({ success: false, error: err, place: "first" });
         } else {
-            if (u) {
-                res.json({ success: false });
+            if (v) {
+                res.json({ success: false , place: "second"});
             } else {
-                userDB.insertOne(user, function (error:any, response:any) {
+                vendorDB.insertOne(vendor, function (error:any, response:any) {
                     if(error) {
-                        res.json({ success: false , error: error});
+                        res.json({ success: false , error: error, place:"third"});
                        // return 
                     } else {
-                        res.json({ success: true });
+                        let arr:any[] = [];
+                        for(let key in vendor.keywords){
+                            let obj = {
+                                keyword: vendor.keywords[key]
+                            }
+                            arr.push(obj);
+                        }
+                        console.log(arr);
+                        if(arr.length == 0){
+                            res.json({ success: true });
+                        }else{
+                            keywordDB.insertMany(arr, (err: any, ress: any)=>{
+                                if(err){
+                                    console.log(err);
+                                }else{
+                                    res.json({ success: true });
+                                }
+                            });
+                        }
+                    
+                    
                     }
                 });
             }
