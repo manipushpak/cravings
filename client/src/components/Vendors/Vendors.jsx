@@ -7,10 +7,35 @@ import ListItem from './ListItem.jsx';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
+<<<<<<< HEAD
 import appStyles from '../../styles/App.css';
 
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 
+=======
+import ScrollMenu from 'react-horizontal-scrolling-menu';
+
+export const Menu = (list) =>
+    list.map(vendor => {
+      return <ListItem 
+         name={vendor.name} 
+         location={vendor.location.address}
+         />
+});
+ 
+ 
+const Arrow = ({ text, className }) => {
+  return (
+    <div
+      className={className}
+    >{text}</div>
+  );
+};
+ 
+ 
+const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev'});
+const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
+>>>>>>> shared location option
 
 
 class Vendors extends React.Component {
@@ -24,6 +49,29 @@ class Vendors extends React.Component {
          userLat: "",
          userLong: ""
       };
+      this.didProvideLocation = this.didProvideLocation.bind(this);
+   }
+
+   didProvideLocation() {
+      var self = this;      
+      // document.getElementById("userLocationText").innerHTML = "Detecting current location...";
+      
+      navigator.geolocation.getCurrentPosition(
+         position => {
+            const { latitude, longitude } = position.coords;
+            self.setState({
+               locationProvided: true,
+               userLat: latitude,
+               userLong: longitude
+            })
+         },
+         () => {
+            self.setState({
+               locationProvided: false
+            })
+            // document.getElementById("userLocationText").innerHTML = "Detecting current location...";document.getElementById("userLocationText").innerHTML = "Current location cannot be detected. Please try again or type in your street address.";
+         }
+      );
    }
 
    didProvideLocation() {
