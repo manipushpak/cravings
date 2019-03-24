@@ -211,7 +211,7 @@ router.post('/vendor/authenticate', (req, res) => { //DONE
         } else {
             {
                 if (vendor) {
-                    res.json({ success: true });
+                    res.json({ success: true , vendor: vendor});
                 } else {
                     res.json({ success: false });
                 }
@@ -358,75 +358,43 @@ router.get('/initkeywords', (req, res) => { //DONE
 
 router.get('/test', (req, res) => {
 
-
-    let vendor: Vendor =
+    let verification: any =
     {
-        stallName: "Taco Stand",
-        email: "eqqqq@usc.edu",
-        vendorName: [
-            "Sonali", "Pia"
-        ],
-        location: {
-            address: "3770 S Fig",
-            coordinates: {
-                lat: 34.0254,
-                lng: -118.2852
-            }
-        },
-        week:["Monday", "Tuesday"],
-        password: "ilovecravings1",
-        hours: [
-            {open: true,
-            startTime: 900,
-            endTime: 500}
-        ],
-        keywords: [
-            "hello",
-            "thi"
-        ],
-        phone: "6508239461",
-        open:true
+        email: "mani@usc.edu",
+        hash: "ilovecravings1"
     };
 
 
+    if (verification.email == null || verification.email == undefined || verification.email == ""
+        || verification.hash == null || verification.hash == undefined || verification.hash == "") {
+        res.json({ success: false });
+    }
+
     vendorDB.findOne({
-        email: vendor.email
-    }, (err: any, v: any) => {
+        email: verification.email,
+        password: verification.hash
+    }, (err: any, vendor: any) => {
         if (err) {
-            res.json({ success: false, error: err, place: "first" });
+            res.json({ success: false, error: err });
         } else {
-            if (v) {
-                res.json({ success: false , place: "second"});
-            } else {
-                vendorDB.insertOne(vendor, function (error:any, response:any) {
-                    if(error) {
-                        res.json({ success: false , error: error, place:"third"});
-                       // return 
-                    } else {
-                        let arr:any[] = [];
-                        for(let key in vendor.keywords){
-                            let obj = {
-                                keyword: vendor.keywords[key]
-                            }
-                            arr.push(obj);
-                        }
-                        console.log(arr);
-                        if(arr.length == 0){
-                            res.json({ success: true });
-                        }else{
-                            keywordDB.insertMany(arr, (err: any, ress: any)=>{
-                                if(err){
-                                    console.log(err);
-                                }else{
-                                    res.json({ success: true });
-                                }
-                            });
-                        }
-                    
-                    
-                    }
-                });
+            {
+                if (vendor) {
+                    res.json({ success: true , vendor: vendor});
+                } else {
+                    res.json({ success: false });
+                }
             }
+        }
+    })
+
+});
+
+router.get('/users', (req, res, next) => { //DONE
+    userDB.find({}).toArray((err: any, documents: any)=> {
+        if (err){ 
+            res.send(err)
+        }else{
+            res.send(documents);
         }
     });
 
