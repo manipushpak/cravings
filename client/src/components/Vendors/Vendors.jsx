@@ -10,45 +10,13 @@ import Form from 'react-bootstrap/Form';
 class Vendors extends React.Component {
    constructor(props) {
       super(props);
+      var vendors = typeof this.props.location.state !== 'undefined' && this.props.location.state.vendors !== null
+      ? this.props.location.state.vendors : [];
       this.state = {
-         vendors: []
+         vendors: vendors
       };
-      this.handleInputChange = this.handleInputChange.bind(this);
-      this.componentDidMount = this.componentDidMount.bind(this);
    }
 
-   componentDidMount() {
-      fetch('/vendors')
-      .then(res => res.json())
-      .then(vendors => {
-         this.setState({ vendors })
-      })
-   }
-
-   handleInputChange(e) {
-      var searchTerm = e.target.value;
-      if(searchTerm == ""){
-         fetch('/vendors')
-         .then(res => res.json())
-         .then(vendors => {
-            this.setState({ vendors })
-         })
-      }
-      else{
-         fetch('/vendor/name/'+searchTerm, {
-            headers : { 
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            }
-         })
-         .then(res => res.json())
-         .then(vendors => {
-            if(vendors != null){
-               this.setState({ vendors })
-            }
-         })
-      }
-    }
 
    render() {
       return(
@@ -57,7 +25,7 @@ class Vendors extends React.Component {
             <div className = {styles.filters}>
                <Form.Row>
                   <Form.Group as={Col} xs={6} sm={2}>
-                     <Form.Check label={"Veg Options"} type="checkbox" />
+                     <Form.Check label={"Vegetarian"} type="checkbox" />
                   </Form.Group>
                   <Form.Group as={Col} xs={6} sm={2}>
                      <Form.Check label={"Open Now"} type="checkbox" />
