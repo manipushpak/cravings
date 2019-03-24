@@ -4,36 +4,51 @@ let router = express.Router();
 import { Vendor, User } from '../models/types';
 import vendors from '../data/sampledb';
 import users from '../data/sampledbusers';
-import IUser from '../data/mongomanagers/usermanager';
-import IVendor from '../data/mongomanagers/vendormanager';
-import mongoose = require('mongoose');
-const uri: string = 'mongodb://127.0.0.1:27017/Cravings';
-/* GET home page. */
-// var dm = new DataManager();
-
-//retrieve vendor by email
-//validate vendor
-//
-mongoose.connect(uri, { useNewUrlParser: true }, (err: any) => {
-    if (err) {
-        console.log(err.message);
-    } else {
-        console.log("Succesfully Connected!");
-    }
-});
+import { ObjectId } from 'bson';
+// import IUser from '../data/mongomanagers/usermanager';
+// import IVendor from '../data/mongomanagers/vendormanager';
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://devikaku:Capstone%402019@cluster0-7syxc.mongodb.net/test?retryWrites=true";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+var database:any;
+var vendorDB:any;
+var userDB:any;
+// client.connect((err:any) => {
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   client.close();
+// });
 
 
-router.get('/vendors', (req, res, next) => { //TESTED
-    IVendor.find((err: any, vendors: any) => {
-        if (err) {
-            res.json("Error");
-        } else {
-            res.json(vendors);
+
+        // attempt to get database connection
+        client.connect((err:any,client:any)=>{
+            // unable to get database connection pass error to CB
+            if(err)
+                console.log("HELLO" + err);
+            // Successfully got our database connection
+            // Set database connection and call CB
+            else{
+                console.log("successfully connnected!");
+                database = client.db("401Capstone");
+                vendorDB = database.collection("Vendors");
+                userDB = database.collection("Users");
+                console.log("connected to test");
+            }
+        });
+
+
+router.get('/vendors', (req, res, next) => { //DONE
+    vendorDB.find({}).toArray((err: any, documents: any)=> {
+        if (err){ 
+            res.send(err)
+        }else{
+            res.send(documents);
         }
-    })
+    });
 });
 
-router.post('/vendor/create', (req, res) => { //TESTED
+router.post('/vendor/create', (req, res) => { //DONE
     let vendor: Vendor =
     {
         email: req.body.email,
@@ -48,9 +63,8 @@ router.post('/vendor/create', (req, res) => { //TESTED
         open: req.body.open
     };
 
-    var saveVendor = new IVendor(vendor);
 
-    IVendor.findOne({
+    vendorDB.findOne({
         email: vendor.email
     }, (err: any, vendor: any) => {
         if (err) {
@@ -59,9 +73,10 @@ router.post('/vendor/create', (req, res) => { //TESTED
             if (vendor) {
                 res.json({ success: false });
             } else {
-                saveVendor.save((err: any) => {
-                    if (err) {
-                        res.json(err);
+                vendorDB.insertOne(vendor, function (error:any, response:any) {
+                    if(error) {
+                        res.json({ success: false , error: error});
+                       // return 
                     } else {
                         res.json({ success: true });
                     }
@@ -73,10 +88,10 @@ router.post('/vendor/create', (req, res) => { //TESTED
 
 });
 
-router.get('/vendor/:filter/:term', (req, res) => { //TESTED
+router.get('/vendor/:filter/:term', (req, res) => { //DONE
     let filter: string = req.params.filter;
     let term: string = req.params.term;
-    IVendor.find((err: any, vendors: any) => {
+    vendorDB.find().toArray((err: any, vendors: any) => {
         if (err) {
             res.json("Error");
         } else {
@@ -110,8 +125,8 @@ router.get('/vendor/:filter/:term', (req, res) => { //TESTED
     });
 });
 
-router.get('/vendorId/:id', (req, res, next) => { //TESTED
-    IVendor.findById(req.params.id, (err: any, vendor: any) => {
+router.get('/vendorId/:id', (req, res, next) => { //DONE
+    vendorDB.findOne({_id: new ObjectId(req.params.id)}, (err: any, vendor: any) => {
         if (err) {
             res.json(err);
         } else {
@@ -120,8 +135,8 @@ router.get('/vendorId/:id', (req, res, next) => { //TESTED
     });
 });
 
-router.get('/vendorEmail/:email', (req, res, next) => { //TESTED
-    IVendor.findOne({
+router.get('/vendorEmail/:email', (req, res, next) => { //DONE
+    vendorDB.findOne({
         email: req.params.email
     }, (err: any, vendor: any) => {
         if (err) {
@@ -132,7 +147,7 @@ router.get('/vendorEmail/:email', (req, res, next) => { //TESTED
     })
 });
 
-router.post('/vendor/authenticate', (req, res) => {
+router.post('/vendor/authenticate', (req, res) => { //DONE
     let verification: any =
     {
         email: req.body.email,
@@ -145,7 +160,7 @@ router.post('/vendor/authenticate', (req, res) => {
         res.json({ success: false });
     }
 
-    IVendor.findOne({
+    vendorDB.findOne({
         email: verification.email,
         password: verification.hash
     }, (err: any, vendor: any) => {
@@ -164,27 +179,27 @@ router.post('/vendor/authenticate', (req, res) => {
 
 });
 
-router.get('/users', (req, res, next) => { //TESTED
-    IUser.find((err: any, users: any) => {
-        if (err) {
-            res.json("Error");
-        } else {
-            res.json(users);
-        }
-    })
-});
-
-router.get('/user/:id', (req, res, next) => { //TESTED
-    IUser.findById(req.params.id, (err: any, user: any) => {
-        if (err) {
-            res.json(err);
-        } else {
-            res.json(user);
+router.get('/users', (req, res, next) => { //DONE
+    userDB.find({}).toArray((err: any, documents: any)=> {
+        if (err){ 
+            res.send(err)
+        }else{
+            res.send(documents);
         }
     });
 });
 
-router.post('/user/create', (req, res) => { //TESTED
+router.get('/user/:id', (req, res, next) => { //DONE
+    userDB.findOne({_id: new ObjectId(req.params.id)}, (err: any, vendor: any) => {
+        if (err) {
+            res.json(err);
+        } else {
+            res.json(vendor);
+        }
+    });
+});
+
+router.post('/user/create', (req, res) => { //DONE
     let user: User =
     {
         name: req.body.name,
@@ -193,20 +208,19 @@ router.post('/user/create', (req, res) => { //TESTED
         phone: req.body.phone
     };
 
-    var saveUser = new IUser(user);
-
-    IUser.findOne({
+    userDB.findOne({
         email: user.email
-    }, (err: any, user: any) => {
+    }, (err: any, u: any) => {
         if (err) {
             res.json({ success: false, error: err });
         } else {
-            if (user) {
+            if (u) {
                 res.json({ success: false });
             } else {
-                saveUser.save((err: any) => {
-                    if (err) {
-                        res.json(err);
+                userDB.insertOne(user, function (error:any, response:any) {
+                    if(error) {
+                        res.json({ success: false , error: error});
+                       // return 
                     } else {
                         res.json({ success: true });
                     }
@@ -216,7 +230,7 @@ router.post('/user/create', (req, res) => { //TESTED
     });
 });
 
-router.post('/user/login', (req, res) => { //TESTED
+router.post('/user/login', (req, res) => { //DONE
     let verification: any =
     {
         email: req.body.email,
@@ -229,7 +243,7 @@ router.post('/user/login', (req, res) => { //TESTED
         res.json({ success: false });
     }
 
-    IUser.findOne({
+    userDB.findOne({
         email: verification.email,
         password: verification.hash
     }, (err: any, user: any) => {
@@ -248,9 +262,9 @@ router.post('/user/login', (req, res) => { //TESTED
 });
 
 
-router.get('/initusers', (req, res) => { //TESTED
+router.get('/initusers', (req, res) => { //DONE
 
-    IUser.insertMany(users, (err: any) => {
+    userDB.insertMany(users, (err: any) => {
         if (err) {
             res.send(err)
         } else {
@@ -260,9 +274,9 @@ router.get('/initusers', (req, res) => { //TESTED
 
 });
 
-router.get('/initvendors', (req, res) => { //TESTED
+router.get('/initvendors', (req, res) => { //DONE
 
-    IVendor.insertMany(vendors, (err: any) => {
+    database.collection("Vendors").insertMany(vendors, (err: any) => {
         if (err) {
             res.send(err)
         } else {
@@ -272,50 +286,35 @@ router.get('/initvendors', (req, res) => { //TESTED
 });
 
 router.get('/test', (req, res) => {
-    // let vendor: Vendor =
-    // {
-    //     stallName: "Taco Stand",
-    //     email: "sonalai@usc.edu",
-    //     vendorName: [
-    //         "Sonali", "Pia"
-    //     ],
-    //     location: {
-    //         address: "3770 S Fig",
-    //         coordinates: {
-    //             lat: 34.0254,
-    //             lng: -118.2852
-    //         }
-    //     },
-    //     password: "ilovecravings1",
-    //     keywords: [
-    //         "taco",
-    //         "yummy"
-    //     ],
-    //     phone: "6508239461",
-    //     open: true
-    // };
 
-    // var saveVendor = new IVendor(vendor);
+    let user: User =
+    {
+        name: "rahil",
+        email: "rahil97@usc.edu",
+        password: "fgdfgdfgd",
+        phone: "dfgdgdfg"
+    };
 
-    // IVendor.findOne({
-    //     email: vendor.email
-    // }, (err: any, vendor: any) => {
-    //     if (err) {
-    //         res.json({ success: false, error: err });
-    //     } else {
-    //         if (vendor) {
-    //             res.json({ success: false });
-    //         } else {
-    //             saveVendor.save((err: any) => {
-    //                 if (err) {
-    //                     res.json(err);
-    //                 } else {
-    //                     res.json({ success: true });
-    //                 }
-    //             });
-    //         }
-    //     }
-    // });
+    userDB.findOne({
+        email: user.email
+    }, (err: any, u: any) => {
+        if (err) {
+            res.json({ success: false, error: err });
+        } else {
+            if (u) {
+                res.json({ success: false });
+            } else {
+                userDB.insertOne(user, function (error:any, response:any) {
+                    if(error) {
+                        res.json({ success: false , error: error});
+                       // return 
+                    } else {
+                        res.json({ success: true });
+                    }
+                });
+            }
+        }
+    });
 
 });
 
