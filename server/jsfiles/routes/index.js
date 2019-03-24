@@ -14,30 +14,42 @@ var express = __importStar(require("express"));
 var router = express.Router();
 var sampledb_1 = __importDefault(require("../data/sampledb"));
 var sampledbusers_1 = __importDefault(require("../data/sampledbusers"));
-var usermanager_1 = __importDefault(require("../data/mongomanagers/usermanager"));
-var vendormanager_1 = __importDefault(require("../data/mongomanagers/vendormanager"));
-var mongoose = require("mongoose");
-var uri = 'mongodb://127.0.0.1:27017/Cravings';
-/* GET home page. */
-// var dm = new DataManager();
-//retrieve vendor by email
-//validate vendor
-//
-mongoose.connect(uri, { useNewUrlParser: true }, function (err) {
-    if (err) {
-        console.log(err.message);
-    }
+var bson_1 = require("bson");
+// import IUser from '../data/mongomanagers/usermanager';
+// import IVendor from '../data/mongomanagers/vendormanager';
+var MongoClient = require('mongodb').MongoClient;
+var uri = "mongodb+srv://devikaku:Capstone%402019@cluster0-7syxc.mongodb.net/test?retryWrites=true";
+var client = new MongoClient(uri, { useNewUrlParser: true });
+var database;
+var vendorDB;
+var userDB;
+// client.connect((err:any) => {
+//   const collection = client.db("test").collection("devices");
+//   // perform actions on the collection object
+//   client.close();
+// });
+// attempt to get database connection
+client.connect(function (err, client) {
+    // unable to get database connection pass error to CB
+    if (err)
+        console.log("HELLO" + err);
+    // Successfully got our database connection
+    // Set database connection and call CB
     else {
-        console.log("Succesfully Connected!");
+        console.log("successfully connnected!");
+        database = client.db("401Capstone");
+        vendorDB = database.collection("Vendors");
+        userDB = database.collection("Users");
+        console.log("connected to test");
     }
 });
 router.get('/vendors', function (req, res, next) {
-    vendormanager_1.default.find(function (err, vendors) {
+    vendorDB.find({}).toArray(function (err, documents) {
         if (err) {
-            res.json("Error");
+            res.send(err);
         }
         else {
-            res.json(vendors);
+            res.send(documents);
         }
     });
 });
@@ -54,8 +66,7 @@ router.post('/vendor/create', function (req, res) {
         phone: req.body.phone,
         open: req.body.open
     };
-    var saveVendor = new vendormanager_1.default(vendor);
-    vendormanager_1.default.findOne({
+    vendorDB.findOne({
         email: vendor.email
     }, function (err, vendor) {
         if (err) {
@@ -66,9 +77,10 @@ router.post('/vendor/create', function (req, res) {
                 res.json({ success: false });
             }
             else {
-                saveVendor.save(function (err) {
-                    if (err) {
-                        res.json(err);
+                vendorDB.insertOne(vendor, function (error, response) {
+                    if (error) {
+                        res.json({ success: false, error: error });
+                        // return 
                     }
                     else {
                         res.json({ success: true });
@@ -81,7 +93,7 @@ router.post('/vendor/create', function (req, res) {
 router.get('/vendor/:filter/:term', function (req, res) {
     var filter = req.params.filter;
     var term = req.params.term;
-    vendormanager_1.default.find(function (err, vendors) {
+    vendorDB.find().toArray(function (err, vendors) {
         if (err) {
             res.json("Error");
         }
@@ -116,7 +128,7 @@ router.get('/vendor/:filter/:term', function (req, res) {
     });
 });
 router.get('/vendorId/:id', function (req, res, next) {
-    vendormanager_1.default.findById(req.params.id, function (err, vendor) {
+    vendorDB.findOne({ _id: new bson_1.ObjectId(req.params.id) }, function (err, vendor) {
         if (err) {
             res.json(err);
         }
@@ -126,7 +138,7 @@ router.get('/vendorId/:id', function (req, res, next) {
     });
 });
 router.get('/vendorEmail/:email', function (req, res, next) {
-    vendormanager_1.default.findOne({
+    vendorDB.findOne({
         email: req.params.email
     }, function (err, vendor) {
         if (err) {
@@ -146,7 +158,7 @@ router.post('/vendor/authenticate', function (req, res) {
         || verification.hash == null || verification.hash == undefined || verification.hash == "") {
         res.json({ success: false });
     }
-    vendormanager_1.default.findOne({
+    vendorDB.findOne({
         email: verification.email,
         password: verification.hash
     }, function (err, vendor) {
@@ -166,22 +178,22 @@ router.post('/vendor/authenticate', function (req, res) {
     });
 });
 router.get('/users', function (req, res, next) {
-    usermanager_1.default.find(function (err, users) {
+    userDB.find({}).toArray(function (err, documents) {
         if (err) {
-            res.json("Error");
+            res.send(err);
         }
         else {
-            res.json(users);
+            res.send(documents);
         }
     });
 });
 router.get('/user/:id', function (req, res, next) {
-    usermanager_1.default.findById(req.params.id, function (err, user) {
+    userDB.findOne({ _id: new bson_1.ObjectId(req.params.id) }, function (err, vendor) {
         if (err) {
             res.json(err);
         }
         else {
-            res.json(user);
+            res.json(vendor);
         }
     });
 });
@@ -192,21 +204,21 @@ router.post('/user/create', function (req, res) {
         password: req.body.password,
         phone: req.body.phone
     };
-    var saveUser = new usermanager_1.default(user);
-    usermanager_1.default.findOne({
+    userDB.findOne({
         email: user.email
-    }, function (err, user) {
+    }, function (err, u) {
         if (err) {
             res.json({ success: false, error: err });
         }
         else {
-            if (user) {
+            if (u) {
                 res.json({ success: false });
             }
             else {
-                saveUser.save(function (err) {
-                    if (err) {
-                        res.json(err);
+                userDB.insertOne(user, function (error, response) {
+                    if (error) {
+                        res.json({ success: false, error: error });
+                        // return 
                     }
                     else {
                         res.json({ success: true });
@@ -225,7 +237,7 @@ router.post('/user/login', function (req, res) {
         || verification.hash == null || verification.hash == undefined || verification.hash == "") {
         res.json({ success: false });
     }
-    usermanager_1.default.findOne({
+    userDB.findOne({
         email: verification.email,
         password: verification.hash
     }, function (err, user) {
@@ -245,7 +257,7 @@ router.post('/user/login', function (req, res) {
     });
 });
 router.get('/initusers', function (req, res) {
-    usermanager_1.default.insertMany(sampledbusers_1.default, function (err) {
+    userDB.insertMany(sampledbusers_1.default, function (err) {
         if (err) {
             res.send(err);
         }
@@ -255,7 +267,7 @@ router.get('/initusers', function (req, res) {
     });
 });
 router.get('/initvendors', function (req, res) {
-    vendormanager_1.default.insertMany(sampledb_1.default, function (err) {
+    database.collection("Vendors").insertMany(sampledb_1.default, function (err) {
         if (err) {
             res.send(err);
         }
@@ -265,47 +277,34 @@ router.get('/initvendors', function (req, res) {
     });
 });
 router.get('/test', function (req, res) {
-    // let vendor: Vendor =
-    // {
-    //     stallName: "Taco Stand",
-    //     email: "sonalai@usc.edu",
-    //     vendorName: [
-    //         "Sonali", "Pia"
-    //     ],
-    //     location: {
-    //         address: "3770 S Fig",
-    //         coordinates: {
-    //             lat: 34.0254,
-    //             lng: -118.2852
-    //         }
-    //     },
-    //     password: "ilovecravings1",
-    //     keywords: [
-    //         "taco",
-    //         "yummy"
-    //     ],
-    //     phone: "6508239461",
-    //     open: true
-    // };
-    // var saveVendor = new IVendor(vendor);
-    // IVendor.findOne({
-    //     email: vendor.email
-    // }, (err: any, vendor: any) => {
-    //     if (err) {
-    //         res.json({ success: false, error: err });
-    //     } else {
-    //         if (vendor) {
-    //             res.json({ success: false });
-    //         } else {
-    //             saveVendor.save((err: any) => {
-    //                 if (err) {
-    //                     res.json(err);
-    //                 } else {
-    //                     res.json({ success: true });
-    //                 }
-    //             });
-    //         }
-    //     }
-    // });
+    var user = {
+        name: "rahil",
+        email: "rahil97@usc.edu",
+        password: "fgdfgdfgd",
+        phone: "dfgdgdfg"
+    };
+    userDB.findOne({
+        email: user.email
+    }, function (err, u) {
+        if (err) {
+            res.json({ success: false, error: err });
+        }
+        else {
+            if (u) {
+                res.json({ success: false });
+            }
+            else {
+                userDB.insertOne(user, function (error, response) {
+                    if (error) {
+                        res.json({ success: false, error: error });
+                        // return 
+                    }
+                    else {
+                        res.json({ success: true });
+                    }
+                });
+            }
+        }
+    });
 });
 exports.default = router;
