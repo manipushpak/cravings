@@ -120,7 +120,7 @@ class Registration extends React.Component {
       });
    }
    handleEditForm() {
-      this.setToEdit
+      this.setToEdit();
    }
    handleSaveEdit(event) {
       this.setToView();
@@ -133,7 +133,7 @@ class Registration extends React.Component {
       this.setState({ status: { edit: false, view: true } });
    }
    setToEdit() {
-      this.setState({ status: { edit:true, view: false } });
+      this.setState({ status: { edit: true, view: false } });
    }
 
    updateStallName(e) {
@@ -239,7 +239,7 @@ class Registration extends React.Component {
 
       return(
          <div className={styles.outerContainer}>
-            <h1>{ this.state.status.view || this.state.status.edit ? "My Account" : "Vendor Registration" }</h1>
+            <h1>My Account</h1>
             <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
                <br /><br />
                <h3>Stall Information</h3>
@@ -279,10 +279,27 @@ class Registration extends React.Component {
                      <WeekOptions label="Sunday" disabled={!this.state.hours[6].open} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,6)} ocStart={e => this.updateStartTime(e,6)} ocEnd={e => this.updateEndTime(e,6)} />
                   </Form.Group>
-                  <Form.Group as={Col} controlId="keywords" xs={12} md={6}>
-                     <Form.Label>Keywords (optional)</Form.Label>
-                     <Form.Control as="textarea" rows="5" cols="60" readOnly={this.state.status.view} onChange={e => this.updateKeywords(e)}/>
-                     <Form.Text className="text-muted">Separate your keywords by comma (e.g. "tacos, mexican food, burritos")</Form.Text>
+                  <Form.Group as={Col} xs={12} md={6}>
+                     <Form.Group controlId="keywords">
+                        <Form.Label>Keywords (optional)</Form.Label>
+                        <Form.Control as="textarea" rows="5" cols="60" readOnly={this.state.status.view} onChange={e => this.updateKeywords(e)}/>
+                        <Form.Text className="text-muted">Separate your keywords by comma (e.g. "tacos, mexican food, burritos")</Form.Text>
+                     </Form.Group>
+                     <Form.Group controlId="dietary">
+                        <Form.Label>Dietary Options (optional)</Form.Label>
+                        <Form.Row>
+                           <Form.Group as={Col} xs={6}>
+                              <Form.Check label={"Vegetarian"} type="checkbox" />
+                              <Form.Check label={"Vegan"} type="checkbox" />
+                              <Form.Check label={"Lactose-free"} type="checkbox" />
+                           </Form.Group>
+                           <Form.Group as={Col} xs={6}>
+                              <Form.Check label={"Dairy-free"} type="checkbox" />
+                              <Form.Check label={"Kosher"} type="checkbox" />
+                              <Form.Check label={"Halal"} type="checkbox" />
+                           </Form.Group>
+                        </Form.Row>
+                     </Form.Group>
                   </Form.Group>
                </Row>
 
