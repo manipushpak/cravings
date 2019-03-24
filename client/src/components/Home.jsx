@@ -6,6 +6,9 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
 
+import { Redirect } from 'react-router-dom';
+
+
 class Home extends React.Component {
    constructor(props) {
       super(props);
@@ -13,6 +16,7 @@ class Home extends React.Component {
 
       this.handleChange = this.handleChange.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
+<<<<<<< HEAD
       this.handleExplore = this.handleExplore.bind(this);
    }
 
@@ -60,32 +64,35 @@ class Home extends React.Component {
          self.handleSearch();
       })
      
+=======
+>>>>>>> search connected to backend
    }
 
-   // handleInputChange(e) {
-   //    var searchTerm = e.target.value;
-   //    if(searchTerm == ""){
-   //       fetch('/vendors')
-   //       .then(res => res.json())
-   //       .then(vendors => {
-   //          this.setState({ vendors })
-   //       })
-   //    }
-   //    else{
-   //       fetch('/vendor/keywords/'+searchTerm, {
-   //          headers : { 
-   //            'Content-Type': 'application/json',
-   //            'Accept': 'application/json'
-   //          }
-   //       })
-   //       .then(res => res.json())
-   //       .then(vendors => {
-   //          if(vendors != null){
-   //             this.setState({ vendors })
-   //          }
-   //       })
-   //    }
-   //  }
+   handleChange(e){
+      this.setState({
+         searchTerm: e.target.value
+      });
+   }
+
+   handleSearch() {
+      var searchTerm = this.state.searchTerm;
+   
+      fetch('/vendor/keywords/'+searchTerm, {
+         headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+         }
+      })
+      .then(res => res.json())
+      .then(vendors => {
+         this.props.history.push({
+            pathname:"/vendors",
+            state:{
+                vendors:vendors
+             }
+           });
+      })
+   }
 
    render() {
       return(
@@ -99,7 +106,11 @@ class Home extends React.Component {
                </InputGroup>
             </div>
             <div className={styles.bubble}>Not sure what you want? Click Explore!</div>
+<<<<<<< HEAD
             <Button className={ styles.button } variant="primary" onClick={this.handleExplore}>EXPLORE</Button>
+=======
+            <Button className={ styles.button } variant="primary">EXPLORE</Button>
+>>>>>>> search connected to backend
             <img className = {styles.img} src="https://media.istockphoto.com/vectors/cartoon-taco-idea-vector-id470002764?k=6&m=470002764&s=612x612&w=0&h=e6n5pIQzGUMuGugDAtZT1sAUY2uokR59CSMP0tAOXG8=" alt="Taco image"></img>
          </div>
       );
