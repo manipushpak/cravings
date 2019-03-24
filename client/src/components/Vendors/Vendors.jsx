@@ -7,12 +7,10 @@ import ListItem from './ListItem.jsx';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
-<<<<<<< HEAD
 import appStyles from '../../styles/App.css';
 
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 
-=======
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 
 export const Menu = (list) =>
@@ -35,7 +33,10 @@ const Arrow = ({ text, className }) => {
  
 const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev'});
 const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
->>>>>>> shared location option
+
+import appStyles from '../../styles/App.css';
+
+import ScrollMenu from 'react-horizontal-scrolling-menu';
 
 
 class Vendors extends React.Component {
