@@ -1,19 +1,16 @@
+:local .outerContainer {
+    max-height: 100vh;
+    max-width: 550px;
+    margin-right: auto;
+    margin-left: auto;
+    overflow: hidden;
+    text-align: center;
+}
+
 :local .h1 {
     font-size: 500%;
     font-family: 'Nunito', sans-serif;
     margin-top: 10%;      
-}
-
-@media (max-width: 576px) {
-    :local .h1 {
-        font-size: 300%;
-    }    
-}
-
-:local .outerContainer {
-    max-width: 550px;
-    margin-right: auto;
-    margin-left: auto;
 }
 
 :local .searchBar {
@@ -42,17 +39,17 @@
 
 :local .bubble
 {
-   position: relative;
-   margin-top: 120px;
-   margin-left: 80px;
-   padding: 10px;
-   width: 200px;
-   height: 70px;
-   background: #ffffff;
-   -webkit-border-radius: 10px;
-   -moz-border-radius: 10px;
-   border-radius: 10px;
-   border: #000000 solid 1px;
+    position: relative;
+    margin-top: 120px;
+    margin-left: 80px;
+    padding: 10px;
+    width: 200px;
+    height: 70px;
+    background: #ffffff;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: #000000 solid 1px;
 }
 
 :local .bubble:after
@@ -93,9 +90,14 @@
     font-size: 17px;
     border: none;
     cursor: pointer;
-  }
-  
-  :local .topnav .search-container button:hover {
+}
+
+:local .topnav .search-container button:hover {
     background: #ccc;
-  }
-  
+}
+
+@media (max-width: 576px) {
+    :local .h1 {
+        font-size: 300%;
+    }    
+}
