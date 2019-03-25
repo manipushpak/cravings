@@ -1,23 +1,33 @@
 :local .outerContainer {
-    max-height: 100vh;
-    max-width: 550px;
+    height: 100vh;
+    max-width: 800px;
     margin-right: auto;
     margin-left: auto;
-    overflow: hidden;
     text-align: center;
 }
 
-:local .h1 {
-    font-size: 500%;
-    font-family: 'Nunito', sans-serif;
-    margin-top: 10%;      
+:local .searchBar {
+    margin-top: 50px;
+    border-radius: 50px;
+    border: 3px black solid;
 }
 
-:local .searchBar {
-    grid-column-start: 1;
-    grid-column-end: 3;
-    margin-top: 7%;
-    border-radius: 30px 0px 0px 30px;
+:local .searchInput {
+    border-radius: 0 50px 50px 0;
+    border: none;
+    background: white;
+}
+
+:local .searchInput:focus {
+    outline: none;
+}
+
+:local .searchButton {
+    border-radius: 50px 0 0 50px;
+    border: none;
+    background: white;
+    color: #E04D05;
+    font-size: 20px;
 }
 
 :local .img {
