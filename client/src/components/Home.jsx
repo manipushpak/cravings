@@ -1,5 +1,6 @@
 import React from 'react';
 
+import global from '../styles/Global.css';
 import styles from '../styles/Home.css';
 
 import Form from 'react-bootstrap/Form';
@@ -10,7 +11,7 @@ import Button from 'react-bootstrap/Button';
 class Home extends React.Component {
    constructor(props) {
       super(props);
-      this.state = { searchTerm:""};
+      this.state = { searchTerm: "" };
 
       this.handleChange = this.handleChange.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
@@ -64,13 +65,13 @@ class Home extends React.Component {
 
    render() {
       return(
-         <div className={styles.outerContainer}>
-            <h1 className={styles.h1 }>I'm Craving...</h1>
+         <div className={ styles.outerContainer }>
+            <h1 className={ global.h1 }>I'm Craving</h1>
             <div className={ styles.searchBar }>
                <InputGroup>
-                  <Form.Control controlId="searchTerm" size="lg" placeholder="Tacos, Elote, Mexican Food, etc." onChange={e => this.handleInputChange(e)}/>
+                  <Form.Control id="searchTerm" size="lg" placeholder="Tacos, Elote, Mexican Food, etc." onChange={e => this.handleChange(e)}/>
                   <InputGroup.Append>
-                     <Button type="submit" variant="outline-secondary"><i class="fa fa-search"></i></Button>
+                     <Button type="submit" variant="outline-secondary"><i className="fa fa-search"></i></Button>
                   </InputGroup.Append>
                </InputGroup>
             </div>
