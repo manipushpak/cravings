@@ -1,5 +1,9 @@
 import React from 'react';
 
+import { bubble as Menu } from 'react-burger-menu'
+
+import { Link } from 'react-router-dom';
+
 class About extends React.Component {
    constructor(props) {
       super(props);

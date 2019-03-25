@@ -3,19 +3,26 @@
 }
 
 :local .headerText {
-    font-family: 'Yanone Kaffeesatz', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-weight: 700;
+    font-family: 'Staatliches','Berkshire Swash','Yanone Kaffeesatz', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Berkshire Swash','Yanone Kaffeesatz', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    /* font-weight: 700; */
+    /* text-shadow: black 5px 5px; */
+    /* text-transform: uppercase; */
+    
+    color: black;
+    /* color: white;
+    -webkit-text-fill-color: #fcfcfc;
+    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-color: black; */
 }
 
 :local .h1 {
     composes: headerText;
-    font-size: 100px;
-    letter-spacing: 15px;
-    text-transform: uppercase;
-    text-shadow: black 4px 4px;
+    font-size: 120px;
+    /* letter-spacing: 5px; */
+}
 
-    color: #fcfcfc;
-    -webkit-text-fill-color: #fcfcfc;
-    -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: black;
+:local .h2 {
+    font-size: 70px;
+    letter-spacing: 10px;
 }
