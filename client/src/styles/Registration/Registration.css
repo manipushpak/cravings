@@ -1,7 +1,8 @@
 :local .outerContainer{
-    max-width: 800px;
+    max-width: 850px;
     margin-right: auto;
     margin-left: auto;
+    padding: 40px;
     position: relative;
 }
 
@@ -19,10 +20,17 @@
 :local .editButtonDiv {
     height: 48px;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 40px;
+    right: 40px;
+    padding-left: 5px;
+    color: red;
     display: flex;
     align-items: center;
+}
+
+:local .editButtonDivHide {
+    composes: editButtonDiv;
+    display: none;
 }
 
 :local .input {

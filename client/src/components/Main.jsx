@@ -15,10 +15,10 @@ import VendorSignUp from './Registration/VendorSignUp.jsx';
 
 
 const Main = () => {
-   var outerContainer = classNames(styles.outerContainer, global.outerContainer);
+   // var outerContainer = classNames(styles.outerContainer, global.outerContainer);
 
    return(
-      <main className={ outerContainer }>
+      <main id="bm-page-wrap" className={ styles.outerContainer }>
          <Switch>
             <Route exact path='/' component={Home}/>
             <Route path='/about' component={About}/>

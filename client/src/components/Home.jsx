@@ -66,18 +66,18 @@ class Home extends React.Component {
    render() {
       return(
          <div className={ styles.outerContainer }>
-            <h1 className={ global.h1 }>I'm Craving</h1>
-            <div className={ styles.searchBar }>
-               <InputGroup>
-                  <Form.Control id="searchTerm" size="lg" placeholder="Tacos, Elote, Mexican Food, etc." onChange={e => this.handleChange(e)}/>
-                  <InputGroup.Append>
-                     <Button type="submit" variant="outline-secondary"><i className="fa fa-search"></i></Button>
-                  </InputGroup.Append>
-               </InputGroup>
-            </div>
-            <div className={styles.bubble}>Not sure what you want? Click Explore!</div>
-            <Button className={ styles.button } variant="primary" onClick={this.handleExplore}>EXPLORE</Button>
-            <img className = {styles.img} src="https://media.istockphoto.com/vectors/cartoon-taco-idea-vector-id470002764?k=6&m=470002764&s=612x612&w=0&h=e6n5pIQzGUMuGugDAtZT1sAUY2uokR59CSMP0tAOXG8=" alt="Taco image"></img>
+            <h1 className={ global.h1 }>I'm craving</h1>
+            <InputGroup className={ styles.searchBar }>
+               <Form.Control className={ styles.searchInput } id="searchTerm" size="lg" placeholder="Tacos, Elote, Mexican Food, etc." onChange={e => this.handleChange(e)}/>
+               <InputGroup.Append>
+                  <Button type="submit" className={ styles.searchButton } onClick={this.handleSearch} variant="outline-secondary">
+                     <i className="fa fa-search"></i>
+                  </Button>
+               </InputGroup.Append>
+            </InputGroup>
+            {/* <div className={styles.bubble}>Not sure what you want? Click me to explore!</div>
+            <Button className={ styles.button } onClick={ this.handleSearch }>EXPLORE</Button>
+            <img className = { styles.img } src="https://media.istockphoto.com/vectors/cartoon-taco-idea-vector-id470002764?k=6&m=470002764&s=612x612&w=0&h=e6n5pIQzGUMuGugDAtZT1sAUY2uokR59CSMP0tAOXG8=" alt="Taco image"></img> */}
          </div>
       );
    }

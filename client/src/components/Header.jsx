@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { bubble as Menu } from 'react-burger-menu'
+import styles from '../styles/Header.css';
+
+import { elastic as Menu } from 'react-burger-menu';
 
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -11,7 +13,7 @@ class Header extends React.Component {
       super(props);
       this.state = { isOpen: false };
 
-      this.onMenuItemClick.bind(this);
+      this.onMenuItemClick = this.onMenuItemClick.bind(this);
    }
 
    onMenuItemClick() {
@@ -24,8 +26,8 @@ class Header extends React.Component {
             position: 'absolute',
             width: '36px',
             height: '30px',
-            left: '36px',
-            top: '36px'
+            top: '36px',
+            right: '36px'
          },
          bmBurgerBars: {
             background: '#e04d05',
@@ -48,19 +50,20 @@ class Header extends React.Component {
             height: '100%'
          },
          bmMenu: {
-            background: '#fff',
+            background: '#FAFAFA',
             padding: '2.5em 1.5em 0',
             fontSize: '1.15em'
          },
          bmMorphShape: {
-            fill: '#fff'
+            fill: '#FAFAFA'
          },
          bmItemList: {
             color: '#b8b7ad',
             padding: '0.8em'
          },
          bmItem: {
-            display: 'inline-block'
+            display: 'inline-block',
+            padding: '10px 0px'
          },
          bmOverlay: {
             background: 'rgba(0, 0, 0, 0.2)'
@@ -68,16 +71,26 @@ class Header extends React.Component {
        }
 
       return(
-         <Menu styles={styles} isOpen={this.state.isOpen} >
-            <Link className="menu-item" onClick={this.onMenuItemClick} to="/">Cravings</Link>
+         <Menu right  pageWrapId={ "bm-page-wrap" } outerContainerId={ "bm-outer-container" } styles={styles} isOpen={this.state.isOpen} >
+            <Link className="menu-item" onClick={this.onMenuItemClick} to="/">
+               <i className="fas fa-hamburger"></i><span>Cravings</span>
+            </Link>
             <br />
-            <Link className="menu-item" onClick={this.onMenuItemClick} to="/about">About</Link>
+            <Link className="menu-item" onClick={this.onMenuItemClick} to="/about">
+               <i className="fas fa-drumstick-bite"></i><span>About</span>
+            </Link>
             <br />
-            <Link className="menu-item" onClick={this.onMenuItemClick} to="/about">Mission</Link>
+            <Link className="menu-item" onClick={this.onMenuItemClick} to="/about">
+               <i className="fas fa-hotdog"></i><span>Mission</span>
+            </Link>
             <br />
-            <Link className="menu-item" onClick={this.onMenuItemClick} to="/about">FAQ</Link>
+            <Link className="menu-item" onClick={this.onMenuItemClick} to="/about">
+               <i className="fas fa-pizza-slice"></i><span>FAQ</span>
+            </Link>
             <br />
-            <Link className="menu-item" onClick={this.onMenuItemClick} to="/vendorportal">Vendor Portal</Link>
+            <Link className="menu-item--small" onClick={this.onMenuItemClick} to="/vendorportal">
+               <i className="fas fa-cookie-bite"></i><span>Portal</span>
+            </Link>
          </Menu>
        
          // <header>

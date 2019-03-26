@@ -1,4 +1,7 @@
 import React from 'react';
+
+import classNames from 'classnames';
+import global from '../../styles/Global.css';
 import styles from '../../styles/Registration/Registration.css';
 
 import Button from 'react-bootstrap/Button';
@@ -237,8 +240,10 @@ class Registration extends React.Component {
         console.log(vendors);
       };
 
+      var outerContainer = classNames(styles.outerContainer, global.floatingWindow);
+
       return(
-         <div className={styles.outerContainer}>
+         <div className={outerContainer}>
             <h1>My Account</h1>
             <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
                <br /><br />
@@ -307,7 +312,7 @@ class Registration extends React.Component {
                <h3>Vendor Information</h3>
                <br />
 
-               <AllVendors addVendor={this.onAddVendor} vendors={vendors} toShow={this.state.status.edit} />
+               <AllVendors addVendor={this.onAddVendor} vendors={vendors} disabled={this.state.status.view} />
 
                <br />
                
@@ -356,7 +361,7 @@ const AllVendors = props => (
      <div id="vendors-pane">
        {props.vendors}
      </div>
-     <p show={props.toShow}><a href="void:()" onClick={props.addVendor}>+ Add Another Vendor</a></p>
+     <Button disabled={props.disabled} variant="link" onClick={props.addVendor} style={{padding: "0"}}>+ Add Another Vendor</Button>
    </div>
 );
 
