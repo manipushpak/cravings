@@ -1,4 +1,7 @@
 import React from 'react';
+
+import classNames from 'classnames';
+import global from '../../styles/Global.css';
 import styles from '../../styles/UserLogInSignUp/UserLogInSignUp.css';
 
 import LogIn from './LogIn.jsx';
@@ -22,13 +25,15 @@ class UserLogInSignUp extends React.Component {
    }
 
    render() {
+      var outerContainer = classNames(styles.outerContainer, global.floatingWindow);
+
       return(
-         <div className={ styles.outerContainer }>
-            <div>
+         <div className={ outerContainer }>
+            <div className={ global.floatingWindow }>
                {!this.state.logInHidden && <LogIn toggleLogInSignUp ={this.toggleLogInSignUp}
                 signUpHidden={this.props.signUpHidden}/>}
             </div>
-            <div>
+            <div className={ global.floatingWindow }>
                {!this.state.signUpHidden && <SignUp toggleLogInSignUp ={this.toggleLogInSignUp}
                 signUpHidden={this.props.signUpHidden} />}
             </div>

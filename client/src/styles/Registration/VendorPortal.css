@@ -1,7 +1,8 @@
 :local .outerContainer {
-    max-width: 400px;
+    max-width: 450px;
     margin-right: auto;
     margin-left: auto;
+    padding: 40px 25px;
 }
 
 :local .innerContainer {

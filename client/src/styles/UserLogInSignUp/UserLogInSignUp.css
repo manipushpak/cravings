@@ -2,6 +2,10 @@
     max-width: 400px;
     margin-right: auto;
     margin-left: auto;
+    background: #fcfcfc;
+    border-radius: 10px;
+    border: 1px red solid;
+    box-shadow: 5px 5px #af8900;
 }
 
 :local .innerContainer {

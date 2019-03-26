@@ -1,19 +1,19 @@
 :local .outerContainer {
-    height: 100vh;
     max-width: 800px;
     margin-right: auto;
     margin-left: auto;
+    margin-top: 50px;
     text-align: center;
 }
 
 :local .searchBar {
-    margin-top: 50px;
+    margin-top: 30px;
     border-radius: 50px;
     border: 3px black solid;
 }
 
 :local .searchInput {
-    border-radius: 0 50px 50px 0;
+    border-radius: 50px 0 0 50px;
     border: none;
     background: white;
 }
@@ -23,7 +23,7 @@
 }
 
 :local .searchButton {
-    border-radius: 50px 0 0 50px;
+    border-radius: 0 50px 50px 0;
     border: none;
     background: white;
     color: #E04D05;

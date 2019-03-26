@@ -1,4 +1,7 @@
 import React from 'react';
+
+import classNames from 'classnames';
+import global from '../../styles/Global.css';
 import styles from '../../styles/Registration/VendorPortal.css';
 
 import VendorLogIn from './VendorLogIn.jsx';
@@ -22,8 +25,10 @@ class VendorPortal extends React.Component {
    }
 
    render() {
+      var outerContainer = classNames(styles.outerContainer, global.floatingWindow);
+
       return(
-         <div className={ styles.outerContainer }>
+         <div className={ outerContainer }>
             <div>
                {!this.state.logInHidden && <VendorLogIn toggleLogInSignUp ={this.toggleLogInSignUp}
                 signUpHidden={this.props.signUpHidden}/>}

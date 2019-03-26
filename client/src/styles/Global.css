@@ -1,15 +1,22 @@
 :local .outerContainer {
     background: #eebb00;
+    height: 100vh;
+    overflow: scroll;
+}
+
+:local .floatingWindow {
+    background: #fcfcfc;
+    border-radius: 10px;
+    box-shadow: -25px 25px #c99d01;
 }
 
 :local .headerText {
     font-family: 'Staatliches','Berkshire Swash','Yanone Kaffeesatz', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-family: 'Berkshire Swash','Yanone Kaffeesatz', 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: 'Berkshire Swash', 'Georgia', 'Times New Roman', 'Times', serif;
     /* font-weight: 700; */
     /* text-shadow: black 5px 5px; */
     /* text-transform: uppercase; */
     
-    color: black;
     /* color: white;
     -webkit-text-fill-color: #fcfcfc;
     -webkit-text-stroke-width: 3px;
@@ -19,10 +26,9 @@
 :local .h1 {
     composes: headerText;
     font-size: 120px;
-    /* letter-spacing: 5px; */
 }
 
-:local .h2 {
+:local .h2 {    
+    composes: headerText;
     font-size: 70px;
-    letter-spacing: 10px;
 }

@@ -76,25 +76,25 @@ class VendorSignUp extends React.Component {
                <br />
                <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
                   <Form.Row>
-                    <Form.Group as={Col} controlId="firstName" xs={12} md={6}>
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control placeholder="Enter first name" onChange={e => this.updateFirstName(e)} required />
-                    <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
-                    </Form.Group>
+                     <Form.Group as={Col} controlId="firstName" xs={12} md={6}>
+                     <Form.Label>First Name</Form.Label>
+                     <Form.Control placeholder="Enter first name" onChange={e => this.updateFirstName(e)} required />
+                     <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
+                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="lastName" xs={12} md={6}>
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control placeholder="Enter last name" onChange={e => this.updateLastName(e)} required />
-                    <Form.Control.Feedback type="invalid">Please enter your last name.</Form.Control.Feedback>
-                    </Form.Group>
+                     <Form.Group as={Col} controlId="lastName" xs={12} md={6}>
+                     <Form.Label>Last Name</Form.Label>
+                     <Form.Control placeholder="Enter last name" onChange={e => this.updateLastName(e)} required />
+                     <Form.Control.Feedback type="invalid">Please enter your last name.</Form.Control.Feedback>
+                     </Form.Group>
                   </Form.Row>
 
                   <Form.Row>
-                    <Form.Group as={Col} controlId="emailSignUp" xs={12} md={12}>
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control placeholder="Enter email" onChange={e => this.updateEmail(e)} required />
-                    <Form.Control.Feedback type="invalid">Please enter your email.</Form.Control.Feedback>
-                    </Form.Group>
+                     <Form.Group as={Col} controlId="emailSignUp" xs={12} md={12}>
+                     <Form.Label>Email</Form.Label>
+                     <Form.Control placeholder="Enter email" onChange={e => this.updateEmail(e)} required />
+                     <Form.Control.Feedback type="invalid">Please enter your email.</Form.Control.Feedback>
+                     </Form.Group>
                   </Form.Row>
 
                   <Form.Row>
@@ -115,7 +115,6 @@ class VendorSignUp extends React.Component {
                      </Form.Group>
                   </Form.Row>
 
-
                   <Form.Row>
                      <Button className={ styles.button } variant="primary" type="submit">
                         Submit
@@ -126,9 +125,7 @@ class VendorSignUp extends React.Component {
                   </Form.Row>
 
                   <Form.Row>
-                     <Form.Group as={Col} controlId="passwordSignUp" xs={12} md={12}>
-                        <p><a href="#" className="small" href="javascript:void(0)" onClick={this.props.toggleLogInSignUp}>Already have an account?</a></p>
-                     </Form.Group>
+                     <Form.Text><a href="#" href="javascript:void(0)" onClick={this.props.toggleLogInSignUp}>Already have an account?</a></Form.Text>
                   </Form.Row>
                </Form>
             </div>
