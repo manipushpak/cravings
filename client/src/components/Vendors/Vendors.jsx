@@ -51,8 +51,7 @@ class Vendors extends React.Component {
 
 
    render() {
-      this.didProvideLocation()
-      console.log(this.state.vendors);
+      this.didProvideLocation();
 
       const Menu = (list) =>
          list.map(vendor => {
@@ -85,6 +84,18 @@ class Vendors extends React.Component {
                   </Form.Group>
                   <Form.Group as={Col} xs={6} sm={2}>
                      <Form.Check label={"Open Now"} type="checkbox" />
+                  </Form.Group>
+                  <Form.Group as={Col} xs={6} sm={2}>
+                     <Form.Check label={"Gluten Free"} type="checkbox" />
+                  </Form.Group>
+                  <Form.Group as={Col} xs={6} sm={2}>
+                     <Form.Check label={"Dairy Free"} type="checkbox" />
+                  </Form.Group>
+                  <Form.Group as={Col} xs={6} sm={2}>
+                     <Form.Check label={"Kosher"} type="checkbox" />
+                  </Form.Group>
+                  <Form.Group as={Col} xs={6} sm={2}>
+                     <Form.Check label={"Halal"} type="checkbox" />
                   </Form.Group>
                </Form.Row>
             </div>
