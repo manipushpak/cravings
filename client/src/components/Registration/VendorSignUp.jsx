@@ -25,6 +25,7 @@ class VendorSignUp extends React.Component {
       this.updatePassword = this.updatePassword.bind(this);
       this.handleClearForm = this.handleClearForm.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
+      this.goToRegistration = this.goToRegistration.bind(this);
    }
 
    handleClearForm() {
@@ -37,18 +38,41 @@ class VendorSignUp extends React.Component {
       });
    }
 
-   handleSubmit(event) {
-      // We don't want the form to submit, so we prevent the default behavior
+   handleSubmit(event){
+      var self = this;
       event.preventDefault();
       if (event.currentTarget.checkValidity() === false) {
          event.stopPropagation;
          this.setState({ validated: true });
-      }else {
-         this.isSuccessful = true; // change this to call api to sign up user and see if its successful
-         if(this.isSuccessful){
-            window.location.assign('/#/vendorportal/register');
-         }
+      } else {   
+         fetch('/vendor/signup',{
+            method: 'POST',
+            body: JSON.stringify({
+               email: self.state.email,
+               password: self.state.password,
+            }),
+            headers: {"Content-Type": "application/json"}
+         })
+         .then(res => res.json())
+         .then(response => {
+            if(response.success){
+               this.goToRegistration(response.vendor);
+            }
+            else{
+               var x = document.getElementById("alertDiv");
+               x.style.display = "block";
+            }
+         })
       }
+   }
+
+   goToRegistration(vendor){
+      this.props.history.push({
+         pathname:"/register",
+         state:{
+             vendor: vendor
+          }
+      });
    }
 
    updateFirstName(e){
@@ -130,6 +154,9 @@ class VendorSignUp extends React.Component {
                         <p><a href="#" className="small" href="javascript:void(0)" onClick={this.props.toggleLogInSignUp}>Already have an account?</a></p>
                      </Form.Group>
                   </Form.Row>
+                  <div className={"alert alert-danger " + styles.emailExists} id = "alertDiv" role="alert" display="none">
+                     An account with this email already exists<a href="#" class="alert-link"></a>.
+                  </div>
                </Form>
             </div>
          </div>

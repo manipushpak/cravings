@@ -240,7 +240,7 @@ router.post('/vendor/signup', function (req, res) {
                 }
             }
             if (found) {
-                res.send({
+                res.json({
                     success: false,
                     error: "email already exists"
                 });
@@ -269,13 +269,13 @@ router.post('/vendor/signup', function (req, res) {
                 };
                 vendorDB.insertOne(newVendor, function (err, res2) {
                     if (err) {
-                        res.send({
+                        res.json({
                             success: false,
                             error: err
                         });
                     }
                     else {
-                        res.send({
+                        res.json({
                             success: true,
                             vendor: res2
                         });
