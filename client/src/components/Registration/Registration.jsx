@@ -7,6 +7,8 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 
+import { withRouter } from 'react-router-dom';
+
 import ButtonSet from './ButtonSet.jsx';
 import RegistrationVendor from './RegistrationVendor.jsx';
 import WeekOptions from './WeekOptions.jsx';
@@ -15,6 +17,7 @@ class Registration extends React.Component {
    constructor(props) {
       super(props);
       this.state = { 
+         vendor: typeof this.props.location.state.vendor,
          status: {
             edit: props.isEdit,
             view: props.isView
@@ -39,6 +42,7 @@ class Registration extends React.Component {
          numVendors: 1,
          validated: false
       }
+      console.log(this.state.vendor);
       
       // External Form Functions
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -343,4 +347,4 @@ const AllVendors = props => (
    </div>
 );
 
-export default Registration;
+export default withRouter(Registration);

@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form';
 
+import { withRouter } from 'react-router-dom';
+
 import md5 from 'md5';
 
 class VendorSignUp extends React.Component {
@@ -25,8 +27,7 @@ class VendorSignUp extends React.Component {
       this.updatePassword = this.updatePassword.bind(this);
       this.handleClearForm = this.handleClearForm.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
-      this.goToRegistration = this.goToRegistration.bind(this);
-   }
+   }  
 
    handleClearForm() {
       this.setState({
@@ -40,39 +41,31 @@ class VendorSignUp extends React.Component {
 
    handleSubmit(event){
       var self = this;
-      event.preventDefault();
-      if (event.currentTarget.checkValidity() === false) {
-         event.stopPropagation;
-         this.setState({ validated: true });
-      } else {   
-         fetch('/vendor/signup',{
-            method: 'POST',
-            body: JSON.stringify({
-               email: self.state.email,
-               password: self.state.password,
-            }),
-            headers: {"Content-Type": "application/json"}
-         })
-         .then(res => res.json())
-         .then(response => {
-            if(response.success){
-               this.goToRegistration(response.vendor);
-            }
-            else{
-               var x = document.getElementById("alertDiv");
-               x.style.display = "block";
-            }
-         })
-      }
-   }
 
-   goToRegistration(vendor){
-      this.props.history.push({
-         pathname:"/register",
-         state:{
-             vendor: vendor
-          }
-      });
+      fetch('/vendor/signup',{
+         method: 'POST',
+         body: JSON.stringify({
+            email: self.state.email,
+            password: self.state.password,
+         }),
+         headers: {"Content-Type": "application/json"}
+      })
+      .then(res => res.json())
+      .then(response => {
+         console.log(response.vendor);
+         if(response.success){
+            self.props.history.push({
+               pathname:'/register',
+               state:{
+                   vendor: response.vendor
+                }
+            });
+         }
+         else{
+            var x = document.getElementById("alertDiv");
+            x.style.display = "block";
+         }
+      })
    }
 
    updateFirstName(e){
@@ -164,4 +157,4 @@ class VendorSignUp extends React.Component {
    }
 }
 
-export default VendorSignUp;
+export default withRouter(VendorSignUp);

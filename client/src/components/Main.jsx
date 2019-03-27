@@ -18,7 +18,7 @@ const Main = () => {
             <Route path='/about' component={About}/>
             <Route path='/vendors' component={Vendors}/>
             <Route exact path='/vendorportal' component={VendorPortal}/>
-            <Route path={'/vendorportal/register'} render={() => <Registration isEdit={false} isView={false}/>} />
+            <Route path={'/register'} render={() => <Registration isEdit={false} isView={false}/>} />
             <Route path={'/vendorportal/account'} render={() => <Registration isEdit={false} isView={true}/>} />
             <Route path ='/vendorsignup' component ={VendorSignUp}/>
          </Switch>
