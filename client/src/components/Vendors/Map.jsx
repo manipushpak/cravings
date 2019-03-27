@@ -81,23 +81,6 @@ class Map extends React.Component {
          return <div className={ styles.loadingDiv }>Loading...</div> ;
       }
 
-      const GoogleMapElement = withGoogleMap(props => (
-         <GoogleMap
-            defaultCenter = { userLocation }
-            defaultZoom = { 13 }
-         >
-            {
-               this.props.vendors.map(vendor => {
-                  return (<Marker
-                     key={ vendor.name }
-                     icon={this.state.markerIcon}
-                     position={ vendor.vendorInfo.address.coordinates }
-                  ></Marker>);
-               })
-            }            
-         </GoogleMap>
-      ));
-
       return(
          <div>
             <GoogleMapElement

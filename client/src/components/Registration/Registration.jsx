@@ -36,6 +36,13 @@ class Registration extends React.Component {
             {open: false, startTime: null, endTime: null},
          ],
          keywords: [],
+         flags: {
+            v: false,
+            gf: false,
+            lf: false,
+            k: false,
+            h: false
+         },
          numVendors: 1,
          validated: false
       }
@@ -58,6 +65,7 @@ class Registration extends React.Component {
       this.updateEndTime = this.updateEndTime.bind(this);
       this.updateHours = this.updateHours.bind(this);
       this.updateKeywords = this.updateKeywords.bind(this);
+      this.updateFlags = this.updateFlags.bind(this);
 
       // Internal Form Functions
       this.activatePlacesSearch = this.activatePlacesSearch.bind(this);
@@ -149,6 +157,7 @@ class Registration extends React.Component {
    updateStartTime(e, index) {
       var weekday = this.state.hours[index];
       weekday.startTime = e.target.value;
+      console.log(e.target.value);
       this.updateHours(index, weekday);
    }
    updateEndTime(e, index) {
@@ -190,7 +199,7 @@ class Registration extends React.Component {
       this.setState({ numVendors: this.state.numVendors + 1 });
    }
    onRemoveVendor() {
-      this.setState({ numVendors: this.state.numVendors -1 })
+      this.setState({ numVendors: this.state.numVendors - 1 });
    }
 
    activatePlacesSearch() {

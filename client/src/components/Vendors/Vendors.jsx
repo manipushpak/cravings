@@ -3,6 +3,7 @@ import React from 'react';
 import classNames from 'classnames';
 import global from '../../styles/Global.css';
 import styles from '../../styles/Vendors/Vendors.css';
+import appStyles from '../../styles/App.css';
 import modalStyles from '../../styles/Vendors/ListModal.css';
 
 import Map from './Map.jsx';
@@ -12,7 +13,6 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import ReactModal from 'react-modal';
 
-import appStyles from '../../styles/App.css';
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 
 ReactModal.setAppElement("#App");
@@ -31,6 +31,10 @@ class Vendors extends React.Component {
          vendorModal: null
       };
       this.didProvideLocation = this.didProvideLocation.bind(this);
+      this.componentDidMount = this.componentDidMount.bind(this);
+      this.handleInputChange = this.handleInputChange.bind(this);
+      this.handleOpenModal = this.handleOpenModal.bind(this);
+      this.handleCloseModal = this.handleCloseModal.bind(this);
    }
 
    didProvideLocation() {
@@ -66,6 +70,42 @@ class Vendors extends React.Component {
       this.setState({ showModal: false });
    }
 
+   handleInputChange(e) {
+      var searchTerm = e.target.value;
+      if(searchTerm == ""){
+         fetch('/vendors')
+         .then(res => res.json())
+         .then(vendors => {
+            this.setState({ vendors })
+         })
+      }
+      else{
+         fetch('/vendor/name/'+searchTerm, {
+            headers : { 
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            }
+         })
+         .then(res => res.json())
+         .then(vendors => {
+            if(vendors != null){
+               this.setState({ vendors })
+            }
+         })
+      }
+   }
+
+   handleOpenModal(vendor) {
+      this.setState({
+         showModal: true,
+         vendorModal: vendor
+      });
+   }
+
+   handleCloseModal() {
+      this.setState({ showModal: false });
+   }
+
    render() {
       this.didProvideLocation();
 
@@ -85,9 +125,7 @@ class Vendors extends React.Component {
             >{text}</div>
          );
       };
- 
-      var headerStyle = classNames(styles.h1, global.h2);
-      
+       
       const ArrowLeft = Arrow({ text: '<', className: appStyles.arrowPrev });
       const ArrowRight = Arrow({ text: '>', className: appStyles.arrowNext });
       const menu = Menu(this.state.vendors);
@@ -98,7 +136,7 @@ class Vendors extends React.Component {
             <br />
             <div className = { styles.filters }>
                <Form.Row>
-                  <Form.Group as={Col} xs={6} sm={2}>
+                  <Form.Group as={Col} xs={6} sm={3} md={2}>
                      <Form.Check label={"Vegetarian"} type="checkbox" />
                   </Form.Group>
                   <Form.Group as={Col} xs={6} sm={3} md={2}>
