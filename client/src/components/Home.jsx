@@ -17,16 +17,10 @@ class Home extends React.Component {
       this.handleExplore = this.handleExplore.bind(this);
    }
 
-   handleChange(e){
-      this.setState({
-         searchTerm: e.target.value
-      });
-   }
-
    handleSearch() {
       var searchTerm = this.state.searchTerm;
    
-      fetch('/vendor/keywords/'+searchTerm, {
+      fetch('/search/'+searchTerm, {
          headers : { 
             'Content-Type': 'application/json',
             'Accept': 'application/json'
@@ -66,46 +60,6 @@ class Home extends React.Component {
       this.setState({
          searchTerm: e.target.value
       });
-   }
-
-   handleSearch() {
-      var searchTerm = this.state.searchTerm;
-   
-      fetch('/vendor/keywords/'+ searchTerm, {
-         headers : { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-         }
-      })
-      .then(res => res.json())
-      .then(vendors => {
-         this.props.history.push({
-            pathname:"/vendors",
-            state:{
-                vendors:vendors
-             }
-           });
-      })
-   }
-
-   handleExplore() {
-      var self = this;
-      console.log("in handleExplore()");
-      fetch('/keywords/random', {
-         headers : { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-         }
-      })
-      .then(res => res.json())
-      .then(searchTerm => {
-         console.log("keyword: " + searchTerm);
-         self.setState({
-            searchTerm: keyword
-         });
-         self.handleSearch();
-      })
-     
    }
 
    render() {

@@ -8,34 +8,6 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
 import appStyles from '../../styles/App.css';
-
-import ScrollMenu from 'react-horizontal-scrolling-menu';
-
-import ScrollMenu from 'react-horizontal-scrolling-menu';
-
-export const Menu = (list) =>
-    list.map(vendor => {
-      return <ListItem 
-         name={vendor.name} 
-         location={vendor.location.address}
-         />
-});
- 
- 
-const Arrow = ({ text, className }) => {
-  return (
-    <div
-      className={className}
-    >{text}</div>
-  );
-};
- 
- 
-const ArrowLeft = Arrow({ text: '<', className: 'arrow-prev'});
-const ArrowRight = Arrow({ text: '>', className: 'arrow-next' });
-
-import appStyles from '../../styles/App.css';
-
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 
 
@@ -45,7 +17,7 @@ class Vendors extends React.Component {
       var vendors = typeof this.props.location.state !== 'undefined' && this.props.location.state.vendors !== null
       ? this.props.location.state.vendors : [];
       this.state = {
-         vendors: vendors,
+         vendors: vendors.vendors,
          locationProvided: false,
          userLat: "",
          userLong: ""
@@ -75,38 +47,16 @@ class Vendors extends React.Component {
       );
    }
 
-   didProvideLocation() {
-      var self = this;      
-      // document.getElementById("userLocationText").innerHTML = "Detecting current location...";
-      
-      navigator.geolocation.getCurrentPosition(
-         position => {
-            const { latitude, longitude } = position.coords;
-            self.setState({
-               locationProvided: true,
-               userLat: latitude,
-               userLong: longitude
-            })
-         },
-         () => {
-            self.setState({
-               locationProvided: false
-            })
-            // document.getElementById("userLocationText").innerHTML = "Detecting current location...";document.getElementById("userLocationText").innerHTML = "Current location cannot be detected. Please try again or type in your street address.";
-         }
-      );
-   }
-
 
    render() {
       this.didProvideLocation();
 
       const Menu = (list) =>
-         list.map(vendor => {
-            return <ListItem 
-               name={vendor.vendorInfo.stallName}
-               key={vendor.vendorInfo.stallName}
-               />
+      list.map(vendor => {
+         return <ListItem 
+            name={vendor.vendorInfo.stallName}
+            key={vendor.vendorInfo.stallName}
+            />
       });
       
       
