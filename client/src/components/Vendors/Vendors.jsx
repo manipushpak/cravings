@@ -12,6 +12,7 @@ import ListItem from './ListItem.jsx';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import ReactModal from 'react-modal';
+import ListModal from './ListModal.jsx';
 
 import ScrollMenu from 'react-horizontal-scrolling-menu';
 
@@ -31,7 +32,6 @@ class Vendors extends React.Component {
          vendorModal: null
       };
       this.didProvideLocation = this.didProvideLocation.bind(this);
-      this.componentDidMount = this.componentDidMount.bind(this);
       this.handleInputChange = this.handleInputChange.bind(this);
       this.handleOpenModal = this.handleOpenModal.bind(this);
       this.handleCloseModal = this.handleCloseModal.bind(this);
