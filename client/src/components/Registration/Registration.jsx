@@ -309,13 +309,13 @@ class Registration extends React.Component {
                         <Form.Label>Dietary Options (optional)</Form.Label>
                         <Form.Row>
                            <Form.Group as={Col} xs={12} sm={6}>
-                              <Form.Check inline disabled={this.state.readOnly} label="Vegetarian/Vegan" name="v" type="checkbox" onChange={e => this.updateFlags(e)} />
-                              <Form.Check inline disabled={this.state.readOnly} label="Gluten-free" name="gf" type="checkbox" onChange={e => this.updateFlags(e)} />
-                              <Form.Check inline disabled={this.state.readOnly} label="Dairy-free" name="df" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check disabled={this.state.readOnly} label="Vegetarian/Vegan" name="v" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check disabled={this.state.readOnly} label="Gluten-free" name="gf" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check disabled={this.state.readOnly} label="Dairy-free" name="df" type="checkbox" onChange={e => this.updateFlags(e)} />
                            </Form.Group>
                            <Form.Group as={Col} xs={12} sm={6}>
-                              <Form.Check inline disabled={this.state.readOnly} label="Kosher" name="k" type="checkbox" onChange={e => this.updateFlags(e)} />
-                              <Form.Check inline disabled={this.state.readOnly} label="Halal" name="h" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check disabled={this.state.readOnly} label="Kosher" name="k" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check disabled={this.state.readOnly} label="Halal" name="h" type="checkbox" onChange={e => this.updateFlags(e)} />
                            </Form.Group>
                         </Form.Row>
                      </Form.Group>

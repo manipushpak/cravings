@@ -9,9 +9,23 @@ const ListModal = props => {
     const vendor = props.vendor;
 
     var mapURL = "https://www.google.com/maps/dir/?api=1&travelmode=walking";
-    mapURL += "&destination=" + vendor.location.coordinates.lat + "%2C" + vendor.location.coordinates.lng;
+    mapURL += "&destination=" + vendor.address.coordinates.lat + "%2C" + vendor.address.coordinates.lng;
 
-    var vendorTime = TimeConversion(vendor.hours[0]) + "-" + TimeConversion(vendor.hours[1]);
+    var vendorTime = '';
+    const days = ["M", "T", "W", "T", "F", "S", "S"];
+    for (var i=0; i<vendor.hours.length; i++) {
+        vendorTime += days[i] + ": ";
+
+        if (vendor.hours[i].open) {
+            vendorTime += TimeConversion(vendor.hours[i].startTime) + " - " + TimeConversion(vendor.hours[i].endTime);
+        } else {
+            vendorTime += "closed";
+        }
+
+        if (i !== vendor.hours.length-1) {
+            vendorTime += "\n\n";
+        }
+    }
 
     return(
         <div className={styles.listModal}>
@@ -43,22 +57,17 @@ const ListModal = props => {
             </Carousel>
             <div className={styles.infoDiv}>
                 <p className={styles.infoName}>
-                    {vendor.name === '' ? "Sample Vendor Name" : vendor.name}
+                    {vendor.stallName}
                 </p>
                 <p>
                     Sample description of vendor here.
                 </p>
                 <div className={styles.infoList}>
-                    <i className="fa-fw fa fa-map-marker-alt"></i>  {vendor.location.address === '' ? "Sample Location Address, CA 90007" : vendor.location.address}
+                    <i className="fa-fw fa fa-map-marker-alt"></i>  {vendor.address.address}
                     <br />
-                    <i className="fa-fw fa fa-clock"></i>  {vendorTime === '-' ? "0:00 AM - 0:00 PM" : vendorTime}
-                    { console.log(vendor) }
-                        <span className={ vendor.open ? styles.storeOpen : styles.storeClosed }>
-                        { vendor.open ? " (open now)" : " (closed)" }
-                        </span>
+                    <i className="fa-fw fa fa-clock"></i>  {vendorTime}
                     <br />
                     <a href={mapURL}>Show directions on map</a>
-                    
                 </div>
             </div>
             <button onClick={props.handleCloseModal} className={styles.listModalButton}>

@@ -11,19 +11,20 @@ const GoogleMapElement = withGoogleMap(props => (
    >
    {
       props.vendors.map(vendor => {
+         var vendorInfo = vendor.vendorInfo;
          return (
             <Marker
-               key={ vendor.name }
-               position={ vendor.location.coordinates }
-               onClick={ () => props.setActiveKey(vendor.name) }
+               key={ vendor.id }
+               position={ vendorInfo.address.coordinates }
+               onClick={ () => props.setActiveKey(vendorInfo.stallName) }
             > 
             { 
-               props.activeKey === vendor.name &&
+               props.activeKey === vendorInfo.stallName &&
                <InfoWindow 
                   onCloseClick={ () => props.setActiveKey(null) }
                >
-                  <div onClick={ () => props.openModal(vendor.name, vendor.location.address, "9:00 AM - 5:00 PM") }>
-                     <p>{ vendor.name }</p>    
+                  <div onClick={ () => props.openModal(vendorInfo) }>
+                     <p>{ vendorInfo.stallName }</p>    
                   </div>
                </InfoWindow>
             }

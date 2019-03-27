@@ -95,27 +95,18 @@ class Vendors extends React.Component {
       }
    }
 
-   handleOpenModal(vendor) {
-      this.setState({
-         showModal: true,
-         vendorModal: vendor
-      });
-   }
-
-   handleCloseModal() {
-      this.setState({ showModal: false });
-   }
-
    render() {
       this.didProvideLocation();
 
-      const Menu = (list) =>
-      list.map(vendor => {
-         return <ListItem 
-            name={vendor.vendorInfo.stallName}
-            key={vendor.vendorInfo.stallName}
-            />
-      });
+      const Menu = (list) => {
+         list.map(vendor => {
+            return <ListItem 
+               key={vendor.id}
+               vendorInfo={vendor.vendorInfo}
+               openModal={this.handleOpenModal}
+               />
+         });
+      }
       
       const Arrow = ({ text, className }) => {
          return (
@@ -139,16 +130,16 @@ class Vendors extends React.Component {
                   <Form.Group as={Col} xs={6} sm={3} md={2}>
                      <Form.Check label={"Open Now"} type="checkbox" />
                   </Form.Group>
-                  <Form.Group as={Col} xs={6} sm={2}>
+                  <Form.Group as={Col} xs={6} sm={3} md={2}>
                      <Form.Check label={"Gluten Free"} type="checkbox" />
                   </Form.Group>
-                  <Form.Group as={Col} xs={6} sm={2}>
+                  <Form.Group as={Col} xs={6} sm={3} md={2}>
                      <Form.Check label={"Dairy Free"} type="checkbox" />
                   </Form.Group>
-                  <Form.Group as={Col} xs={6} sm={2}>
+                  <Form.Group as={Col} xs={6} sm={3} md={2}>
                      <Form.Check label={"Kosher"} type="checkbox" />
                   </Form.Group>
-                  <Form.Group as={Col} xs={6} sm={2}>
+                  <Form.Group as={Col} xs={6} sm={3} md={2}>
                      <Form.Check label={"Halal"} type="checkbox" />
                   </Form.Group>
                </Form.Row>
@@ -160,18 +151,27 @@ class Vendors extends React.Component {
                   data={menu}
                   arrowLeft={ArrowLeft}
                   arrowRight={ArrowRight}
+                  dragging
+                  hideArrows
+                  hideSingleArrow
                /> <br />
                <h3 className={styles.h3}>Less than 10 min walk away</h3>
                <ScrollMenu
                   data={menu}
                   arrowLeft={ArrowLeft}
                   arrowRight={ArrowRight}
+                  dragging
+                  hideArrows
+                  hideSingleArrow
                /> <br />
                <h3 className={styles.h3}>Uber ride away</h3>
                <ScrollMenu
                   data={menu}
                   arrowLeft={ArrowLeft}
                   arrowRight={ArrowRight}
+                  dragging
+                  hideArrows
+                  hideSingleArrow
                />
             </div>
             {/* <div className = {styles.vendorColumn}>
