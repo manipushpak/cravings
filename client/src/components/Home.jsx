@@ -26,7 +26,7 @@ class Home extends React.Component {
    handleSearch() {
       var searchTerm = this.state.searchTerm;
    
-      fetch('/vendor/keywords/'+ searchTerm, {
+      fetch('/vendor/keywords/'+searchTerm, {
          headers : { 
             'Content-Type': 'application/json',
             'Accept': 'application/json'
@@ -45,7 +45,6 @@ class Home extends React.Component {
 
    handleExplore() {
       var self = this;
-      console.log("in handleExplore()");
       fetch('/keywords/random', {
          headers : { 
             'Content-Type': 'application/json',
@@ -54,9 +53,8 @@ class Home extends React.Component {
       })
       .then(res => res.json())
       .then(searchTerm => {
-         console.log("keyword: " + searchTerm);
          self.setState({
-            searchTerm: keyword
+            searchTerm: searchTerm
          });
          self.handleSearch();
       })
