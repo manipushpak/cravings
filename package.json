@@ -5,7 +5,6 @@
   "main": "app.js",
   "scripts": {
     "build-server": "tsc -p tsconfig.json",
-    "mongoose": "mongodb-osx-x86_64-4.0.6/bin/mongod",
     "start": "nodemon server/app.js --watch server --exec babel-node",
     "react-dev": "webpack -d --watch"
   },
@@ -31,7 +30,7 @@
     "bootstrap": "^4.2.1",
     "express": "^4.16.4",
     "jquery": "^3.3.1",
-    "mongodb": "^3.2.2",
+    "mongoose": "^5.4.14",
     "nodemon": "^1.18.9",
     "react": "^16.7.0",
     "react-bootstrap": "^1.0.0-beta.5",

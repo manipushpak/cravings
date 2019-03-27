@@ -13,7 +13,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var express = __importStar(require("express"));
 var router = express.Router();
 var sampledb_1 = __importDefault(require("../data/sampledb"));
-var sampledbusers_1 = __importDefault(require("../data/sampledbusers"));
 var bson_1 = require("bson");
 // import IUser from '../data/mongomanagers/usermanager';
 // import IVendor from '../data/mongomanagers/vendormanager';
@@ -22,13 +21,7 @@ var uri = "mongodb+srv://devikaku:Capstone%402019@cluster0-7syxc.mongodb.net/tes
 var client = new MongoClient(uri, { useNewUrlParser: true });
 var database;
 var vendorDB;
-var userDB;
 var keywordDB;
-// client.connect((err:any) => {
-//   const collection = client.db("test").collection("devices");
-//   // perform actions on the collection object
-//   client.close();
-// });
 // attempt to get database connection
 client.connect(function (err, client) {
     // unable to get database connection pass error to CB
@@ -40,7 +33,6 @@ client.connect(function (err, client) {
         console.log("successfully connnected!");
         database = client.db("401Capstone");
         vendorDB = database.collection("Vendors");
-        userDB = database.collection("Users");
         keywordDB = database.collection("Keywords");
         console.log("connected to test");
     }
@@ -76,62 +68,74 @@ router.get('/keywords/random', function (req, res, next) {
         }
     });
 });
-router.post('/vendor/create', function (req, res) {
-    var vendor = {
-        email: req.body.email,
-        password: req.body.password,
-        stallName: req.body.stallName,
-        vendorName: req.body.vendorName,
-        location: req.body.location,
-        keywords: req.body.keywords,
-        week: req.body.week,
-        hours: req.body.hours,
-        phone: req.body.phone,
-        open: req.body.open
-    };
-    vendorDB.findOne({
-        email: vendor.email
-    }, function (err, v) {
-        if (err) {
-            res.json({ success: false, error: err, place: "first" });
-        }
-        else {
-            if (v) {
-                res.json({ success: false, place: "second" });
+router.post('/vendor/register', function (req, res) {
+    var rvendor = req.body.vendor;
+    var success = false;
+    try {
+        vendorDB.findOneAndReplace({
+            loginInfo: rvendor.loginInfo
+        }, {
+            loginInfo: rvendor.loginInfo,
+            vendorInfo: rvendor.vendorInfo
+        }, { returnNewDocument: true }, function (err, res2) {
+            var vendor = res2.value;
+            if (err) {
+                res.send({ success: false, error: err.toString() });
+            }
+            else if (res2 == null || res2.value == null) {
+                res.send({ success: false, error: res2 });
             }
             else {
-                vendorDB.insertOne(vendor, function (error, response) {
-                    if (error) {
-                        res.json({ success: false, error: error, place: "third" });
-                        // return 
-                    }
-                    else {
-                        var arr = [];
-                        for (var key in vendor.keywords) {
-                            var obj = {
-                                keyword: vendor.keywords[key]
-                            };
-                            arr.push(obj);
-                        }
-                        console.log(arr);
-                        if (arr.length == 0) {
-                            res.json({ success: true });
+                var arr = [];
+                for (var key in vendor.vendorInfo.keywords) {
+                    var obj = {
+                        keyword: vendor.vendorInfo.keywords[key]
+                    };
+                    arr.push(obj);
+                }
+                console.log(arr);
+                if (arr.length == 0) {
+                    res.send({ success: true, vendor: vendor, keywords: false });
+                }
+                else {
+                    keywordDB.insertMany(arr, function (err, ress) {
+                        if (err) {
+                            console.log({ success: false, error: err });
                         }
                         else {
-                            keywordDB.insertMany(arr, function (err, ress) {
-                                if (err) {
-                                    console.log(err);
-                                }
-                                else {
-                                    res.json({ success: true });
-                                }
-                            });
+                            res.send({ success: true, vendor: vendor, keywords: true });
                         }
-                    }
-                });
+                    });
+                }
             }
-        }
-    });
+        });
+    }
+    catch (e) {
+        res.send({
+            success: false,
+            error: e.toString()
+        });
+    }
+});
+router.post('/vendor/modify', function (req, res) {
+    var vendor = req.body.vendor;
+    var success = false;
+    try {
+        vendorDB.findOneAndReplace({
+            loginInfo: vendor.loginInfo
+        }, {
+            loginInfo: vendor.loginInfo,
+            vendorInfo: vendor.vendorInfo
+        }, { returnNewDocument: true }, function (err, res2) {
+            res.send(res2.value);
+        });
+    }
+    catch (e) {
+        res.send({
+            success: false,
+            error: e.toString()
+        });
+    }
 });
 router.get('/vendor/:filter/:term', function (req, res) {
     var filter = req.params.filter;
@@ -143,7 +147,7 @@ router.get('/vendor/:filter/:term', function (req, res) {
         else {
             var all = vendors;
             if (filter.trim() === "name") {
-                res.json(all.filter(function (v) { return v.stallName.trim().toLowerCase().indexOf(term.trim().toLowerCase()) > -1; }));
+                res.json(all.filter(function (v) { return v.vendorInfo.stallName.trim().toLowerCase().indexOf(term.trim().toLowerCase()) > -1; }));
             }
             else if (filter.trim() === "keywords") {
                 var filtered = [];
@@ -151,8 +155,8 @@ router.get('/vendor/:filter/:term', function (req, res) {
                     var v = all[i];
                     var add = false;
                     if (v != undefined && v != null) {
-                        for (var j = 0; j < v.keywords.length; j++) {
-                            var k = v.keywords[j];
+                        for (var j = 0; j < v.vendorInfo.keywords.length; j++) {
+                            var k = v.vendorInfo.keywords[j];
                             if (k.trim().toLowerCase() === term.trim().toLowerCase()) {
                                 add = true;
                             }
@@ -180,17 +184,69 @@ router.get('/vendorId/:id', function (req, res, next) {
         }
     });
 });
-router.get('/vendorEmail/:email', function (req, res, next) {
-    vendorDB.findOne({
-        email: req.params.email
-    }, function (err, vendor) {
-        if (err) {
-            res.json(err);
-        }
-        else {
-            res.json(vendor);
-        }
-    });
+router.post('/vendor/signup', function (req, res) {
+    var verification = {
+        email: req.body.email,
+        hash: req.body.password
+    };
+    if (verification.email == null || verification.email == undefined || verification.email == ""
+        || verification.hash == null || verification.hash == undefined || verification.hash == "") {
+        res.json({ success: false, error: "Email or hash empty" });
+    }
+    else {
+        vendorDB.find({}).toArray(function (err, documents) {
+            var found = false;
+            for (var v in documents) {
+                var obj = documents[v];
+                if (documents[v].loginInfo.email == verification.email) {
+                    found = true;
+                }
+            }
+            if (found) {
+                res.send({
+                    success: false,
+                    error: "email already exists"
+                });
+            }
+            else {
+                var newVendor = {
+                    loginInfo: {
+                        email: verification.email,
+                        password: verification.hash
+                    },
+                    vendorInfo: {
+                        vendorName: [],
+                        stallName: "",
+                        phone: "",
+                        address: {
+                            address: "",
+                            coordinates: {
+                                lat: 0,
+                                lng: 0
+                            }
+                        },
+                        keywords: [],
+                        flags: [],
+                        hours: []
+                    }
+                };
+                vendorDB.insertOne(newVendor, function (err, res2) {
+                    if (err) {
+                        res.send({
+                            success: false,
+                            error: err
+                        });
+                    }
+                    else {
+                        res.send({
+                            success: true,
+                            vendor: res2
+                        });
+                    }
+                });
+            }
+        });
+    }
 });
 router.post('/vendor/authenticate', function (req, res) {
     var verification = {
@@ -202,8 +258,10 @@ router.post('/vendor/authenticate', function (req, res) {
         res.json({ success: false });
     }
     vendorDB.findOne({
-        email: verification.email,
-        password: verification.hash
+        loginInfo: {
+            email: verification.email,
+            password: verification.hash
+        }
     }, function (err, vendor) {
         if (err) {
             res.json({ success: false, error: err });
@@ -217,95 +275,6 @@ router.post('/vendor/authenticate', function (req, res) {
                     res.json({ success: false });
                 }
             }
-        }
-    });
-});
-router.get('/users', function (req, res, next) {
-    userDB.find({}).toArray(function (err, documents) {
-        if (err) {
-            res.send(err);
-        }
-        else {
-            res.send(documents);
-        }
-    });
-});
-router.get('/user/:id', function (req, res, next) {
-    userDB.findOne({ _id: new bson_1.ObjectId(req.params.id) }, function (err, vendor) {
-        if (err) {
-            res.json(err);
-        }
-        else {
-            res.json(vendor);
-        }
-    });
-});
-router.post('/user/create', function (req, res) {
-    var user = {
-        name: req.body.name,
-        email: req.body.email,
-        password: req.body.password,
-        phone: req.body.phone
-    };
-    userDB.findOne({
-        email: user.email
-    }, function (err, u) {
-        if (err) {
-            res.json({ success: false, error: err });
-        }
-        else {
-            if (u) {
-                res.json({ success: false });
-            }
-            else {
-                userDB.insertOne(user, function (error, response) {
-                    if (error) {
-                        res.json({ success: false, error: error });
-                        // return 
-                    }
-                    else {
-                        res.json({ success: true });
-                    }
-                });
-            }
-        }
-    });
-});
-router.post('/user/login', function (req, res) {
-    var verification = {
-        email: req.body.email,
-        hash: req.body.password
-    };
-    if (verification.email == null || verification.email == undefined || verification.email == ""
-        || verification.hash == null || verification.hash == undefined || verification.hash == "") {
-        res.json({ success: false });
-    }
-    userDB.findOne({
-        email: verification.email,
-        password: verification.hash
-    }, function (err, user) {
-        if (err) {
-            res.json({ success: false, error: err });
-        }
-        else {
-            {
-                if (user) {
-                    res.json({ success: true });
-                }
-                else {
-                    res.json({ success: false });
-                }
-            }
-        }
-    });
-});
-router.get('/initusers', function (req, res) {
-    userDB.insertMany(sampledbusers_1.default, function (err) {
-        if (err) {
-            res.send(err);
-        }
-        else {
-            res.send("success");
         }
     });
 });
@@ -347,41 +316,118 @@ router.get('/initkeywords', function (req, res) {
     });
 });
 router.get('/test', function (req, res) {
-    var verification = {
-        email: "mani@usc.edu",
-        hash: "ilovecravings1"
+    var rvendor = {
+        loginInfo: {
+            email: "devikadevika@usc.edu",
+            password: "hihihi"
+        },
+        vendorInfo: {
+            vendorName: [{
+                    firstName: "Devika",
+                    lastName: "Kumar"
+                },
+                {
+                    firstName: "Sonali",
+                    lastName: "Pai"
+                }
+            ],
+            stallName: "Devika's Pies",
+            phone: "6508239461",
+            address: {
+                address: "3760 Fig",
+                coordinates: {
+                    lat: 222,
+                    lng: 3333
+                }
+            },
+            keywords: [
+                "yummy", "usc"
+            ],
+            flags: ["v", "g-f", "d-f", "h", "k"],
+            hours: [
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: false,
+                    startTime: 900,
+                    endTime: 500,
+                }
+            ]
+        },
     };
-    if (verification.email == null || verification.email == undefined || verification.email == ""
-        || verification.hash == null || verification.hash == undefined || verification.hash == "") {
-        res.json({ success: false });
-    }
-    vendorDB.findOne({
-        email: verification.email,
-        password: verification.hash
-    }, function (err, vendor) {
-        if (err) {
-            res.json({ success: false, error: err });
-        }
-        else {
-            {
-                if (vendor) {
-                    res.json({ success: true, vendor: vendor });
+    var success = false;
+    try {
+        vendorDB.findOneAndReplace({
+            loginInfo: rvendor.loginInfo
+        }, {
+            loginInfo: rvendor.loginInfo,
+            vendorInfo: rvendor.vendorInfo
+        }, { returnNewDocument: true }, function (err, res2) {
+            var vendor = res2.value;
+            if (err) {
+                res.send({ success: false, error: err.toString() });
+            }
+            else if (res2 == null || res2.value == null) {
+                res.send({ success: false, error: res2 });
+            }
+            else {
+                var arr = [];
+                for (var key in vendor.vendorInfo.keywords) {
+                    var obj = {
+                        keyword: vendor.vendorInfo.keywords[key]
+                    };
+                    arr.push(obj);
+                }
+                console.log(arr);
+                if (arr.length == 0) {
+                    res.send({ success: true, vendor: vendor, keywords: false });
                 }
                 else {
-                    res.json({ success: false });
+                    keywordDB.insertMany(arr, function (err, ress) {
+                        if (err) {
+                            console.log({ success: false, error: err });
+                        }
+                        else {
+                            res.send({ success: true, vendor: vendor, keywords: true });
+                        }
+                    });
                 }
             }
-        }
-    });
-});
-router.get('/users', function (req, res, next) {
-    userDB.find({}).toArray(function (err, documents) {
-        if (err) {
-            res.send(err);
-        }
-        else {
-            res.send(documents);
-        }
-    });
+        });
+    }
+    catch (e) {
+        res.send({
+            success: false,
+            error: e.toString()
+        });
+    }
 });
 exports.default = router;
