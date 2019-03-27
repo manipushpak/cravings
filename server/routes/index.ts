@@ -1,7 +1,7 @@
 import * as express from 'express';
 let router = express.Router();
 // import DataManager from '../data/datamanager';
-import { Vendor, User } from '../models/types';
+import { Vendor, User, VendorInfo } from '../models/types';
 import vendors from '../data/sampledb';
 import { ObjectId } from 'bson';
 // import IUser from '../data/mongomanagers/usermanager';
@@ -156,39 +156,91 @@ router.post('/vendor/modify', (req, res) => { //DONE
 
 });
 
-router.get('/vendor/:filter/:term', (req, res) => { //DONE
-    let filter: string = req.params.filter;
+router.get('/search/:term', (req, res) => { //DONE
     let term: string = req.params.term;
-    vendorDB.find().toArray((err: any, vendors: any) => {
+    vendorDB.find({}).toArray((err: any, vendors: any) => {
+        let all: Vendor[] = vendors;
         if (err) {
-            res.json("Error");
-        } else {
+            res.json({success: false, error: err.toString()});
+        }
+        else if(all == null || all.length == 0){
+            res.json({success: false, error: "Error: no vendors"});
+        }
+        else {
 
-            let all: Vendor[] = vendors;
-            if (filter.trim() === "name") {
-                res.json(all.filter(v => v.vendorInfo.stallName.trim().toLowerCase().indexOf(term.trim().toLowerCase()) > -1));
-            } else if (filter.trim() === "keywords") {
-                let filtered: Vendor[] = [];
+            let results:Vendor[] = [];
 
-                for (let i = 0; i < all.length; i++) {
-                    let v: Vendor = all[i];
-                    let add: boolean = false;
-                    if (v != undefined && v != null) {
-                        for (let j = 0; j < v.vendorInfo.keywords.length; j++) {
-                            let k: string = v.vendorInfo.keywords[j];
-                            if (k.trim().toLowerCase() === term.trim().toLowerCase()) {
-                                add = true;
+            for(let v in all){
+                let current = all[v];
+                if(current == null){
+                    continue;
+                }
+                let currentVInfo = current.vendorInfo;
+                if(currentVInfo == null){
+                    continue;
+                }
+                let names:VendorInfo[] = currentVInfo.vendorName;
+                let stallName:string = currentVInfo.stallName;
+                let address = null;
+                if(currentVInfo.address!=null){
+                    address = currentVInfo.address.address;
+                }
+                let keywords:string[] = currentVInfo.keywords;
+                let include:boolean = false;
+
+                //names
+                if(names!=null && names.length>0){
+                    for(let k in names){
+                        let first = names[k].firstName.toLowerCase();
+                        let last = names[k].lastName.toLowerCase();
+                        let whole = first + " " + last;
+                        if (first.includes(term) || last.includes(term) || whole.includes(term)){
+                                include = true;
+                        }
+                    }
+                }
+
+                //stallname
+                if(!include){
+                    if(stallName!=null && stallName!=""){
+                        if(stallName.toLowerCase().includes(term)){
+                            include = true;
+                        }
+                    }
+                }
+
+                //address
+                if(!include){
+                    if(address!=null && address!=""){
+                        if(address.toLowerCase().includes(term)){
+                            include = true;
+                        }
+                    }
+
+                }
+
+                //keywords
+
+                if(!include){
+                    if(keywords!=null && keywords.length>0){
+                        for(let z in keywords){
+                            if(keywords[z].toLowerCase().includes(term)){
+                                include = true;
                             }
                         }
                     }
-                    if (add) {
-                        filtered.push(v);
-                    }
                 }
-                res.json(filtered);
-            } else {
-                res.json([]);
+
+                if(include){
+                    results.push(current);
+                }
+
+                
+
             }
+
+            res.json({success: true, vendors: results});
+
         }
     });
 });

@@ -137,40 +137,77 @@ router.post('/vendor/modify', function (req, res) {
         });
     }
 });
-router.get('/vendor/:filter/:term', function (req, res) {
-    var filter = req.params.filter;
+router.get('/search/:term', function (req, res) {
     var term = req.params.term;
-    vendorDB.find().toArray(function (err, vendors) {
+    vendorDB.find({}).toArray(function (err, vendors) {
+        var all = vendors;
         if (err) {
-            res.json("Error");
+            res.json({ success: false, error: err.toString() });
+        }
+        else if (all == null || all.length == 0) {
+            res.json({ success: false, error: "Error: no vendors" });
         }
         else {
-            var all = vendors;
-            if (filter.trim() === "name") {
-                res.json(all.filter(function (v) { return v.vendorInfo.stallName.trim().toLowerCase().indexOf(term.trim().toLowerCase()) > -1; }));
-            }
-            else if (filter.trim() === "keywords") {
-                var filtered = [];
-                for (var i = 0; i < all.length; i++) {
-                    var v = all[i];
-                    var add = false;
-                    if (v != undefined && v != null) {
-                        for (var j = 0; j < v.vendorInfo.keywords.length; j++) {
-                            var k = v.vendorInfo.keywords[j];
-                            if (k.trim().toLowerCase() === term.trim().toLowerCase()) {
-                                add = true;
+            var results = [];
+            for (var v in all) {
+                var current = all[v];
+                if (current == null) {
+                    continue;
+                }
+                var currentVInfo = current.vendorInfo;
+                if (currentVInfo == null) {
+                    continue;
+                }
+                var names = currentVInfo.vendorName;
+                var stallName = currentVInfo.stallName;
+                var address = null;
+                if (currentVInfo.address != null) {
+                    address = currentVInfo.address.address;
+                }
+                var keywords = currentVInfo.keywords;
+                var include = false;
+                //names
+                if (names != null && names.length > 0) {
+                    for (var k in names) {
+                        var first = names[k].firstName.toLowerCase();
+                        var last = names[k].lastName.toLowerCase();
+                        var whole = first + " " + last;
+                        if (first.includes(term) || last.includes(term) || whole.includes(term)) {
+                            include = true;
+                        }
+                    }
+                }
+                //stallname
+                if (!include) {
+                    if (stallName != null && stallName != "") {
+                        if (stallName.toLowerCase().includes(term)) {
+                            include = true;
+                        }
+                    }
+                }
+                //address
+                if (!include) {
+                    if (address != null && address != "") {
+                        if (address.toLowerCase().includes(term)) {
+                            include = true;
+                        }
+                    }
+                }
+                //keywords
+                if (!include) {
+                    if (keywords != null && keywords.length > 0) {
+                        for (var z in keywords) {
+                            if (keywords[z].toLowerCase().includes(term)) {
+                                include = true;
                             }
                         }
                     }
-                    if (add) {
-                        filtered.push(v);
-                    }
                 }
-                res.json(filtered);
+                if (include) {
+                    results.push(current);
+                }
             }
-            else {
-                res.json([]);
-            }
+            res.json({ success: true, vendors: results });
         }
     });
 });
