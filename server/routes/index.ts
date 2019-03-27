@@ -57,7 +57,7 @@ router.get('/keywords/random', (req, res, next) => { //DONE
             res.send(err)
         }else{
             let num = Math.floor(Math.random()*documents.length);
-            res.send(documents[num].keyword);
+            res.json(documents[num].keyword);
         }
     });
 });
