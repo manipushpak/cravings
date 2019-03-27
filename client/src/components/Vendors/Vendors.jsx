@@ -117,12 +117,9 @@ class Vendors extends React.Component {
             />
       });
       
-      
       const Arrow = ({ text, className }) => {
          return (
-            <div
-               className={className}
-            >{text}</div>
+            <div className={className}>{text}</div>
          );
       };
        
