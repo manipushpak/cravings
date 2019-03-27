@@ -1,4 +1,7 @@
 import React from 'react';
+
+import classNames from 'classnames';
+import global from '../../styles/Global.css';
 import styles from '../../styles/Registration/VendorPortal.css';
 
 import Button from 'react-bootstrap/Button';
@@ -36,14 +39,12 @@ class VendorLogIn extends React.Component {
 
         }
     }
-
     handleClearForm() {
         this.setState({
             email: '',
             password: ''
         });
     }
-
     updateEmail(e){
         this.setState({ email: e.target.value });
     }
@@ -53,10 +54,12 @@ class VendorLogIn extends React.Component {
     }
 
     render() {
+        var innerContainer = classNames(styles.innerContainer, global.formContainer);
+
         return(
-            <div className={styles.innerContainer}>
+            <div className={innerContainer}>
                 <div className={styles.column}>
-                    <h1>Log In</h1>
+                    <h1 className={global.formHeader}>Log In</h1>
                     <br />
                     <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
                         <Form.Row>
@@ -74,22 +77,18 @@ class VendorLogIn extends React.Component {
                             </Form.Group>
                         </Form.Row>
                         <Form.Row>
-                            <Form.Group as={Col} xs={12} md={12}>
-                                <Button className={ styles.button } variant="primary" type="submit">
-                                    Submit
-                                </Button>
-                                <Button className={ styles.button } variant="secondary" type="reset" onClick={ this.handleClearForm }>
-                                    Reset
-                                </Button>
+                            <Button className={ styles.button } variant="primary" type="submit">
+                                Submit
+                            </Button>
+                            <Button className={ styles.button } variant="secondary" type="reset" onClick={ this.handleClearForm }>
+                                Reset
+                            </Button>
+                        </Form.Row> 
+                        <Form.Row>
+                            <Form.Group as={Col}>
+                                <a className="small" href="javascript:void();">Forgot password?</a>
+                                <Form.Text className="text-muted">Don't have an account? <a href="javascript:void(0)" onClick={this.props.toggleLogInSignUp}>Sign up.</a></Form.Text>
                             </Form.Group>
-                        </Form.Row>
-                        <Form.Row>
-                            <a className="small" href="javascript:void();">Forgot password?</a>
-                        </Form.Row>  
-                        <Form.Row>
-                            <div className="d-flex justify-content-center links"></div>
-                            <Form.Text className="text-muted">Don't have an account? <a className= "medium"
-                             href="javascript:void(0)" onClick={this.props.toggleLogInSignUp}>Sign Up</a></Form.Text>
                         </Form.Row>   
                     </Form>
                 </div>

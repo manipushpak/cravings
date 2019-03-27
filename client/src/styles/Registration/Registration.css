@@ -22,15 +22,8 @@
     position: absolute;
     top: 40px;
     right: 40px;
-    padding-left: 5px;
-    color: red;
     display: flex;
     align-items: center;
-}
-
-:local .editButtonDivHide {
-    composes: editButtonDiv;
-    display: none;
 }
 
 :local .input {

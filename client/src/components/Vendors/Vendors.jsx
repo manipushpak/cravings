@@ -1,4 +1,7 @@
 import React from 'react';
+
+import classNames from 'classnames';
+import global from '../../styles/Global.css';
 import styles from '../../styles/Vendors/Vendors.css';
 import modalStyles from '../../styles/Vendors/ListModal.css';
 
@@ -83,14 +86,17 @@ class Vendors extends React.Component {
          );
       };
  
+      var headerStyle = classNames(styles.h1, global.h2);
       
       const ArrowLeft = Arrow({ text: '<', className: appStyles.arrowPrev });
       const ArrowRight = Arrow({ text: '>', className: appStyles.arrowNext });
       const menu = Menu(this.state.vendors);
+      
       return(
-         <div className={ styles.outerContainer }>
-            <h1 className={styles.h1}>Spots near you</h1> <br />
-            <div className = {styles.filters}>
+         <div className={ styles.outerContainer } controlid='vendors'>
+            <h2 className={ global.h2 }>Spots near you</h2>
+            <br />
+            <div className = { styles.filters }>
                <Form.Row>
                   <Form.Group as={Col} xs={6} sm={2}>
                      <Form.Check label={"Vegetarian"} type="checkbox" />
@@ -133,17 +139,17 @@ class Vendors extends React.Component {
                   arrowRight={ArrowRight}
                />
             </div>
-            {/* <div className = {styles.vendorList}>
+            {/* <div className = {styles.vendorColumn}>
                <List vendors={ this.state.vendors } openModal={ this.handleOpenModal } />
             </div> */}
             <div className={ styles.mapColumn }>
                <Map vendors={ this.state.vendors } openModal={ this.handleOpenModal } />
             </div>
             <ReactModal 
-               isOpen={this.state.showModal}
-               onRequestClose={this.handleCloseModal}
-               overlayClassName={modalStyles.modalOverlay}
-               className={modalStyles.modalContent}
+               isOpen={ this.state.showModal }
+               onRequestClose={ this.handleCloseModal }
+               overlayClassName={ modalStyles.modalOverlay }
+               className={ modalStyles.modalContent }
             >
                <ListModal 
                   handleCloseModal={ this.handleCloseModal } 

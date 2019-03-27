@@ -18,10 +18,7 @@ class Registration extends React.Component {
    constructor(props) {
       super(props);
       this.state = { 
-         status: {
-            edit: props.isEdit,
-            view: props.isView
-         },
+         readOnly: true,
          stallName: '',
          phone: '',
          address: '',
@@ -51,8 +48,7 @@ class Registration extends React.Component {
       this.handleCancelEdit = this.handleCancelEdit.bind(this);
 
       // Set State Functions
-      this.setToView = this.setToView.bind(this);
-      this.setToEdit = this.setToEdit.bind(this);
+      this.toggleReadOnly = this.toggleReadOnly.bind(this);
       this.updateStallName = this.updateStallName.bind(this);
       this.updatePhone = this.updatePhone.bind(this);
       this.updateAddress = this.updateAddress.bind(this);
@@ -90,12 +86,7 @@ class Registration extends React.Component {
             }),
             headers: {"Content-Type": "application/json"}
          }).then((response) => {
-            this.setState({
-               status: {
-                  edit: false,
-                  view: true
-               },
-            });
+            this.setState({ readOnly: true });
             return response.json();
          });
       }
@@ -123,20 +114,17 @@ class Registration extends React.Component {
       });
    }
    handleEditForm() {
-      this.setToEdit();
+      this.toggleReadOnly();
    }
    handleSaveEdit(event) {
-      this.setToView();
+      this.toggleReadOnly();
    }
    handleCancelEdit(event) {
-      this.setToView();
+      this.toggleReadOnly();
    }
 
-   setToView() {
-      this.setState({ status: { edit: false, view: true } });
-   }
-   setToEdit() {
-      this.setState({ status: { edit: true, view: false } });
+   toggleReadOnly() {
+      this.setState({ readOnly: !this.state.readOnly });
    }
 
    updateStallName(e) {
@@ -169,6 +157,11 @@ class Registration extends React.Component {
       this.updateHours(index, weekday);
    }   
    updateHours(index, weekday) {
+      if(!weekday.open) {
+         weekday.startTime = null;
+         weekday.endTime = null;
+      }
+
       this.setState(prevState => ({
          hours: {
              ...prevState.hours,
@@ -178,6 +171,19 @@ class Registration extends React.Component {
    }
    updateKeywords(e) {
       this.setState({ keywords: e.target.value.split(", ") });
+   }
+   updateFlags(e) {
+      if (e.target.name === "v") {
+         this.setState({ flags: { v: e.target.checked } });
+      } else if (e.target.name === "lf") {
+         this.setState({ flags: { gf: e.target.checked} });
+      } else if (e.target.name === "df") {
+         this.setState({ flags: { lf: e.target.checked} });
+      } else if (e.target.name === "k") {
+         this.setState({ flags: { k: e.target.checked} });
+      } else if (e.target.name === "h") {
+         this.setState({ flags: { h: e.target.checked} });
+      }
    }
 
    onAddVendor() {
@@ -236,15 +242,15 @@ class Registration extends React.Component {
 
       const vendors = [];
       for (var i = 0; i < this.state.numVendors; i += 1) {
-        vendors.push(<RegistrationVendor key={i} number={i} onRemoveVendor={this.onRemoveVendor} readOnly={this.state.status.view}/>);
+        vendors.push(<RegistrationVendor key={i} number={i} onRemoveVendor={this.onRemoveVendor} readOnly={this.state.readOnly}/>);
         console.log(vendors);
       };
 
-      var outerContainer = classNames(styles.outerContainer, global.floatingWindow);
+      var outerContainer = classNames(styles.outerContainer, global.floatingWindow, global.formContainer);
 
       return(
          <div className={outerContainer}>
-            <h1>My Account</h1>
+            <h1 className={global.formHeader}>My Account</h1>
             <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
                <br /><br />
                <h3>Stall Information</h3>
@@ -253,55 +259,54 @@ class Registration extends React.Component {
                <Row>
                   <Form.Group as={Col} controlId="stallName" xs={12} md={6}>
                      <Form.Label>Stall Name</Form.Label>
-                     <Form.Control readOnly={this.state.status.view} placeholder="Enter stall name (ex. Carlo's Mangoes)" onChange={e => this.updateStallName(e)} required />
+                     <Form.Control readOnly={this.state.readOnly} placeholder="Enter stall name (ex. Carlo's Mangoes)" onChange={e => this.updateStallName(e)} required />
                      <Form.Control.Feedback type="invalid">Please enter your stall name (ex. Carlo's Mangoes).</Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="phoneNumber" xs={12} md={6}>
                      <Form.Label>Phone Number</Form.Label>
-                     <Form.Control readOnly={this.state.status.view} placeholder="Enter phone number (123-456-7890)" pattern="^\d{3}-\d{3}-\d{4}$" onChange={e => this.updatePhone(e)} required />
+                     <Form.Control readOnly={this.state.readOnly} placeholder="Enter phone number (123-456-7890)" pattern="^\d{3}-\d{3}-\d{4}$" onChange={e => this.updatePhone(e)} required />
                      <Form.Control.Feedback type="invalid">Please enter your phone number (xxx-xxx-xxxx).</Form.Control.Feedback>
                   </Form.Group>
                </Row>
 
-               <AddressSet view={this.state.status.view} value={this.state.address} onChange={e => this.updateAddress(e.target.value)} onClick={e => this.useCurrentLocation(e)} />
+               <AddressSet readOnly={this.state.readOnly} value={this.state.address} onChange={e => this.updateAddress(e.target.value)} onClick={e => this.useCurrentLocation(e)} />
 
                <Row>
                   <Form.Group as={Col} controlId="openingDaysAndTimes" xs={12} md={6}>
-                     <Form.Label>Opening Days and Hours (optional)</Form.Label>
-                     <WeekOptions label="Monday" disabled={!this.state.hours[0].open} readOnly={this.state.status.view}
+                     <Form.Label>Opening Hours (optional)</Form.Label>
+                     <WeekOptions label="Monday" disabled={!this.state.hours[0].open} readOnly={this.state.readOnly}
                         ocCheck={e => this.updateWeek(e,0)} ocStart={e => this.updateStartTime(e,0)} ocEnd={e => this.updateEndTime(e,0)} />
-                     <WeekOptions label="Tuesday" disabled={!this.state.hours[1].open} readOnly={this.state.status.view}
+                     <WeekOptions label="Tuesday" disabled={!this.state.hours[1].open} readOnly={this.state.readOnly}
                         ocCheck={e => this.updateWeek(e,1)} ocStart={e => this.updateStartTime(e,1)} ocEnd={e => this.updateEndTime(e,1)} />
-                     <WeekOptions label="Wednesday" disabled={!this.state.hours[2].open} readOnly={this.state.status.view}
+                     <WeekOptions label="Wednesday" disabled={!this.state.hours[2].open} readOnly={this.state.readOnly}
                         ocCheck={e => this.updateWeek(e,2)} ocStart={e => this.updateStartTime(e,2)} ocEnd={e => this.updateEndTime(e,2)} />
-                     <WeekOptions label="Thursday" disabled={!this.state.hours[3].open} readOnly={this.state.status.view}
+                     <WeekOptions label="Thursday" disabled={!this.state.hours[3].open} readOnly={this.state.readOnly}
                         ocCheck={e => this.updateWeek(e,3)} ocStart={e => this.updateStartTime(e,3)} ocEnd={e => this.updateEndTime(e,3)} />
-                     <WeekOptions label="Friday" disabled={!this.state.hours[4].open} readOnly={this.state.status.view}
+                     <WeekOptions label="Friday" disabled={!this.state.hours[4].open} readOnly={this.state.readOnly}
                         ocCheck={e => this.updateWeek(e,4)} ocStart={e => this.updateStartTime(e,4)} ocEnd={e => this.updateEndTime(e,4)} />
-                     <WeekOptions label="Saturday" disabled={!this.state.hours[5].open} readOnly={this.state.status.view}
+                     <WeekOptions label="Saturday" disabled={!this.state.hours[5].open} readOnly={this.state.readOnly}
                         ocCheck={e => this.updateWeek(e,5)} ocStart={e => this.updateStartTime(e,5)} ocEnd={e => this.updateEndTime(e,5)} />
-                     <WeekOptions label="Sunday" disabled={!this.state.hours[6].open} readOnly={this.state.status.view}
+                     <WeekOptions label="Sunday" disabled={!this.state.hours[6].open} readOnly={this.state.readOnly}
                         ocCheck={e => this.updateWeek(e,6)} ocStart={e => this.updateStartTime(e,6)} ocEnd={e => this.updateEndTime(e,6)} />
                   </Form.Group>
                   <Form.Group as={Col} xs={12} md={6}>
                      <Form.Group controlId="keywords">
                         <Form.Label>Keywords (optional)</Form.Label>
-                        <Form.Control as="textarea" rows="5" cols="60" readOnly={this.state.status.view} onChange={e => this.updateKeywords(e)}/>
+                        <Form.Control as="textarea" rows="5" cols="60" readOnly={this.state.readOnly} onChange={e => this.updateKeywords(e)}/>
                         <Form.Text className="text-muted">Separate your keywords by comma (e.g. "tacos, mexican food, burritos")</Form.Text>
                      </Form.Group>
                      <Form.Group controlId="dietary">
                         <Form.Label>Dietary Options (optional)</Form.Label>
                         <Form.Row>
-                           <Form.Group as={Col} xs={6}>
-                              <Form.Check label={"Vegetarian"} type="checkbox" />
-                              <Form.Check label={"Vegan"} type="checkbox" />
-                              <Form.Check label={"Lactose-free"} type="checkbox" />
+                           <Form.Group as={Col} xs={12} sm={6}>
+                              <Form.Check inline disabled={this.state.readOnly} label="Vegetarian/Vegan" name="v" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check inline disabled={this.state.readOnly} label="Gluten-free" name="gf" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check inline disabled={this.state.readOnly} label="Dairy-free" name="df" type="checkbox" onChange={e => this.updateFlags(e)} />
                            </Form.Group>
-                           <Form.Group as={Col} xs={6}>
-                              <Form.Check label={"Dairy-free"} type="checkbox" />
-                              <Form.Check label={"Kosher"} type="checkbox" />
-                              <Form.Check label={"Halal"} type="checkbox" />
+                           <Form.Group as={Col} xs={12} sm={6}>
+                              <Form.Check inline disabled={this.state.readOnly} label="Kosher" name="k" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check inline disabled={this.state.readOnly} label="Halal" name="h" type="checkbox" onChange={e => this.updateFlags(e)} />
                            </Form.Group>
                         </Form.Row>
                      </Form.Group>
@@ -312,11 +317,11 @@ class Registration extends React.Component {
                <h3>Vendor Information</h3>
                <br />
 
-               <AllVendors addVendor={this.onAddVendor} vendors={vendors} disabled={this.state.status.view} />
+               <AllVendors addVendor={this.onAddVendor} vendors={vendors} disabled={this.state.readOnly} />
 
                <br />
                
-               <ButtonSet status={this.state.status} 
+               <ButtonSet readOnly={this.state.readOnly}
                   onClickCancel={ this.handleCancelEdit }
                   onClickEdit={ this.handleEditForm }
                   onClickReset={ this.handleResetForm }
@@ -329,11 +334,11 @@ class Registration extends React.Component {
 }
 
 const AddressSet = props => {
-   if (props.view) {
+   if (props.readOnly) {
       return(
          <Form.Group>
             <Form.Label>Address</Form.Label>
-            <Form.Control readOnly placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddressView } value={props.address} onChange={props.onChange} />
+            <Form.Control readOnly placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddressView } value={props.value} onChange={props.onChange} />
             <Form.Text id="userLocationText" className="text-muted"></Form.Text>
             <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
          </Form.Group>
@@ -343,11 +348,11 @@ const AddressSet = props => {
          <Form.Group>
             <Form.Label>Address</Form.Label>
             <InputGroup>
-               <Form.Control placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddress } value={props.address} onChange={props.onChange} required />
-               <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
+               <Form.Control placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddress } value={props.value} onChange={props.onChange} required />
                <InputGroup.Append className={ styles.inputGroupAppend }>
                   <Button variant="light" onClick={props.onClick}>Use Current Location</Button>
                </InputGroup.Append>
+               <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
             </InputGroup>
             <Button size="sm" variant="light" className={ styles.inputGroupButton } onClick={props.onClick} block>Use Current Location</Button>
             <Form.Text id="userLocationText" className="text-muted"></Form.Text>

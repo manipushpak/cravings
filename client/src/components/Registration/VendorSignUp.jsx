@@ -1,4 +1,7 @@
 import React from 'react';
+
+import classNames from 'classnames';
+import global from '../../styles/Global.css';
 import styles from '../../styles/Registration/VendorPortal.css';
 
 import Button from 'react-bootstrap/Button';
@@ -69,10 +72,12 @@ class VendorSignUp extends React.Component {
    }
 
    render() {
+      var innerContainer = classNames(styles.innerContainer, global.formContainer);
+
       return(
-         <div className={styles.innerContainer}>
+         <div className={innerContainer}>
             <div className={styles.column}>
-               <h1>Sign Up</h1>
+               <h1 className={global.formHeader}>Sign Up</h1>
                <br />
                <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
                   <Form.Row>
@@ -125,7 +130,9 @@ class VendorSignUp extends React.Component {
                   </Form.Row>
 
                   <Form.Row>
-                     <Form.Text><a href="#" href="javascript:void(0)" onClick={this.props.toggleLogInSignUp}>Already have an account?</a></Form.Text>
+                     <Form.Group as={Col}>
+                        <a className="small" href="javascript:void();" onClick={this.props.toggleLogInSignUp}>Already have an account?</a>
+                     </Form.Group>
                   </Form.Row>
                </Form>
             </div>
