@@ -105,9 +105,12 @@ class VendorLogIn extends React.Component {
                             <Form.Text className="text-muted">Don't have an account? <a className= "medium"
                              href="javascript:void(0)" onClick={this.props.toggleLogInSignUp}>Sign Up</a></Form.Text>
                         </Form.Row>
-                        <div className={"alert alert-danger " + styles.emailExists} id = "alertDiv" role="alert" display="none">
-                            Incorrect password or account doesn't exist<a href="#" class="alert-link"></a>.
-                        </div>   
+                        <br />
+                        <Form.Row>
+                            <div className={"alert alert-danger " + styles.emailExists} id = "alertDiv" role="alert" display="none">
+                                Incorrect password or account doesn't exist<a href="#" class="alert-link"></a>.
+                            </div>   
+                        </Form.Row>
                     </Form>
                 </div>
             </div>

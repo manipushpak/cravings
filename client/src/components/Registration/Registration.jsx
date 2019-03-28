@@ -370,7 +370,7 @@ const AllVendors = props => (
      <div id="vendors-pane">
        {props.vendors}
      </div>
-     <p show={props.toShow}><a href="void:()" onClick={props.addVendor}>+ Add Another Vendor</a></p>
+     <p show={props.toShow}><a onClick={props.addVendor} href="javascript: return false;">+ Add Another Vendor</a></p>
    </div>
 );
 

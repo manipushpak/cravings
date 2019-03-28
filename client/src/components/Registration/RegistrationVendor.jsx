@@ -38,7 +38,7 @@ const DeleteVendorButton = props => {
     return (
         <Form.Group as={Col} controlId="remove" xs={12} md={1}>
             <br />
-            <p><a className={styles.aTag} href="void:()" onClick={props.onClick}>
+            <p><a className={styles.aTag} onClick={props.onClick}>
                 <i className="far fa-trash-alt"></i>
             </a></p>
         </Form.Group>
