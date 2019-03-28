@@ -137,6 +137,7 @@ router.post('/vendor/filter', function (req, res) {
                 }
             }
         });
+        res.send(filtered);
     }
 });
 router.post('/vendor/modify', function (req, res) {
@@ -375,67 +376,26 @@ router.get('/initkeywords', function (req, res) {
     });
 });
 router.get('/test', function (req, res) {
-    var verification = {
-        email: "dededed@usc.edu",
-        hash: "fsdfs"
-    };
-    if (verification.email == null || verification.email == undefined || verification.email == ""
-        || verification.hash == null || verification.hash == undefined || verification.hash == "") {
-        res.json({ success: false, error: "Email or hash empty" });
+    var vendors = sampledb_1.default;
+    var filters = ["h"];
+    if (filters == null || filters.length == 0) {
+        res.send({ success: true, vendors: vendors, error: "No filters" });
     }
     else {
-        vendorDB.find({}).toArray(function (err, documents) {
-            var found = false;
-            for (var v in documents) {
-                var obj = documents[v];
-                if (documents[v].loginInfo.email == verification.email) {
-                    found = true;
+        var filterlist_2 = new Set();
+        for (var k in filters) {
+            filterlist_2.add(filters[k].toLowerCase());
+        }
+        var filtered = vendors.filter(function (v) {
+            if (!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)) {
+                for (var f in v.vendorInfo.flags) {
+                    if (filterlist_2.has(v.vendorInfo.flags[f].toLowerCase())) {
+                        return v;
+                    }
                 }
             }
-            if (found) {
-                res.send({
-                    success: false,
-                    error: "email already exists"
-                });
-            }
-            else {
-                var newVendor = {
-                    loginInfo: {
-                        email: verification.email,
-                        password: verification.hash
-                    },
-                    vendorInfo: {
-                        vendorName: [],
-                        stallName: "",
-                        phone: "",
-                        address: {
-                            address: "",
-                            coordinates: {
-                                lat: 0,
-                                lng: 0
-                            }
-                        },
-                        keywords: [],
-                        flags: [],
-                        hours: []
-                    }
-                };
-                vendorDB.insertOne(newVendor, function (err, res2) {
-                    if (err) {
-                        res.send({
-                            success: false,
-                            error: err
-                        });
-                    }
-                    else {
-                        res.send({
-                            success: true,
-                            vendor: res2
-                        });
-                    }
-                });
-            }
         });
+        res.send(filtered);
     }
 });
 exports.default = router;

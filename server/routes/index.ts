@@ -2,7 +2,7 @@ import * as express from 'express';
 let router = express.Router();
 // import DataManager from '../data/datamanager';
 import { Vendor, User, VendorInfo } from '../models/types';
-import vendors from '../data/sampledb';
+import vendorS from '../data/sampledb';
 import { ObjectId } from 'bson';
 // import IUser from '../data/mongomanagers/usermanager';
 // import IVendor from '../data/mongomanagers/vendormanager';
@@ -156,6 +156,10 @@ router.post('/vendor/filter', (req, res) => { //DONE
             }
            
         });
+
+        res.send(filtered);
+
+
 
     }
 
@@ -406,7 +410,7 @@ router.post('/vendor/authenticate', (req, res) => { //DONE!!!!
 
 router.get('/initvendors', (req, res) => { //DONE
 
-    vendorDB.insertMany(vendors, (err: any) => {
+    vendorDB.insertMany(vendorS, (err: any) => {
         if (err) {
             res.send(err)
         } else {
@@ -449,77 +453,38 @@ router.get('/initkeywords', (req, res) => { //DONE
 
 router.get('/test', (req, res) => {//DONE
 
-    let verification: any =
-    {
-        email: "dededed@usc.edu",
-        hash: "fsdfs"
-    };
 
+    let vendors: Vendor[] = vendorS;
+    let filters: string[] = ["h"];
 
-    if (verification.email == null || verification.email == undefined || verification.email == ""
-        || verification.hash == null || verification.hash == undefined || verification.hash == "") {
-        res.json({ success: false, error: "Email or hash empty"});
+    if(filters == null || filters.length == 0){
+        res.send({success: true, vendors: vendors, error: "No filters"});
     }else{
 
-        vendorDB.find({}).toArray((err: any, documents: any)=> {
+        let filterlist:Set<string> = new Set<string>();
+        for(let k in filters){
+            filterlist.add(filters[k].toLowerCase());
+        }
 
-            let found:boolean = false;
-            for(let v in documents){
-                let obj = documents[v];
-                if(documents[v].loginInfo.email==verification.email){
-                    found = true;
-                }
-            }
-    
-            if(found){
-                res.send({
-                    success: false,
-                    error: "email already exists"
-                });
-            }else{
-                let newVendor:Vendor = {
-                    loginInfo: {
-                        email: verification.email,
-                        password: verification.hash
-                    },
-                    vendorInfo: {
-                        vendorName: [],
-                        stallName: "",
-                        phone: "",
-                        address: {
-                            address: "",
-                            coordinates: {
-                                lat: 0,
-                                lng: 0
-                            }
-                        },
-                        keywords: [],
-                        flags: [],
-                        hours: []
+        let filtered:Vendor[] = vendors.filter(v => {
+            
+            if(!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)){
+                
+                for(let f in v.vendorInfo.flags){
+                    if(filterlist.has(v.vendorInfo.flags[f].toLowerCase())){
+                        return v;
                     }
                 }
-    
-                vendorDB.insertOne(newVendor, (err:any, res2:any)=>{
-    
-                    if(err){
-                        res.send({
-                            success: false,
-                            error: err
-                        }); 
-                    }else{
-                        res.send({
-                            success: true,
-                            vendor: res2
-                        });
-                    }
-    
-                });
+
             }
-    
+           
         });
 
-    }
+        res.send(filtered);
 
+
+
+    }
 });
 
 export default router;

@@ -29,7 +29,7 @@ const vendors: Vendor[] = [
             keywords: [
                 "pie", "usc"
             ],
-            flags: ["v", "g-f", "d-f", "h", "k"],
+            flags: ["v"],
             hours: [
                 {
                     open:true,
@@ -97,7 +97,7 @@ const vendors: Vendor[] = [
         keywords: [
             "noodles", "usc"
         ],
-        flags: ["v", "g-f", "d-f", "h", "k"],
+        flags: ["g-f"],
         hours: [
             {
                 open:true,
@@ -161,7 +161,7 @@ const vendors: Vendor[] = [
         keywords: [
             "pudding", "usc", "trojans"
         ],
-        flags: ["v", "g-f", "h", "k"],
+        flags: ["h"],
         hours: [
             {
                 open:true,
@@ -226,7 +226,7 @@ const vendors: Vendor[] = [
         keywords: [
             "cookies"
         ],
-        flags: ["v", "g-f", "h", "k"],
+        flags: ["k"],
         hours: [
             {
                 open:true,
