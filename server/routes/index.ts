@@ -51,13 +51,15 @@ router.get('/keywords', (req, res, next) => { //DONE
     });
 });
 
+
+
 router.get('/keywords/random', (req, res, next) => { //DONE
     keywordDB.find({}).toArray((err: any, documents: any)=> {
         if (err){ 
             res.send(err)
         }else{
             let num = Math.floor(Math.random()*documents.length);
-            res.json(documents[num].keyword);
+            res.send(documents[num].keyword);
         }
     });
 });
@@ -118,6 +120,41 @@ router.post('/vendor/register', (req, res) => { //DONE
         res.send({
             success: false,
             error: e.toString()
+        });
+
+    }
+
+});
+
+
+
+router.post('/vendor/filter', (req, res) => { //DONE
+
+
+    let vendors: Vendor[] = req.body.vendors;
+    let filters: string[] = req.body.filters;
+
+    if(filters == null || filters.length == 0){
+        res.send({success: true, vendors: vendors, error: "No filters"});
+    }else{
+
+        let filterlist:Set<string> = new Set<string>();
+        for(let k in filters){
+            filterlist.add(filters[k].toLowerCase());
+        }
+
+        let filtered:Vendor[] = vendors.filter(v => {
+            
+            if(!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)){
+                
+                for(let f in v.vendorInfo.flags){
+                    if(filterlist.has(v.vendorInfo.flags[f].toLowerCase())){
+                        return v;
+                    }
+                }
+
+            }
+           
         });
 
     }
@@ -279,7 +316,7 @@ router.post('/vendor/signup', (req, res) => { //DONE
             }
     
             if(found){
-                res.json({
+                res.send({
                     success: false,
                     error: "email already exists"
                 });
@@ -309,14 +346,14 @@ router.post('/vendor/signup', (req, res) => { //DONE
                 vendorDB.insertOne(newVendor, (err:any, res2:any)=>{
     
                     if(err){
-                        res.json({
+                        res.send({
                             success: false,
                             error: err
                         }); 
                     }else{
-                        res.json({
+                        res.send({
                             success: true,
-                            vendor: res2
+                            vendor: newVendor
                         });
                     }
     
@@ -412,133 +449,76 @@ router.get('/initkeywords', (req, res) => { //DONE
 
 router.get('/test', (req, res) => {//DONE
 
+    let verification: any =
+    {
+        email: "dededed@usc.edu",
+        hash: "fsdfs"
+    };
 
-    let rvendor: Vendor = {
-        loginInfo: {
-            email:"devikadevika@usc.edu",
-            password:"hihihi"
-        },
-        vendorInfo: {
-            vendorName: [{
-                firstName:"Devika",
-                lastName:"Kumar"
-            },
-            {
-                firstName:"Sonali",
-                lastName:"Pai"
+
+    if (verification.email == null || verification.email == undefined || verification.email == ""
+        || verification.hash == null || verification.hash == undefined || verification.hash == "") {
+        res.json({ success: false, error: "Email or hash empty"});
+    }else{
+
+        vendorDB.find({}).toArray((err: any, documents: any)=> {
+
+            let found:boolean = false;
+            for(let v in documents){
+                let obj = documents[v];
+                if(documents[v].loginInfo.email==verification.email){
+                    found = true;
+                }
             }
-            ],
-            stallName: "Devika's Pies",
-            phone: "6508239461",
-            address: {
-                address: "3760 Fig",
-                coordinates: {
-                    lat: 222,
-                    lng: 3333
-                }
-            },
-            keywords: [
-                "yummy", "usc"
-            ],
-            flags: ["v", "g-f", "d-f", "h", "k"],
-            hours: [
-                {
-                    open:true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open:true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open:true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open:true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open:true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open:true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open:false,
-                    startTime: 900,
-                    endTime: 500,
-                }
-            ]
-        },
-        
-        };
-
-
-        let success:boolean = false;
-        try{
     
-            vendorDB.findOneAndReplace(
-                { 
-                    loginInfo : rvendor.loginInfo
-                },
-                {
-                    loginInfo: rvendor.loginInfo,
-                    vendorInfo: rvendor.vendorInfo
-                },
-                { returnNewDocument: true },
-                (err:any, res2:any) =>{
+            if(found){
+                res.send({
+                    success: false,
+                    error: "email already exists"
+                });
+            }else{
+                let newVendor:Vendor = {
+                    loginInfo: {
+                        email: verification.email,
+                        password: verification.hash
+                    },
+                    vendorInfo: {
+                        vendorName: [],
+                        stallName: "",
+                        phone: "",
+                        address: {
+                            address: "",
+                            coordinates: {
+                                lat: 0,
+                                lng: 0
+                            }
+                        },
+                        keywords: [],
+                        flags: [],
+                        hours: []
+                    }
+                }
     
-                    let vendor = res2.value;
+                vendorDB.insertOne(newVendor, (err:any, res2:any)=>{
     
                     if(err){
-                        res.send({success : false, error: err.toString()});
-                    }else if(res2 == null || res2.value == null){
-                        res.send({success: false, error: res2});
-                    }
-                    else{
-                        let arr:any[] = [];
-                        for(let key in vendor.vendorInfo.keywords){
-                            let obj = {
-                            keyword: vendor.vendorInfo.keywords[key]
-                            }
-                            arr.push(obj);
-                        }
-                            console.log(arr);
-                            if(arr.length == 0){
-                            res.send({success: true, vendor: vendor, keywords: false});
-                            }else{
-                             keywordDB.insertMany(arr, (err: any, ress: any)=>{
-                                if(err){
-                                     console.log({success: false, error: err});
-                                }else{
-                                    res.send({success: true, vendor: vendor, keywords: true});
-                                    }
-                             });
-        
-                    
-                        }
+                        res.send({
+                            success: false,
+                            error: err
+                        }); 
+                    }else{
+                        res.send({
+                            success: true,
+                            vendor: res2
+                        });
                     }
     
-                                        
                 });
+            }
     
-        }catch(e){
-            res.send({
-                success: false,
-                error: e.toString()
-            });
-    
-        }
+        });
 
+    }
 
 });
 

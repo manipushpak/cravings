@@ -64,7 +64,7 @@ router.get('/keywords/random', function (req, res, next) {
         }
         else {
             var num = Math.floor(Math.random() * documents.length);
-            res.json(documents[num].keyword);
+            res.send(documents[num].keyword);
         }
     });
 });
@@ -114,6 +114,28 @@ router.post('/vendor/register', function (req, res) {
         res.send({
             success: false,
             error: e.toString()
+        });
+    }
+});
+router.post('/vendor/filter', function (req, res) {
+    var vendors = req.body.vendors;
+    var filters = req.body.filters;
+    if (filters == null || filters.length == 0) {
+        res.send({ success: true, vendors: vendors, error: "No filters" });
+    }
+    else {
+        var filterlist_1 = new Set();
+        for (var k in filters) {
+            filterlist_1.add(filters[k].toLowerCase());
+        }
+        var filtered = vendors.filter(function (v) {
+            if (!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)) {
+                for (var f in v.vendorInfo.flags) {
+                    if (filterlist_1.has(v.vendorInfo.flags[f].toLowerCase())) {
+                        return v;
+                    }
+                }
+            }
         });
     }
 });
@@ -240,13 +262,13 @@ router.post('/vendor/signup', function (req, res) {
                 }
             }
             if (found) {
-                res.json({
+                res.send({
                     success: false,
                     error: "email already exists"
                 });
             }
             else {
-                var newVendor = {
+                var newVendor_1 = {
                     loginInfo: {
                         email: verification.email,
                         password: verification.hash
@@ -267,17 +289,17 @@ router.post('/vendor/signup', function (req, res) {
                         hours: []
                     }
                 };
-                vendorDB.insertOne(newVendor, function (err, res2) {
+                vendorDB.insertOne(newVendor_1, function (err, res2) {
                     if (err) {
-                        res.json({
+                        res.send({
                             success: false,
                             error: err
                         });
                     }
                     else {
-                        res.json({
+                        res.send({
                             success: true,
-                            vendor: res2
+                            vendor: newVendor_1
                         });
                     }
                 });
@@ -353,117 +375,66 @@ router.get('/initkeywords', function (req, res) {
     });
 });
 router.get('/test', function (req, res) {
-    var rvendor = {
-        loginInfo: {
-            email: "devikadevika@usc.edu",
-            password: "hihihi"
-        },
-        vendorInfo: {
-            vendorName: [{
-                    firstName: "Devika",
-                    lastName: "Kumar"
-                },
-                {
-                    firstName: "Sonali",
-                    lastName: "Pai"
-                }
-            ],
-            stallName: "Devika's Pies",
-            phone: "6508239461",
-            address: {
-                address: "3760 Fig",
-                coordinates: {
-                    lat: 222,
-                    lng: 3333
-                }
-            },
-            keywords: [
-                "yummy", "usc"
-            ],
-            flags: ["v", "g-f", "d-f", "h", "k"],
-            hours: [
-                {
-                    open: true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open: true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open: true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open: true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open: true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open: true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open: false,
-                    startTime: 900,
-                    endTime: 500,
-                }
-            ]
-        },
+    var verification = {
+        email: "dededed@usc.edu",
+        hash: "fsdfs"
     };
-    var success = false;
-    try {
-        vendorDB.findOneAndReplace({
-            loginInfo: rvendor.loginInfo
-        }, {
-            loginInfo: rvendor.loginInfo,
-            vendorInfo: rvendor.vendorInfo
-        }, { returnNewDocument: true }, function (err, res2) {
-            var vendor = res2.value;
-            if (err) {
-                res.send({ success: false, error: err.toString() });
+    if (verification.email == null || verification.email == undefined || verification.email == ""
+        || verification.hash == null || verification.hash == undefined || verification.hash == "") {
+        res.json({ success: false, error: "Email or hash empty" });
+    }
+    else {
+        vendorDB.find({}).toArray(function (err, documents) {
+            var found = false;
+            for (var v in documents) {
+                var obj = documents[v];
+                if (documents[v].loginInfo.email == verification.email) {
+                    found = true;
+                }
             }
-            else if (res2 == null || res2.value == null) {
-                res.send({ success: false, error: res2 });
+            if (found) {
+                res.send({
+                    success: false,
+                    error: "email already exists"
+                });
             }
             else {
-                var arr = [];
-                for (var key in vendor.vendorInfo.keywords) {
-                    var obj = {
-                        keyword: vendor.vendorInfo.keywords[key]
-                    };
-                    arr.push(obj);
-                }
-                console.log(arr);
-                if (arr.length == 0) {
-                    res.send({ success: true, vendor: vendor, keywords: false });
-                }
-                else {
-                    keywordDB.insertMany(arr, function (err, ress) {
-                        if (err) {
-                            console.log({ success: false, error: err });
-                        }
-                        else {
-                            res.send({ success: true, vendor: vendor, keywords: true });
-                        }
-                    });
-                }
+                var newVendor = {
+                    loginInfo: {
+                        email: verification.email,
+                        password: verification.hash
+                    },
+                    vendorInfo: {
+                        vendorName: [],
+                        stallName: "",
+                        phone: "",
+                        address: {
+                            address: "",
+                            coordinates: {
+                                lat: 0,
+                                lng: 0
+                            }
+                        },
+                        keywords: [],
+                        flags: [],
+                        hours: []
+                    }
+                };
+                vendorDB.insertOne(newVendor, function (err, res2) {
+                    if (err) {
+                        res.send({
+                            success: false,
+                            error: err
+                        });
+                    }
+                    else {
+                        res.send({
+                            success: true,
+                            vendor: res2
+                        });
+                    }
+                });
             }
-        });
-    }
-    catch (e) {
-        res.send({
-            success: false,
-            error: e.toString()
         });
     }
 });

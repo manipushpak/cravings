@@ -52,8 +52,6 @@ class Home extends React.Component {
          });
          self.handleSearch();
       })
-
-      this.handleExplore = this.handleExplore.bind(this);
    }
 
    handleChange(e){
