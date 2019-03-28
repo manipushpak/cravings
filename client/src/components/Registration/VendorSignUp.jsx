@@ -52,13 +52,12 @@ class VendorSignUp extends React.Component {
       })
       .then(res => res.json())
       .then(response => {
-         console.log(response.vendor);
          if(response.success){
             self.props.history.push({
                pathname:'/register',
                state:{
                    vendor: response.vendor
-                }
+               }
             });
          }
          else{

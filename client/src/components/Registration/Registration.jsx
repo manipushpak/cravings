@@ -16,33 +16,55 @@ import WeekOptions from './WeekOptions.jsx';
 class Registration extends React.Component {
    constructor(props) {
       super(props);
-      this.state = { 
-         vendor: typeof this.props.location.state.vendor,
-         status: {
-            edit: props.isEdit,
-            view: props.isView
-         },
-         stallName: '',
-         phone: '',
-         address: '',
-         coordinates: {
-            lat: null,
-            lng: null
-         },
-         hours: [
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-         ],
-         keywords: [],
-         numVendors: 1,
-         validated: false
+      if(this.props.location.state.stallName == ''){
+         this.state = { 
+            vendor: this.props.location.state.vendor,
+            status: {
+               edit: props.isEdit,
+               view: props.isView
+            },
+            stallName: '',
+            phone: '',
+            address: '',
+            coordinates: {
+               lat: null,
+               lng: null
+            },
+            hours: [
+               {open: false, startTime: null, endTime: null},
+               {open: false, startTime: null, endTime: null},
+               {open: false, startTime: null, endTime: null},
+               {open: false, startTime: null, endTime: null},
+               {open: false, startTime: null, endTime: null},
+               {open: false, startTime: null, endTime: null},
+               {open: false, startTime: null, endTime: null},
+            ],
+            keywords: [],
+            numVendors: 1,
+            validated: false
+         }
       }
-      console.log(this.state.vendor);
+      else{
+         var ven = this.props.location.state.vendor
+         this.state = { 
+            vendor: ven,
+            status: {
+               edit: props.isEdit,
+               view: props.isView
+            },
+            stallName: ven.vendorInfo.stallName,
+            phone: ven.vendorInfo.phone,
+            address: ven.vendorInfo.address,
+            coordinates: {
+               lat: null,
+               lng: null
+            },
+            hours: ven.vendorInfo.hours,
+            keywords: ven.vendorInfo.keywords,
+            numVendors: 1,
+            validated: false
+         }
+      }
       
       // External Form Functions
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -77,27 +99,33 @@ class Registration extends React.Component {
          event.stopPropagation;
          this.setState({ validated: true });
       } else {   
-         fetch('/vendor/create',{
+         fetch('/vendor/register',{
             method: 'POST',
             body: JSON.stringify({
-               stallName: this.state.stallName,
-               phone: this.state.phone,
-               location: {
-                  address: this.state.address,
-                  coordinate: this.state.coordinates
+               vendor: {
+                  loginInfo: {
+                     email: this.state.vendor.loginInfo.email,
+                     password: this.state.vendor.loginInfo.password,
+                  },
+                  vendorInfo: {
+                     vendorName: [],
+                     stallName: this.state.stallName,
+                     phone: this.state.phone,
+                     address: this.state.address,
+                     keywords: this.state.keywords,
+                     flags: [],
+                     hours: this.state.hours,
+                  }
                },
-               hours: this.state.hours,
-               keywords: this.state.keywords
             }),
             headers: {"Content-Type": "application/json"}
          }).then((response) => {
-            this.setState({
-               status: {
-                  edit: false,
-                  view: true
-               },
-            });
-            return response.json();
+               if(this.state.status.edit){
+                  this.setToView();
+               }
+               else{
+                  this.setToEdit();
+               }
          });
       }
    }
@@ -124,10 +152,10 @@ class Registration extends React.Component {
       });
    }
    handleEditForm() {
-      this.setToEdit
+      this.setToEdit();
    }
    handleSaveEdit(event) {
-      this.setToView();
+      this.handleSubmit(event);
    }
    handleCancelEdit(event) {
       this.setToView();
@@ -238,7 +266,6 @@ class Registration extends React.Component {
       const vendors = [];
       for (var i = 0; i < this.state.numVendors; i += 1) {
         vendors.push(<RegistrationVendor key={i} number={i} onRemoveVendor={this.onRemoveVendor} readOnly={this.state.status.view}/>);
-        console.log(vendors);
       };
 
       return(
@@ -252,18 +279,18 @@ class Registration extends React.Component {
                <Row>
                   <Form.Group as={Col} controlId="stallName" xs={12} md={6}>
                      <Form.Label>Stall Name</Form.Label>
-                     <Form.Control readOnly={this.state.status.view} placeholder="Enter stall name (ex. Carlo's Mangoes)" onChange={e => this.updateStallName(e)} required />
+                     <Form.Control readOnly={this.state.status.view} placeholder="Enter stall name (ex. Carlo's Mangoes)" defaultValue={this.state.stallName} onChange={e => this.updateStallName(e)} required />
                      <Form.Control.Feedback type="invalid">Please enter your stall name (ex. Carlo's Mangoes).</Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="phoneNumber" xs={12} md={6}>
                      <Form.Label>Phone Number</Form.Label>
-                     <Form.Control readOnly={this.state.status.view} placeholder="Enter phone number (123-456-7890)" pattern="^\d{3}-\d{3}-\d{4}$" onChange={e => this.updatePhone(e)} required />
+                     <Form.Control readOnly={this.state.status.view} placeholder="Enter phone number (123-456-7890)" pattern="^\d{3}-\d{3}-\d{4}$" defaultValue={this.state.phone} onChange={e => this.updatePhone(e)} required />
                      <Form.Control.Feedback type="invalid">Please enter your phone number (xxx-xxx-xxxx).</Form.Control.Feedback>
                   </Form.Group>
                </Row>
 
-               <AddressSet view={this.state.status.view} value={this.state.address} onChange={e => this.updateAddress(e.target.value)} onClick={e => this.useCurrentLocation(e)} />
+               <AddressSet view={this.state.status.view} defaultValue={this.state.address} onChange={e => this.updateAddress(e.target.value)} onClick={e => this.useCurrentLocation(e)} />
 
                <Row>
                   <Form.Group as={Col} controlId="openingDaysAndTimes" xs={12} md={6}>
@@ -285,7 +312,7 @@ class Registration extends React.Component {
                   </Form.Group>
                   <Form.Group as={Col} controlId="keywords" xs={12} md={6}>
                      <Form.Label>Keywords (optional)</Form.Label>
-                     <Form.Control as="textarea" rows="5" cols="60" readOnly={this.state.status.view} onChange={e => this.updateKeywords(e)}/>
+                     <Form.Control as="textarea" rows="5" cols="60" defaultValue={this.state.keywords} readOnly={this.state.status.view} onChange={e => this.updateKeywords(e)}/>
                      <Form.Text className="text-muted">Separate your keywords by comma (e.g. "tacos, mexican food, burritos")</Form.Text>
                   </Form.Group>
                </Row>
@@ -315,7 +342,7 @@ const AddressSet = props => {
       return(
          <Form.Group>
             <Form.Label>Address</Form.Label>
-            <Form.Control readOnly placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddressView } value={props.address} onChange={props.onChange} />
+            <Form.Control readOnly placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddressView } defaultValue={props.defaultValue} onChange={props.onChange} />
             <Form.Text id="userLocationText" className="text-muted"></Form.Text>
             <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
          </Form.Group>
@@ -325,7 +352,7 @@ const AddressSet = props => {
          <Form.Group>
             <Form.Label>Address</Form.Label>
             <InputGroup>
-               <Form.Control placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddress } value={props.address} onChange={props.onChange} required />
+               <Form.Control placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddress } defaultValue={props.defaultValue} onChange={props.onChange} required />
                <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
                <InputGroup.Append className={ styles.inputGroupAppend }>
                   <Button variant="light" onClick={props.onClick}>Use Current Location</Button>

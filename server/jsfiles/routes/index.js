@@ -64,7 +64,7 @@ router.get('/keywords/random', function (req, res, next) {
         }
         else {
             var num = Math.floor(Math.random() * documents.length);
-            res.send(documents[num].keyword);
+            res.json(documents[num].keyword);
         }
     });
 });
@@ -80,10 +80,10 @@ router.post('/vendor/register', function (req, res) {
         }, { returnNewDocument: true }, function (err, res2) {
             var vendor = res2.value;
             if (err) {
-                res.send({ success: false, error: err.toString() });
+                res.json({ success: false, error: err.toString() });
             }
             else if (res2 == null || res2.value == null) {
-                res.send({ success: false, error: res2 });
+                res.json({ success: false, error: res2 });
             }
             else {
                 var arr = [];
@@ -103,7 +103,7 @@ router.post('/vendor/register', function (req, res) {
                             console.log({ success: false, error: err });
                         }
                         else {
-                            res.send({ success: true, vendor: vendor, keywords: true });
+                            res.json({ success: true, vendor: vendor, keywords: true });
                         }
                     });
                 }
@@ -111,7 +111,7 @@ router.post('/vendor/register', function (req, res) {
         });
     }
     catch (e) {
-        res.send({
+        res.json({
             success: false,
             error: e.toString()
         });
@@ -262,7 +262,7 @@ router.post('/vendor/signup', function (req, res) {
                 }
             }
             if (found) {
-                res.send({
+                res.json({
                     success: false,
                     error: "email already exists"
                 });
@@ -291,13 +291,13 @@ router.post('/vendor/signup', function (req, res) {
                 };
                 vendorDB.insertOne(newVendor_1, function (err, res2) {
                     if (err) {
-                        res.send({
+                        res.json({
                             success: false,
                             error: err
                         });
                     }
                     else {
-                        res.send({
+                        res.json({
                             success: true,
                             vendor: newVendor_1
                         });

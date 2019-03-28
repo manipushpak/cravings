@@ -49,7 +49,7 @@ class Map extends React.Component {
             {
                this.props.vendors.map(vendor => {
                   return (<Marker
-                     key={ vendor.name }
+                     key={ vendor.vendorInfo.stallName }
                      icon={this.state.markerIcon}
                      position={ vendor.vendorInfo.address.coordinates }
                   ></Marker>);

@@ -19,7 +19,7 @@ const Main = () => {
             <Route path='/vendors' component={Vendors}/>
             <Route exact path='/vendorportal' component={VendorPortal}/>
             <Route path={'/register'} render={() => <Registration isEdit={false} isView={false}/>} />
-            <Route path={'/vendorportal/account'} render={() => <Registration isEdit={false} isView={true}/>} />
+            <Route path={'/account'} render={() => <Registration isEdit={true} isView={false}/>} />
             <Route path ='/vendorsignup' component ={VendorSignUp}/>
          </Switch>
       </main>
