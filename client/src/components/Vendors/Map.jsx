@@ -14,7 +14,7 @@ const GoogleMapElement = withGoogleMap(props => (
          var vendorInfo = vendor.vendorInfo;
          return (
             <Marker
-               key={ vendor.id }
+               key={ vendor.vendorInfo.stallName }
                position={ vendorInfo.address.coordinates }
                onClick={ () => props.setActiveKey(vendorInfo.stallName) }
             > 

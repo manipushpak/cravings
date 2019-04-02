@@ -9,7 +9,10 @@ import modalStyles from '../../styles/Vendors/ListModal.css';
 import Map from './Map.jsx';
 import List from './List.jsx';
 import ListItem from './ListItem.jsx';
+
+import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
+import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import ReactModal from 'react-modal';
 import ListModal from './ListModal.jsx';
@@ -39,7 +42,6 @@ class Vendors extends React.Component {
 
    didProvideLocation() {
       var self = this;      
-      // document.getElementById("userLocationText").innerHTML = "Detecting current location...";
       
       navigator.geolocation.getCurrentPosition(
          position => {
@@ -54,7 +56,6 @@ class Vendors extends React.Component {
             self.setState({
                locationProvided: false
             })
-            // document.getElementById("userLocationText").innerHTML = "Detecting current location...";document.getElementById("userLocationText").innerHTML = "Current location cannot be detected. Please try again or type in your street address.";
          }
       );
    }
@@ -101,12 +102,12 @@ class Vendors extends React.Component {
       const Menu = (list) => {
          list.map(vendor => {
             return <ListItem 
-               key={vendor.id}
+               key={ vendor.vendorInfo.stallName }
                vendorInfo={vendor.vendorInfo}
                openModal={this.handleOpenModal}
                />
          });
-      }
+      }; 
       
       const Arrow = ({ text, className }) => {
          return (
@@ -114,15 +115,12 @@ class Vendors extends React.Component {
          );
       };
        
-      const ArrowLeft = Arrow({ text: '<', className: appStyles.arrowPrev });
-      const ArrowRight = Arrow({ text: '>', className: appStyles.arrowNext });
-      const menu = Menu(this.state.vendors);
       
       return(
          <div className={ styles.outerContainer } controlid='vendors'>
             <h2 className={ global.h2 }>Spots near you</h2>
             <br />
-            <div className = { styles.filters }>
+            <div className={ styles.filters }>
                <Form.Row>
                   <Form.Group as={Col} xs={6} sm={3} md={2}>
                      <Form.Check label={"Vegetarian"} type="checkbox" />
@@ -145,51 +143,29 @@ class Vendors extends React.Component {
                </Form.Row>
             </div>
             <br />
-            <div className = {styles.vendorList}>
-               <h3 className={styles.h3}>Less than 5 min walk away</h3>
-               <ScrollMenu
-                  data={menu}
-                  arrowLeft={ArrowLeft}
-                  arrowRight={ArrowRight}
-                  dragging
-                  hideArrows
-                  hideSingleArrow
-               /> <br />
-               <h3 className={styles.h3}>Less than 10 min walk away</h3>
-               <ScrollMenu
-                  data={menu}
-                  arrowLeft={ArrowLeft}
-                  arrowRight={ArrowRight}
-                  dragging
-                  hideArrows
-                  hideSingleArrow
-               /> <br />
-               <h3 className={styles.h3}>Uber ride away</h3>
-               <ScrollMenu
-                  data={menu}
-                  arrowLeft={ArrowLeft}
-                  arrowRight={ArrowRight}
-                  dragging
-                  hideArrows
-                  hideSingleArrow
-               />
-            </div>
-            {/* <div className = {styles.vendorColumn}>
-               <List vendors={ this.state.vendors } openModal={ this.handleOpenModal } />
-            </div> */}
             <div className={ styles.mapColumn }>
                <Map vendors={ this.state.vendors } openModal={ this.handleOpenModal } />
+            </div>
+            <div className={ styles.searchColumn }>
+               <InputGroup className={ styles.searchBar }>
+                  <Form.Control className={ styles.searchInput } id="searchTerm" />
+                  <InputGroup.Append>
+                     <Button type="submit" className={ styles.searchButton } onClick={this.handleSearch} variant="outline-secondary">
+                        <i className="fa fa-search"></i>
+                     </Button>
+                  </InputGroup.Append>
+               </InputGroup>
             </div>
             <ReactModal 
                isOpen={ this.state.showModal }
                onRequestClose={ this.handleCloseModal }
                overlayClassName={ modalStyles.modalOverlay }
                className={ modalStyles.modalContent }
-            >
+               >
                <ListModal 
                   handleCloseModal={ this.handleCloseModal } 
                   vendor={ this.state.vendorModal }
-               />
+                  />
             </ReactModal>
          </div>
       );
@@ -197,3 +173,27 @@ class Vendors extends React.Component {
 }
 
 export default Vendors;
+
+// const ArrowLeft = Arrow({ text: '<', className: appStyles.arrowPrev });
+// const ArrowRight = Arrow({ text: '>', className: appStyles.arrowNext });
+// const menu = Menu(this.state.vendors);
+{/* <div className = {styles.vendorList}>
+   <h3 className={styles.h3}>Less than 5 min walk away</h3>
+   <ScrollMenu
+      data={menu}
+      arrowLeft={ArrowLeft}
+      arrowRight={ArrowRight}
+   /> <br />
+   <h3 className={styles.h3}>Less than 10 min walk away</h3>
+   <ScrollMenu
+      data={menu}
+      arrowLeft={ArrowLeft}
+      arrowRight={ArrowRight}
+   /> <br />
+   <h3 className={styles.h3}>Uber ride away</h3>
+   <ScrollMenu
+      data={menu}
+      arrowLeft={ArrowLeft}
+      arrowRight={ArrowRight}
+   />
+</div> */}
