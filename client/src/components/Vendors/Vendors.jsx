@@ -9,7 +9,10 @@ import modalStyles from '../../styles/Vendors/ListModal.css';
 import Map from './Map.jsx';
 import List from './List.jsx';
 import ListItem from './ListItem.jsx';
+
+import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
+import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import ReactModal from 'react-modal';
 import ListModal from './ListModal.jsx';
@@ -101,12 +104,12 @@ class Vendors extends React.Component {
       const Menu = (list) => {
          list.map(vendor => {
             return <ListItem 
-               key={vendor.id}
+               key={ vendor.vendorInfo.stallName }
                vendorInfo={vendor.vendorInfo}
                openModal={this.handleOpenModal}
                />
          });
-      }
+      }; 
       
       const Arrow = ({ text, className }) => {
          return (
@@ -145,40 +148,38 @@ class Vendors extends React.Component {
                </Form.Row>
             </div>
             <br />
-            <div className = {styles.vendorList}>
+            {/* <div className = {styles.vendorList}>
                <h3 className={styles.h3}>Less than 5 min walk away</h3>
                <ScrollMenu
                   data={menu}
                   arrowLeft={ArrowLeft}
                   arrowRight={ArrowRight}
-                  dragging
-                  hideArrows
-                  hideSingleArrow
                /> <br />
                <h3 className={styles.h3}>Less than 10 min walk away</h3>
                <ScrollMenu
                   data={menu}
                   arrowLeft={ArrowLeft}
                   arrowRight={ArrowRight}
-                  dragging
-                  hideArrows
-                  hideSingleArrow
                /> <br />
                <h3 className={styles.h3}>Uber ride away</h3>
                <ScrollMenu
                   data={menu}
                   arrowLeft={ArrowLeft}
                   arrowRight={ArrowRight}
-                  dragging
-                  hideArrows
-                  hideSingleArrow
                />
-            </div>
-            {/* <div className = {styles.vendorColumn}>
-               <List vendors={ this.state.vendors } openModal={ this.handleOpenModal } />
             </div> */}
             <div className={ styles.mapColumn }>
                <Map vendors={ this.state.vendors } openModal={ this.handleOpenModal } />
+            </div>
+            <div className={ styles.searchColumn }>
+               <InputGroup className={ styles.searchBar }>
+                  <Form.Control className={ styles.searchInput } id="searchTerm" onChange={e => this.handleChange(e)}/>
+                  <InputGroup.Append>
+                     <Button type="submit" className={ styles.searchButton } onClick={this.handleSearch} variant="outline-secondary">
+                        <i className="fa fa-search"></i>
+                     </Button>
+                  </InputGroup.Append>
+               </InputGroup>
             </div>
             <ReactModal 
                isOpen={ this.state.showModal }
