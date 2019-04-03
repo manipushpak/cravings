@@ -69,8 +69,9 @@ class Map extends React.Component {
       navigator.geolocation.getCurrentPosition(
          position => {
             const { latitude, longitude } = position.coords;
+
             this.setState({
-               // userLocation: { lat: latitude, lng: longitude },
+               userLocation: { lat: latitude, lng: longitude },
                loading: false
             });
          },
