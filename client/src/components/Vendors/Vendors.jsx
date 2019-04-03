@@ -1,14 +1,10 @@
 import React from 'react';
 
-import classNames from 'classnames';
 import global from '../../styles/Global.css';
 import styles from '../../styles/Vendors/Vendors.css';
-import appStyles from '../../styles/App.css';
 import modalStyles from '../../styles/Vendors/ListModal.css';
 
 import Map from './Map.jsx';
-import List from './List.jsx';
-import ListItem from './ListItem.jsx';
 
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
@@ -58,6 +54,7 @@ class Vendors extends React.Component {
       })
       .then(res => res.json())
       .then(vendors => {
+         console.log(vendors);
          this.setState({
             vendors: vendors.vendors
          });

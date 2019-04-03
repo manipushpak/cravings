@@ -2,6 +2,7 @@ import React from 'react';
 import styles from '../../styles/Vendors/Map.css';
 
 import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
+import Geocode from 'react-geocode';
 
 
 const GoogleMapElement = withGoogleMap(props => (
@@ -12,9 +13,10 @@ const GoogleMapElement = withGoogleMap(props => (
    {
       props.vendors.map(vendor => {
          var vendorInfo = vendor.vendorInfo;
+         console.log(vendorInfo.address.coordinates);
          return (
             <Marker
-               key={ vendor.vendorInfo.stallName }
+               key={ vendorInfo.stallName }
                position={ vendorInfo.address.coordinates }
                onClick={ () => props.setActiveKey(vendorInfo.stallName) }
             > 
