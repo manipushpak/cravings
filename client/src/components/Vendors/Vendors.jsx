@@ -17,8 +17,6 @@ import Form from 'react-bootstrap/Form';
 import ReactModal from 'react-modal';
 import ListModal from './ListModal.jsx';
 
-import ScrollMenu from 'react-horizontal-scrolling-menu';
-
 ReactModal.setAppElement("#App");
 
 class Vendors extends React.Component {
@@ -32,12 +30,38 @@ class Vendors extends React.Component {
          userLat: "",
          userLong: "",
          showModal: false,
-         vendorModal: null
+         vendorModal: null,
+         searchTerm: ""
       };
       this.didProvideLocation = this.didProvideLocation.bind(this);
-      this.handleInputChange = this.handleInputChange.bind(this);
       this.handleOpenModal = this.handleOpenModal.bind(this);
       this.handleCloseModal = this.handleCloseModal.bind(this);
+      this.handleSearch = this.handleSearch.bind(this);
+      this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
+   }
+
+   handleSearchTermChange(e){
+      this.setState({
+         searchTerm: e.target.value
+      });
+   }
+
+   handleSearch() {
+      var searchTerm = this.state.searchTerm;
+      console.log("searchterm: " + searchTerm);
+
+      fetch('/search/'+searchTerm, {
+         headers : { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+         }
+      })
+      .then(res => res.json())
+      .then(vendors => {
+         this.setState({
+            vendors: vendors.vendors
+         });
+      })
    }
 
    didProvideLocation() {
@@ -71,51 +95,7 @@ class Vendors extends React.Component {
       this.setState({ showModal: false });
    }
 
-   handleInputChange(e) {
-      var searchTerm = e.target.value;
-      if(searchTerm == ""){
-         fetch('/vendors')
-         .then(res => res.json())
-         .then(vendors => {
-            this.setState({ vendors })
-         })
-      }
-      else{
-         fetch('/vendor/name/'+searchTerm, {
-            headers : { 
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            }
-         })
-         .then(res => res.json())
-         .then(vendors => {
-            if(vendors != null){
-               this.setState({ vendors })
-            }
-         })
-      }
-   }
-
-   render() {
-      this.didProvideLocation();
-
-      const Menu = (list) => {
-         list.map(vendor => {
-            return <ListItem 
-               key={ vendor.vendorInfo.stallName }
-               vendorInfo={vendor.vendorInfo}
-               openModal={this.handleOpenModal}
-               />
-         });
-      }; 
-      
-      const Arrow = ({ text, className }) => {
-         return (
-            <div className={className}>{text}</div>
-         );
-      };
-       
-      
+   render() {      
       return(
          <div className={ styles.outerContainer } controlid='vendors'>
             <h2 className={ global.h2 }>Spots near you</h2>
@@ -148,7 +128,7 @@ class Vendors extends React.Component {
             </div>
             <div className={ styles.searchColumn }>
                <InputGroup className={ styles.searchBar }>
-                  <Form.Control className={ styles.searchInput } id="searchTerm" />
+                  <Form.Control className={ styles.searchInput } id="searchTerm" onChange={e => this.handleSearchTermChange(e)} />
                   <InputGroup.Append>
                      <Button type="submit" className={ styles.searchButton } onClick={this.handleSearch} variant="outline-secondary">
                         <i className="fa fa-search"></i>
