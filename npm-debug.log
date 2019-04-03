@@ -18,30 +18,30 @@
 14 silly mapToRegistry uri https://registry.npmjs.org/@types%2freact-geocode
 15 verbose request uri https://registry.npmjs.org/@types%2freact-geocode
 16 verbose request no auth needed
-17 info attempt registry request try #1 at 7:01:43 PM
-18 verbose request id 1e37e21fb8858e16
+17 info attempt registry request try #1 at 7:30:42 PM
+18 verbose request id 287a0d5cdad49f9b
 19 http request GET https://registry.npmjs.org/@types%2freact-geocode
 20 http 404 https://registry.npmjs.org/@types%2freact-geocode
-21 verbose headers { date: 'Wed, 03 Apr 2019 02:01:43 GMT',
+21 verbose headers { date: 'Wed, 03 Apr 2019 02:30:42 GMT',
 21 verbose headers   'content-type': 'application/json',
 21 verbose headers   'content-length': '21',
 21 verbose headers   connection: 'keep-alive',
 21 verbose headers   'set-cookie':
-21 verbose headers    [ '__cfduid=dd32a1e6d2e696933276a327156c6a62c1554256903; expires=Thu, 02-Apr-20 02:01:43 GMT; path=/; domain=.registry.npmjs.org; HttpOnly' ],
+21 verbose headers    [ '__cfduid=d8909a865c84afcf390e27344bfaabe901554258642; expires=Thu, 02-Apr-20 02:30:42 GMT; path=/; domain=.registry.npmjs.org; HttpOnly' ],
 21 verbose headers   'cf-cache-status': 'MISS',
-21 verbose headers   'cf-ray': '4c1774cc8fab5396-LAX',
+21 verbose headers   'cf-ray': '4c179f45aa9122ca-LAX',
 21 verbose headers   'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
 21 verbose headers   vary: 'Accept-Encoding',
 21 verbose headers   server: 'cloudflare' }
 22 silly get cb [ 404,
-22 silly get   { date: 'Wed, 03 Apr 2019 02:01:43 GMT',
+22 silly get   { date: 'Wed, 03 Apr 2019 02:30:42 GMT',
 22 silly get     'content-type': 'application/json',
 22 silly get     'content-length': '21',
 22 silly get     connection: 'keep-alive',
 22 silly get     'set-cookie':
-22 silly get      [ '__cfduid=dd32a1e6d2e696933276a327156c6a62c1554256903; expires=Thu, 02-Apr-20 02:01:43 GMT; path=/; domain=.registry.npmjs.org; HttpOnly' ],
+22 silly get      [ '__cfduid=d8909a865c84afcf390e27344bfaabe901554258642; expires=Thu, 02-Apr-20 02:30:42 GMT; path=/; domain=.registry.npmjs.org; HttpOnly' ],
 22 silly get     'cf-cache-status': 'MISS',
-22 silly get     'cf-ray': '4c1774cc8fab5396-LAX',
+22 silly get     'cf-ray': '4c179f45aa9122ca-LAX',
 22 silly get     'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
 22 silly get     vary: 'Accept-Encoding',
 22 silly get     server: 'cloudflare' } ]

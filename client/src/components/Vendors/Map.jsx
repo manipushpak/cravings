@@ -2,8 +2,6 @@ import React from 'react';
 import styles from '../../styles/Vendors/Map.css';
 
 import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
-import Geocode from 'react-geocode';
-
 
 const GoogleMapElement = withGoogleMap(props => (
    <GoogleMap
@@ -13,11 +11,23 @@ const GoogleMapElement = withGoogleMap(props => (
    {
       props.vendors.map(vendor => {
          var vendorInfo = vendor.vendorInfo;
-         console.log(vendorInfo.address.coordinates);
+         var geocoder = new google.maps.Geocoder();
+         var coordinates = '';
+         console.log(vendor);
+
+        geocoder.geocode({'address': vendorInfo.address}, function(results, status) {
+          if (status === 'OK') {
+            coordinates = results[0].geometry.location;
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+
+
          return (
             <Marker
-               key={ vendorInfo.stallName }
-               position={ vendorInfo.address.coordinates }
+               key={ vendor.vendorInfo.stallName }
+               position={ coordinates }
                onClick={ () => props.setActiveKey(vendorInfo.stallName) }
             > 
             { 
@@ -59,9 +69,8 @@ class Map extends React.Component {
       navigator.geolocation.getCurrentPosition(
          position => {
             const { latitude, longitude } = position.coords;
-
             this.setState({
-               userLocation: { lat: latitude, lng: longitude },
+               // userLocation: { lat: latitude, lng: longitude },
                loading: false
             });
          },
