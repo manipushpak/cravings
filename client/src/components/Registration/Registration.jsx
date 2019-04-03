@@ -18,7 +18,8 @@ class Registration extends React.Component {
       super(props);
       if(this.props.location.state.stallName == ''){
          this.state = { 
-            vendor: this.props.location.state.vendor,
+            vendor: this.props.location.state !== 'undefined' && this.props.location.state.vendor !== null
+            ? this.props.location.state.vendor : [],
             status: {
                edit: props.isEdit,
                view: props.isView
@@ -45,7 +46,8 @@ class Registration extends React.Component {
          }
       }
       else{
-         var ven = this.props.location.state.vendor
+         var ven = this.props.location.state !== 'undefined' && this.props.location.state.vendor !== null
+         ? this.props.location.state.vendor : [];
          this.state = { 
             vendor: ven,
             status: {
@@ -59,7 +61,15 @@ class Registration extends React.Component {
                lat: null,
                lng: null
             },
-            hours: ven.vendorInfo.hours,
+            hours: [
+               {open: false, startTime: null, endTime: null},
+               {open: false, startTime: null, endTime: null},
+               {open: false, startTime: null, endTime: null},
+               {open: false, startTime: null, endTime: null},
+               {open: false, startTime: null, endTime: null},
+               {open: false, startTime: null, endTime: null},
+               {open: false, startTime: null, endTime: null},
+            ],
             keywords: ven.vendorInfo.keywords,
             numVendors: 1,
             validated: false
