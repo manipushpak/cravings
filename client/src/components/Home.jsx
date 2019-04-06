@@ -38,7 +38,8 @@ class Home extends React.Component {
          this.props.history.push({
             pathname:"/vendors",
             state:{
-                vendors:vendors
+                vendors:vendors,
+                searchTerm: this.state.searchTerm
              }
            });
       })

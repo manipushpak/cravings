@@ -47,7 +47,7 @@ function geocodeAddress(geocoder, address, coordinates) {
          coordinates.lat = results[0].geometry.location.lat();
          coordinates.lng = results[0].geometry.location.lng();
      } else {
-       alert('Geocode was not successful for the following reason: ' + status);
+      //  alert('Geocode was not successful for the following reason: ' + status);
      }
    });
    return coordinates;

@@ -12,6 +12,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import ReactModal from 'react-modal';
 import ListModal from './ListModal.jsx';
+import SearchList from './SearchList.jsx';
 
 ReactModal.setAppElement("#App");
 
@@ -20,6 +21,7 @@ class Vendors extends React.Component {
       super(props);
       var vendors = typeof this.props.location.state !== 'undefined' && this.props.location.state.vendors !== null
       ? this.props.location.state.vendors : [];
+      var searchTerm = this.props.location.state.searchTerm;
       this.state = {
          vendors: vendors.vendors,
          locationProvided: false,
@@ -27,13 +29,15 @@ class Vendors extends React.Component {
          userLong: "",
          showModal: false,
          vendorModal: null,
-         searchTerm: ""
+         searchTerm: searchTerm,
+         searchTerms:[searchTerm]
       };
       this.didProvideLocation = this.didProvideLocation.bind(this);
       this.handleOpenModal = this.handleOpenModal.bind(this);
       this.handleCloseModal = this.handleCloseModal.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
       this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
+      this.deleteSearchTerm = this.deleteSearchTerm.bind(this);
    }
 
    handleSearchTermChange(e){
@@ -44,8 +48,12 @@ class Vendors extends React.Component {
 
    handleSearch() {
       var searchTerm = this.state.searchTerm;
-      console.log("searchterm: " + searchTerm);
-
+      var terms = this.state.searchTerms;
+      document.getElementById("searchTerm").value = "";
+      terms.push(searchTerm);
+      this.setState({
+         searchTerms: terms
+      })
       fetch('/search/'+searchTerm, {
          headers : { 
             'Content-Type': 'application/json',
@@ -54,7 +62,6 @@ class Vendors extends React.Component {
       })
       .then(res => res.json())
       .then(vendors => {
-         console.log(vendors);
          this.setState({
             vendors: vendors.vendors
          });
@@ -92,7 +99,20 @@ class Vendors extends React.Component {
       this.setState({ showModal: false });
    }
 
-   render() {      
+   deleteSearchTerm(searchTerm) {
+      console.log("IN HERE");
+      var terms = this.state.searchTerms;
+      for( var i = 0; i < terms.length; i++){
+         if ( terms[i] === searchTerm) {
+            terms.splice(i, 1);
+         }
+      }
+      this.setState({
+         searchTerms: terms
+      })
+   }
+
+   render() {   
       return(
          <div className={ styles.outerContainer } controlid='vendors'>
             <h2 className={ global.h2 }>Spots near you</h2>
@@ -132,6 +152,7 @@ class Vendors extends React.Component {
                      </Button>
                   </InputGroup.Append>
                </InputGroup>
+               <SearchList searchTerms={this.state.searchTerms} deleteSearchTerm={this.deleteSearchTerm}></SearchList>
             </div>
             <ReactModal 
                isOpen={ this.state.showModal }
@@ -150,27 +171,3 @@ class Vendors extends React.Component {
 }
 
 export default Vendors;
-
-// const ArrowLeft = Arrow({ text: '<', className: appStyles.arrowPrev });
-// const ArrowRight = Arrow({ text: '>', className: appStyles.arrowNext });
-// const menu = Menu(this.state.vendors);
-{/* <div className = {styles.vendorList}>
-   <h3 className={styles.h3}>Less than 5 min walk away</h3>
-   <ScrollMenu
-      data={menu}
-      arrowLeft={ArrowLeft}
-      arrowRight={ArrowRight}
-   /> <br />
-   <h3 className={styles.h3}>Less than 10 min walk away</h3>
-   <ScrollMenu
-      data={menu}
-      arrowLeft={ArrowLeft}
-      arrowRight={ArrowRight}
-   /> <br />
-   <h3 className={styles.h3}>Uber ride away</h3>
-   <ScrollMenu
-      data={menu}
-      arrowLeft={ArrowLeft}
-      arrowRight={ArrowRight}
-   />
-</div> */}
