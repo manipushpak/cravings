@@ -165,6 +165,7 @@ router.post('/vendor/filter', (req, res) => { //DONE
 
 });
 
+
 router.post('/vendor/modify', (req, res) => { //DONE
 
 
@@ -197,8 +198,8 @@ router.post('/vendor/modify', (req, res) => { //DONE
 
 });
 
-router.get('/search/:term', (req, res) => { //DONE
-    let term: string = req.params.term;
+router.post('/search', (req, res) => { //DONE
+    let terms: string[] = req.body.terms;
     vendorDB.find({}).toArray((err: any, vendors: any) => {
         let all: Vendor[] = vendors;
         if (err) {
@@ -206,6 +207,8 @@ router.get('/search/:term', (req, res) => { //DONE
         }
         else if(all == null || all.length == 0){
             res.json({success: false, error: "Error: no vendors"});
+        }else if(terms == null || terms == undefined || terms.length == 0){
+            return all;
         }
         else {
 
@@ -235,8 +238,10 @@ router.get('/search/:term', (req, res) => { //DONE
                         let first = names[k].firstName.toLowerCase();
                         let last = names[k].lastName.toLowerCase();
                         let whole = first + " " + last;
-                        if (first.includes(term) || last.includes(term) || whole.includes(term)){
+                        for(let term in terms){
+                            if (first.includes(term) || last.includes(term) || whole.includes(term)){
                                 include = true;
+                            }
                         }
                     }
                 }
@@ -244,8 +249,10 @@ router.get('/search/:term', (req, res) => { //DONE
                 //stallname
                 if(!include){
                     if(stallName!=null && stallName!=""){
+                        for(let term in terms){
                         if(stallName.toLowerCase().includes(term)){
                             include = true;
+                        }
                         }
                     }
                 }
@@ -253,8 +260,10 @@ router.get('/search/:term', (req, res) => { //DONE
                 //address
                 if(!include){
                     if(address!=null && address!=""){
+                        for(let term in terms){
                         if(address.toLowerCase().includes(term)){
                             include = true;
+                        }
                         }
                     }
 
@@ -264,11 +273,13 @@ router.get('/search/:term', (req, res) => { //DONE
 
                 if(!include){
                     if(keywords!=null && keywords.length>0){
+                        for(let term in terms){
                         for(let z in keywords){
                             if(keywords[z].toLowerCase().includes(term)){
                                 include = true;
                             }
                         }
+                    }
                     }
                 }
 
