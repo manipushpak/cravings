@@ -1,10 +1,9 @@
 import React from 'react';
-import styles from '../../styles/Vendors/List.css'
+import styles from '../../styles/Vendors/SearchList.css'
 
 import SearchItem from './SearchItem.jsx'
 
 const SearchList = props => {
-   console.log("from searchlist:  "+ props.searchTerms);
    return(
       <div className={ styles.outerContainer }>
          {

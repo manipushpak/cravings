@@ -5,7 +5,6 @@ import styles from '../../styles/Vendors/SearchItem.css';
 const SearchItem = props => {
     return(
         <div className={ styles.outerContainer }>
-            {/* <DeleteSearchTermButton deleteSearchTerm={props.deleteSearchTerm} searchTerm={props.searchTerm}/> */}
             <button type="button" className={styles.round}>
             <DeleteSearchTermButton deleteSearchTerm={props.deleteSearchTerm} searchTerm={props.searchTerm}/>
             {props.searchTerm}</button>

@@ -1,4 +1,6 @@
 import React from 'react';
+import classNames from 'classnames';
+import global from '../../styles/Global.css';
 import styles from '../../styles/Vendors/ListModal.css';
 
 import { TimeConversion } from '../Registration/TimeOptions.jsx';
@@ -7,9 +9,15 @@ import Carousel from 'react-bootstrap/Carousel';
 
 const ListModal = props => {
     const vendor = props.vendor;
+    console.log(vendor);
+    var mapURL = "";
 
-    var mapURL = "https://www.google.com/maps/dir/?api=1&travelmode=walking";
-    mapURL += "&destination=" + vendor.address.coordinates.lat + "%2C" + vendor.address.coordinates.lng;
+    // if (typeof vendor.address.coordinates.lat !== undefined) {
+    //     mapURL += "https://www.google.com/maps/dir/?api=1&travelmode=walking";
+    //     mapURL += "&destination=" + vendor.address.coordinates.lat;
+    //     mapURL += "%2C" + vendor.address.coordinates.lng;
+    // }
+    
 
     var vendorTime = '';
     const days = ["M", "T", "W", "T", "F", "S", "S"];
@@ -29,7 +37,7 @@ const ListModal = props => {
 
     return(
         <div className={styles.listModal}>
-            <Carousel className={styles.imageDiv}>
+            <Carousel>
                 <Carousel.Item style={{height: '100%'}}>
                     <img
                     className="d-block w-100"
@@ -59,9 +67,6 @@ const ListModal = props => {
                 <p className={styles.infoName}>
                     {vendor.stallName}
                 </p>
-                <p>
-                    Sample description of vendor here.
-                </p>
                 <div className={styles.infoList}>
                     <i className="fa-fw fa fa-map-marker-alt"></i>  {vendor.address.address}
                     <br />
@@ -70,7 +75,7 @@ const ListModal = props => {
                     <a href={mapURL}>Show directions on map</a>
                 </div>
             </div>
-            <button onClick={props.handleCloseModal} className={styles.listModalButton}>
+            <button onClick={props.handleHideInfo} className={styles.listModalButton}>
                 <i className="fas fa-times"></i>
             </button>
         </div>

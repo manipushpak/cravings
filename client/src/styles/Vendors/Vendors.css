@@ -12,23 +12,24 @@
     grid-column-start: 2;
     grid-column-end: 3;
     padding-left: 20px;
-    height: 30%;
+    display: flex;
+    flex-direction: column;
 }
 
 :local .searchBar {
     border-radius: 50px;
     border: 3px black solid;
-    margin-bottom: 375px;
+    flex: 0 0 45px;
 }
 
 :local .searchInput {
-    border-radius: 50px 0 0 50px;
+    border-radius: 0 50px 50px 0;
     border: none;
     background: white;
 }
 
 :local .searchButton {
-    border-radius: 0 50px 50px 0;
+    border-radius: 50px 0 0 50px;
     border: none;
     background: white;
     color: #E04D05;
@@ -44,9 +45,14 @@
     border-bottom: 1px solid lightgrey;
 }
 
-:local .vendorList {
-    grid-column-start: 1;
-    grid-column-end: 2;
+:local .infoDiv {
+    flex: 1;
+    margin-top: 10px;
+    align-items: center;
+}
+
+:local .searchListDiv {
+    flex: 0 0 35px;
 }
 
 :local .filters {
@@ -57,4 +63,15 @@
     padding-top: 15px;
     border-top: 1px solid lightgrey;
     border-bottom: 1px solid lightgrey;
+}
+
+/* For phones and smaller devices */
+@media (max-width: 575px) {
+    :local .outerContainer {
+        display: block;
+    }
+
+    :local .searchColumn {
+        padding: 0 10px;
+    }
 }

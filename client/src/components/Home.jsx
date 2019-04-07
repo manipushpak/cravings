@@ -67,12 +67,12 @@ class Home extends React.Component {
          <div className={ styles.outerContainer }>
             <h1 className={ global.h1 }>I'm craving</h1>
             <InputGroup className={ styles.searchBar }>
-               <Form.Control className={ styles.searchInput } id="searchTerm" size="lg" placeholder="Tacos, Elote, Mexican Food, etc." onChange={e => this.handleChange(e)}/>
-               <InputGroup.Append>
+               <InputGroup.Prepend>
                   <Button type="submit" className={ styles.searchButton } onClick={this.handleSearch} variant="outline-secondary">
                      <i className="fa fa-search"></i>
                   </Button>
-               </InputGroup.Append>
+               </InputGroup.Prepend>
+               <Form.Control className={ styles.searchInput } id="searchTerm" size="lg" placeholder="Tacos, Elote, Mexican Food, etc." onChange={e => this.handleChange(e)}/>
             </InputGroup>
             <div className={styles.bubble}>Not sure what you want? Click to explore!</div>
             <Button className={ styles.button } onClick={ this.handleExplore }>EXPLORE</Button>

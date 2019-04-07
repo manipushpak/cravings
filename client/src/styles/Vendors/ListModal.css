@@ -28,9 +28,10 @@
 
 :local .listModal {
     height: 100%;
-    padding: 30px;
+    padding: 10px 0;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    font-family: 'Rubik', Arial, Helvetica, sans-serif;
 }
 
 :local .listModalButton {
@@ -44,22 +45,14 @@
     outline: none;
 }
 
-:local .imageDiv {
-    height: 100%;
-    width: 45%;
-}
-
 :local .infoDiv {
-    height: 100%; 
-    width: 55%;
     overflow: scroll;
-    padding: 0px 15px;
-    font-family: 'Lato';
+    /* font-family: 'Lato'; */
 }
 
 :local .infoName {
     font-weight: bold;
-    font-size: 60px;
+    font-size: 30px;
     line-height: 0.9;
 }
 

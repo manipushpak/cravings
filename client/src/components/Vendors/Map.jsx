@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../../styles/Vendors/Map.css';
+import mapStyle from '../../../dist/mapStyle.json';
 
 import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
 
@@ -8,9 +9,10 @@ const GoogleMapElement = withGoogleMap(props => (
    <GoogleMap
       defaultCenter = { props.userLocation }
       defaultZoom = { 13 }
+      defaultOptions = {{styles: mapStyle}}
    >
+      <Marker key="userLocation" position={ props.userLocation }></Marker>
    {
-
       props.vendors.map(vendor => {
          var vendorInfo = vendor.vendorInfo;
          var geocoder = new google.maps.Geocoder();
@@ -21,7 +23,7 @@ const GoogleMapElement = withGoogleMap(props => (
             <Marker
                key={ vendor.vendorInfo.stallName }
                position={ coordinates }
-               onClick={ () => props.setActiveKey(vendorInfo.stallName) }
+               onClick={ () => props.openModal(vendorInfo) }
             > 
             { 
                props.activeKey === vendorInfo.stallName &&
@@ -58,7 +60,7 @@ class Map extends React.Component {
    constructor(props) {
       super(props);
       this.state = { 
-         userLocation: { lat: 34.0224 , lng: -118.2851 }, 
+         userLocation: { lat: 34.052234 , lng: -118.243685 }, 
          loading: true,
          infoWindowVisible: false,
          activeKey: null

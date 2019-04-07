@@ -5,3 +5,9 @@
     box-sizing: border-box;
 }
 
+/* For phones and smaller devices */
+@media (max-width: 575px) {
+    :local .outerContainer {
+        margin: 30px;
+    }
+}

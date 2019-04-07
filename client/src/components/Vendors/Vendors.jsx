@@ -1,5 +1,6 @@
 import React from 'react';
 
+import classNames from 'classnames';
 import global from '../../styles/Global.css';
 import styles from '../../styles/Vendors/Vendors.css';
 import modalStyles from '../../styles/Vendors/ListModal.css';
@@ -27,14 +28,14 @@ class Vendors extends React.Component {
          locationProvided: false,
          userLat: "",
          userLong: "",
-         showModal: false,
-         vendorModal: null,
+         showInfo: false,
+         vendorInfo: null,
          searchTerm: searchTerm,
          searchTerms:[searchTerm]
       };
       this.didProvideLocation = this.didProvideLocation.bind(this);
-      this.handleOpenModal = this.handleOpenModal.bind(this);
-      this.handleCloseModal = this.handleCloseModal.bind(this);
+      this.handleShowInfo = this.handleShowInfo.bind(this);
+      this.handleHideInfo = this.handleHideInfo.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
       this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
       this.deleteSearchTerm = this.deleteSearchTerm.bind(this);
@@ -88,15 +89,15 @@ class Vendors extends React.Component {
       );
    }
    
-   handleOpenModal(vendor) {
+   handleShowInfo(vendor) {
       this.setState({
-         showModal: true,
-         vendorModal: vendor
+         showInfo: true,
+         vendorInfo: vendor
       });
    }
 
-   handleCloseModal() {
-      this.setState({ showModal: false });
+   handleHideInfo() {
+      this.setState({ showInfo: false });
    }
 
    deleteSearchTerm(searchTerm) {
@@ -112,10 +113,12 @@ class Vendors extends React.Component {
       })
    }
 
-   render() {   
+   render() {
+      var outerContainer = classNames(styles.outerContainer, global.floatingWindow);
+ 
       return(
-         <div className={ styles.outerContainer } controlid='vendors'>
-            <h2 className={ global.h2 }>Spots near you</h2>
+         <div controlid='vendors'>
+            <h1 className={ global.h2 }>Spots near you</h1>
             <br />
             <div className={ styles.filters }>
                <Form.Row>
@@ -140,19 +143,32 @@ class Vendors extends React.Component {
                </Form.Row>
             </div>
             <br />
-            <div className={ styles.mapColumn }>
-               <Map vendors={ this.state.vendors } openModal={ this.handleOpenModal } />
-            </div>
-            <div className={ styles.searchColumn }>
-               <InputGroup className={ styles.searchBar }>
-                  <Form.Control className={ styles.searchInput } id="searchTerm" onChange={e => this.handleSearchTermChange(e)} />
-                  <InputGroup.Append>
-                     <Button type="submit" className={ styles.searchButton } onClick={this.handleSearch} variant="outline-secondary">
-                        <i className="fa fa-search"></i>
-                     </Button>
-                  </InputGroup.Append>
-               </InputGroup>
-               <SearchList searchTerms={this.state.searchTerms} deleteSearchTerm={this.deleteSearchTerm}></SearchList>
+            <div className={ outerContainer }>
+               <div className={ styles.mapColumn }>
+                  <Map vendors={ this.state.vendors } openModal={ this.handleShowInfo } />
+               </div>
+               <div className={ styles.searchColumn }>
+                  <InputGroup className={ styles.searchBar }>
+                     <InputGroup.Prepend>
+                        <Button type="submit" className={ styles.searchButton } onClick={this.handleSearch} variant="outline-secondary">
+                           <i className="fa fa-search"></i>
+                        </Button>
+                     </InputGroup.Prepend>
+                     <Form.Control className={ styles.searchInput } id="searchTerm" onChange={e => this.handleSearchTermChange(e)} />
+                  </InputGroup>
+                  <div className={ styles.infoDiv }>
+                     {
+                        this.state.showInfo &&
+                        <ListModal 
+                           handleHideInfo={ this.handleHideInfo } 
+                           vendor={ this.state.vendorInfo }
+                           />
+                     }
+                  </div>
+                  <div className={ styles.searchListDiv }>
+                     <SearchList searchTerms={this.state.searchTerms} deleteSearchTerm={this.deleteSearchTerm}></SearchList>
+                  </div>
+               </div>
             </div>
             <ReactModal 
                isOpen={ this.state.showModal }
@@ -160,10 +176,6 @@ class Vendors extends React.Component {
                overlayClassName={ modalStyles.modalOverlay }
                className={ modalStyles.modalContent }
                >
-               <ListModal 
-                  handleCloseModal={ this.handleCloseModal } 
-                  vendor={ this.state.vendorModal }
-                  />
             </ReactModal>
          </div>
       );

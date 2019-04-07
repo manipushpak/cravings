@@ -33,3 +33,10 @@
 :local .formHeader {
     font-weight: bold;
 }
+
+/* For phones and smaller devices */
+@media (max-width: 575px) {
+    :local .h1 {
+        font-size: 80px;
+    }
+}
