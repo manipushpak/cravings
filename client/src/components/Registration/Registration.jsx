@@ -10,64 +10,32 @@ import Row from 'react-bootstrap/Row';
 import { withRouter } from 'react-router-dom';
 
 import ButtonSet from './ButtonSet.jsx';
-import RegistrationVendor from './RegistrationVendor.jsx';
 import WeekOptions from './WeekOptions.jsx';
 
 class Registration extends React.Component {
    constructor(props) {
       super(props);
-      if(this.props.location.state.stallName == ''){
-         this.state = { 
-            vendor: this.props.location.state !== 'undefined' && this.props.location.state.vendor !== null
-            ? this.props.location.state.vendor : [],
-            status: {
-               edit: props.isEdit,
-               view: props.isView
-            },
-            stallName: '',
-            phone: '',
-            address: '',
-            coordinates: {
-               lat: null,
-               lng: null
-            },
-            hours: [
-               {open: false, startTime: null, endTime: null},
-               {open: false, startTime: null, endTime: null},
-               {open: false, startTime: null, endTime: null},
-               {open: false, startTime: null, endTime: null},
-               {open: false, startTime: null, endTime: null},
-               {open: false, startTime: null, endTime: null},
-               {open: false, startTime: null, endTime: null},
-            ],
-            keywords: [],
-            numVendors: 1,
-            validated: false
-         }
+      var ven = this.props.location.state !== 'undefined' && this.props.location.state.vendor !== null
+      ? this.props.location.state.vendor : [];
+      this.state = { 
+         vendor: ven,
+         vendors: ven.vendorInfo.vendorName,
+         status: {
+            edit: props.isEdit,
+            view: props.isView
+         },
+         stallName: ven.vendorInfo.stallName,
+         phone: ven.vendorInfo.phone,
+         address: ven.vendorInfo.address.address,
+         coordinates: {
+            lat: null,
+            lng: null
+         },
+         hours: ven.vendorInfo.hours,
+         keywords: ven.vendorInfo.keywords,
+         numVendors: 1,
+         validated: false,
       }
-      else{
-         var ven = this.props.location.state !== 'undefined' && this.props.location.state.vendor !== null
-         ? this.props.location.state.vendor : [];
-         this.state = { 
-            vendor: ven,
-            status: {
-               edit: props.isEdit,
-               view: props.isView
-            },
-            stallName: ven.vendorInfo.stallName,
-            phone: ven.vendorInfo.phone,
-            address: ven.vendorInfo.address,
-            coordinates: {
-               lat: null,
-               lng: null
-            },
-            hours: ven.vendorInfo.hours,
-            keywords: ven.vendorInfo.keywords,
-            numVendors: 1,
-            validated: false
-         }
-      }
-      
       // External Form Functions
       this.handleSubmit = this.handleSubmit.bind(this);
       this.handleResetForm = this.handleResetForm.bind(this);
@@ -87,11 +55,13 @@ class Registration extends React.Component {
       this.updateEndTime = this.updateEndTime.bind(this);
       this.updateHours = this.updateHours.bind(this);
       this.updateKeywords = this.updateKeywords.bind(this);
+      this.updateVendorFirstName = this.updateVendorFirstName.bind(this);
+      this.updateVendorLastName = this.updateVendorLastName.bind(this);
 
       // Internal Form Functions
       this.activatePlacesSearch = this.activatePlacesSearch.bind(this);
-      this.onAddVendor = this.onAddVendor.bind(this);
-      this.onRemoveVendor = this.onRemoveVendor.bind(this);
+      // this.onAddVendor = this.onAddVendor.bind(this);
+      // this.onRemoveVendor = this.onRemoveVendor.bind(this);
       this.useCurrentLocation = this.useCurrentLocation.bind(this);
    }
    
@@ -110,7 +80,7 @@ class Registration extends React.Component {
                      password: this.state.vendor.loginInfo.password,
                   },
                   vendorInfo: {
-                     vendorName: [],
+                     vendorName: this.state.vendors,
                      stallName: this.state.stallName,
                      phone: this.state.phone,
                      address: this.state.address,
@@ -141,13 +111,13 @@ class Registration extends React.Component {
             lng: null
          },
          hours: [
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
-            {open: false, startTime: null, endTime: null},
+            {open: false, startTime: -1, endTime: -1},
+            {open: false, startTime: -1, endTime: -1},
+            {open: false, startTime: -1, endTime: -1},
+            {open: false, startTime: -1, endTime: -1},
+            {open: false, startTime: -1, endTime: -1},
+            {open: false, startTime: -1, endTime: -1},
+            {open: false, startTime: -1, endTime: -1},
          ],
          keywords: [],
          validated: false
@@ -200,6 +170,11 @@ class Registration extends React.Component {
       this.updateHours(index, weekday);
    }   
    updateHours(index, weekday) {
+      if(!weekday.open){
+         weekday.startTime = -1;
+         weekday.endTime = -1;
+      }
+
       this.setState(prevState => ({
          hours: {
              ...prevState.hours,
@@ -207,15 +182,25 @@ class Registration extends React.Component {
          }
      }));
    }
-   updateKeywords(e) {
-      this.setState({ keywords: e.target.value.split(", ") });
+
+   updateVendorFirstName(e){
+      var vendorList = this.state.vendors;
+      vendorList[0].firstName = e.target.value;
+      this.setState({
+         vendors: vendorList
+      })
    }
 
-   onAddVendor() {
-      this.setState({ numVendors: this.state.numVendors + 1 });
+   updateVendorLastName(e){
+      var vendorList = this.state.vendors;
+      vendorList[0].lastName = e.target.value;
+      this.setState({
+         vendors: vendorList
+      })
    }
-   onRemoveVendor() {
-      this.setState({ numVendors: this.state.numVendors -1 })
+
+   updateKeywords(e) {
+      this.setState({ keywords: e.target.value.split(", ") });
    }
 
    activatePlacesSearch() {
@@ -264,11 +249,6 @@ class Registration extends React.Component {
 
    render() {
       google.maps.event.addDomListener(window, 'load', this.activatePlacesSearch);
-
-      const vendors = [];
-      for (var i = 0; i < this.state.numVendors; i += 1) {
-        vendors.push(<RegistrationVendor key={i} number={i} onRemoveVendor={this.onRemoveVendor} readOnly={this.state.status.view}/>);
-      };
 
       return(
          <div className={styles.outerContainer}>
@@ -322,9 +302,19 @@ class Registration extends React.Component {
                <br />
                <h3>Vendor Information</h3>
                <br />
+                  <Form.Row>
+                     <Form.Group as={Col} controlId="firstName" xs={12} md={this.state.readOnly ? 6 : 5}>
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control readOnly={this.state.readOnly} value={this.state.vendors[0].firstName} onChange={e => this.updateVendorFirstName(e)} placeholder="Enter first name" required />
+                        <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
+                     </Form.Group>
 
-               <AllVendors addVendor={this.onAddVendor} vendors={vendors} toShow={this.state.status.edit} />
-
+                     <Form.Group as={Col} controlId="lastName" xs={12} md={this.state.readOnly ? 6 : 5}>
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control readOnly={this.state.readOnly} defaultValue={this.state.vendors[0].lastName} onChange={e => this.updateVendorLastName(e)} placeholder="Enter last name" required />
+                        <Form.Control.Feedback type="invalid">Please enter your last number.</Form.Control.Feedback>
+                     </Form.Group>
+                  </Form.Row>
                <br />
                
                <ButtonSet status={this.state.status} 
@@ -367,13 +357,13 @@ const AddressSet = props => {
    }
 }
 
-const AllVendors = props => (
-   <div className="vendors">
-     <div id="vendors-pane">
-       {props.vendors}
-     </div>
-     <p show={props.toShow}><a onClick={props.addVendor} href="javascript: return false;">+ Add Another Vendor</a></p>
-   </div>
-);
+// const AllVendors = props => (
+//    <div className="vendors">
+//      <div id="vendors-pane">
+//        {props.vendors}
+//      </div>
+//      <p><a onClick={props.addVendor} href="javascript:void(0)">+ Add Another Vendor</a></p>
+//    </div>
+// );
 
 export default withRouter(Registration);

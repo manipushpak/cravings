@@ -6,7 +6,6 @@ import Form from 'react-bootstrap/Form';
 import TimeOptions from './TimeOptions.jsx';
 
 const WeekOptions = props => {
-    console.log(props);
     return (
         <Form.Row className={ styles.openingRow }>
             <Form.Group as={Col} xs={12} sm={4}>

@@ -327,7 +327,7 @@ router.post('/vendor/signup', (req, res) => { //DONE
                         password: verification.hash
                     },
                     vendorInfo: {
-                        vendorName: [],
+                        vendorName: [{firstName:"",lastName:""}],
                         stallName: "",
                         phone: "",
                         address: {
@@ -339,7 +339,15 @@ router.post('/vendor/signup', (req, res) => { //DONE
                         },
                         keywords: [],
                         flags: [],
-                        hours: []
+                        hours: [
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                         ],
                     }
                 }
     

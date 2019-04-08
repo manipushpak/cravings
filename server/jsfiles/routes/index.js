@@ -274,7 +274,7 @@ router.post('/vendor/signup', function (req, res) {
                         password: verification.hash
                     },
                     vendorInfo: {
-                        vendorName: [],
+                        vendorName: [{ firstName: "", lastName: "" }],
                         stallName: "",
                         phone: "",
                         address: {
@@ -286,7 +286,15 @@ router.post('/vendor/signup', function (req, res) {
                         },
                         keywords: [],
                         flags: [],
-                        hours: []
+                        hours: [
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                        ],
                     }
                 };
                 vendorDB.insertOne(newVendor_1, function (err, res2) {
