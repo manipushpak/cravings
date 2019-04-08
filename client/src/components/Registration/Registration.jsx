@@ -274,7 +274,7 @@ class Registration extends React.Component {
 
                   <Form.Group as={Col} controlId="phoneNumber" xs={12} md={6}>
                      <Form.Label>Phone Number</Form.Label>
-                     <Form.Control readOnly={this.state.readOnly} placeholder="Enter phone number (123-456-7890)" pattern="^\d{3}-\d{3}-\d{4}$" onChange={e => this.updatePhone(e)} required />
+                     <Form.Control readOnly={this.state.readOnly} placeholder="Enter phone number (123-456-7890)" pattern="npm" onChange={e => this.updatePhone(e)} required />
                      <Form.Control.Feedback type="invalid">Please enter your phone number (xxx-xxx-xxxx).</Form.Control.Feedback>
                   </Form.Group>
                </Row>

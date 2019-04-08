@@ -5,6 +5,8 @@ import styles from '../styles/Home.css';
 
 import taco from '../images/taco.svg';
 
+import FilterSlider from './Vendors/FilterSlider.jsx';
+
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
@@ -80,6 +82,8 @@ class Home extends React.Component {
             <div className={styles.bubble}>Not sure what you want? Click to explore!</div>
             <Button className={ styles.button } onClick={ this.handleExplore }>EXPLORE</Button>
             <img className = { styles.img } src={taco} alt="Taco image"></img>
+            <FilterSlider />
+
          </div>
       );
    }
