@@ -12,6 +12,17 @@ module.exports = {
   module: {
     rules:[
       {
+        test: /\.(png|jpe?g|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '/images/[name].[ext]',
+            },
+          },
+        ],
+      },
+      {
         test: /\.css$/,
         loader: [
           'style-loader',

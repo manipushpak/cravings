@@ -5,6 +5,7 @@ import global from '../../styles/Global.css';
 import styles from '../../styles/Vendors/Vendors.css';
 import modalStyles from '../../styles/Vendors/ListModal.css';
 
+import FilterSlider from './FilterSlider.jsx';
 import Map from './Map.jsx';
 
 import Button from 'react-bootstrap/Button';
@@ -114,44 +115,47 @@ class Vendors extends React.Component {
       this.handleSearch;
    }
 
-   render() {
-      var outerContainer = classNames(styles.outerContainer, global.floatingWindow);
- 
+   render() { 
       return(
          <div controlid='vendors'>
             <h1 className={ global.h2 }>Spots near you</h1>
             <br />
             <div className={ styles.filters }>
                <Form.Row>
-                  <Form.Group as={Col} xs={6} sm={3} md={2}>
-                     <Form.Check label={"Vegetarian"} type="checkbox" />
+                  <Form.Group as={Col} xs={12} md={6}>
+                     <Form.Group xs={6} md={4}>
+                        <Form.Check inline label={"Vegetarian"} type="checkbox" />
+                     </Form.Group>
+                     <Form.Group xs={6} md={4}>
+                        <Form.Check inline label={"Open Now"} type="checkbox" />
+                     </Form.Group>
+                     <Form.Group xs={6} md={4}>
+                        <Form.Check inline label={"Gluten Free"} type="checkbox" />
+                     </Form.Group>
+                     <Form.Group xs={6} md={4}>
+                        <Form.Check inline label={"Dairy Free"} type="checkbox" />
+                     </Form.Group>
+                     <Form.Group xs={6} md={4}>
+                        <Form.Check inline label={"Kosher"} type="checkbox" />
+                     </Form.Group>
+                     <Form.Group xs={6} md={4}>
+                        <Form.Check inline label={"Halal"} type="checkbox" />
+                     </Form.Group>
                   </Form.Group>
-                  <Form.Group as={Col} xs={6} sm={3} md={2}>
-                     <Form.Check label={"Open Now"} type="checkbox" />
-                  </Form.Group>
-                  <Form.Group as={Col} xs={6} sm={3} md={2}>
-                     <Form.Check label={"Gluten Free"} type="checkbox" />
-                  </Form.Group>
-                  <Form.Group as={Col} xs={6} sm={3} md={2}>
-                     <Form.Check label={"Dairy Free"} type="checkbox" />
-                  </Form.Group>
-                  <Form.Group as={Col} xs={6} sm={3} md={2}>
-                     <Form.Check label={"Kosher"} type="checkbox" />
-                  </Form.Group>
-                  <Form.Group as={Col} xs={6} sm={3} md={2}>
-                     <Form.Check label={"Halal"} type="checkbox" />
+                  <Form.Group as={Col} xs={12} md={6}>
+                     <FilterSlider />
                   </Form.Group>
                </Form.Row>
             </div>
             <br />
-            <div className={ outerContainer }>
+            <div className={ classNames(styles.outerContainer, global.floatingWindow) }>
                <div className={ styles.mapColumn }>
                   <Map vendors={ this.state.vendors } openModal={ this.handleShowInfo } />
                </div>
                <div className={ styles.searchColumn }>
                   <InputGroup className={ styles.searchBar }>
                      <InputGroup.Prepend>
-                        <Button type="submit" className={ styles.searchButton } onClick={this.handleSearch} variant="outline-secondary">
+                        <Button type="submit" className={ styles.searchButton } onClick={this.handleSearch} variant="outline">
                            <i className="fa fa-search"></i>
                         </Button>
                      </InputGroup.Prepend>
@@ -163,7 +167,7 @@ class Vendors extends React.Component {
                         <ListModal 
                            handleHideInfo={ this.handleHideInfo } 
                            vendor={ this.state.vendorInfo }
-                           />
+                        />
                      }
                   </div>
                   <div className={ styles.searchListDiv }>
