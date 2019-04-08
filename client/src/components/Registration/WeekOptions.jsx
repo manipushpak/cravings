@@ -6,16 +6,17 @@ import Form from 'react-bootstrap/Form';
 import TimeOptions from './TimeOptions.jsx';
 
 const WeekOptions = props => {
+    console.log(props);
     return (
         <Form.Row className={ styles.openingRow }>
             <Form.Group as={Col} xs={12} sm={4}>
-                <Form.Check disabled={props.readOnly} label={props.label} type="checkbox" onChange={props.ocCheck} />
+                <Form.Check disabled={props.readOnly} label={props.label} checked={props.hours.open} type="checkbox" onChange={props.ocCheck} />
             </Form.Group>
             <Form.Group as={Col} xs={6} sm={4}>
-                <TimeOptions disabled={props.disabled || props.readOnly} placeholder="Start Time" onChange={props.ocStart} />
+                <TimeOptions disabled={props.disabled || props.readOnly} time={props.hours.startTime} placeholder="Start Time" onChange={props.ocStart} />
             </Form.Group>
             <Form.Group as={Col} xs={6} sm={4}>
-                <TimeOptions disabled={props.disabled || props.readOnly} placeholder="End Time" onChange={props.ocEnd} />
+                <TimeOptions disabled={props.disabled || props.readOnly} time={props.hours.endTime} placeholder="End Time" onChange={props.ocEnd} />
             </Form.Group>
         </Form.Row>
     );

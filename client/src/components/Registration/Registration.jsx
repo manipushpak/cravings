@@ -61,15 +61,7 @@ class Registration extends React.Component {
                lat: null,
                lng: null
             },
-            hours: [
-               {open: false, startTime: null, endTime: null},
-               {open: false, startTime: null, endTime: null},
-               {open: false, startTime: null, endTime: null},
-               {open: false, startTime: null, endTime: null},
-               {open: false, startTime: null, endTime: null},
-               {open: false, startTime: null, endTime: null},
-               {open: false, startTime: null, endTime: null},
-            ],
+            hours: ven.vendorInfo.hours,
             keywords: ven.vendorInfo.keywords,
             numVendors: 1,
             validated: false
@@ -305,19 +297,19 @@ class Registration extends React.Component {
                <Row>
                   <Form.Group as={Col} controlId="openingDaysAndTimes" xs={12} md={6}>
                      <Form.Label>Opening Days and Hours (optional)</Form.Label>
-                     <WeekOptions label="Monday" disabled={!this.state.hours[0].open} readOnly={this.state.status.view}
+                     <WeekOptions label="Monday" disabled={!this.state.hours[0].open} hours={this.state.hours[0]} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,0)} ocStart={e => this.updateStartTime(e,0)} ocEnd={e => this.updateEndTime(e,0)} />
-                     <WeekOptions label="Tuesday" disabled={!this.state.hours[1].open} readOnly={this.state.status.view}
+                     <WeekOptions label="Tuesday" disabled={!this.state.hours[1].open} hours={this.state.hours[1]} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,1)} ocStart={e => this.updateStartTime(e,1)} ocEnd={e => this.updateEndTime(e,1)} />
-                     <WeekOptions label="Wednesday" disabled={!this.state.hours[2].open} readOnly={this.state.status.view}
+                     <WeekOptions label="Wednesday" disabled={!this.state.hours[2].open} hours={this.state.hours[2]} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,2)} ocStart={e => this.updateStartTime(e,2)} ocEnd={e => this.updateEndTime(e,2)} />
-                     <WeekOptions label="Thursday" disabled={!this.state.hours[3].open} readOnly={this.state.status.view}
+                     <WeekOptions label="Thursday" disabled={!this.state.hours[3].open} hours={this.state.hours[3]} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,3)} ocStart={e => this.updateStartTime(e,3)} ocEnd={e => this.updateEndTime(e,3)} />
-                     <WeekOptions label="Friday" disabled={!this.state.hours[4].open} readOnly={this.state.status.view}
+                     <WeekOptions label="Friday" disabled={!this.state.hours[4].open} hours={this.state.hours[4]} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,4)} ocStart={e => this.updateStartTime(e,4)} ocEnd={e => this.updateEndTime(e,4)} />
-                     <WeekOptions label="Saturday" disabled={!this.state.hours[5].open} readOnly={this.state.status.view}
+                     <WeekOptions label="Saturday" disabled={!this.state.hours[5].open} hours={this.state.hours[5]} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,5)} ocStart={e => this.updateStartTime(e,5)} ocEnd={e => this.updateEndTime(e,5)} />
-                     <WeekOptions label="Sunday" disabled={!this.state.hours[6].open} readOnly={this.state.status.view}
+                     <WeekOptions label="Sunday" disabled={!this.state.hours[6].open} hours={this.state.hours[6]} readOnly={this.state.status.view}
                         ocCheck={e => this.updateWeek(e,6)} ocStart={e => this.updateStartTime(e,6)} ocEnd={e => this.updateEndTime(e,6)} />
                   </Form.Group>
                   <Form.Group as={Col} controlId="keywords" xs={12} md={6}>
