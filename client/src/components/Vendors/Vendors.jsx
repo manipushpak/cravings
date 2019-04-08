@@ -57,9 +57,10 @@ class Vendors extends React.Component {
       })
       fetch('/search', {
          method: 'POST',
-            body: JSON.stringify({
-               terms: terms
-            }),
+         body: JSON.stringify({
+            terms: terms
+         }),
+         headers: {"Content-Type": "application/json"}
       })
       .then(res => res.json())
       .then(vendors => {
@@ -101,7 +102,6 @@ class Vendors extends React.Component {
    }
 
    deleteSearchTerm(searchTerm) {
-      console.log("IN HERE");
       var terms = this.state.searchTerms;
       for( var i = 0; i < terms.length; i++){
          if ( terms[i] === searchTerm) {
@@ -111,6 +111,7 @@ class Vendors extends React.Component {
       this.setState({
          searchTerms: terms
       })
+      this.handleSearch;
    }
 
    render() {

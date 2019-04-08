@@ -26,11 +26,12 @@ class Home extends React.Component {
    
    handleSearch() {
       var searchTerm = [this.state.searchTerm];
+      console.log(searchTerm);
    
       fetch('/search', {
          method: 'POST',
          body: JSON.stringify({
-            terms: [searchTerm]
+            terms: searchTerm
          }),
          headers:{"Content-Type": "application/json"}
       })

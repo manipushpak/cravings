@@ -17,7 +17,7 @@ const GoogleMapElement = withGoogleMap(props => (
          var vendorInfo = vendor.vendorInfo;
          var geocoder = new google.maps.Geocoder();
          let coordinates = {lat: 34.0224 , lng: -118.2851};
-         coordinates = geocodeAddress(geocoder, vendorInfo.address, coordinates);
+         coordinates = geocodeAddress(geocoder, vendorInfo.address.address, coordinates);
          
          return (
             <Marker
