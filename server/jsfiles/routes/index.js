@@ -64,7 +64,7 @@ router.get('/keywords/random', function (req, res, next) {
         }
         else {
             var num = Math.floor(Math.random() * documents.length);
-            res.json(documents[num].keyword);
+            res.send(documents[num].keyword);
         }
     });
 });
@@ -117,6 +117,29 @@ router.post('/vendor/register', function (req, res) {
         });
     }
 });
+router.post('/vendor/filter', function (req, res) {
+    var vendors = req.body.vendors;
+    var filters = req.body.filters;
+    if (filters == null || filters.length == 0) {
+        res.send({ success: true, vendors: vendors, error: "No filters" });
+    }
+    else {
+        var filterlist_1 = new Set();
+        for (var k in filters) {
+            filterlist_1.add(filters[k].toLowerCase());
+        }
+        var filtered = vendors.filter(function (v) {
+            if (!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)) {
+                for (var f in v.vendorInfo.flags) {
+                    if (filterlist_1.has(v.vendorInfo.flags[f].toLowerCase())) {
+                        return v;
+                    }
+                }
+            }
+        });
+        res.send({ vendors: filtered });
+    }
+});
 router.post('/vendor/modify', function (req, res) {
     var vendor = req.body.vendor;
     var success = false;
@@ -137,8 +160,8 @@ router.post('/vendor/modify', function (req, res) {
         });
     }
 });
-router.get('/search/:term', function (req, res) {
-    var term = req.params.term;
+router.post('/search', function (req, res) {
+    var terms = req.body.terms;
     vendorDB.find({}).toArray(function (err, vendors) {
         var all = vendors;
         if (err) {
@@ -146,6 +169,10 @@ router.get('/search/:term', function (req, res) {
         }
         else if (all == null || all.length == 0) {
             res.json({ success: false, error: "Error: no vendors" });
+        }
+        else if (terms == null || terms == undefined || terms.length == 0) {
+            console.log("no valid terms");
+            return all;
         }
         else {
             var results = [];
@@ -169,36 +196,67 @@ router.get('/search/:term', function (req, res) {
                 //names
                 if (names != null && names.length > 0) {
                     for (var k in names) {
-                        var first = names[k].firstName.toLowerCase();
-                        var last = names[k].lastName.toLowerCase();
+                        var first = names[k].firstName.trim().toLowerCase();
+                        var last = names[k].lastName.trim().toLowerCase();
                         var whole = first + " " + last;
-                        if (first.includes(term) || last.includes(term) || whole.includes(term)) {
-                            include = true;
+                        for (var tt in terms) {
+                            if (include) {
+                                break;
+                            }
+                            var term = terms[tt].trim().toLowerCase();
+                            if (first.includes(term) || last.includes(term) || whole.includes(term)) {
+                                console.log("first or last: " + first + " " + last + " " + term);
+                                include = true;
+                            }
                         }
                     }
                 }
                 //stallname
                 if (!include) {
                     if (stallName != null && stallName != "") {
-                        if (stallName.toLowerCase().includes(term)) {
-                            include = true;
+                        for (var tt in terms) {
+                            if (include) {
+                                break;
+                            }
+                            var term = terms[tt].trim().toLowerCase();
+                            if (stallName.trim().toLowerCase().includes(term)) {
+                                console.log("stallname: " + stallName + " " + term);
+                                include = true;
+                            }
                         }
                     }
                 }
                 //address
                 if (!include) {
                     if (address != null && address != "") {
-                        if (address.toLowerCase().includes(term)) {
-                            include = true;
+                        for (var tt in terms) {
+                            if (include) {
+                                break;
+                            }
+                            var term = terms[tt].trim().toLowerCase();
+                            if (address.trim().toLowerCase().includes(term)) {
+                                console.log("address: " + address + " " + term);
+                                include = true;
+                            }
                         }
                     }
                 }
                 //keywords
                 if (!include) {
                     if (keywords != null && keywords.length > 0) {
-                        for (var z in keywords) {
-                            if (keywords[z].toLowerCase().includes(term)) {
-                                include = true;
+                        for (var tt in terms) {
+                            if (include) {
+                                break;
+                            }
+                            for (var z in keywords) {
+                                if (include) {
+                                    break;
+                                }
+                                var term = terms[tt].trim().toLowerCase();
+                                if (keywords[z].trim().toLowerCase().includes(term)) {
+                                    console.log("keywords: " + keywords[z] + " " + term);
+                                    include = true;
+                                }
                             }
                         }
                     }
@@ -207,7 +265,7 @@ router.get('/search/:term', function (req, res) {
                     results.push(current);
                 }
             }
-            res.json({ success: true, vendors: results });
+            res.send({ success: true, vendors: results });
         }
     });
 });
@@ -246,7 +304,7 @@ router.post('/vendor/signup', function (req, res) {
                 });
             }
             else {
-                var newVendor = {
+                var newVendor_1 = {
                     loginInfo: {
                         email: verification.email,
                         password: verification.hash
@@ -264,10 +322,18 @@ router.post('/vendor/signup', function (req, res) {
                         },
                         keywords: [],
                         flags: [],
-                        hours: []
+                        hours: [
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                        ],
                     }
                 };
-                vendorDB.insertOne(newVendor, function (err, res2) {
+                vendorDB.insertOne(newVendor_1, function (err, res2) {
                     if (err) {
                         res.send({
                             success: false,
@@ -277,7 +343,7 @@ router.post('/vendor/signup', function (req, res) {
                     else {
                         res.send({
                             success: true,
-                            vendor: res2
+                            vendor: newVendor_1
                         });
                     }
                 });
@@ -353,118 +419,5 @@ router.get('/initkeywords', function (req, res) {
     });
 });
 router.get('/test', function (req, res) {
-    var rvendor = {
-        loginInfo: {
-            email: "devikadevika@usc.edu",
-            password: "hihihi"
-        },
-        vendorInfo: {
-            vendorName: [{
-                    firstName: "Devika",
-                    lastName: "Kumar"
-                },
-                {
-                    firstName: "Sonali",
-                    lastName: "Pai"
-                }
-            ],
-            stallName: "Devika's Pies",
-            phone: "6508239461",
-            address: {
-                address: "3760 Fig",
-                coordinates: {
-                    lat: 222,
-                    lng: 3333
-                }
-            },
-            keywords: [
-                "yummy", "usc"
-            ],
-            flags: ["v", "g-f", "d-f", "h", "k"],
-            hours: [
-                {
-                    open: true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open: true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open: true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open: true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open: true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open: true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open: false,
-                    startTime: 900,
-                    endTime: 500,
-                }
-            ]
-        },
-    };
-    var success = false;
-    try {
-        vendorDB.findOneAndReplace({
-            loginInfo: rvendor.loginInfo
-        }, {
-            loginInfo: rvendor.loginInfo,
-            vendorInfo: rvendor.vendorInfo
-        }, { returnNewDocument: true }, function (err, res2) {
-            var vendor = res2.value;
-            if (err) {
-                res.send({ success: false, error: err.toString() });
-            }
-            else if (res2 == null || res2.value == null) {
-                res.send({ success: false, error: res2 });
-            }
-            else {
-                var arr = [];
-                for (var key in vendor.vendorInfo.keywords) {
-                    var obj = {
-                        keyword: vendor.vendorInfo.keywords[key]
-                    };
-                    arr.push(obj);
-                }
-                console.log(arr);
-                if (arr.length == 0) {
-                    res.send({ success: true, vendor: vendor, keywords: false });
-                }
-                else {
-                    keywordDB.insertMany(arr, function (err, ress) {
-                        if (err) {
-                            console.log({ success: false, error: err });
-                        }
-                        else {
-                            res.send({ success: true, vendor: vendor, keywords: true });
-                        }
-                    });
-                }
-            }
-        });
-    }
-    catch (e) {
-        res.send({
-            success: false,
-            error: e.toString()
-        });
-    }
 });
 exports.default = router;

@@ -17,7 +17,7 @@ const GoogleMapElement = withGoogleMap(props => (
          var vendorInfo = vendor.vendorInfo;
          var geocoder = new google.maps.Geocoder();
          let coordinates = {lat: 34.0224 , lng: -118.2851};
-         coordinates = geocodeAddress(geocoder, vendorInfo.address, coordinates);
+         coordinates = geocodeAddress(geocoder, vendorInfo.address.address, coordinates);
          
          return (
             <Marker
@@ -63,7 +63,8 @@ class Map extends React.Component {
          userLocation: { lat: 34.052234 , lng: -118.243685 }, 
          loading: true,
          infoWindowVisible: false,
-         activeKey: null
+         activeKey: null,
+         vendors: props.vendors
       }
 
       this.componentDidMount = this.componentDidMount.bind(this);
@@ -108,7 +109,7 @@ class Map extends React.Component {
                openModal={ this.props.openModal }
                setActiveKey={ this.setActiveKey }
                userLocation={ this.state.userLocation }
-               vendors={ this.props.vendors }
+               vendors={ this.state.vendors }
             />
          </div>
       );

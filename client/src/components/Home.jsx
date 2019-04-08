@@ -28,15 +28,16 @@ class Home extends React.Component {
          searchTerm: e.target.value
       });
    }
-
-   handleSearch() {
-      var searchTerm = this.state.searchTerm;
    
-      fetch('/search/'+searchTerm, {
-         headers : { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-         }
+   handleSearch() {
+      var searchTerm = [this.state.searchTerm];
+   
+      fetch('/search', {
+         method: 'POST',
+         body: JSON.stringify({
+            terms: searchTerm
+         }),
+         headers:{"Content-Type": "application/json"}
       })
       .then(res => res.json())
       .then(vendors => {

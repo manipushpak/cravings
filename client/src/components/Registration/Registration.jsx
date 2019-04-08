@@ -157,7 +157,6 @@ class Registration extends React.Component {
    updateStartTime(e, index) {
       var weekday = this.state.hours[index];
       weekday.startTime = e.target.value;
-      console.log(e.target.value);
       this.updateHours(index, weekday);
    }
    updateEndTime(e, index) {
@@ -252,7 +251,6 @@ class Registration extends React.Component {
       const vendors = [];
       for (var i = 0; i < this.state.numVendors; i += 1) {
         vendors.push(<RegistrationVendor key={i} number={i} onRemoveVendor={this.onRemoveVendor} readOnly={this.state.readOnly}/>);
-        console.log(vendors);
       };
 
       var outerContainer = classNames(styles.outerContainer, global.floatingWindow, global.formContainer);
