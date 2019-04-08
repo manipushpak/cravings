@@ -136,6 +136,7 @@ class Vendors extends React.Component {
 
    handleHideInfo() {
       this.setState({ showInfo: false });
+      console.log("dis happenin");
    }
 
    deleteSearchTerm(searchTerm) {
@@ -177,7 +178,7 @@ class Vendors extends React.Component {
             <div className={ styles.filters }>
                <Form.Row>
                   <Form.Group as={Col} xs={12} md={6}>
-                     <Form.Group as={Row} id="filters">
+                     <Form.Row id="filters">
                         <Form.Group as={Col} xs={6} sm={4}>
                            <Form.Check inline label={"Vegetarian"} id="v" onClick={(e) => { this.handleFilter(e)}} type="checkbox" />
                         </Form.Group>
@@ -196,26 +197,7 @@ class Vendors extends React.Component {
                         <Form.Group as={Col} xs={6} sm={4}>
                            <Form.Check inline label={"Halal"} id="h" onClick= {(e)=> {this.handleFilter(e)}} type="checkbox" />
                         </Form.Group>
-                     </Form.Group>
-                  {/* <Form.Group id="filters" as={Col} xs={12} md={6}>
-                     <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Vegetarian"} id="v" onClick={(e) => { this.handleFilter(e)}} type="checkbox" />
-                     </Form.Group>
-                     <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Open Now"} id="o" onClick= {(e)=> {this.handleFilter(e)}}  type="checkbox" />
-                     </Form.Group>
-                     <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Gluten Free"} id="g-f" onClick= {(e)=> {this.handleFilter(e)}} type="checkbox" />
-                     </Form.Group>
-                     <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Dairy Free"} id="d-f" onClick= {(e)=> {this.handleFilter(e)}}  type="checkbox" />
-                     </Form.Group>
-                     <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Kosher"} id="k" onClick= {(e)=> {this.handleFilter(e)}} type="checkbox" />
-                     </Form.Group>
-                     <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Halal"} id="h" onClick= {(e)=> {this.handleFilter(e)}} type="checkbox" />
-                     </Form.Group> */}
+                     </Form.Row>
                   </Form.Group>
                   <Form.Group as={Col} xs={12} md={6} className={ styles.sliderDiv }>
                      <FilterSlider sliderValues={ this.state.sliderValues } onChange={ this.updateSliderValues }/>
