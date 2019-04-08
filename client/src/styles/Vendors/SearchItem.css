@@ -1,24 +1,34 @@
-:local .outerContainer {
-  padding: 5px 0;
-  padding-right: 10px;
-  float:left;
+  :local .round {
+    border-radius: 24px;
+    color: black;
+    border: 3px solid transparent;
+    background-color: white;
+    border-color: black;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 2px 20px;
+    display: inline-flex;
+    white-space: nowrap;
+    float:left;
+    
+  }
+  
+  :local .outerContainer {
+    padding: 9px;
+    width: 100%;
+    text-align: center;
+    float:left;
 }
 
-:local .round {
-  border: 3px solid black;
-  border-radius: 24px;
-  padding: 2px 15px;
-  display: flex;
-  align-items: center;
-  background-color: white;
-  color: black;
-  font-family: 'Rubik', Arial, Helvetica, sans-serif;
-  font-size: 16px;
-  font-weight: bold;
-  white-space: nowrap;
-}
-  
 :local .aTag {
-  display: flex;
-  margin-right: 10px;
+    display: flex;
+    float:left;
+    align-items: center;
+    margin-right: 10px;
+}
+
+:local .aTag>i { 
+    color: black; 
+    width: 20%;
 }

@@ -2,7 +2,7 @@ import * as express from 'express';
 let router = express.Router();
 // import DataManager from '../data/datamanager';
 import { Vendor, User, VendorInfo } from '../models/types';
-import vendors from '../data/sampledb';
+import vendorS from '../data/sampledb';
 import { ObjectId } from 'bson';
 // import IUser from '../data/mongomanagers/usermanager';
 // import IVendor from '../data/mongomanagers/vendormanager';
@@ -51,13 +51,15 @@ router.get('/keywords', (req, res, next) => { //DONE
     });
 });
 
+
+
 router.get('/keywords/random', (req, res, next) => { //DONE
     keywordDB.find({}).toArray((err: any, documents: any)=> {
         if (err){ 
             res.send(err)
         }else{
             let num = Math.floor(Math.random()*documents.length);
-            res.json(documents[num].keyword);
+            res.send(documents[num].keyword);
         }
     });
 });
@@ -124,6 +126,46 @@ router.post('/vendor/register', (req, res) => { //DONE
 
 });
 
+
+
+router.post('/vendor/filter', (req, res) => { //DONE
+
+
+    let vendors: Vendor[] = req.body.vendors;
+    let filters: string[] = req.body.filters;
+
+    if(filters == null || filters.length == 0){
+        res.send({success: true, vendors: vendors, error: "No filters"});
+    }else{
+
+        let filterlist:Set<string> = new Set<string>();
+        for(let k in filters){
+            filterlist.add(filters[k].toLowerCase());
+        }
+
+        let filtered:Vendor[] = vendors.filter(v => {
+            
+            if(!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)){
+                
+                for(let f in v.vendorInfo.flags){
+                    if(filterlist.has(v.vendorInfo.flags[f].toLowerCase())){
+                        return v;
+                    }
+                }
+
+            }
+           
+        });
+
+        res.send(filtered);
+
+
+
+    }
+
+});
+
+
 router.post('/vendor/modify', (req, res) => { //DONE
 
 
@@ -156,8 +198,8 @@ router.post('/vendor/modify', (req, res) => { //DONE
 
 });
 
-router.get('/search/:term', (req, res) => { //DONE
-    let term: string = req.params.term;
+router.post('/search', (req, res) => { //DONE
+    let terms: string[] = req.body.terms;
     vendorDB.find({}).toArray((err: any, vendors: any) => {
         let all: Vendor[] = vendors;
         if (err) {
@@ -165,6 +207,8 @@ router.get('/search/:term', (req, res) => { //DONE
         }
         else if(all == null || all.length == 0){
             res.json({success: false, error: "Error: no vendors"});
+        }else if(terms == null || terms == undefined || terms.length == 0){
+            return all;
         }
         else {
 
@@ -194,8 +238,10 @@ router.get('/search/:term', (req, res) => { //DONE
                         let first = names[k].firstName.toLowerCase();
                         let last = names[k].lastName.toLowerCase();
                         let whole = first + " " + last;
-                        if (first.includes(term) || last.includes(term) || whole.includes(term)){
+                        for(let term in terms){
+                            if (first.includes(term) || last.includes(term) || whole.includes(term)){
                                 include = true;
+                            }
                         }
                     }
                 }
@@ -203,8 +249,10 @@ router.get('/search/:term', (req, res) => { //DONE
                 //stallname
                 if(!include){
                     if(stallName!=null && stallName!=""){
+                        for(let term in terms){
                         if(stallName.toLowerCase().includes(term)){
                             include = true;
+                        }
                         }
                     }
                 }
@@ -212,8 +260,10 @@ router.get('/search/:term', (req, res) => { //DONE
                 //address
                 if(!include){
                     if(address!=null && address!=""){
+                        for(let term in terms){
                         if(address.toLowerCase().includes(term)){
                             include = true;
+                        }
                         }
                     }
 
@@ -223,11 +273,13 @@ router.get('/search/:term', (req, res) => { //DONE
 
                 if(!include){
                     if(keywords!=null && keywords.length>0){
+                        for(let term in terms){
                         for(let z in keywords){
                             if(keywords[z].toLowerCase().includes(term)){
                                 include = true;
                             }
                         }
+                    }
                     }
                 }
 
@@ -316,7 +368,7 @@ router.post('/vendor/signup', (req, res) => { //DONE
                     }else{
                         res.send({
                             success: true,
-                            vendor: res2
+                            vendor: newVendor
                         });
                     }
     
@@ -369,7 +421,7 @@ router.post('/vendor/authenticate', (req, res) => { //DONE!!!!
 
 router.get('/initvendors', (req, res) => { //DONE
 
-    vendorDB.insertMany(vendors, (err: any) => {
+    vendorDB.insertMany(vendorS, (err: any) => {
         if (err) {
             res.send(err)
         } else {
@@ -413,133 +465,37 @@ router.get('/initkeywords', (req, res) => { //DONE
 router.get('/test', (req, res) => {//DONE
 
 
-    let rvendor: Vendor = {
-        loginInfo: {
-            email:"devikadevika@usc.edu",
-            password:"hihihi"
-        },
-        vendorInfo: {
-            vendorName: [{
-                firstName:"Devika",
-                lastName:"Kumar"
-            },
-            {
-                firstName:"Sonali",
-                lastName:"Pai"
-            }
-            ],
-            stallName: "Devika's Pies",
-            phone: "6508239461",
-            address: {
-                address: "3760 Fig",
-                coordinates: {
-                    lat: 222,
-                    lng: 3333
-                }
-            },
-            keywords: [
-                "yummy", "usc"
-            ],
-            flags: ["v", "g-f", "d-f", "h", "k"],
-            hours: [
-                {
-                    open:true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open:true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open:true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open:true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open:true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open:true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open:false,
-                    startTime: 900,
-                    endTime: 500,
-                }
-            ]
-        },
-        
-        };
+    let vendors: Vendor[] = vendorS;
+    let filters: string[] = ["h"];
 
+    if(filters == null || filters.length == 0){
+        res.send({success: true, vendors: vendors, error: "No filters"});
+    }else{
 
-        let success:boolean = false;
-        try{
-    
-            vendorDB.findOneAndReplace(
-                { 
-                    loginInfo : rvendor.loginInfo
-                },
-                {
-                    loginInfo: rvendor.loginInfo,
-                    vendorInfo: rvendor.vendorInfo
-                },
-                { returnNewDocument: true },
-                (err:any, res2:any) =>{
-    
-                    let vendor = res2.value;
-    
-                    if(err){
-                        res.send({success : false, error: err.toString()});
-                    }else if(res2 == null || res2.value == null){
-                        res.send({success: false, error: res2});
-                    }
-                    else{
-                        let arr:any[] = [];
-                        for(let key in vendor.vendorInfo.keywords){
-                            let obj = {
-                            keyword: vendor.vendorInfo.keywords[key]
-                            }
-                            arr.push(obj);
-                        }
-                            console.log(arr);
-                            if(arr.length == 0){
-                            res.send({success: true, vendor: vendor, keywords: false});
-                            }else{
-                             keywordDB.insertMany(arr, (err: any, ress: any)=>{
-                                if(err){
-                                     console.log({success: false, error: err});
-                                }else{
-                                    res.send({success: true, vendor: vendor, keywords: true});
-                                    }
-                             });
-        
-                    
-                        }
-                    }
-    
-                                        
-                });
-    
-        }catch(e){
-            res.send({
-                success: false,
-                error: e.toString()
-            });
-    
+        let filterlist:Set<string> = new Set<string>();
+        for(let k in filters){
+            filterlist.add(filters[k].toLowerCase());
         }
 
+        let filtered:Vendor[] = vendors.filter(v => {
+            
+            if(!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)){
+                
+                for(let f in v.vendorInfo.flags){
+                    if(filterlist.has(v.vendorInfo.flags[f].toLowerCase())){
+                        return v;
+                    }
+                }
 
+            }
+           
+        });
+
+        res.send(filtered);
+
+
+
+    }
 });
 
 export default router;

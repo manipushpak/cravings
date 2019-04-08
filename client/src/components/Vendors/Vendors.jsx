@@ -55,11 +55,11 @@ class Vendors extends React.Component {
       this.setState({
          searchTerms: terms
       })
-      fetch('/search/'+searchTerm, {
-         headers : { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-         }
+      fetch('/search/', {
+         method: 'POST',
+            body: JSON.stringify({
+               terms: terms
+            }),
       })
       .then(res => res.json())
       .then(vendors => {
