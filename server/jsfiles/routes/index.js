@@ -137,7 +137,7 @@ router.post('/vendor/filter', function (req, res) {
                 }
             }
         });
-        res.send(filtered);
+        res.send({ vendors: filtered });
     }
 });
 router.post('/vendor/modify', function (req, res) {
@@ -171,6 +171,7 @@ router.post('/search', function (req, res) {
             res.json({ success: false, error: "Error: no vendors" });
         }
         else if (terms == null || terms == undefined || terms.length == 0) {
+            console.log("no valid terms");
             return all;
         }
         else {
@@ -195,11 +196,16 @@ router.post('/search', function (req, res) {
                 //names
                 if (names != null && names.length > 0) {
                     for (var k in names) {
-                        var first = names[k].firstName.toLowerCase();
-                        var last = names[k].lastName.toLowerCase();
+                        var first = names[k].firstName.trim().toLowerCase();
+                        var last = names[k].lastName.trim().toLowerCase();
                         var whole = first + " " + last;
-                        for (var term in terms) {
+                        for (var tt in terms) {
+                            if (include) {
+                                break;
+                            }
+                            var term = terms[tt].trim().toLowerCase();
                             if (first.includes(term) || last.includes(term) || whole.includes(term)) {
+                                console.log("first or last: " + first + " " + last + " " + term);
                                 include = true;
                             }
                         }
@@ -208,8 +214,13 @@ router.post('/search', function (req, res) {
                 //stallname
                 if (!include) {
                     if (stallName != null && stallName != "") {
-                        for (var term in terms) {
-                            if (stallName.toLowerCase().includes(term)) {
+                        for (var tt in terms) {
+                            if (include) {
+                                break;
+                            }
+                            var term = terms[tt].trim().toLowerCase();
+                            if (stallName.trim().toLowerCase().includes(term)) {
+                                console.log("stallname: " + stallName + " " + term);
                                 include = true;
                             }
                         }
@@ -218,8 +229,13 @@ router.post('/search', function (req, res) {
                 //address
                 if (!include) {
                     if (address != null && address != "") {
-                        for (var term in terms) {
-                            if (address.toLowerCase().includes(term)) {
+                        for (var tt in terms) {
+                            if (include) {
+                                break;
+                            }
+                            var term = terms[tt].trim().toLowerCase();
+                            if (address.trim().toLowerCase().includes(term)) {
+                                console.log("address: " + address + " " + term);
                                 include = true;
                             }
                         }
@@ -228,9 +244,17 @@ router.post('/search', function (req, res) {
                 //keywords
                 if (!include) {
                     if (keywords != null && keywords.length > 0) {
-                        for (var term in terms) {
+                        for (var tt in terms) {
+                            if (include) {
+                                break;
+                            }
                             for (var z in keywords) {
-                                if (keywords[z].toLowerCase().includes(term)) {
+                                if (include) {
+                                    break;
+                                }
+                                var term = terms[tt].trim().toLowerCase();
+                                if (keywords[z].trim().toLowerCase().includes(term)) {
+                                    console.log("keywords: " + keywords[z] + " " + term);
                                     include = true;
                                 }
                             }
@@ -241,7 +265,7 @@ router.post('/search', function (req, res) {
                     results.push(current);
                 }
             }
-            res.json({ success: true, vendors: results });
+            res.send({ success: true, vendors: results });
         }
     });
 });
@@ -298,7 +322,15 @@ router.post('/vendor/signup', function (req, res) {
                         },
                         keywords: [],
                         flags: [],
-                        hours: []
+                        hours: [
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                        ],
                     }
                 };
                 vendorDB.insertOne(newVendor_1, function (err, res2) {
@@ -387,26 +419,5 @@ router.get('/initkeywords', function (req, res) {
     });
 });
 router.get('/test', function (req, res) {
-    var vendors = sampledb_1.default;
-    var filters = ["h"];
-    if (filters == null || filters.length == 0) {
-        res.send({ success: true, vendors: vendors, error: "No filters" });
-    }
-    else {
-        var filterlist_2 = new Set();
-        for (var k in filters) {
-            filterlist_2.add(filters[k].toLowerCase());
-        }
-        var filtered = vendors.filter(function (v) {
-            if (!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)) {
-                for (var f in v.vendorInfo.flags) {
-                    if (filterlist_2.has(v.vendorInfo.flags[f].toLowerCase())) {
-                        return v;
-                    }
-                }
-            }
-        });
-        res.send(filtered);
-    }
 });
 exports.default = router;

@@ -9,7 +9,6 @@ import Carousel from 'react-bootstrap/Carousel';
 
 const ListModal = props => {
     const vendor = props.vendor;
-    console.log(vendor);
     var mapURL = "";
 
     // if (typeof vendor.address.coordinates.lat !== undefined) {

@@ -157,7 +157,7 @@ router.post('/vendor/filter', (req, res) => { //DONE
            
         });
 
-        res.send(filtered);
+        res.send({ vendors: filtered});
 
 
 
@@ -208,6 +208,7 @@ router.post('/search', (req, res) => { //DONE
         else if(all == null || all.length == 0){
             res.json({success: false, error: "Error: no vendors"});
         }else if(terms == null || terms == undefined || terms.length == 0){
+            console.log("no valid terms");
             return all;
         }
         else {
@@ -223,6 +224,7 @@ router.post('/search', (req, res) => { //DONE
                 if(currentVInfo == null){
                     continue;
                 }
+
                 let names:VendorInfo[] = currentVInfo.vendorName;
                 let stallName:string = currentVInfo.stallName;
                 let address = null;
@@ -235,11 +237,16 @@ router.post('/search', (req, res) => { //DONE
                 //names
                 if(names!=null && names.length>0){
                     for(let k in names){
-                        let first = names[k].firstName.toLowerCase();
-                        let last = names[k].lastName.toLowerCase();
+                        let first = names[k].firstName.trim().toLowerCase();
+                        let last = names[k].lastName.trim().toLowerCase();
                         let whole = first + " " + last;
-                        for(let term in terms){
+                        for(let tt in terms){
+                            if(include){
+                                break;
+                            }
+                            let term = terms[tt].trim().toLowerCase();
                             if (first.includes(term) || last.includes(term) || whole.includes(term)){
+                                console.log("first or last: "+first + " "+last + " "+ term);
                                 include = true;
                             }
                         }
@@ -249,8 +256,13 @@ router.post('/search', (req, res) => { //DONE
                 //stallname
                 if(!include){
                     if(stallName!=null && stallName!=""){
-                        for(let term in terms){
-                        if(stallName.toLowerCase().includes(term)){
+                        for(let tt in terms){
+                            if(include){
+                                break;
+                            }
+                            let term = terms[tt].trim().toLowerCase();
+                        if(stallName.trim().toLowerCase().includes(term)){
+                            console.log("stallname: "+stallName + " "+ term);
                             include = true;
                         }
                         }
@@ -260,8 +272,14 @@ router.post('/search', (req, res) => { //DONE
                 //address
                 if(!include){
                     if(address!=null && address!=""){
-                        for(let term in terms){
-                        if(address.toLowerCase().includes(term)){
+    
+                        for(let tt in terms){
+                            if(include){
+                                break;
+                            }
+                            let term = terms[tt].trim().toLowerCase();
+                        if(address.trim().toLowerCase().includes(term)){
+                            console.log("address: "+address+" "+term);
                             include = true;
                         }
                         }
@@ -273,9 +291,17 @@ router.post('/search', (req, res) => { //DONE
 
                 if(!include){
                     if(keywords!=null && keywords.length>0){
-                        for(let term in terms){
+                        for(let tt in terms){
+                            if(include){
+                                break;
+                            }
                         for(let z in keywords){
-                            if(keywords[z].toLowerCase().includes(term)){
+                            if(include){
+                                break;
+                            }
+                            let term = terms[tt].trim().toLowerCase();
+                            if(keywords[z].trim().toLowerCase().includes(term)){
+                                console.log("keywords: "+keywords[z]+" "+term);
                                 include = true;
                             }
                         }
@@ -291,10 +317,11 @@ router.post('/search', (req, res) => { //DONE
 
             }
 
-            res.json({success: true, vendors: results});
+            res.send({success: true, vendors: results});
 
         }
     });
+
 });
 
 router.get('/vendorId/:id', (req, res, next) => { //DONE!!!!
@@ -354,7 +381,15 @@ router.post('/vendor/signup', (req, res) => { //DONE
                         },
                         keywords: [],
                         flags: [],
-                        hours: []
+                        hours: [
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                         ],
                     }
                 }
     
@@ -465,37 +500,8 @@ router.get('/initkeywords', (req, res) => { //DONE
 router.get('/test', (req, res) => {//DONE
 
 
-    let vendors: Vendor[] = vendorS;
-    let filters: string[] = ["h"];
-
-    if(filters == null || filters.length == 0){
-        res.send({success: true, vendors: vendors, error: "No filters"});
-    }else{
-
-        let filterlist:Set<string> = new Set<string>();
-        for(let k in filters){
-            filterlist.add(filters[k].toLowerCase());
-        }
-
-        let filtered:Vendor[] = vendors.filter(v => {
-            
-            if(!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)){
-                
-                for(let f in v.vendorInfo.flags){
-                    if(filterlist.has(v.vendorInfo.flags[f].toLowerCase())){
-                        return v;
-                    }
-                }
-
-            }
-           
-        });
-
-        res.send(filtered);
 
 
-
-    }
 });
 
 export default router;

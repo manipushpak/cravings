@@ -32,7 +32,8 @@ class Vendors extends React.Component {
          showInfo: false,
          vendorInfo: null,
          searchTerm: searchTerm,
-         searchTerms:[searchTerm]
+         searchTerms:[searchTerm],
+         filterArray: [],
       };
       this.didProvideLocation = this.didProvideLocation.bind(this);
       this.handleShowInfo = this.handleShowInfo.bind(this);
@@ -40,6 +41,39 @@ class Vendors extends React.Component {
       this.handleSearch = this.handleSearch.bind(this);
       this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
       this.deleteSearchTerm = this.deleteSearchTerm.bind(this);
+      this.handleFilter = this.handleFilter.bind(this);
+   }
+
+   handleFilter(e){
+      this.handleSearch();
+      var filterArray = this.state.filterArray;
+      var index = 0;
+
+      if (e.target.checked) {
+        filterArray.push(e.target.id)
+      } else {
+        index = filterArray.indexOf(e.target.id);
+        filterArray.splice(index, 1)
+      }
+      this.setState({
+         filterArray: filterArray
+      })
+
+      var self = this;
+      fetch('/vendor/filter', {
+         method: 'POST',
+         body: JSON.stringify({
+            vendors: self.state.vendors,
+            filters: self.state.filterArray
+         }),
+         headers: {"Content-Type": "application/json"}
+      })
+      .then(res => res.json())
+      .then(filtered => {
+         this.setState({
+            vendors: filtered
+         });
+      })
    }
 
    handleSearchTermChange(e){
@@ -66,7 +100,7 @@ class Vendors extends React.Component {
       .then(res => res.json())
       .then(vendors => {
          this.setState({
-            vendors: vendors.vendors
+            vendors: vendors
          });
       })
    }
@@ -112,7 +146,20 @@ class Vendors extends React.Component {
       this.setState({
          searchTerms: terms
       })
-      this.handleSearch;
+      terms = this.state.searchTerms;
+      fetch('/search', {
+         method: 'POST',
+         body: JSON.stringify({
+            terms: terms
+         }),
+         headers: {"Content-Type": "application/json"}
+      })
+      .then(res => res.json())
+      .then(vendors => {
+         this.setState({
+            vendors: vendors
+         });
+      })
    }
 
    render() { 
@@ -122,24 +169,24 @@ class Vendors extends React.Component {
             <br />
             <div className={ styles.filters }>
                <Form.Row>
-                  <Form.Group as={Col} xs={12} md={6}>
+                  <Form.Group id="filters" as={Col} xs={12} md={6}>
                      <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Vegetarian"} type="checkbox" />
+                        <Form.Check inline label={"Vegetarian"} id="v" onClick={(e) => { this.handleFilter(e)}} type="checkbox" />
                      </Form.Group>
                      <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Open Now"} type="checkbox" />
+                        <Form.Check inline label={"Open Now"} id="o" onClick= {(e)=> {this.handleFilter(e)}}  type="checkbox" />
                      </Form.Group>
                      <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Gluten Free"} type="checkbox" />
+                        <Form.Check inline label={"Gluten Free"} id="g-f" onClick= {(e)=> {this.handleFilter(e)}} type="checkbox" />
                      </Form.Group>
                      <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Dairy Free"} type="checkbox" />
+                        <Form.Check inline label={"Dairy Free"} id="d-f" onClick= {(e)=> {this.handleFilter(e)}}  type="checkbox" />
                      </Form.Group>
                      <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Kosher"} type="checkbox" />
+                        <Form.Check inline label={"Kosher"} id="k" onClick= {(e)=> {this.handleFilter(e)}} type="checkbox" />
                      </Form.Group>
                      <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Halal"} type="checkbox" />
+                        <Form.Check inline label={"Halal"} id="h" onClick= {(e)=> {this.handleFilter(e)}} type="checkbox" />
                      </Form.Group>
                   </Form.Group>
                   <Form.Group as={Col} xs={12} md={6}>

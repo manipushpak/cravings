@@ -63,7 +63,8 @@ class Map extends React.Component {
          userLocation: { lat: 34.052234 , lng: -118.243685 }, 
          loading: true,
          infoWindowVisible: false,
-         activeKey: null
+         activeKey: null,
+         vendors: props.vendors
       }
 
       this.componentDidMount = this.componentDidMount.bind(this);
@@ -108,7 +109,7 @@ class Map extends React.Component {
                openModal={ this.props.openModal }
                setActiveKey={ this.setActiveKey }
                userLocation={ this.state.userLocation }
-               vendors={ this.props.vendors }
+               vendors={ this.state.vendors }
             />
          </div>
       );
