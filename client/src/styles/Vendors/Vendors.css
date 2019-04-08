@@ -1,0 +1,67 @@
+:local .outerContainer {
+    display: grid;
+    grid-template-columns: 60% 40%;
+}
+
+:local .vendorColumn {
+    grid-column-start: 1;
+    grid-column-end: 2;
+}
+
+:local .mapColumn {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
+:local .h1 {
+    font-size: 300%;
+    grid-column-start: 1;
+    grid-column-end: 3;
+    font-family: 'Nunito', sans-serif;
+}
+
+:local .h3 {
+    grid-column-start: 1;
+    margin-right: 9%;
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: 20px;
+    margin-left: 8%;
+    padding-top: 15px;
+    border-bottom: 1px solid lightgrey;
+}
+
+:local .vendorList {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    /* margin-left: 1%; */
+}
+
+:local .filters {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: 40px;
+    padding-top: 15px;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+}
+
+:local .filters {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    font-family: 'Nunito', sans-serif;
+    margin-bottom: 40px;
+    padding-top: 15px;
+    border-top: 1px solid lightgrey;
+    border-bottom: 1px solid lightgrey;
+}
+
+@media (max-width: 1024px) {
+    :local .outerContainer {
+        grid-template-columns: 100%;
+    }
+
+    :local .mapColumn {
+        display: none;
+    }
+}

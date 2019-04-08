@@ -2,132 +2,264 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var vendors = [
     {
-        _id: "1",
-        name: "Taco Stand",
-        location: {
-            address: "3770 S Fig",
-            coordinates: {
-                lat: 34.0254,
-                lng: -118.2852
-            }
+        loginInfo: {
+            email: "devikaku@usc.edu",
+            password: "hellohello"
         },
-        week: ["Monday", "Tuesday"],
-        hours: [900, 500],
-        keywords: [
-            "taco",
-            "yummy"
-        ],
-        phone: "6508239461",
-        open: true
+        vendorInfo: {
+            vendorName: [{
+                    firstName: "Devika",
+                    lastName: "Kumar"
+                },
+                {
+                    firstName: "Sonali",
+                    lastName: "Pai"
+                }
+            ],
+            stallName: "Devika's Pies",
+            phone: "6508239461",
+            address: {
+                address: "3760 Fig",
+                coordinates: {
+                    lat: 222,
+                    lng: 3333
+                }
+            },
+            keywords: [
+                "pie", "usc"
+            ],
+            flags: ["v", "g-f", "d-f", "h", "k"],
+            hours: [
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: false,
+                    startTime: 900,
+                    endTime: 500,
+                }
+            ]
+        },
     },
     {
-        _id: "2",
-        name: "Sonali's Noodles",
-        location: {
-            address: "Tuscany Apartments",
-            coordinates: {
-                lat: 34.0141,
-                lng: -118.2879
-            }
+        loginInfo: {
+            email: "sonalipa@usc.edu",
+            password: "hellohello1"
         },
-        week: ["Sunday", "Tuesday"],
-        hours: [1000, 500],
-        keywords: [
-            "ramen",
-            "noods"
-        ],
-        phone: "6508239461",
-        open: true
+        vendorInfo: {
+            vendorName: [{
+                    firstName: "Sonali",
+                    lastName: "Pai"
+                },
+                {
+                    firstName: "Mani",
+                    lastName: "Gupta"
+                }
+            ],
+            stallName: "Sonali's Noodles",
+            phone: "6508239461",
+            address: {
+                address: "3760 Fig",
+                coordinates: {
+                    lat: 225,
+                    lng: 333
+                }
+            },
+            keywords: [
+                "noodles", "usc"
+            ],
+            flags: ["v", "g-f", "d-f", "h", "k"],
+            hours: [
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: false,
+                    startTime: 900,
+                    endTime: 500,
+                }
+            ]
+        },
     },
     {
-        _id: "3",
-        name: "Pia's Pies",
-        location: {
-            address: "TCC",
-            coordinates: {
-                lat: 34.0224,
-                lng: -118.2851
-            }
+        loginInfo: {
+            email: "pia@usc.edu",
+            password: "hellohello2"
         },
-        week: ["Saturday", "Sunday", "Monday"],
-        hours: [930, 530],
-        keywords: [
-            "pies",
-            "apple pies"
-        ],
-        phone: "6508239461",
-        open: true
+        vendorInfo: {
+            vendorName: [{
+                    firstName: "Pia",
+                    lastName: "Tiutan"
+                }
+            ],
+            stallName: "Pia's Pudding",
+            phone: "6508239461",
+            address: {
+                address: "343 West Adams",
+                coordinates: {
+                    lat: 555,
+                    lng: 340
+                }
+            },
+            keywords: [
+                "pudding", "usc", "trojans"
+            ],
+            flags: ["v", "g-f", "h", "k"],
+            hours: [
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: false,
+                    startTime: 1000,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: false,
+                    startTime: 900,
+                    endTime: 500,
+                }
+            ]
+        }
     },
     {
-        _id: "7",
-        name: "Sophia's Tacos",
-        location: {
-            address: "Taco Street",
-            coordinates: {
-                lat: 34.0254,
-                lng: -119.2852
-            }
+        loginInfo: {
+            email: "miller@usc.edu",
+            password: "hellohello4"
         },
-        week: ["Saturday", "Sunday", "Monday"],
-        hours: [930, 530],
-        keywords: [
-            "tacos",
-            "usc"
-        ],
-        phone: "6508239461",
-        open: true
-    },
-    {
-        _id: "8",
-        name: "Devika's Cakes",
-        location: { address: "Cake Blvd.",
-            coordinates: {
-                lat: 34.0141,
-                lng: -119.2879
-            }
-        },
-        week: ["Saturday", "Sunday", "Monday", "Tuesday"],
-        hours: [1030, 530],
-        keywords: [
-            "cakes",
-            "usc"
-        ],
-        phone: "6508239461",
-        open: true
-    },
-    {
-        _id: "9",
-        name: "Mani's Sushi",
-        location: {
-            address: "Sushi Lane",
-            coordinates: {
-                lat: 34.0224,
-                lng: -119.2851
-            }
-        },
-        week: ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday"],
-        keywords: [
-            "sushi",
-            "salmon"
-        ],
-        phone: "6508239461",
-        open: false
-    },
-    {
-        _id: "10",
-        name: "Sonali's Lemonade",
-        location: { address: "Lemonade & Brownies",
-            coordinates: {
-                lat: 34.0232,
-                lng: -119.2801
-            }
-        },
-        keywords: [
-            "lemonade",
-            "brownies"
-        ],
-        phone: "6508239461",
-        open: false
-    },
+        vendorInfo: {
+            vendorName: [{
+                    firstName: "Jeffrey",
+                    lastName: "Miller"
+                }
+            ],
+            stallName: "Nalani's Girls Scout Cookies",
+            phone: "6508239461",
+            address: {
+                address: "Stauffer Science Lecture Hall",
+                coordinates: {
+                    lat: 600,
+                    lng: 340
+                }
+            },
+            keywords: [
+                "cookies"
+            ],
+            flags: ["v", "g-f", "h", "k"],
+            hours: [
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: false,
+                    startTime: 1000,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: false,
+                    startTime: 900,
+                    endTime: 500,
+                }
+            ]
+        }
+    }
 ];
 exports.default = vendors;

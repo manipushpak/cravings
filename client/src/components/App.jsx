@@ -1,23 +1,21 @@
 import React from 'react';
 
+import global from '../styles/Global.css';
+
 import Header from './Header.jsx';
 import Main from './Main.jsx';
-import Footer from './Footer.jsx';
 
 class App extends React.Component {
    constructor(props) {
       super(props);
-      this.state = {
-         // Define App state object contents here
-      };
+      this.state = {};
    }
    
    render() {
       return(
-         <div>
+         <div id="bm-outer-container" className={ global.outerContainer }>
             <Header />
             <Main />
-            <Footer />
          </div>
       );
    }

@@ -1,19 +1,36 @@
 export interface Vendor{
-    _id?:string;
-    name:string;
-    location:VendorLocation;
-    keywords:string[];
-    week?: string[];
-    hours?:number[];
-    phone:string;
-    open:boolean;
-
-    //week, hours optional
+        id?:string,
+        loginInfo: {
+            email:string
+            password:string
+        },
+        vendorInfo: {
+            vendorName: VendorInfo[],
+            stallName: string,
+            phone: string,
+            address: Location,
+            keywords: string[],
+            flags: string[],
+            hours: TimeFrame[]
+        }
 }
-export interface VendorLocation{
-    _id?:string;
+
+export interface VendorInfo{
+    
+        firstName:string;
+        lastName:string;
+    
+}
+
+export interface Location{
     address:string;
     coordinates:LocationCoordinates;
+}
+
+export interface TimeFrame{
+    open:boolean;
+    startTime: number;
+    endTime: number;
 }
 
 export interface LocationCoordinates{

@@ -5,7 +5,7 @@ let app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(__dirname + '/../client/dist'));
+app.use(express.static(__dirname + '/../public_html'));
 app.use('/', router);
 
 app.listen(1337, function () {

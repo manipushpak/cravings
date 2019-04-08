@@ -1,22 +1,32 @@
 import React from 'react';
-import styles from './../styles/Main.css';
+
+import classNames from 'classnames';
+import styles from '../styles/Main.css';
+import global from '../styles/Global.css';
+
 import { Switch, Route } from 'react-router-dom';
 
 import Home from './Home.jsx';
-import About from './About.jsx';
-import Vendors from './Vendors.jsx';
-import Registration from './Registration.jsx';
-import Registration2 from './Registration2.jsx';
+import About from './About/About.jsx';
+import Registration from './Registration/Registration.jsx';
+import Vendors from './Vendors/Vendors.jsx';
+import VendorPortal from './Registration/VendorPortal.jsx';
+import VendorSignUp from './Registration/VendorSignUp.jsx';
+
 
 const Main = () => {
+   // var outerContainer = classNames(styles.outerContainer, global.outerContainer);
+
    return(
-      <main className={ styles.outerContainer }>
+      <main id="bm-page-wrap" className={ styles.outerContainer }>
          <Switch>
             <Route exact path='/' component={Home}/>
             <Route path='/about' component={About}/>
             <Route path='/vendors' component={Vendors}/>
-            <Route path='/registration' component={Registration}/>
-            <Route path='/registration2' component={Registration2}/>
+            <Route exact path='/vendorportal' component={VendorPortal}/>
+            <Route path={'/vendorportal/register'} render={() => <Registration isEdit={false} isView={false}/>} />
+            <Route path={'/vendorportal/account'} render={() => <Registration isEdit={false} isView={true}/>} />
+            <Route path='/vendorsignup' component={VendorSignUp}/>
          </Switch>
       </main>
    )
