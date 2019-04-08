@@ -17,6 +17,7 @@ class Registration extends React.Component {
       super(props);
       var ven = this.props.location.state !== 'undefined' && this.props.location.state.vendor !== null
       ? this.props.location.state.vendor : [];
+      console.log(ven);
       this.state = { 
          vendor: ven,
          vendors: ven.vendorInfo.vendorName,
@@ -26,7 +27,7 @@ class Registration extends React.Component {
          },
          stallName: ven.vendorInfo.stallName,
          phone: ven.vendorInfo.phone,
-         address: ven.vendorInfo.address.address,
+         address: ven.vendorInfo.address,
          coordinates: {
             lat: null,
             lng: null
@@ -305,13 +306,13 @@ class Registration extends React.Component {
                   <Form.Row>
                      <Form.Group as={Col} controlId="firstName" xs={12} md={this.state.readOnly ? 6 : 5}>
                         <Form.Label>First Name</Form.Label>
-                        <Form.Control readOnly={this.state.readOnly} value={this.state.vendors[0].firstName} onChange={e => this.updateVendorFirstName(e)} placeholder="Enter first name" required />
+                        <Form.Control readOnly={this.state.status.view} value={this.state.vendors[0].firstName} onChange={e => this.updateVendorFirstName(e)} placeholder="Enter first name" required />
                         <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
                      </Form.Group>
 
                      <Form.Group as={Col} controlId="lastName" xs={12} md={this.state.readOnly ? 6 : 5}>
                         <Form.Label>Last Name</Form.Label>
-                        <Form.Control readOnly={this.state.readOnly} defaultValue={this.state.vendors[0].lastName} onChange={e => this.updateVendorLastName(e)} placeholder="Enter last name" required />
+                        <Form.Control  readOnly={this.state.status.view} defaultValue={this.state.vendors[0].lastName} onChange={e => this.updateVendorLastName(e)} placeholder="Enter last name" required />
                         <Form.Control.Feedback type="invalid">Please enter your last number.</Form.Control.Feedback>
                      </Form.Group>
                   </Form.Row>
