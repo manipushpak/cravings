@@ -36,7 +36,7 @@ const ListModal = props => {
 
     return(
         <div className={styles.listModal}>
-            <Carousel>
+            <Carousel className={styles.carouselDiv}>
                 <Carousel.Item style={{height: '100%'}}>
                     <img
                     className="d-block w-100"

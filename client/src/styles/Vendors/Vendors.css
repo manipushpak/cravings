@@ -48,14 +48,8 @@
     color: rgb(156, 54, 3) !important;
 }
 
-:local .h3 {
-    grid-column-start: 1;
-    margin-right: 9%;
-    font-family: 'Nunito', sans-serif;
-    margin-bottom: 20px;
-    margin-left: 8%;
-    padding-top: 15px;
-    border-bottom: 1px solid lightgrey;
+:local .sliderDiv {
+    padding-top: 10px;
 }
 
 :local .infoDiv {
@@ -69,16 +63,27 @@
 }
 
 :local .filters {
-    grid-column-start: 1;
-    grid-column-end: 3;
     font-family: 'Rubik', Arial, Helvetica, sans-serif;
     margin-bottom: 40px;
-    padding-top: 15px;
-    border-top: 1px solid lightgrey;
-    border-bottom: 1px solid lightgrey;
+    padding: 0 10px;
+    padding-top: 30px;
+    align-items: center;
+    border-top: 1px solid #c99d01;
+    border-bottom: 1px solid #c99d01;
 }
 
-/* For phones and smaller devices */
+/* For landscape phones and smaller devices */
+@media (max-width: 767px) {
+    :local .filters {
+        padding: 10px 20px 25px 20px;
+    }
+
+    :local .sliderDiv {
+        padding-top: 0;
+    }
+}
+
+/* For portrait phones and smaller devices */
 @media (max-width: 575px) {
     :local .outerContainer {
         display: block;
@@ -86,5 +91,6 @@
 
     :local .searchColumn {
         padding: 0 10px;
+        padding-top: 15px;
     }
 }

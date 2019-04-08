@@ -1,34 +1,8 @@
-:local .modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(245, 245, 245, 0.7);
-}
-
-:local .modalContent {
-    position: absolute;
-    z-index: 500;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    width: 60%;
-    max-width: 850px;
-    height: 600px;
-    max-height: 60%;
-    outline: none;
-    background: #FFF;
-    overflow: scroll;
-    
-    /* webkit styling */
-    -webkit-transform: translate(-50%,-50%);
-    -webkit-overflow-scrolling: touch;
-}
 
 :local .listModal {
     height: 100%;
     padding: 10px 0;
+    position: relative;
     display: flex;
     flex-direction: column;
     font-family: 'Rubik', Arial, Helvetica, sans-serif;
@@ -43,6 +17,11 @@
     width: 40px;
     border: none;
     outline: none;
+}
+
+:local .carouselDiv {
+    padding-top: 20px;
+    height: 170px;
 }
 
 :local .infoDiv {
@@ -63,10 +42,6 @@
 
 /* For tablets and smaller devices */
 @media(max-width: 1024px) {
-    :local .modalContent {
-        width: 80%;
-    }
-    
     :local .listModal {
         flex-direction:  column;
     }
@@ -87,17 +62,6 @@
 
 /* For phones and smaller devices */
 @media (max-width: 575px) {
-    :local .modalContent {
-        height: 100vh;
-        min-height: calc(100vh - 56px);
-        max-height: calc(100vh - 56px);
-        width: 100%;
-        transform: translate(0px, 56px);
-        -webkit-transform: translate(0px, 56px);
-        top: 0;
-        left: 0;
-    }
-    
     :local .imageDiv {
         max-height: 300px;
     }
