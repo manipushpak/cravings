@@ -25,7 +25,7 @@ const tooltipRailCenterStyle = {
   borderRadius: 7,
   cursor: 'pointer',
   pointerEvents: 'none',
-  backgroundColor: 'rgb(155,155,155)',
+  backgroundColor: '#f0f3f5',
 }
 
 export class TooltipRail extends React.Component {
@@ -131,7 +131,7 @@ const handleStyle = theme => {
       height: 12,
       transform: 'translate(-50%, -50%)',
       borderRadius: '50%',
-      backgroundColor: colors.primary,
+      backgroundColor: "#E04D05",
     },
     active: {
       boxShadow: `0px 0px 0px 16px ${colors.thumbOutline}`,
@@ -196,7 +196,7 @@ const trackStyle = theme => ({
     zIndex: 1,
     borderRadius: 2,
     cursor: 'pointer',
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: "#E04D05",
   },
 })
 

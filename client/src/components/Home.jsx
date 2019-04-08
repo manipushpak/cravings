@@ -82,8 +82,6 @@ class Home extends React.Component {
             <div className={styles.bubble}>Not sure what you want? Click to explore!</div>
             <Button className={ styles.button } onClick={ this.handleExplore }>EXPLORE</Button>
             <img className = { styles.img } src={taco} alt="Taco image"></img>
-            <FilterSlider />
-
          </div>
       );
    }
