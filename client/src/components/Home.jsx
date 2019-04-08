@@ -3,9 +3,12 @@ import React from 'react';
 import global from '../styles/Global.css';
 import styles from '../styles/Home.css';
 
+import taco from '../images/taco.svg';
+
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
+
 
 
 class Home extends React.Component {
@@ -68,7 +71,7 @@ class Home extends React.Component {
             <h1 className={ global.h1 }>I'm craving</h1>
             <InputGroup className={ styles.searchBar }>
                <InputGroup.Prepend>
-                  <Button type="submit" className={ styles.searchButton } onClick={this.handleSearch} variant="outline-secondary">
+                  <Button type="submit" className={ styles.searchButton } onClick={this.handleSearch} variant="outline">
                      <i className="fa fa-search"></i>
                   </Button>
                </InputGroup.Prepend>
@@ -76,7 +79,7 @@ class Home extends React.Component {
             </InputGroup>
             <div className={styles.bubble}>Not sure what you want? Click to explore!</div>
             <Button className={ styles.button } onClick={ this.handleExplore }>EXPLORE</Button>
-            <img className = { styles.img } src="https://media.istockphoto.com/vectors/cartoon-taco-idea-vector-id470002764?k=6&m=470002764&s=612x612&w=0&h=e6n5pIQzGUMuGugDAtZT1sAUY2uokR59CSMP0tAOXG8=" alt="Taco image"></img>
+            <img className = { styles.img } src={taco} alt="Taco image"></img>
          </div>
       );
    }

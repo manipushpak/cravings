@@ -150,7 +150,7 @@ class Vendors extends React.Component {
                <div className={ styles.searchColumn }>
                   <InputGroup className={ styles.searchBar }>
                      <InputGroup.Prepend>
-                        <Button type="submit" className={ styles.searchButton } onClick={this.handleSearch} variant="outline-secondary">
+                        <Button type="submit" className={ styles.searchButton } onClick={this.handleSearch} variant="outline">
                            <i className="fa fa-search"></i>
                         </Button>
                      </InputGroup.Prepend>

@@ -1,4 +1,5 @@
 :local .outerContainer {
+    padding: 10px;
     display: grid;
     grid-template-columns: 70% 30%;
 }
@@ -35,6 +36,18 @@
     color: #E04D05;
 }
 
+:local .searchButton:hover {
+    border: none;
+    background: white;
+    color: #E04D05;
+}
+ 
+:local .searchButton:active, .searchButton:focus {
+    border: none;
+    background: white !important;
+    color: rgb(156, 54, 3) !important;
+}
+
 :local .h3 {
     grid-column-start: 1;
     margin-right: 9%;
@@ -58,7 +71,7 @@
 :local .filters {
     grid-column-start: 1;
     grid-column-end: 3;
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Rubik', Arial, Helvetica, sans-serif;
     margin-bottom: 40px;
     padding-top: 15px;
     border-top: 1px solid lightgrey;
