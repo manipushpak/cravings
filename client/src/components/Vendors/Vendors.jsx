@@ -26,6 +26,7 @@ class Vendors extends React.Component {
       var searchTerm = this.props.location.state.searchTerm;
       this.state = {
          vendors: vendors.vendors,
+         sliderValues: [0, 10],
          locationProvided: false,
          userLat: "",
          userLong: "",
@@ -40,6 +41,7 @@ class Vendors extends React.Component {
       this.handleSearch = this.handleSearch.bind(this);
       this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
       this.deleteSearchTerm = this.deleteSearchTerm.bind(this);
+      this.updateSliderValues = this.updateSliderValues.bind(this);
    }
 
    handleSearchTermChange(e){
@@ -114,6 +116,11 @@ class Vendors extends React.Component {
       })
    }
 
+   updateSliderValues(sliderValues) {
+      this.setState({ sliderValues: sliderValues });
+      console.log(this.state.sliderValues);
+   }
+
    render() { 
       return(
          <div controlid='vendors'>
@@ -122,27 +129,29 @@ class Vendors extends React.Component {
             <div className={ styles.filters }>
                <Form.Row>
                   <Form.Group as={Col} xs={12} md={6}>
-                     <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Vegetarian"} type="checkbox" />
-                     </Form.Group>
-                     <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Open Now"} type="checkbox" />
-                     </Form.Group>
-                     <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Gluten Free"} type="checkbox" />
-                     </Form.Group>
-                     <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Dairy Free"} type="checkbox" />
-                     </Form.Group>
-                     <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Kosher"} type="checkbox" />
-                     </Form.Group>
-                     <Form.Group xs={6} md={4}>
-                        <Form.Check inline label={"Halal"} type="checkbox" />
-                     </Form.Group>
+                     <Form.Row>
+                        <Form.Group as={Col} xs={6} sm={4}>
+                           <Form.Check inline label={"Vegetarian"} type="checkbox" />
+                        </Form.Group>
+                        <Form.Group as={Col} xs={6} sm={4}>
+                           <Form.Check inline label={"Open Now"} type="checkbox" />
+                        </Form.Group>
+                        <Form.Group as={Col} xs={6} sm={4}>
+                           <Form.Check inline label={"Gluten Free"} type="checkbox" />
+                        </Form.Group>
+                        <Form.Group as={Col} xs={6} sm={4}>
+                           <Form.Check inline label={"Dairy Free"} type="checkbox" />
+                        </Form.Group>
+                        <Form.Group as={Col} xs={6} sm={4}>
+                           <Form.Check inline label={"Kosher"} type="checkbox" />
+                        </Form.Group>
+                        <Form.Group as={Col} xs={6} sm={4}>
+                           <Form.Check inline label={"Halal"} type="checkbox" />
+                        </Form.Group>
+                     </Form.Row>
                   </Form.Group>
-                  <Form.Group as={Col} xs={12} md={6}>
-                     <FilterSlider />
+                  <Form.Group as={Col} xs={12} md={6} className={ styles.sliderDiv }>
+                     <FilterSlider sliderValues={ this.state.sliderValues } onChange={ this.updateSliderValues }/>
                   </Form.Group>
                </Form.Row>
             </div>

@@ -260,7 +260,7 @@ export function TickComponent({ classes, tick, count, format }) {
           left: `${tick.percent}%`,
         }}
       >
-        {format(tick.value)}
+        {format(tick.value)} mi
       </Typography>
     </div>
   )
