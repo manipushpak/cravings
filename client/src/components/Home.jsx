@@ -5,8 +5,6 @@ import styles from '../styles/Home.css';
 
 import taco from '../images/taco.svg';
 
-import FilterSlider from './Vendors/FilterSlider.jsx';
-
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Button from 'react-bootstrap/Button';
