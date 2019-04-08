@@ -1,7 +1,2 @@
 {
-	"name": "401 Capstone",
-	"description": "401 app",
-	"repository": "https://github.com/manipushpak/cravings",
-	"logo": "http://node-js-sample.herokuapp.com/node.svg",
-	"keywords": ["node", "express", "static"],
 }

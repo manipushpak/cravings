@@ -4,14 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "build-server": "tsc -p tsconfig.json",
-    "start": "node server/app.js",
-    "react-dev": "webpack -d --watch",
-    "build": "webpack --mode production"
+    "start": "node app.js",
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/manipushpak/cravings.git"
+    "url": "https://github.com/manipushpak/cravings"
   },
   "author": "",
   "license": "ISC",
