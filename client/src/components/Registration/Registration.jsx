@@ -27,11 +27,7 @@ class Registration extends React.Component {
          },
          stallName: ven.vendorInfo.stallName,
          phone: ven.vendorInfo.phone,
-         address: ven.vendorInfo.address,
-         coordinates: {
-            lat: null,
-            lng: null
-         },
+         address: ven.vendorInfo.address.address,
          hours: ven.vendorInfo.hours,
          keywords: ven.vendorInfo.keywords,
          numVendors: 1,
@@ -50,7 +46,6 @@ class Registration extends React.Component {
       this.updateStallName = this.updateStallName.bind(this);
       this.updatePhone = this.updatePhone.bind(this);
       this.updateAddress = this.updateAddress.bind(this);
-      this.updateCoordinates = this.updateCoordinates.bind(this);
       this.updateWeek = this.updateWeek.bind(this);
       this.updateStartTime = this.updateStartTime.bind(this);
       this.updateEndTime = this.updateEndTime.bind(this);
@@ -58,16 +53,33 @@ class Registration extends React.Component {
       this.updateKeywords = this.updateKeywords.bind(this);
       this.updateVendorFirstName = this.updateVendorFirstName.bind(this);
       this.updateVendorLastName = this.updateVendorLastName.bind(this);
+      this.geocodeAddress = this.geocodeAddress.bind(this);
 
       // Internal Form Functions
       this.activatePlacesSearch = this.activatePlacesSearch.bind(this);
-      // this.onAddVendor = this.onAddVendor.bind(this);
-      // this.onRemoveVendor = this.onRemoveVendor.bind(this);
       this.useCurrentLocation = this.useCurrentLocation.bind(this);
    }
+
+
+   geocodeAddress(geocoder, address, coords) {
+      geocoder.geocode({'address': address}, function(results, status) {
+      if (status === 'OK') {
+            coords.lat = results[0].geometry.location.lat();
+            coords.lng = results[0].geometry.location.lng();
+      } else {
+         //  alert('Geocode was not successful for the following reason: ' + status);
+      }
+      });
+      return coords;
+   }
+
    
    handleSubmit(event) {
       event.preventDefault();
+      var geocoder = new google.maps.Geocoder();
+      let coords = {lat: 34.0224 , lng: -118.2851};
+      coords = this.geocodeAddress(geocoder, this.state.address, coords);
+
       if (event.currentTarget.checkValidity() === false) {
          event.stopPropagation;
          this.setState({ validated: true });
@@ -84,7 +96,10 @@ class Registration extends React.Component {
                      vendorName: this.state.vendors,
                      stallName: this.state.stallName,
                      phone: this.state.phone,
-                     address: this.state.address,
+                     address: {
+                        address: this.state.address,
+                        coordinates: coords,
+                     },
                      keywords: this.state.keywords,
                      flags: [],
                      hours: this.state.hours,
@@ -150,11 +165,6 @@ class Registration extends React.Component {
    updateAddress(address) {
       this.setState({ address: address });
    }
-   updateCoordinates(lat, lng) {
-      var coordinates = {...this.state.coordinates};
-      coordinates.lat = lat; coordinates.lng = lng;
-      this.setState({ coordinates: coordinates });
-   }
    updateWeek(e, index) {
       var weekday = this.state.hours[index];
       weekday.open = e.target.checked;
@@ -209,13 +219,13 @@ class Registration extends React.Component {
       var autocomplete = new google.maps.places.Autocomplete(document.getElementById('vendorRegistrationLocation'));
       google.maps.event.addListener(autocomplete, 'place_changed', function() {
          var place = autocomplete.getPlace();
-         setAddressAndCoordinates(place.formatted_address, place.geometry.location.lat(), place.geometry.location.lng());
+         // setAddressAndCoordinates(place.formatted_address, place.geometry.location.lat(), place.geometry.location.lng());
       });
 
-      function setAddressAndCoordinates(address, lat, lng) {
-         self.updateAddress(address);
-         self.updateCoordinates(lat, lng);
-      }
+      // function setAddressAndCoordinates(address, lat, lng) {
+      //    // self.updateAddress(address);
+      //    // self.updateCoordinates(lat, lng);
+      // }
    }
 
    useCurrentLocation(e) {
@@ -233,14 +243,14 @@ class Registration extends React.Component {
             gGeocoder.geocode({ 'latLng': gPosition }, function(results, status) {
                if (status == google.maps.GeocoderStatus.OK && results[0]) {
                   document.getElementById("userLocationText").innerHTML = "";
-                  setAddressAndCoordinates(results[0].formatted_address, latitude, longitude);
+                  // setAddressAndCoordinates(results[0].formatted_address, latitude, longitude);
                }
             });
 
-            function setAddressAndCoordinates(address, lat, lng) {
-               self.updateAddress(address);
-               self.updateCoordinates(lat, lng);
-            }
+            // function setAddressAndCoordinates(address, lat, lng) {
+            //    self.updateAddress(address);
+            //    self.updateCoordinates(lat, lng);
+            // }
          },
          () => {
             document.getElementById("userLocationText").innerHTML = "Current location cannot be detected. Please try again or type in your street address.";
