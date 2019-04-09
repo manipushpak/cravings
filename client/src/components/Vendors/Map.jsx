@@ -8,7 +8,7 @@ import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 const GoogleMapElement = withGoogleMap(props => (
    <GoogleMap
       defaultCenter = { props.userLocation }
-      defaultZoom = { 13 }
+      defaultZoom = { 11 }
       defaultOptions = {{styles: mapStyle}}
    >
       <Marker key="userLocation" position={ props.userLocation }></Marker>

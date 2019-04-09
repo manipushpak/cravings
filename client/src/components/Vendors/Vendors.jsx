@@ -166,7 +166,7 @@ class Vendors extends React.Component {
    }
 
    updateSliderValues(sliderValues) {
-      this.setState({ sliderValues: sliderValues });
+      this.setState({ sliderValues: Math.round(sliderValues*10)/10 });
       console.log(this.state.sliderValues);
    }
 
@@ -199,7 +199,7 @@ class Vendors extends React.Component {
                         </Form.Group>
                      </Form.Row>
                   </Form.Group>
-                  <Form.Group as={Col} xs={12} md={6} className={ styles.sliderDiv }>
+                  <Form.Group as={Col} xs={12} md={6} lg={3} className={ styles.sliderDiv }>
                      <FilterSlider sliderValues={ this.state.sliderValues } onChange={ this.updateSliderValues }/>
                   </Form.Group>
                </Form.Row>

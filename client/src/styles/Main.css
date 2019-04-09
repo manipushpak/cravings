@@ -1,8 +1,15 @@
 :local .outerContainer {
-    margin: 60px;
+    margin: 60px 100px;
     padding-top: 60px; 
     padding-bottom: 40px;
     box-sizing: border-box;
+}
+
+/* For tablets and smaller devices */
+@media (max-width: 991px) {
+    :local .outerContainer {
+        margin: 60px;
+    }
 }
 
 /* For phones and smaller devices */

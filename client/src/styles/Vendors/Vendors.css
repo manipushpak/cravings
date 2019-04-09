@@ -50,6 +50,11 @@
 
 :local .sliderDiv {
     padding-top: 10px;
+    width: 50%;
+}
+
+:local .sliderStyle {
+    position: relative;
 }
 
 :local .infoDiv {
