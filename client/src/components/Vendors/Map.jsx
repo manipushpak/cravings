@@ -16,12 +16,11 @@ const GoogleMapElement = withGoogleMap(props => (
       <Marker key="userLocation" position={ props.userLocation }></Marker>
    {
       props.vendors.map(vendor => {
-         console.log(vendor);
          var vendorInfo = vendor.vendorInfo;
-         var geocoder = new google.maps.Geocoder();
-         let coordinates = {lat: 34.0224 , lng: -118.2851};
-         coordinates = geocodeAddress(geocoder, vendorInfo.address.address, coordinates);
-         console.log(coordinates);
+         // var geocoder = new google.maps.Geocoder();
+         // let coordinates = {lat: 34.0224 , lng: -118.2851};
+         // coordinates = geocodeAddress(geocoder, vendorInfo.address.address, coordinates);
+         // console.log(coordinates);
 
          return (
             <Marker
@@ -29,17 +28,7 @@ const GoogleMapElement = withGoogleMap(props => (
                position={ coordinates }
                onClick={ () => props.openModal(vendorInfo) }
                icon = {taco}
-            > 
-            {/* { 
-               props.activeKey === vendorInfo.stallName &&
-               <InfoWindow 
-                  onCloseClick={ () => props.setActiveKey(vendorInfo.stallName) }
-               >
-                  <div onClick={ () => props.openModal(vendorInfo) }>
-                     <p>{ vendorInfo.stallName }</p>    
-                  </div>
-               </InfoWindow>
-            } */}
+            >
             </Marker>
          );
       })
@@ -48,26 +37,27 @@ const GoogleMapElement = withGoogleMap(props => (
 ));
 
 
-function geocodeAddress(geocoder, address, coordinates) {
-   var output = {lat: 34.0224 , lng: -118.2851};
-   var setCoordinates = function (coordinates){
-      output = coordinates;
-      console.log("inside here");
-      console.log("coords in setCoords: " + output.lat + " " + output.lng);
-   }
-   geocoder.geocode({'address': address}, function(results, status) {
-     if (status === 'OK') {
-         coordinates.lat = results[0].geometry.location.lat();
-         coordinates.lng = results[0].geometry.location.lng();
-         console.log(address + " " + coordinates.lat + " " + coordinates.lng);
-         setCoordinates(coordinates);
-     } else {
-        console.log("error");
-     }
-   });
+// function geocodeAddress(geocoder, address, coordinates) {
+//    var output = {lat: 34.0224 , lng: -118.2851};
 
-   return output;
- }
+//    var setCoordinates = function (coordinates){
+//       output = coordinates;
+//       console.log("inside here");
+//       console.log("coords in setCoords: " + output.lat + " " + output.lng);
+//    };
+   
+//    geocoder.geocode({'address': address}, function(results, status) {
+//      if (status === 'OK') {
+//          coordinates.lat = results[0].geometry.location.lat();
+//          coordinates.lng = results[0].geometry.location.lng();
+//          setCoordinates(coordinates);
+//      } else {
+//         console.log("error");
+//      }
+//    });
+
+//    return output;
+//  }
 
 
 class Map extends React.Component {
@@ -108,7 +98,6 @@ class Map extends React.Component {
 
    render() {
       const { loading } = this.state;
-      var vendors = this.props.vendors;
 
       if (loading) {
          return <div className={ styles.loadingDiv }>Loading...</div> ;
@@ -123,7 +112,7 @@ class Map extends React.Component {
                openModal={ this.props.openModal }
                setActiveKey={ this.setActiveKey }
                userLocation={ this.state.userLocation }
-               vendors={ vendors }
+               vendors={ this.props.vendors }
             />
          </div>
       );
