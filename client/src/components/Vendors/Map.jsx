@@ -46,8 +46,6 @@ function whichEmoji(vendor){
       return unknownItem;
    }
    var keyword = keywords[0].toUpperCase();
-   console.log("IN HERE");
-   console.log("keyword:" + keyword);
    if(keywords.length > 1){
       return multiple;
    }

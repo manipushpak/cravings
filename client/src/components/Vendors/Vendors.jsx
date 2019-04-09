@@ -57,9 +57,6 @@ class Vendors extends React.Component {
         index = filterArray.indexOf(e.target.id);
         filterArray.splice(index, 1)
       }
-      this.setState({
-         filterArray: filterArray
-      })
 
       var self = this;
       fetch('/vendor/filter', {
@@ -72,8 +69,9 @@ class Vendors extends React.Component {
       })
       .then(res => res.json())
       .then(filtered => {
-         this.setState({
-            vendors: filtered
+         self.setState({
+            vendors: filtered.vendors,
+            filteredArray: filteredArray
          });
       })
    }
@@ -102,7 +100,7 @@ class Vendors extends React.Component {
       .then(res => res.json())
       .then(vendors => {
          this.setState({
-            vendors: vendors
+            vendors: vendors.vendors
          });
       })
    }
@@ -146,10 +144,6 @@ class Vendors extends React.Component {
             terms.splice(i, 1);
          }
       }
-      this.setState({
-         searchTerms: terms
-      })
-      terms = this.state.searchTerms;
       fetch('/search', {
          method: 'POST',
          body: JSON.stringify({
@@ -160,7 +154,8 @@ class Vendors extends React.Component {
       .then(res => res.json())
       .then(vendors => {
          this.setState({
-            vendors: vendors
+            vendors: vendors.vendors,
+            searchTerms: terms
          });
       })
    }
