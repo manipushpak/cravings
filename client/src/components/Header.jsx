@@ -75,9 +75,11 @@ class Header extends React.Component {
 
       return(
          <Menu right pageWrapId={ "bm-page-wrap" } outerContainerId={ "bm-outer-container" } styles={bmStyles} isOpen={this.state.isOpen} >
+            <div className={styles.menuItemHeader}>
+               <span className={styles.chili}>chili</span><span className={styles.mango}>mango</span>.la
+            </div>
             <Link className={menuItem} onClick={this.onMenuItemClick} to="/">
-               <span className={styles.menuItemIcon}><i className="fas fa-hamburger"></i></span>
-               <span className={styles.menuItemText}>Cravings</span>
+               <i className="fas fa-hamburger"></i><span className={styles.menuItemText}>Cravings</span>
             </Link>
             <br />
             <Link className={menuItem} onClick={this.onMenuItemClick} to="/about">
@@ -88,7 +90,7 @@ class Header extends React.Component {
                <i className="fas fa-hotdog"></i><span className={styles.menuItemText}>Mission</span>
             </Link>
             <br />
-            <Link className={menuItem} onClick={this.onMenuItemClick} to="/about">
+            <Link className={menuItem} onClick={this.onMenuItemClick} to="/faq">
                <i className="fas fa-pizza-slice"></i><span className={styles.menuItemText}>FAQ</span>
             </Link>
             <br />
