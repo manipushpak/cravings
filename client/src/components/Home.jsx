@@ -80,9 +80,9 @@ class Home extends React.Component {
                </InputGroup.Prepend>
                <Form.Control className={ styles.searchInput } id="searchTerm" size="lg" placeholder="Tacos, Elote, Mexican Food, etc." onChange={e => this.handleChange(e)}/>
             </InputGroup>
-            <div className={styles.bubble}>Not sure what you want? Click to explore!</div>
-            <Button className={ styles.button } onClick={ this.handleExplore }>EXPLORE</Button>
-            <img className = { styles.img } src={taco} alt="Taco image"></img>
+            <div className={styles.bubble}>Not sure what you want? Click me to explore!</div>
+            {/* <Button className={ styles.button } onClick={ this.handleExplore }>EXPLORE</Button> */}
+            <img className={ styles.img } onClick={ this.handleExplore } src={taco} alt="Taco image"></img>
          </div>
       );
    }

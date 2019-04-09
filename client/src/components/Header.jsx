@@ -74,7 +74,7 @@ class Header extends React.Component {
       var menuItem = classNames("menu-item", styles.menuItem);
 
       return(
-         <Menu right  pageWrapId={ "bm-page-wrap" } outerContainerId={ "bm-outer-container" } styles={bmStyles} isOpen={this.state.isOpen} >
+         <Menu right pageWrapId={ "bm-page-wrap" } outerContainerId={ "bm-outer-container" } styles={bmStyles} isOpen={this.state.isOpen} >
             <Link className={menuItem} onClick={this.onMenuItemClick} to="/">
                <span className={styles.menuItemIcon}><i className="fas fa-hamburger"></i></span>
                <span className={styles.menuItemText}>Cravings</span>
@@ -84,7 +84,7 @@ class Header extends React.Component {
                <i className="fas fa-drumstick-bite"></i><span className={styles.menuItemText}>About</span>
             </Link>
             <br />
-            <Link className={menuItem} onClick={this.onMenuItemClick} to="/about">
+            <Link className={menuItem} onClick={this.onMenuItemClick} to="/mission">
                <i className="fas fa-hotdog"></i><span className={styles.menuItemText}>Mission</span>
             </Link>
             <br />
@@ -96,28 +96,6 @@ class Header extends React.Component {
                <i className="fas fa-cookie-bite"></i><span className={styles.menuItemText}>Portal</span>
             </Link>
          </Menu>
-       
-         // <header>
-         //    <Navbar collapseOnSelect expand="lg" bg="light" fixed="top">
-         //       <Navbar.Brand>
-         //          <Link to="/">Cravings</Link>
-         //       </Navbar.Brand>
-         //       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-         //       <Navbar.Collapse id="responsive-navbar-nav">
-         //          <Nav className="mr-auto">
-         //             <LinkContainer to="/about">
-         //                <Nav.Link eventKey={1}>About</Nav.Link>
-         //             </LinkContainer>
-         //          </Nav>
-         //          <Nav>
-         //             <LinkContainer to="/vendorportal">
-         //                <Nav.Link eventKey={3}>Vendor Portal</Nav.Link>
-         //             </LinkContainer>
-         //          </Nav>
-         //       </Navbar.Collapse>
-         //    </Navbar> 
-         // </header>
-         
       );
    }
 }
