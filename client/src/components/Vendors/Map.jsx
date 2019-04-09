@@ -19,7 +19,7 @@ import { createMuiTheme } from '@material-ui/core';
 const GoogleMapElement = withGoogleMap(props => (
    <GoogleMap
       defaultCenter = { props.userLocation }
-      defaultZoom = { 13 }
+      defaultZoom = { 15 }
       defaultOptions = {{styles: mapStyle}}
    >
       <Marker key="userLocation" position={ props.userLocation }></Marker>

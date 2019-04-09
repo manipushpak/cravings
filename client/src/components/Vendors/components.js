@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react'
+
 import clsx from 'clsx'
 import PropTypes from 'prop-types'
 import { fade } from '@material-ui/core/styles/colorManipulator'
@@ -6,110 +7,53 @@ import Typography from '@material-ui/core/Typography'
 import { withStyles } from '@material-ui/core/styles'
 
 // *******************************************************
-// TOOLTIP RAIL
+// RAIL COMPONENT
 // *******************************************************
-const tooltipRailStyle = {
-  position: 'absolute',
-  width: '100%',
-  transform: 'translate(0%, -50%)',
-  height: 4,
-  cursor: 'pointer',
-  zIndex: 300,
+const railStyle = () => ({
+  common: {
+    position: 'absolute',
+    width: '100%',
+    transform: 'translate(0%, -50%)',
+  },
+  outer: {
+    height: 10,
+    borderRadius: 5,
+    cursor: 'pointer',
+  },
+  inner: {
+    height: 4,
+    borderRadius: 5,
+    pointerEvents: 'none',
+    backgroundColor: '#f0f3f5',
+  },
+})
+
+function RailComponent({ classes, getRailProps }) {
+  return (
+    <Fragment>
+      <div
+        className={clsx(classes.common, classes.outer)}
+        {...getRailProps()}
+      />
+      <div className={clsx(classes.common, classes.inner)} />
+    </Fragment>
+  )
 }
 
-const tooltipRailCenterStyle = {
-  position: 'absolute',
-  width: '100%',
-  transform: 'translate(0%, -50%)',
-  height: 4,
-  borderRadius: 7,
-  cursor: 'pointer',
-  pointerEvents: 'none',
-  backgroundColor: '#f0f3f5',
-}
-
-export class TooltipRail extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: null,
-      percent: null,
-    }
-
-    this.onMouseEnter = this.onMouseEnter.bind(this);
-    this.onMouseLeave = this.onMouseLeave.bind(this);
-    this.onMouseMove = this.onMouseMove.bind(this);
-  }
-
-  onMouseEnter() {
-    document.addEventListener('mousemove', this.onMouseMove)
-  }
-
-  onMouseLeave() {
-    this.setState({ value: null, percent: null })
-    document.removeEventListener('mousemove', this.onMouseMove)
-  }
-
-  onMouseMove(e) {
-    const { activeHandleID, getEventData } = this.props
-
-    if (activeHandleID) {
-      this.setState({ value: null, percent: null })
-    } else {
-      this.setState(getEventData(e))
-    }
-  }
-
-  render() {
-    const { value, percent } = this.state
-    const { activeHandleID, getRailProps } = this.props
-
-    return (
-      <Fragment>
-        {!activeHandleID && value ? (
-          <div
-            style={{
-              left: `${percent}%`,
-              position: 'absolute',
-              marginLeft: '-11px',
-              marginTop: '-35px',
-            }}
-          >
-            <div className="tooltip">
-              <span className="tooltiptext">Value: {value}</span>
-            </div>
-          </div>
-        ) : null}
-        <div
-          style={tooltipRailStyle}
-          {...getRailProps({
-            onMouseEnter: this.onMouseEnter,
-            onMouseLeave: this.onMouseLeave,
-          })}
-        />
-        <div style={tooltipRailCenterStyle} />
-      </Fragment>
-    )
-  }
-}
-
-TooltipRail.propTypes = {
-  getEventData: PropTypes.func,
-  activeHandleID: PropTypes.string,
+RailComponent.propTypes = {
+  classes: PropTypes.object.isRequired,
   getRailProps: PropTypes.func.isRequired,
 }
 
-TooltipRail.defaultProps = {
-  disabled: false,
-}
+export const SliderRail = withStyles(railStyle)(RailComponent)
 
 // *******************************************************
 // HANDLE COMPONENT
 // *******************************************************
 const handleStyle = theme => {
   const colors = {
-    primary: theme.palette.primary.main,
-    thumbOutline: fade(theme.palette.primary.main, 0.16),
+    primary: "#E04D05",
+    thumbOutline: fade("#E04D05", 0.16),
   }
 
   return {
@@ -131,10 +75,10 @@ const handleStyle = theme => {
       height: 12,
       transform: 'translate(-50%, -50%)',
       borderRadius: '50%',
-      backgroundColor: "#E04D05",
+      backgroundColor: colors.primary,
     },
     active: {
-      boxShadow: `0px 0px 0px 16px ${colors.thumbOutline}`,
+      boxShadow: `0px 0px 0px 13px ${colors.thumbOutline}`,
     },
   }
 }
@@ -166,7 +110,11 @@ function HandleComponent({
           active && classes.active,
         )}
         style={{ left: `${percent}%` }}
-      />
+      >
+        <div style={{ fontFamily: 'Rubik', fontSize: 11, marginTop: -25, textAlign: "center"}}>
+          {Math.round(value*10)/10}
+        </div>
+      </div>
     </Fragment>
   )
 }
@@ -194,7 +142,7 @@ const trackStyle = theme => ({
     transform: 'translate(0%, -50%)',
     height: 4,
     zIndex: 1,
-    borderRadius: 2,
+    borderRadius: 5,
     cursor: 'pointer',
     backgroundColor: "#E04D05",
   },
@@ -258,6 +206,7 @@ export function TickComponent({ classes, tick, count, format }) {
           marginLeft: `${-(100 / count) / 2}%`,
           width: `${100 / count}%`,
           left: `${tick.percent}%`,
+          fontFamily: 'Rubik'
         }}
       >
         {format(tick.value)} mi

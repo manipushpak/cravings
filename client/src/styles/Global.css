@@ -11,8 +11,8 @@
 }
 
 :local .headerText {
-    font-family: 'Berkshire Swash', 'Georgia', 'Times New Roman', 'Times', serif;
-}
+    font-family: 'Concert One';
+    text-transform: uppercase;}
 
 :local .h1 {
     composes: headerText;
@@ -21,9 +21,12 @@
 
 :local .h2 {    
     composes: headerText;
-    font-family: 'Concert One';
-    text-transform: uppercase;
     font-size: 60px;
+}
+
+:local .p {
+    margin: 30px auto 0 auto;
+    max-width: 1000px;
 }
 
 :local .formContainer {

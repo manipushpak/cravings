@@ -14,22 +14,21 @@ var vendorDB:any;
 var keywordDB:any;
 
 
-        // attempt to get database connection
-        client.connect((err:any,client:any)=>{
-            // unable to get database connection pass error to CB
-            if(err)
-                console.log("HELLO" + err);
-            // Successfully got our database connection
-            // Set database connection and call CB
-            else{
-                console.log("successfully connnected!");
-                database = client.db("401Capstone");
-                vendorDB = database.collection("Vendors");
-                keywordDB = database.collection("Keywords");
-                console.log("connected to test");
-            }
-        });
-
+// attempt to get database connection
+client.connect((err:any,client:any)=>{
+    // unable to get database connection pass error to CB
+    if(err)
+        console.log("HELLO" + err);
+    // Successfully got our database connection
+    // Set database connection and call CB
+    else{
+        console.log("successfully connnected!");
+        database = client.db("401Capstone");
+        vendorDB = database.collection("Vendors");
+        keywordDB = database.collection("Keywords");
+        console.log("connected to test");
+    }
+});
 
 router.get('/vendors', (req, res, next) => { //DONE
     vendorDB.find({}).toArray((err: any, documents: any)=> {
@@ -51,26 +50,21 @@ router.get('/keywords', (req, res, next) => { //DONE
     });
 });
 
-
-
 router.get('/keywords/random', (req, res, next) => { //DONE
     keywordDB.find({}).toArray((err: any, documents: any)=> {
         if (err){ 
             res.send(err)
         }else{
             let num = Math.floor(Math.random()*documents.length);
-            res.send(documents[num].keyword);
+            res.json(documents[num].keyword);
         }
     });
 });
 
 router.post('/vendor/register', (req, res) => { //DONE
-
-
     let rvendor: Vendor = req.body.vendor
     let success:boolean = false;
     try{
-
         vendorDB.findOneAndReplace(
             { 
                 loginInfo : rvendor.loginInfo
@@ -108,29 +102,18 @@ router.post('/vendor/register', (req, res) => { //DONE
                                 res.send({success: true, vendor: vendor, keywords: true});
                                 }
                          });
-    
-                
                     }
-                }
-
-                                    
+                }            
             });
-
     }catch(e){
         res.send({
             success: false,
             error: e.toString()
         });
-
     }
-
 });
 
-
-
 router.post('/vendor/filter', (req, res) => { //DONE
-
-
     let vendors: Vendor[] = req.body.vendors;
     let filters: string[] = req.body.filters;
 

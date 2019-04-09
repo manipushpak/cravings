@@ -26,7 +26,7 @@ class Vendors extends React.Component {
       var searchTerm = this.props.location.state.searchTerm;
       this.state = {
          vendors: vendors.vendors,
-         sliderValues: [0, 10],
+         distance: [10],
          locationProvided: false,
          userLat: "",
          userLong: "",
@@ -42,7 +42,7 @@ class Vendors extends React.Component {
       this.handleSearch = this.handleSearch.bind(this);
       this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
       this.deleteSearchTerm = this.deleteSearchTerm.bind(this);
-      this.updateSliderValues = this.updateSliderValues.bind(this);
+      this.updateDistance = this.updateDistance.bind(this);
       this.handleFilter = this.handleFilter.bind(this);
    }
 
@@ -165,9 +165,9 @@ class Vendors extends React.Component {
       })
    }
 
-   updateSliderValues(sliderValues) {
-      this.setState({ sliderValues: sliderValues });
-      console.log(this.state.sliderValues);
+   updateDistance(distance) {
+      this.setState({ distance: Math.round(distance*10)/10 });
+      console.log(this.state.distance);
    }
 
    render() { 
@@ -199,7 +199,7 @@ class Vendors extends React.Component {
                         </Form.Group>
                      </Form.Row>
                   </Form.Group>
-                  <Form.Group as={Col} xs={12} md={6} className={ styles.sliderDiv }>
+                  <Form.Group as={Col} xs={12} md={6} lg={3} className={ styles.sliderDiv }>
                      <FilterSlider sliderValues={ this.state.sliderValues } onChange={ this.updateSliderValues }/>
                   </Form.Group>
                </Form.Row>
