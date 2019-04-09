@@ -42,6 +42,9 @@ const GoogleMapElement = withGoogleMap(props => (
 
 function whichEmoji(vendor){
    var keywords = vendor.vendorInfo.keywords;
+   if(keywords.length < 1){
+      return unknownItem;
+   }
    var keyword = keywords[0].toUpperCase();
    if(keywords.length > 1){
       return multiple;

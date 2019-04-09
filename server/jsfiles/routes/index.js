@@ -137,7 +137,7 @@ router.post('/vendor/filter', function (req, res) {
                 }
             }
         });
-        res.send({ vendors: filtered });
+        res.json({ vendors: filtered });
     }
 });
 router.post('/vendor/modify', function (req, res) {
@@ -265,7 +265,7 @@ router.post('/search', function (req, res) {
                     results.push(current);
                 }
             }
-            res.send({ success: true, vendors: results });
+            res.json({ success: true, vendors: results });
         }
     });
 });

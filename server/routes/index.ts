@@ -140,7 +140,7 @@ router.post('/vendor/filter', (req, res) => { //DONE
            
         });
 
-        res.send({ vendors: filtered});
+        res.json({ vendors: filtered});
 
 
 
@@ -300,7 +300,7 @@ router.post('/search', (req, res) => { //DONE
 
             }
 
-            res.send({success: true, vendors: results});
+            res.json({success: true, vendors: results});
 
         }
     });
