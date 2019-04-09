@@ -12,12 +12,12 @@ import { withRouter } from 'react-router-dom';
 import ButtonSet from './ButtonSet.jsx';
 import WeekOptions from './WeekOptions.jsx';
 
+
 class Registration extends React.Component {
    constructor(props) {
       super(props);
       var ven = this.props.location.state !== 'undefined' && this.props.location.state.vendor !== null
       ? this.props.location.state.vendor : [];
-      console.log(ven);
       this.state = { 
          vendor: ven,
          vendors: ven.vendorInfo.vendorName,
@@ -32,6 +32,7 @@ class Registration extends React.Component {
          keywords: ven.vendorInfo.keywords,
          numVendors: 1,
          validated: false,
+         coords: {lat: 0, lng: 0},
       }
       // External Form Functions
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -53,6 +54,7 @@ class Registration extends React.Component {
       this.updateKeywords = this.updateKeywords.bind(this);
       this.updateVendorFirstName = this.updateVendorFirstName.bind(this);
       this.updateVendorLastName = this.updateVendorLastName.bind(this);
+      this.updateCoordinates = this.updateCoordinates.bind(this);
       this.geocodeAddress = this.geocodeAddress.bind(this);
 
       // Internal Form Functions
@@ -60,30 +62,14 @@ class Registration extends React.Component {
       this.useCurrentLocation = this.useCurrentLocation.bind(this);
    }
 
-
-   geocodeAddress(geocoder, address, coords) {
-      geocoder.geocode({'address': address}, function(results, status) {
-      if (status === 'OK') {
-            coords.lat = results[0].geometry.location.lat();
-            coords.lng = results[0].geometry.location.lng();
-      } else {
-         //  alert('Geocode was not successful for the following reason: ' + status);
-      }
-      });
-      return coords;
-   }
-
-   
    handleSubmit(event) {
       event.preventDefault();
       var geocoder = new google.maps.Geocoder();
-      let coords = {lat: 34.0224 , lng: -118.2851};
-      coords = this.geocodeAddress(geocoder, this.state.address, coords);
-
+      this.geocodeAddress(geocoder, this.state.address);
       if (event.currentTarget.checkValidity() === false) {
          event.stopPropagation;
          this.setState({ validated: true });
-      } else {   
+      } else {  
          fetch('/vendor/register',{
             method: 'POST',
             body: JSON.stringify({
@@ -98,7 +84,7 @@ class Registration extends React.Component {
                      phone: this.state.phone,
                      address: {
                         address: this.state.address,
-                        coordinates: coords,
+                        coordinates: this.state.coords,
                      },
                      keywords: this.state.keywords,
                      flags: [],
@@ -214,6 +200,16 @@ class Registration extends React.Component {
       this.setState({ keywords: e.target.value.split(", ") });
    }
 
+   updateCoordinates(lat, lng){
+      var coordinates = {...this.state.coordinates};
+      coordinates.lat = lat;
+      coordinates.lng = lng;
+      this.setState({
+         coords: coordinates
+      })
+      console.log("FROM UPDATE COORDINATES: " + this.state.coords);
+   }
+
    activatePlacesSearch() {
       var self = this;
       var autocomplete = new google.maps.places.Autocomplete(document.getElementById('vendorRegistrationLocation'));
@@ -226,6 +222,22 @@ class Registration extends React.Component {
       //    // self.updateAddress(address);
       //    // self.updateCoordinates(lat, lng);
       // }
+   }
+
+   geocodeAddress(geocoder, address) {
+      var self = this;
+      geocoder.geocode({'address': address}, function(results, status) {
+      if (status === 'OK') {
+            var lat = results[0].geometry.location.lat();
+            var lng = results[0].geometry.location.lng();
+            self.updateCoordinates(lat, lng);
+            console.log("IN GEOCODE ADDRESS");
+            
+      } else {
+         //  alert('Geocode was not successful for the following reason: ' + status);
+         console.log("couldn't find coordinates for that address");
+      }
+      });
    }
 
    useCurrentLocation(e) {
@@ -339,6 +351,7 @@ class Registration extends React.Component {
       );
    }
 }
+
 
 const AddressSet = props => {
    if (props.view) {
