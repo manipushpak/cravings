@@ -15,6 +15,7 @@ import Form from 'react-bootstrap/Form';
 import ReactModal from 'react-modal';
 import ListModal from './ListModal.jsx';
 import SearchList from './SearchList.jsx';
+import { createImportSpecifier } from 'typescript';
 
 ReactModal.setAppElement("#App");
 
@@ -44,35 +45,60 @@ class Vendors extends React.Component {
       this.deleteSearchTerm = this.deleteSearchTerm.bind(this);
       this.updateDistance = this.updateDistance.bind(this);
       this.handleFilter = this.handleFilter.bind(this);
+      this.filterHelp = this.filterHelp.bind(this);
+      this.setVendorState = this.setVendorState.bind(this);
    }
 
-   handleFilter(e){
-      this.handleSearch();
-      var filterArray = this.state.filterArray;
-      var index = 0;
 
-      if (e.target.checked) {
-        filterArray.push(e.target.id)
-      } else {
-        index = filterArray.indexOf(e.target.id);
-        filterArray.splice(index, 1)
-      }
+   setVendorState(vendors){
+      this.setState({
+         vendors: vendors
+      });
+      console.log(this.state.vendors);
+   }
 
-      var self = this;
-      fetch('/vendor/filter', {
+   filterHelp(){
+      var terms = this.state.searchTerms;
+      fetch('/search', {
          method: 'POST',
          body: JSON.stringify({
-            vendors: self.state.vendors,
-            filters: self.state.filterArray
+            terms: terms
          }),
          headers: {"Content-Type": "application/json"}
       })
       .then(res => res.json())
-      .then(filtered => {
-         self.setState({
-            vendors: filtered.vendors,
-            filteredArray: filteredArray
-         });
+      .then(vendors => {
+         this.setVendorState(vendors.vendors);
+      })
+   }
+
+   handleFilter(e){
+      var filterArray = this.state.filterArray;
+      var index = 0;
+      if (e.target.checked) {
+         filterArray.push(e.target.id)
+      } else {
+         index = filterArray.indexOf(e.target.id);
+         filterArray.splice(index, 1)
+      }
+
+      this.setState({
+         filterArray: filterArray
+      })
+         
+      this.filterHelp();
+
+     fetch('/vendor/filter', {
+         method: 'POST',
+         body: JSON.stringify({
+            vendors: this.state.vendors,
+            filters: this.state.filterArray
+         }),
+         headers: {"Content-Type": "application/json"}
+      })
+      .then(res => res.json())
+      .then(vendors => {
+         this.setVendorState(vendors.vendors);
       })
    }
 
