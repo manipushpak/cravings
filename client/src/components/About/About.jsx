@@ -2,7 +2,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 import global from '../../styles/Global.css';
-import styles from '../../styles/AboutMission.css';
+import styles from '../../styles/ExtraPages.css';
 
 class About extends React.Component {
    constructor(props) {

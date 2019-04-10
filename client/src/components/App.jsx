@@ -5,6 +5,8 @@ import global from '../styles/Global.css';
 import Header from './Header.jsx';
 import Main from './Main.jsx';
 
+import { ParallaxProvider } from 'react-scroll-parallax';
+
 class App extends React.Component {
    constructor(props) {
       super(props);
@@ -14,8 +16,10 @@ class App extends React.Component {
    render() {
       return(
          <div id="bm-outer-container" className={ global.outerContainer }>
-            <Header />
-            <Main />
+            <ParallaxProvider>
+               <Header />
+               <Main />
+            </ParallaxProvider>
          </div>
       );
    }

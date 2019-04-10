@@ -7,6 +7,7 @@ import { Switch, Route } from 'react-router-dom';
 import Home from './Home.jsx';
 import About from './About/About.jsx';
 import Mission from './Mission/Mission.jsx';
+import Faq from './Faq/Faq.jsx';
 import Registration from './Registration/Registration.jsx';
 import Vendors from './Vendors/Vendors.jsx';
 import VendorPortal from './Registration/VendorPortal.jsx';
@@ -20,6 +21,7 @@ const Main = () => {
             <Route exact path='/' component={Home}/>
             <Route path='/about' component={About}/>
             <Route path='/mission' component={Mission}/>
+            <Route path='/faq' component={Faq}/>
             <Route path='/vendors' component={Vendors}/>
             <Route exact path='/vendorportal' component={VendorPortal}/>
             <Route path={'/vendorportal/register'} render={() => <Registration isEdit={false} isView={false}/>} />
