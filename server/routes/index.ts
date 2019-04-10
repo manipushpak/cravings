@@ -166,7 +166,7 @@ router.post('/vendor/filter', (req, res) => { //DONE
 });
 
 
-router.post('/filteredSearch', (req, res) => { //DONE
+router.post('/vendor/filteredSearch', (req, res) => { //DONE
     let terms: string[] = req.body.terms;
     let filters: string[] = req.body.filters;
     vendorDB.find({}).toArray((err: any, vendors: any) => {

@@ -140,7 +140,7 @@ router.post('/vendor/filter', function (req, res) {
         res.send(filtered);
     }
 });
-router.post('/filteredSearch', function (req, res) {
+router.post('/vendor/filteredSearch', function (req, res) {
     var terms = req.body.terms;
     var filters = req.body.filters;
     vendorDB.find({}).toArray(function (err, vendors) {
