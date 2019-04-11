@@ -290,26 +290,26 @@ router.post('/vendor/filteredSearch', (req, res) => { //DONE
                 res.send({success: true, vendors: results, error: "No filters"});
             }else{
         
-                // let filterlist:Set<string> = new Set<string>();
-                // for(let k in filters){
-                //     filterlist.add(filters[k].toLowerCase());
-                // }
+                let filterlist:Set<string> = new Set<string>();
+                for(let k in filters){
+                    filterlist.add(filters[k].toLowerCase());
+                }
         
-                // let filtered:Vendor[] = results.filter(v => {
+                let filtered:Vendor[] = results.filter(v => {
                     
-                //     if(!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)){
+                    if(!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)){
                         
-                //         for(let f in v.vendorInfo.flags){
-                //             if(filterlist.has(v.vendorInfo.flags[f].toLowerCase())){
-                //                 return v;
-                //             }
-                //         }
+                        for(let f in v.vendorInfo.flags){
+                            if(filterlist.has(v.vendorInfo.flags[f].toLowerCase())){
+                                return v;
+                            }
+                        }
         
-                //     }
+                    }
                    
-                // });
+                });
         
-                res.send({success: true, vendors: null});
+                res.send({success: true, vendors: filtered});
         
         
         

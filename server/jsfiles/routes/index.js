@@ -251,20 +251,20 @@ router.post('/vendor/filteredSearch', function (req, res) {
                 res.send({ success: true, vendors: results, error: "No filters" });
             }
             else {
-                // let filterlist:Set<string> = new Set<string>();
-                // for(let k in filters){
-                //     filterlist.add(filters[k].toLowerCase());
-                // }
-                // let filtered:Vendor[] = results.filter(v => {
-                //     if(!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)){
-                //         for(let f in v.vendorInfo.flags){
-                //             if(filterlist.has(v.vendorInfo.flags[f].toLowerCase())){
-                //                 return v;
-                //             }
-                //         }
-                //     }
-                // });
-                res.send({ success: true, vendors: null });
+                var filterlist_2 = new Set();
+                for (var k in filters) {
+                    filterlist_2.add(filters[k].toLowerCase());
+                }
+                var filtered = results.filter(function (v) {
+                    if (!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)) {
+                        for (var f in v.vendorInfo.flags) {
+                            if (filterlist_2.has(v.vendorInfo.flags[f].toLowerCase())) {
+                                return v;
+                            }
+                        }
+                    }
+                });
+                res.send({ success: true, vendors: filtered });
             }
         }
     });
