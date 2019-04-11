@@ -8,6 +8,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/../client/dist'));
 app.use('/', router);
 
-app.listen(1337, function () {
-console.log('listening on port 1337')
+app.listen(3000, function () {
+console.log('listening on port 3000')
 });

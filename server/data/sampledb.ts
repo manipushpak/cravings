@@ -3,6 +3,7 @@ import { Vendor, User } from "../models/types";
 const vendors: Vendor[] = [
 
     {
+        phone: "+16508239461",
         loginInfo: {
             email:"devikaku@usc.edu",
             password:"hellohello"
@@ -18,7 +19,6 @@ const vendors: Vendor[] = [
             }
             ],
             stallName: "Devika's Pies",
-            phone: "6508239461",
             address: {
                 address: "3760 Fig",
                 coordinates: {
@@ -71,6 +71,7 @@ const vendors: Vendor[] = [
         
 },
 {
+    phone: "+16508239461",
     loginInfo: {
         email:"sonalipa@usc.edu",
         password:"hellohello1"
@@ -86,7 +87,6 @@ const vendors: Vendor[] = [
         }
         ],
         stallName: "Sonali's Noodles",
-        phone: "6508239461",
         address: {
             address: "3760 Fig",
             coordinates: {
@@ -139,6 +139,7 @@ const vendors: Vendor[] = [
     
 },
 {
+    phone: "+16508239461",
     loginInfo: {
         email:"pia@usc.edu",
         password:"hellohello2"
@@ -150,7 +151,6 @@ const vendors: Vendor[] = [
         }
         ],
         stallName: "Pia's Pudding",
-        phone: "6508239461",
         address: {
             address: "343 West Adams",
             coordinates: {
@@ -204,6 +204,7 @@ const vendors: Vendor[] = [
     
 },
 {
+    phone: "+16508239461",
     loginInfo: {
         email:"miller@usc.edu",
         password:"hellohello4"
@@ -215,7 +216,6 @@ const vendors: Vendor[] = [
         }
         ],
         stallName: "Nalani's Girls Scout Cookies",
-        phone: "6508239461",
         address: {
             address: "Stauffer Science Lecture Hall",
             coordinates: {
@@ -268,4 +268,4 @@ const vendors: Vendor[] = [
 }
 ]
 
-export default vendors;
+export default vendors; 

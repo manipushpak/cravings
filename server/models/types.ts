@@ -1,5 +1,6 @@
 export interface Vendor{
         id?:string,
+        phone: string,
         loginInfo: {
             email:string
             password:string
@@ -7,7 +8,6 @@ export interface Vendor{
         vendorInfo: {
             vendorName: VendorInfo[],
             stallName: string,
-            phone: string,
             address: Location,
             keywords: string[],
             flags: string[],
