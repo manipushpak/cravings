@@ -26,15 +26,36 @@ const GoogleMapElement = withGoogleMap(props => (
    {
       props.vendors.map(vendor => {
          var vendorInfo = vendor.vendorInfo;
-         return (
-            <Marker
-               key={ vendor._id}
-               position={ vendorInfo.address.coordinates }
-               onClick={ () => props.openModal(vendorInfo) }
-               icon= {whichEmoji(vendor)}
-            >
-            </Marker>
-         );
+         var directionsService = new google.maps.DirectionsService();
+         var request = {
+            origin: vendorInfo.address.address,
+            destination: props.userLocation,
+            travelMode: google.maps.DirectionsTravelMode.DRIVING
+         };
+         directionsService.route(request, function(response, status){
+            if(status == google.maps.DirectionsStatus.OK){
+               if(response.routes[0].legs[0].distance.value/ 1609.34 <= props.distance[0]){
+                  console.log(response.routes[0].legs[0].distance.value/ 1609.34);
+                  console.log(props.distance[0]);
+                  return (
+                     <Marker
+                        key={ vendor._id}
+                        position={ vendorInfo.address.coordinates }
+                        onClick={ () => props.openModal(vendorInfo) }
+                        icon= {whichEmoji(vendor)}
+                     >
+                     </Marker>
+                  );
+               }
+               else{
+                  //don't place the marker on the map
+               }
+            }
+            else{
+               console.log("directions service encountered an error");
+            }
+         })
+
       })
    }
    </GoogleMap>
@@ -128,6 +149,7 @@ class Map extends React.Component {
                setActiveKey={ this.setActiveKey }
                userLocation={ this.state.userLocation }
                vendors={ this.props.vendors }
+               distance={this.props.distance}
             />
          </div>
       );

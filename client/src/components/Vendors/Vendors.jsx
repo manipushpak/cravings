@@ -202,7 +202,7 @@ class Vendors extends React.Component {
             <br />
             <div className={ classNames(styles.outerContainer, global.floatingWindow) }>
                <div className={ styles.mapColumn }>
-                  <Map vendors={ this.state.vendors } openModal={ this.handleShowInfo } />
+                  <Map distance={this.state.distance} vendors={ this.state.vendors } openModal={ this.handleShowInfo } />
                </div>
                <div className={ styles.searchColumn }>
                   <InputGroup className={ styles.searchBar }>
