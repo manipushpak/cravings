@@ -71,10 +71,14 @@ router.get('/keywords/random', function (req, res, next) {
 router.post('/vendor/register', function (req, res) {
     var rvendor = req.body.vendor;
     var success = false;
+    var openNowV = false;
+    //DO OPEN LOGIC HERE
     try {
         vendorDB.findOneAndReplace({
             loginInfo: rvendor.loginInfo
         }, {
+            openNow: openNowV,
+            phone: rvendor.phone,
             loginInfo: rvendor.loginInfo,
             vendorInfo: rvendor.vendorInfo
         }, { returnNewDocument: true }, function (err, res2) {
@@ -434,6 +438,7 @@ router.post('/vendor/signup', function (req, res) {
             }
             else {
                 var newVendor_1 = {
+                    openNow: false,
                     phone: "",
                     loginInfo: {
                         email: verification.email,

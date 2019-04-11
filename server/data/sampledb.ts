@@ -4,6 +4,7 @@ const vendors: Vendor[] = [
 
     {
         phone: "+16508239461",
+        openNow: true,
         loginInfo: {
             email:"devikaku@usc.edu",
             password:"hellohello"
@@ -71,6 +72,7 @@ const vendors: Vendor[] = [
         
 },
 {
+    openNow: true,
     phone: "+16508239461",
     loginInfo: {
         email:"sonalipa@usc.edu",
@@ -139,6 +141,7 @@ const vendors: Vendor[] = [
     
 },
 {
+    openNow: true,
     phone: "+16508239461",
     loginInfo: {
         email:"pia@usc.edu",
@@ -204,6 +207,7 @@ const vendors: Vendor[] = [
     
 },
 {
+    openNow: true,
     phone: "+16508239461",
     loginInfo: {
         email:"miller@usc.edu",

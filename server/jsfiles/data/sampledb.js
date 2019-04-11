@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var vendors = [
     {
         phone: "+16508239461",
+        openNow: true,
         loginInfo: {
             email: "devikaku@usc.edu",
             password: "hellohello"
@@ -69,6 +70,7 @@ var vendors = [
         },
     },
     {
+        openNow: true,
         phone: "+16508239461",
         loginInfo: {
             email: "sonalipa@usc.edu",
@@ -136,6 +138,7 @@ var vendors = [
         },
     },
     {
+        openNow: true,
         phone: "+16508239461",
         loginInfo: {
             email: "pia@usc.edu",
@@ -199,6 +202,7 @@ var vendors = [
         }
     },
     {
+        openNow: true,
         phone: "+16508239461",
         loginInfo: {
             email: "miller@usc.edu",

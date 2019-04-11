@@ -1,6 +1,7 @@
 export interface Vendor{
         id?:string,
         phone: string,
+        openNow: boolean,
         loginInfo: {
             email:string
             password:string

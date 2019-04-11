@@ -69,6 +69,10 @@ router.post('/vendor/register', (req, res) => { //DONE
 
     let rvendor: Vendor = req.body.vendor
     let success:boolean = false;
+
+    let openNowV:boolean = false;
+//DO OPEN LOGIC HERE
+
     try{
 
         vendorDB.findOneAndReplace(
@@ -76,6 +80,8 @@ router.post('/vendor/register', (req, res) => { //DONE
                 loginInfo : rvendor.loginInfo
             },
             {
+                openNow: openNowV,
+                phone: rvendor.phone,
                 loginInfo: rvendor.loginInfo,
                 vendorInfo: rvendor.vendorInfo
             },
@@ -523,6 +529,7 @@ router.post('/vendor/signup', (req, res) => { //DONE
                 });
             }else{
                 let newVendor:Vendor = {
+                    openNow: false,
                     phone: "",
                     loginInfo: {
                         email: verification.email,
