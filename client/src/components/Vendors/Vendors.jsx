@@ -26,7 +26,7 @@ class Vendors extends React.Component {
       var searchTerm = this.props.location.state.searchTerm;
       this.state = {
          vendors: vendors.vendors,
-         distance: [10],
+         distance: [15],
          locationProvided: false,
          userLat: "",
          userLong: "",
@@ -70,7 +70,8 @@ class Vendors extends React.Component {
       .then(res => res.json())
       .then(vendors => {
          this.setState({
-            vendors: vendors.vendors
+            vendors: vendors.vendors,
+            vendorsInDistance: [],
          })
       })
    }
@@ -100,7 +101,8 @@ class Vendors extends React.Component {
       .then(res => res.json())
       .then(vendors => {
          this.setState({
-            vendors: vendors.vendors
+            vendors: vendors.vendors,
+            vendorsInDistance: [],
          });
       })
    }
@@ -155,13 +157,14 @@ class Vendors extends React.Component {
       .then(vendors => {
          this.setState({
             vendors: vendors.vendors,
+            vendorsInDistance: [],
             searchTerms: terms
          });
       })
    }
 
    updateDistance(distance) {
-      this.setState({ distance: Math.round(distance*10)/10 });
+      this.setState({ distance: Math.round(distance*10)/10, vendorsInDistance: []});
       console.log(this.state.distance);
    }
 
@@ -195,14 +198,14 @@ class Vendors extends React.Component {
                      </Form.Row>
                   </Form.Group>
                   <Form.Group as={Col} xs={12} md={6} lg={3} className={ styles.sliderDiv }>
-                     <FilterSlider sliderValues={ this.state.sliderValues } onChange={ this.updateSliderValues }/>
+                     <FilterSlider sliderValues={ this.state.sliderValues } onChange={ this.updateDistance }/>
                   </Form.Group>
                </Form.Row>
             </div>
             <br />
             <div className={ classNames(styles.outerContainer, global.floatingWindow) }>
                <div className={ styles.mapColumn }>
-                  <Map distance={this.state.distance} vendors={ this.state.vendors } openModal={ this.handleShowInfo } />
+                  <Map distance={ this.state.distance } vendors={ this.state.vendors } openModal={ this.handleShowInfo } vendorsInDistance={this.state.vendorsInDistance}/>
                </div>
                <div className={ styles.searchColumn }>
                   <InputGroup className={ styles.searchBar }>

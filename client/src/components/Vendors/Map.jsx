@@ -15,7 +15,6 @@ import unknownItem from '../../images/unknownItem.svg';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import { createMuiTheme } from '@material-ui/core';
 
-
 const GoogleMapElement = withGoogleMap(props => (
    <GoogleMap
       defaultCenter = { props.userLocation }
@@ -25,37 +24,16 @@ const GoogleMapElement = withGoogleMap(props => (
       <Marker key="userLocation" position={ props.userLocation }></Marker>
    {
       props.vendors.map(vendor => {
-         var vendorInfo = vendor.vendorInfo;
-         var directionsService = new google.maps.DirectionsService();
-         var request = {
-            origin: vendorInfo.address.address,
-            destination: props.userLocation,
-            travelMode: google.maps.DirectionsTravelMode.DRIVING
-         };
-         directionsService.route(request, function(response, status){
-            if(status == google.maps.DirectionsStatus.OK){
-               if(response.routes[0].legs[0].distance.value/ 1609.34 <= props.distance[0]){
-                  console.log(response.routes[0].legs[0].distance.value/ 1609.34);
-                  console.log(props.distance[0]);
-                  return (
-                     <Marker
-                        key={ vendor._id}
-                        position={ vendorInfo.address.coordinates }
-                        onClick={ () => props.openModal(vendorInfo) }
-                        icon= {whichEmoji(vendor)}
-                     >
-                     </Marker>
-                  );
-               }
-               else{
-                  //don't place the marker on the map
-               }
-            }
-            else{
-               console.log("directions service encountered an error");
-            }
-         })
-
+         console.log(vendor);
+         return (
+            <Marker
+               key={ vendor._id}
+               position={ vendor.vendorInfo.address.coordinates }
+               onClick={ () => props.openModal(vendor.vendorInfo) }
+               icon= {whichEmoji(vendor)}
+            >
+            </Marker>
+         );
       })
    }
    </GoogleMap>
@@ -104,10 +82,28 @@ class Map extends React.Component {
          loading: true,
          infoWindowVisible: false,
          activeKey: "vendors",
+         vendorsInDistance: this.props.vendorsInDistance,
+         distance: this.props.distance
       }
 
       this.componentDidMount = this.componentDidMount.bind(this);
       this.setActiveKey = this.setActiveKey.bind(this);
+      this.updateVendorsInDistance = this.updateVendorsInDistance.bind(this);
+      this.emptyVendorsList = this.emptyVendorsList.bind(this);
+   }
+
+   updateVendorsInDistance(vendor){
+      var vendors = this.state.vendorsInDistance;
+      vendors.indexOf(vendor) === -1 ? vendors.push(vendor) : console.log("exists");
+      this.setState({
+         vendorsInDistance: vendors
+      });
+   }
+
+   emptyVendorsList(){
+      this.setState({
+         vendorsInDistance: []
+      })
    }
 
    componentDidMount(props) {
@@ -118,6 +114,7 @@ class Map extends React.Component {
             this.setState({
                userLocation: { lat: latitude, lng: longitude },
                loading: false,
+               vendorsInDistance: []
             });
          },
          () => {
@@ -136,8 +133,31 @@ class Map extends React.Component {
       const { loading } = this.state;
 
       if (loading) {
-         return <div className={ styles.loadingDiv }>Loading...</div> ;
+         return <div className={ styles.loadingDiv }>Loading...</div>;
       }
+
+      this.props.vendors.map(vendor => {
+         var vendorInfo = vendor.vendorInfo;
+         var directionsService = new google.maps.DirectionsService();
+         var request = {
+            origin: vendorInfo.address.address,
+            destination: this.state.userLocation,
+            travelMode: google.maps.DirectionsTravelMode.DRIVING
+         };
+         var self = this;
+         directionsService.route(request, function(response, status){
+            if(status == google.maps.DirectionsStatus.OK){
+               if(response.routes[0].legs[0].distance.value/ 1609.34 <= self.state.distance[0]){
+                  self.updateVendorsInDistance(vendor);
+               }
+               else{
+               }
+            }
+            else{
+               // console.log("directions service encountered an error");
+            }
+         });
+      })
 
       return(
          <div>
@@ -148,8 +168,7 @@ class Map extends React.Component {
                openModal={ this.props.openModal }
                setActiveKey={ this.setActiveKey }
                userLocation={ this.state.userLocation }
-               vendors={ this.props.vendors }
-               distance={this.props.distance}
+               vendors={ this.state.vendorsInDistance }
             />
          </div>
       );
