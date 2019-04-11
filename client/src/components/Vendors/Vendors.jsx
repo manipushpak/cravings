@@ -15,7 +15,6 @@ import Form from 'react-bootstrap/Form';
 import ReactModal from 'react-modal';
 import ListModal from './ListModal.jsx';
 import SearchList from './SearchList.jsx';
-import { createImportSpecifier } from 'typescript';
 
 ReactModal.setAppElement("#App");
 
@@ -44,32 +43,6 @@ class Vendors extends React.Component {
       this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
       this.deleteSearchTerm = this.deleteSearchTerm.bind(this);
       this.updateDistance = this.updateDistance.bind(this);
-      this.handleFilter = this.handleFilter.bind(this);
-      this.filterHelp = this.filterHelp.bind(this);
-      this.setVendorState = this.setVendorState.bind(this);
-   }
-
-
-   setVendorState(vendors){
-      this.setState({
-         vendors: vendors
-      });
-      console.log(this.state.vendors);
-   }
-
-   filterHelp(){
-      var terms = this.state.searchTerms;
-      fetch('/search', {
-         method: 'POST',
-         body: JSON.stringify({
-            terms: terms
-         }),
-         headers: {"Content-Type": "application/json"}
-      })
-      .then(res => res.json())
-      .then(vendors => {
-         this.setVendorState(vendors.vendors);
-      })
    }
 
    handleFilter(e){
@@ -86,19 +59,19 @@ class Vendors extends React.Component {
          filterArray: filterArray
       })
          
-      this.filterHelp();
-
-     fetch('/vendor/filter', {
+     fetch('/filteredSearch', {
          method: 'POST',
          body: JSON.stringify({
-            vendors: this.state.vendors,
+            terms: this.state.searchTerms,
             filters: this.state.filterArray
          }),
          headers: {"Content-Type": "application/json"}
       })
       .then(res => res.json())
       .then(vendors => {
-         this.setVendorState(vendors.vendors);
+         this.setState({
+            vendors: vendors.vendors
+         })
       })
    }
 
@@ -107,6 +80,7 @@ class Vendors extends React.Component {
          searchTerm: e.target.value
       });
    }
+
 
    handleSearch() {
       var searchTerm = this.state.searchTerm;

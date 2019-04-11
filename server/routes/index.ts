@@ -113,6 +113,165 @@ router.post('/vendor/register', (req, res) => { //DONE
     }
 });
 
+router.post('/filteredSearch', (req, res) => { //DONE
+    let terms: string[] = req.body.terms;
+    let filters: string[] = req.body.filters;
+    vendorDB.find({}).toArray((err: any, vendors: any) => {
+        let all: Vendor[] = vendors;
+        if (err) {
+            res.json({success: false, error: err.toString()});
+        }
+        else if(all == null || all.length == 0){
+            res.json({success: false, error: "Error: no vendors"});
+        }else if(terms == null || terms == undefined || terms.length == 0){
+            console.log("no valid terms");
+            return all;
+        }
+        else {
+
+            let results:Vendor[] = [];
+
+            for(let v in all){
+                let current = all[v];
+                if(current == null){
+                    continue;
+                }
+                let currentVInfo = current.vendorInfo;
+                if(currentVInfo == null){
+                    continue;
+                }
+
+                let names:VendorInfo[] = currentVInfo.vendorName;
+                let stallName:string = currentVInfo.stallName;
+                let address = null;
+                if(currentVInfo.address!=null){
+                    address = currentVInfo.address.address;
+                }
+                let keywords:string[] = currentVInfo.keywords;
+                let include:boolean = false;
+
+                //names
+                if(names!=null && names.length>0){
+                    for(let k in names){
+                        let first = names[k].firstName.trim().toLowerCase();
+                        let last = names[k].lastName.trim().toLowerCase();
+                        let whole = first + " " + last;
+                        for(let tt in terms){
+                            if(include){
+                                break;
+                            }
+                            let term = terms[tt].trim().toLowerCase();
+                            if (first.includes(term) || last.includes(term) || whole.includes(term)){
+                                console.log("first or last: "+first + " "+last + " "+ term);
+                                include = true;
+                            }
+                        }
+                    }
+                }
+
+                //stallname
+                if(!include){
+                    if(stallName!=null && stallName!=""){
+                        for(let tt in terms){
+                            if(include){
+                                break;
+                            }
+                            let term = terms[tt].trim().toLowerCase();
+                        if(stallName.trim().toLowerCase().includes(term)){
+                            console.log("stallname: "+stallName + " "+ term);
+                            include = true;
+                        }
+                        }
+                    }
+                }
+
+                //address
+                if(!include){
+                    if(address!=null && address!=""){
+    
+                        for(let tt in terms){
+                            if(include){
+                                break;
+                            }
+                            let term = terms[tt].trim().toLowerCase();
+                        if(address.trim().toLowerCase().includes(term)){
+                            console.log("address: "+address+" "+term);
+                            include = true;
+                        }
+                        }
+                    }
+
+                }
+
+                //keywords
+
+                if(!include){
+                    if(keywords!=null && keywords.length>0){
+                        for(let tt in terms){
+                            if(include){
+                                break;
+                            }
+                        for(let z in keywords){
+                            if(include){
+                                break;
+                            }
+                            let term = terms[tt].trim().toLowerCase();
+                            if(keywords[z].trim().toLowerCase().includes(term)){
+                                console.log("keywords: "+keywords[z]+" "+term);
+                                include = true;
+                            }
+                        }
+                    }
+                    }
+                }
+
+                if(include){
+                    results.push(current);
+                }
+
+            }
+
+            //handling filters now
+
+            if(filters == null || filters.length == 0){
+                res.json({success: true, vendors: results, error: "No filters"});
+            }else{
+        
+                let filterlist:Set<string> = new Set<string>();
+                for(let k in filters){
+                    filterlist.add(filters[k].toLowerCase());
+                }
+        
+                let filtered:Vendor[] = results.filter(v => {
+                    
+                    if(!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)){
+                        
+                        for(let f in v.vendorInfo.flags){
+                            if(filterlist.has(v.vendorInfo.flags[f].toLowerCase())){
+                                return v;
+                            }
+                        }
+        
+                    }
+                   
+                });
+        
+                res.json({success: true, vendors: filtered});
+        
+        
+        
+            }
+
+
+
+
+
+        }
+    });
+
+});
+
+
 router.post('/vendor/filter', (req, res) => { //DONE
     let vendors: Vendor[] = req.body.vendors;
     let filters: string[] = req.body.filters;
