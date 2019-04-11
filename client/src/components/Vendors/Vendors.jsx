@@ -35,6 +35,8 @@ class Vendors extends React.Component {
          searchTerm: searchTerm,
          searchTerms:[searchTerm],
          filterArray: [],
+         vendorsInDistance: [],
+         vendorsChanged: false,
       };
       this.didProvideLocation = this.didProvideLocation.bind(this);
       this.handleShowInfo = this.handleShowInfo.bind(this);
@@ -43,6 +45,7 @@ class Vendors extends React.Component {
       this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
       this.deleteSearchTerm = this.deleteSearchTerm.bind(this);
       this.updateDistance = this.updateDistance.bind(this);
+      this.changeVarBack = this.changeVarBack.bind(this);
    }
 
    handleFilter(e){
@@ -71,7 +74,7 @@ class Vendors extends React.Component {
       .then(vendors => {
          this.setState({
             vendors: vendors.vendors,
-            vendorsInDistance: [],
+            vendorsChanged: true
          })
       })
    }
@@ -102,7 +105,7 @@ class Vendors extends React.Component {
       .then(vendors => {
          this.setState({
             vendors: vendors.vendors,
-            vendorsInDistance: [],
+            vendorsChanged: true
          });
       })
    }
@@ -157,15 +160,21 @@ class Vendors extends React.Component {
       .then(vendors => {
          this.setState({
             vendors: vendors.vendors,
-            vendorsInDistance: [],
-            searchTerms: terms
+            searchTerms: terms,
+            vendorsChanged: true
          });
       })
    }
 
+   changeVarBack(){
+      this.setState({
+         vendorsChanged: false
+      })
+   }
+
    updateDistance(distance) {
-      this.setState({ distance: Math.round(distance*10)/10, vendorsInDistance: []});
-      console.log(this.state.distance);
+      this.setState({ distance: Math.round(distance*10)/10, vendorsInDistance: [], vendorsChanged: true});
+      // console.log(this.state.distance);
    }
 
    render() { 
@@ -205,7 +214,7 @@ class Vendors extends React.Component {
             <br />
             <div className={ classNames(styles.outerContainer, global.floatingWindow) }>
                <div className={ styles.mapColumn }>
-                  <Map distance={ this.state.distance } vendors={ this.state.vendors } openModal={ this.handleShowInfo } vendorsInDistance={this.state.vendorsInDistance}/>
+                  <Map distance={ this.state.distance } changeVarBack={this.changeVarBack} vendors={ this.state.vendors } vendorsChanged={this.state.vendorsChanged} openModal={ this.handleShowInfo } vendorsInDistance={this.state.vendorsInDistance}/>
                </div>
                <div className={ styles.searchColumn }>
                   <InputGroup className={ styles.searchBar }>

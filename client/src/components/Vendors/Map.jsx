@@ -18,13 +18,12 @@ import { createMuiTheme } from '@material-ui/core';
 const GoogleMapElement = withGoogleMap(props => (
    <GoogleMap
       defaultCenter = { props.userLocation }
-      defaultZoom = { 15 }
+      defaultZoom = { 10 }
       defaultOptions = {{styles: mapStyle}}
    >
       <Marker key="userLocation" position={ props.userLocation }></Marker>
    {
       props.vendors.map(vendor => {
-         console.log(vendor);
          return (
             <Marker
                key={ vendor._id}
@@ -83,21 +82,13 @@ class Map extends React.Component {
          infoWindowVisible: false,
          activeKey: "vendors",
          vendorsInDistance: this.props.vendorsInDistance,
-         distance: this.props.distance
+         distance: this.props.distance[0],
+         isMounted: false
       }
 
       this.componentDidMount = this.componentDidMount.bind(this);
       this.setActiveKey = this.setActiveKey.bind(this);
-      this.updateVendorsInDistance = this.updateVendorsInDistance.bind(this);
       this.emptyVendorsList = this.emptyVendorsList.bind(this);
-   }
-
-   updateVendorsInDistance(vendor){
-      var vendors = this.state.vendorsInDistance;
-      vendors.indexOf(vendor) === -1 ? vendors.push(vendor) : console.log("exists");
-      this.setState({
-         vendorsInDistance: vendors
-      });
    }
 
    emptyVendorsList(){
@@ -114,13 +105,29 @@ class Map extends React.Component {
             this.setState({
                userLocation: { lat: latitude, lng: longitude },
                loading: false,
-               vendorsInDistance: []
+               isMounted: true,
+               distance: this.props.distance[0]
             });
          },
          () => {
             this.setState({ loading: false });
          }
-      );
+      );  
+      if(this.props.vendorsChanged){
+         this.emptyVendorsList();
+         nextProps.changeVarBack;
+      } 
+   }
+
+   
+   componentWillUnmount(){
+      this.state.isMounted = false;
+   }
+
+   componentWillReceiveProps(nextProps){
+      this.setState({
+         distance: nextProps.distance
+      })
    }
 
    setActiveKey(key) {
@@ -147,8 +154,13 @@ class Map extends React.Component {
          var self = this;
          directionsService.route(request, function(response, status){
             if(status == google.maps.DirectionsStatus.OK){
-               if(response.routes[0].legs[0].distance.value/ 1609.34 <= self.state.distance[0]){
-                  self.updateVendorsInDistance(vendor);
+               if(response.routes[0].legs[0].distance.value/ 1609.34 <= self.state.distance){
+                  // console.log(response.routes[0].legs[0].distance.value/ 1609.34);
+                  var vendors = self.state.vendorsInDistance;
+                  vendors.indexOf(vendor) === -1 ? vendors.push(vendor) : console.log("exists");
+                  self.setState({
+                     vendorsInDistance: vendors
+                  });
                }
                else{
                }

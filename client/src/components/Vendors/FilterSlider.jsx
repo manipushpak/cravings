@@ -5,7 +5,7 @@ import styles from '../../styles/Vendors/Vendors.css';
 import { Slider, Rail, Handles, Tracks, Ticks } from "react-compound-slider";
 import { SliderRail, Handle, Track, Tick } from "./components";
   
-const defaultValue = [15];
+const defaultValue = [10];
 const domain = [0, 50];
 
 const FilterSlider = props => {
