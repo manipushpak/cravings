@@ -353,24 +353,24 @@ router.post('/search', (req, res) => { //DONE
                 let keywords:string[] = currentVInfo.keywords;
                 let include:boolean = false;
 
-                //names
-                if(names!=null && names.length>0){
-                    for(let k in names){
-                        let first = names[k].firstName.trim().toLowerCase();
-                        let last = names[k].lastName.trim().toLowerCase();
-                        let whole = first + " " + last;
-                        for(let tt in terms){
-                            if(include){
-                                break;
-                            }
-                            let term = terms[tt].trim().toLowerCase();
-                            if (first.includes(term) || last.includes(term) || whole.includes(term)){
-                                console.log("first or last: "+first + " "+last + " "+ term);
-                                include = true;
-                            }
-                        }
-                    }
-                }
+                // //names
+                // if(names!=null && names.length>0){
+                //     for(let k in names){
+                //         let first = names[k].firstName.trim().toLowerCase();
+                //         let last = names[k].lastName.trim().toLowerCase();
+                //         let whole = first + " " + last;
+                //         for(let tt in terms){
+                //             if(include){
+                //                 break;
+                //             }
+                //             let term = terms[tt].trim().toLowerCase();
+                //             if (first.includes(term) || last.includes(term) || whole.includes(term)){
+                //                 console.log("first or last: "+first + " "+last + " "+ term);
+                //                 include = true;
+                //             }
+                //         }
+                //     }
+                // }
 
                 //stallname
                 if(!include){

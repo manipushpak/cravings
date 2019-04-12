@@ -99,7 +99,7 @@ class Registration extends React.Component {
                      stallName: this.state.stallName,
                      address: {
                         address: this.state.address,
-                        coordinates: this.state.coords,
+                        coordinates: this.state.coordinates,
                      },
                      keywords: this.state.keywords,
                      flags: [],

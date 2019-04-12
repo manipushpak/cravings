@@ -81,20 +81,17 @@ class Map extends React.Component {
          loading: true,
          infoWindowVisible: false,
          activeKey: "vendors",
-         vendorsInDistance: this.props.vendorsInDistance,
+         vendorsInDistance: [],
          distance: this.props.distance[0],
-         isMounted: false
+         isMounted: false,
+         vendors: this.props.vendors
       }
 
       this.componentDidMount = this.componentDidMount.bind(this);
       this.setActiveKey = this.setActiveKey.bind(this);
-      this.emptyVendorsList = this.emptyVendorsList.bind(this);
-   }
-
-   emptyVendorsList(){
-      this.setState({
-         vendorsInDistance: []
-      })
+      this.componentWillUnmount = this.componentWillUnmount.bind(this);
+      this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
+      this.setVendorsInDistance = this.setVendorsInDistance.bind(this);
    }
 
    componentDidMount(props) {
@@ -105,18 +102,14 @@ class Map extends React.Component {
             this.setState({
                userLocation: { lat: latitude, lng: longitude },
                loading: false,
-               isMounted: true,
-               distance: this.props.distance[0]
+               isMounted: true
             });
          },
          () => {
             this.setState({ loading: false });
          }
       );  
-      if(this.props.vendorsChanged){
-         this.emptyVendorsList();
-         nextProps.changeVarBack;
-      } 
+      this.setVendorsInDistance();
    }
 
    
@@ -125,25 +118,17 @@ class Map extends React.Component {
    }
 
    componentWillReceiveProps(nextProps){
+      this.setVendorsInDistance();
       this.setState({
-         distance: nextProps.distance
+         distance: nextProps.distance,
+         vendors: nextProps.vendors,
+         vendorsInDistance: []
       })
    }
-
-   setActiveKey(key) {
-      this.setState({
-          activeKey: key,
-      });
-   }
-
-   render() {
-      const { loading } = this.state;
-
-      if (loading) {
-         return <div className={ styles.loadingDiv }>Loading...</div>;
-      }
-
-      this.props.vendors.map(vendor => {
+   
+   setVendorsInDistance(){
+      console.log("IN HERE");
+      this.state.vendors.map(vendor => {
          var vendorInfo = vendor.vendorInfo;
          var directionsService = new google.maps.DirectionsService();
          var request = {
@@ -170,6 +155,20 @@ class Map extends React.Component {
             }
          });
       })
+   }
+
+   setActiveKey(key) {
+      this.setState({
+          activeKey: key,
+      });
+   }
+
+   render() {
+      const { loading } = this.state;
+
+      if (loading) {
+         return <div className={ styles.loadingDiv }>Loading...</div>;
+      }
 
       return(
          <div>

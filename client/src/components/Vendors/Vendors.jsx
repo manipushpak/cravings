@@ -26,7 +26,7 @@ class Vendors extends React.Component {
       var searchTerm = this.props.location.state.searchTerm;
       this.state = {
          vendors: vendors.vendors,
-         distance: [15],
+         distance: [30],
          locationProvided: false,
          userLat: "",
          userLong: "",
@@ -34,18 +34,14 @@ class Vendors extends React.Component {
          vendorInfo: null,
          searchTerm: searchTerm,
          searchTerms:[searchTerm],
-         filterArray: [],
-         vendorsInDistance: [],
-         vendorsChanged: false,
+         filterArray: []
       };
       this.didProvideLocation = this.didProvideLocation.bind(this);
       this.handleShowInfo = this.handleShowInfo.bind(this);
       this.handleHideInfo = this.handleHideInfo.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
-      this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
       this.deleteSearchTerm = this.deleteSearchTerm.bind(this);
       this.updateDistance = this.updateDistance.bind(this);
-      this.changeVarBack = this.changeVarBack.bind(this);
    }
 
    handleFilter(e){
@@ -73,21 +69,13 @@ class Vendors extends React.Component {
       .then(res => res.json())
       .then(vendors => {
          this.setState({
-            vendors: vendors.vendors,
-            vendorsChanged: true
+            vendors: vendors.vendors
          })
       })
    }
 
-   handleSearchTermChange(e){
-      this.setState({
-         searchTerm: e.target.value
-      });
-   }
-
-
    handleSearch() {
-      var searchTerm = this.state.searchTerm;
+      var searchTerm = document.getElementById("searchTerm").value;
       var terms = this.state.searchTerms;
       document.getElementById("searchTerm").value = "";
       terms.push(searchTerm);
@@ -104,8 +92,7 @@ class Vendors extends React.Component {
       .then(res => res.json())
       .then(vendors => {
          this.setState({
-            vendors: vendors.vendors,
-            vendorsChanged: true
+            vendors: vendors.vendors
          });
       })
    }
@@ -160,20 +147,13 @@ class Vendors extends React.Component {
       .then(vendors => {
          this.setState({
             vendors: vendors.vendors,
-            searchTerms: terms,
-            vendorsChanged: true
+            searchTerms: terms
          });
       })
    }
 
-   changeVarBack(){
-      this.setState({
-         vendorsChanged: false
-      })
-   }
-
    updateDistance(distance) {
-      this.setState({ distance: Math.round(distance*10)/10, vendorsInDistance: [], vendorsChanged: true});
+      this.setState({ distance: Math.round(distance*10)/10});
       // console.log(this.state.distance);
    }
 
@@ -214,7 +194,7 @@ class Vendors extends React.Component {
             <br />
             <div className={ classNames(styles.outerContainer, global.floatingWindow) }>
                <div className={ styles.mapColumn }>
-                  <Map distance={ this.state.distance } changeVarBack={this.changeVarBack} vendors={ this.state.vendors } vendorsChanged={this.state.vendorsChanged} openModal={ this.handleShowInfo } vendorsInDistance={this.state.vendorsInDistance}/>
+                  <Map distance={ this.state.distance } vendors={ this.state.vendors } openModal={ this.handleShowInfo }/>
                </div>
                <div className={ styles.searchColumn }>
                   <InputGroup className={ styles.searchBar }>
@@ -223,7 +203,7 @@ class Vendors extends React.Component {
                            <i className="fa fa-search"></i>
                         </Button>
                      </InputGroup.Prepend>
-                     <Form.Control className={ styles.searchInput } id="searchTerm" onChange={e => this.handleSearchTermChange(e)} />
+                     <Form.Control className={ styles.searchInput } id="searchTerm" />
                   </InputGroup>
                   <div className={ styles.infoDiv }>
                      {
