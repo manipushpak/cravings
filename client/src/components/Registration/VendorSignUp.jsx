@@ -19,7 +19,8 @@ class VendorSignUp extends React.Component {
          phone: '',
          email: '',
          password: '',
-         isSuccessful: false
+         isSuccessful: false,
+         validated: false
       }
       this.updateFirstName = this.updateFirstName.bind(this);
       this.updateLastName = this.updateLastName.bind(this);
@@ -42,31 +43,36 @@ class VendorSignUp extends React.Component {
 
    handleSubmit(event) {
       var self = this;
-   
-      fetch('/vendor/signup',{
-         method: 'POST',
-         body: JSON.stringify({
-            email: self.state.email,
-            password: self.state.password,
-         }),
-         headers: {"Content-Type": "application/json"}
-      })
-      .then(res => res.json())
-      .then(response => {
-         if(response.success){
-            console.log(response.vendor);
-            self.props.history.push({
-               pathname:'/register',
-               state:{
+
+      if (event.currentTarget.checkValidity() === false) {
+         event.stopPropagation;
+         this.setState({ validated: true });
+      } else {
+         fetch('/vendor/signup',{
+            method: 'POST',
+            body: JSON.stringify({
+               email: self.state.email,
+               password: self.state.password,
+            }),
+            headers: {"Content-Type": "application/json"}
+         })
+         .then(res => res.json())
+         .then(response => {
+            if(response.success){
+               console.log(response.vendor);
+               self.props.history.push({
+                  pathname:'/register',
+                  state: {
                      vendor: response.vendor
-               }
-            });
-         }
-         else{
-            var x = document.getElementById("alertDiv");
-            x.style.display = "block";
-         }
-      })
+                  }
+               });
+            }
+            else{
+               var x = document.getElementById("alertDiv");
+               x.style.display = "block";
+            }
+         })
+      }
    }
 
    updateFirstName(e){
@@ -148,8 +154,8 @@ class VendorSignUp extends React.Component {
                      </Form.Group>
                   </Form.Row>
                   <Form.Row>
-                     <div className={"alert alert-danger " + styles.emailExists} id = "alertDiv" role="alert" display="none">
-                        An account with this email already exists<a href="#" class="alert-link"></a>.
+                     <div className={"alert alert-danger " + styles.emailExists} id="alertDiv" role="alert" display="none">
+                        An account with this email already exists<a href="#" className="alert-link"></a>.
                      </div>
                   </Form.Row>
                </Form>

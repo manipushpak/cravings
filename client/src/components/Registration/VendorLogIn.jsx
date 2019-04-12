@@ -17,7 +17,8 @@ class VendorLogIn extends React.Component {
         this.state = { 
             email: '',
             password: '', 
-            isSuccessful: false
+            isSuccessful: false,
+            validated: false
         }
         this.updateEmail = this.updateEmail.bind(this);
         this.updatePassword = this.updatePassword.bind(this);
@@ -28,32 +29,37 @@ class VendorLogIn extends React.Component {
     handleSubmit(event) {
         var self = this;
         console.log( "entered");
- 
-        fetch('/vendor/authenticate',{
-           method: 'POST',
-           body: JSON.stringify({
-              email: self.state.email,
-              password: self.state.password,
-           }),
-           headers: {"Content-Type": "application/json"}
-        })
-        .then(res => res.json())
-        .then(response => {
-            if(response.success){
-                console.log( "success boii" );
-                self.props.history.push({
-                    pathname:'/account',
-                    state:{
-                        vendor: response.vendor
-                    }
-                });
-            }
-            else{
-                console.log("error");
-                var x = document.getElementById("alertDiv");
-                x.style.display = "block";
-            }
-        })
+
+        if (event.currentTarget.checkValidity() === false) {
+            event.stopPropagation;
+            this.setState({ validated: true });
+        } else {
+            fetch('/vendor/authenticate',{
+               method: 'POST',
+               body: JSON.stringify({
+                  email: self.state.email,
+                  password: self.state.password,
+               }),
+               headers: {"Content-Type": "application/json"}
+            })
+            .then(res => res.json())
+            .then(response => {
+                if(response.success){
+                    console.log( "success boii" );
+                    self.props.history.push({
+                        pathname:'/account',
+                        state:{
+                            vendor: response.vendor
+                        }
+                    });
+                }
+                else{
+                    console.log("error");
+                    var x = document.getElementById("alertDiv");
+                    x.style.display = "block";
+                }
+            })
+        }
     } 
     handleClearForm() {
         this.setState({
@@ -111,7 +117,6 @@ class VendorLogIn extends React.Component {
                                 Incorrect password or account doesn't exist<a href="#" className="alert-link"></a>.
                             </div>  
                         </Form.Row>
-
                     </Form>
                 </div>
             </div>
