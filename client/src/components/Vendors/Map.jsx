@@ -13,12 +13,11 @@ import quesadilla from '../../images/quesadilla.svg';
 import unknownItem from '../../images/unknownItem.svg';
 
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
-import { createMuiTheme } from '@material-ui/core';
 
 const GoogleMapElement = withGoogleMap(props => (
    <GoogleMap
       defaultCenter = { props.userLocation }
-      defaultZoom = { 10 }
+      defaultZoom = { 13 }
       defaultOptions = {{styles: mapStyle, gestureHandling: "cooperative"}}
    >
       <Marker key="userLocation" position={ props.userLocation }></Marker>
@@ -26,10 +25,10 @@ const GoogleMapElement = withGoogleMap(props => (
       props.vendors.map(vendor => {
          return (
             <Marker
-               key={ vendor._id}
+               key={ vendor._id }
                position={ vendor.vendorInfo.address.coordinates }
                onClick={ () => props.openModal(vendor.vendorInfo) }
-               icon= {whichEmoji(vendor)}
+               icon={ whichEmoji(vendor) }
             >
             </Marker>
          );
@@ -112,7 +111,6 @@ class Map extends React.Component {
       this.setVendorsInDistance();
    }
 
-   
    componentWillUnmount(){
       this.state.isMounted = false;
    }
@@ -146,8 +144,6 @@ class Map extends React.Component {
                   self.setState({
                      vendorsInDistance: vendors
                   });
-               }
-               else{
                }
             }
             else{

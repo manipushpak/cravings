@@ -126,7 +126,6 @@ class Vendors extends React.Component {
 
    handleHideInfo() {
       this.setState({ showInfo: false });
-      console.log("dis happenin");
    }
 
    deleteSearchTerm(searchTerm) {
@@ -219,13 +218,6 @@ class Vendors extends React.Component {
                   </div>
                </div>
             </div>
-            <ReactModal 
-               isOpen={ this.state.showModal }
-               onRequestClose={ this.handleCloseModal }
-               overlayClassName={ modalStyles.modalOverlay }
-               className={ modalStyles.modalContent }
-               >
-            </ReactModal>
          </div>
       );
    }
