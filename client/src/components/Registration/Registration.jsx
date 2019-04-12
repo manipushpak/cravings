@@ -34,13 +34,7 @@ class Registration extends React.Component {
          },
          hours: ven.vendorInfo.hours,
          keywords: ven.vendorInfo.keywords,
-         flags: {
-            v: false,
-            gf: false,
-            lf: false,
-            k: false,
-            h: false
-         },
+         flags: [],
          validated: false
       }
       // this.state = { 
@@ -99,7 +93,7 @@ class Registration extends React.Component {
                      stallName: this.state.stallName,
                      address: {
                         address: this.state.address,
-                        coordinates: this.state.coords,
+                        coordinates: this.state.coordinates,
                      },
                      keywords: this.state.keywords,
                      flags: [],
@@ -225,20 +219,19 @@ class Registration extends React.Component {
       this.setState({ keywords: e.target.value.split(", ") });
    }
    updateFlags(e) {
-      if (e.target.name === "v") {
-         this.setState({ flags: { v: e.target.checked } });
-      } else if (e.target.name === "gf") {
-         this.setState({ flags: { gf: e.target.checked} });
-      } else if (e.target.name === "df") {
-         this.setState({ flags: { lf: e.target.checked} });
-      } else if (e.target.name === "k") {
-         this.setState({ flags: { k: e.target.checked} });
-      } else if (e.target.name === "h") {
-         this.setState({ flags: { h: e.target.checked} });
+      var flags = this.state.flags;
+      if (e.target.checked) {
+         flags.push(e.target.name);
+      } else {
+         var index = flags.indexOf(e.target.name);
+         flags.splice(index, 1);
       }
+
+      this.setState({ flags: flags });
    }
 
    activatePlacesSearch() {
+      console.log("entered");
       var self = this;
       var autocomplete = new google.maps.places.Autocomplete(document.getElementById('vendorRegistrationLocation'));
       google.maps.event.addListener(autocomplete, 'place_changed', function() {
@@ -263,7 +256,7 @@ class Registration extends React.Component {
            
       } else {
          //  alert('Geocode was not successful for the following reason: ' + status);
-         console.log("couldn't find coordinates for that address");
+         console.log("Couldn't find coordinates for that address");
       }
       });
    }
@@ -282,7 +275,6 @@ class Registration extends React.Component {
             var gGeocoder = new google.maps.Geocoder();
             gGeocoder.geocode({ 'latLng': gPosition }, function(results, status) {
                if (status == google.maps.GeocoderStatus.OK && results[0]) {
-                  console.log("in here");
                   document.getElementById("userLocationText").innerHTML = "";
                   setAddressAndCoordinates(results[0].formatted_address, latitude, longitude);
                } else {
@@ -296,7 +288,6 @@ class Registration extends React.Component {
             }
          },
          () => {
-            console.log("this happened");
             document.getElementById("userLocationText").innerHTML = "Current location cannot be detected. Please try again or type in your street address.";
          }
       );
@@ -327,7 +318,7 @@ class Registration extends React.Component {
                   </Form.Group>
                </Row>
 
-               <AddressSet readOnly={this.state.status.view} defaultValue={this.state.address} onChange={e => this.updateAddress(e.target.value)} onClick={e => this.useCurrentLocation(e)} />
+               <AddressSet readOnly={this.state.status.view} value={this.state.address} onChange={e => this.updateAddress(e.target.value)} onClick={e => this.useCurrentLocation(e)} />
 
                <Row>
                   <Form.Group as={Col} controlId="openingDaysAndTimes" xs={12} md={6}>
@@ -408,7 +399,7 @@ const AddressSet = props => {
       return(
          <Form.Group>
             <Form.Label>Address</Form.Label>
-            <Form.Control readOnly placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddressView } defaultValue={props.defaultValue} value={props.value} onChange={props.onChange} />
+            <Form.Control readOnly placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddressView } defaultValue={props.value} value={props.value} onChange={props.onChange} />
             <Form.Text id="userLocationText" className="text-muted"></Form.Text>
             <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
          </Form.Group>
@@ -418,7 +409,7 @@ const AddressSet = props => {
          <Form.Group>
             <Form.Label>Address</Form.Label>
             <InputGroup>
-               <Form.Control placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddress } defaultValue={props.defaultValue} value={props.value} onChange={props.onChange} required />
+               <Form.Control placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddress } defaultValue={props.value} value={props.value} onChange={props.onChange} required />
                <InputGroup.Append className={ styles.inputGroupAppend }>
                   <Button variant="light" onClick={props.onClick}>Use Current Location</Button>
                </InputGroup.Append>
