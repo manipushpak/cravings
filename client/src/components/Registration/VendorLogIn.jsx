@@ -27,8 +27,8 @@ class VendorLogIn extends React.Component {
     }
 
     handleSubmit(event) {
+        event.preventDefault();
         var self = this;
-        console.log( "entered");
 
         if (event.currentTarget.checkValidity() === false) {
             event.stopPropagation;
@@ -45,7 +45,6 @@ class VendorLogIn extends React.Component {
             .then(res => res.json())
             .then(response => {
                 if(response.success){
-                    console.log( "success boii" );
                     self.props.history.push({
                         pathname:'/account',
                         state:{
@@ -54,7 +53,6 @@ class VendorLogIn extends React.Component {
                     });
                 }
                 else{
-                    console.log("error");
                     var x = document.getElementById("alertDiv");
                     x.style.display = "block";
                 }
@@ -106,7 +104,7 @@ class VendorLogIn extends React.Component {
                         </Form.Row> 
                         <Form.Row>
                             <Form.Group as={Col}>
-                                <a className="small" href="javascript:void();">Forgot password?</a>
+                                <a className="small" href="javascript:void(0)">Forgot password?</a>
                                 <div className="d-flex justify-content-center links"></div>
                                 <Form.Text className="text-muted">Don't have an account? <a href="javascript:void(0)" onClick={this.props.toggleLogInSignUp}>Sign up.</a></Form.Text>
                             </Form.Group>

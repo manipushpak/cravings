@@ -42,6 +42,7 @@ class VendorSignUp extends React.Component {
    }
 
    handleSubmit(event) {
+      event.preventDefault();
       var self = this;
 
       if (event.currentTarget.checkValidity() === false) {
@@ -150,7 +151,7 @@ class VendorSignUp extends React.Component {
 
                   <Form.Row>
                      <Form.Group as={Col}>
-                        <a className="small" href="javascript:void();" onClick={this.props.toggleLogInSignUp}>Already have an account?</a>
+                        <a className="small" href="javascript:void(0)" onClick={this.props.toggleLogInSignUp}>Already have an account?</a>
                      </Form.Group>
                   </Form.Row>
                   <Form.Row>
