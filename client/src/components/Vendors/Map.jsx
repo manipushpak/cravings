@@ -19,7 +19,7 @@ const GoogleMapElement = withGoogleMap(props => (
    <GoogleMap
       defaultCenter = { props.userLocation }
       defaultZoom = { 10 }
-      defaultOptions = {{styles: mapStyle}}
+      defaultOptions = {{styles: mapStyle, gestureHandling: "cooperative"}}
    >
       <Marker key="userLocation" position={ props.userLocation }></Marker>
    {

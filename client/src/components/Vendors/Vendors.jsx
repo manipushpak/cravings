@@ -193,10 +193,10 @@ class Vendors extends React.Component {
                            <Form.Check inline label={"Open Now"} id="o" onClick= {(e)=> {this.handleFilter(e)}} type="checkbox" />
                         </Form.Group>
                         <Form.Group as={Col} xs={6} sm={4}>
-                           <Form.Check inline label={"Gluten Free"} id="g-f" onClick= {(e)=> {this.handleFilter(e)}} type="checkbox" />
+                           <Form.Check inline label={"Gluten Free"} id="gf" onClick= {(e)=> {this.handleFilter(e)}} type="checkbox" />
                         </Form.Group>
                         <Form.Group as={Col} xs={6} sm={4}>
-                           <Form.Check inline label={"Dairy Free"} id="d-f" onClick= {(e)=> {this.handleFilter(e)}} type="checkbox" />
+                           <Form.Check inline label={"Dairy Free"} id="df" onClick= {(e)=> {this.handleFilter(e)}} type="checkbox" />
                         </Form.Group>
                         <Form.Group as={Col} xs={6} sm={4}>
                            <Form.Check inline label={"Kosher"} id="k" onClick= {(e)=> {this.handleFilter(e)}} type="checkbox" />

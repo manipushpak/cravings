@@ -1,7 +1,9 @@
 :local .outerContainer {
+    margin: 0 auto;
     padding: 10px;
     display: grid;
     grid-template-columns: 70% 30%;
+    max-width: 1200px;
 }
 
 :local .mapColumn {

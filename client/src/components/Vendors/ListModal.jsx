@@ -1,7 +1,9 @@
 import React from 'react';
-import classNames from 'classnames';
-import global from '../../styles/Global.css';
 import styles from '../../styles/Vendors/ListModal.css';
+
+import vendorfood1 from '../../images/vendorfood1.png';
+import vendorfood2 from '../../images/vendorfood2.png';
+import vendorfood3 from '../../images/vendorfood3.png';
 
 import { TimeConversion } from '../Registration/TimeOptions.jsx';
 
@@ -39,7 +41,7 @@ const ListModal = props => {
                 <Carousel.Item style={{height: '100%'}}>
                     <img
                     className="d-block w-100"
-                    src="https://cdn.vox-cdn.com/thumbor/s9oh8-qPqnyHAJlIjpf2-Eq_8VM=/70x0:1207x853/2570x1446/filters:focal(70x0:1207x853):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/49090547/mexicocity_streetfood.0.0.jpg"
+                    src={vendorfood1}
                     alt="First slide"
                     style={{objectFit: 'cover', height: '100%'}}
                     />
@@ -47,7 +49,7 @@ const ListModal = props => {
                 <Carousel.Item style={{height: '100%'}}>
                     <img
                     className="d-block w-100"
-                    src="https://cdn.vox-cdn.com/thumbor/LXfW3gy1zj20pTloC3vX2bj9CXU=/0x0:2048x1365/1720x0/filters:focal(0x0:2048x1365):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/6136577/MexicoCity_kguamotostada.0.jpg"
+                    src={vendorfood2}
                     alt="Second slide"
                     style={{objectFit: 'cover', height: '100%'}}
                     />
@@ -55,7 +57,7 @@ const ListModal = props => {
                 <Carousel.Item style={{height: '100%'}}>
                     <img
                     className="d-block w-100"
-                    src="https://cdn.vox-cdn.com/thumbor/vFhrmmkkeHByLHwyYnO4ddA5i-c=/0x0:2048x1365/1720x0/filters:focal(0x0:2048x1365):format(webp):no_upscale()/cdn.vox-cdn.com/uploads/chorus_asset/file/6182925/MexicoCiy_tacos.0.jpg"
+                    src={vendorfood3}
                     alt="Third slide"
                     style={{objectFit: 'cover', height: '100%'}}
                     />
