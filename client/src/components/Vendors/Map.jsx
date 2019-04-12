@@ -18,7 +18,7 @@ import { createMuiTheme } from '@material-ui/core';
 const GoogleMapElement = withGoogleMap(props => (
    <GoogleMap
       defaultCenter = { props.userLocation }
-      defaultZoom = { 10 }
+      defaultZoom = { 13 }
       defaultOptions = {{styles: mapStyle, gestureHandling: "cooperative"}}
    >
       <Marker key="userLocation" position={ props.userLocation }></Marker>
@@ -161,8 +161,6 @@ class Map extends React.Component {
                   self.setState({
                      vendorsInDistance: vendors
                   });
-               }
-               else{
                }
             }
             else{
