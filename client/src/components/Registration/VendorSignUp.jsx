@@ -147,6 +147,11 @@ class VendorSignUp extends React.Component {
                         <a className="small" href="javascript:void();" onClick={this.props.toggleLogInSignUp}>Already have an account?</a>
                      </Form.Group>
                   </Form.Row>
+                  <Form.Row>
+                     <div className={"alert alert-danger " + styles.emailExists} id = "alertDiv" role="alert" display="none">
+                        An account with this email already exists<a href="#" class="alert-link"></a>.
+                     </div>
+                  </Form.Row>
                </Form>
             </div>
          </div>

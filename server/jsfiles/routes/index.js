@@ -80,10 +80,10 @@ router.post('/vendor/register', function (req, res) {
         }, { returnNewDocument: true }, function (err, res2) {
             var vendor = res2.value;
             if (err) {
-                res.send({ success: false, error: err.toString() });
+                res.json({ success: false, error: err.toString() });
             }
             else if (res2 == null || res2.value == null) {
-                res.send({ success: false, error: res2 });
+                res.json({ success: false, error: res2 });
             }
             else {
                 var arr = [];
@@ -95,7 +95,7 @@ router.post('/vendor/register', function (req, res) {
                 }
                 console.log(arr);
                 if (arr.length == 0) {
-                    res.send({ success: true, vendor: vendor, keywords: false });
+                    res.json({ success: true, vendor: vendor, keywords: false });
                 }
                 else {
                     keywordDB.insertMany(arr, function (err, ress) {
@@ -103,7 +103,7 @@ router.post('/vendor/register', function (req, res) {
                             console.log({ success: false, error: err });
                         }
                         else {
-                            res.send({ success: true, vendor: vendor, keywords: true });
+                            res.json({ success: true, vendor: vendor, keywords: true });
                         }
                     });
                 }
@@ -111,7 +111,7 @@ router.post('/vendor/register', function (req, res) {
         });
     }
     catch (e) {
-        res.send({
+        res.json({
             success: false,
             error: e.toString()
         });
@@ -427,7 +427,7 @@ router.post('/vendor/signup', function (req, res) {
                 }
             }
             if (found) {
-                res.send({
+                res.json({
                     success: false,
                     error: "email already exists"
                 });
@@ -464,13 +464,13 @@ router.post('/vendor/signup', function (req, res) {
                 };
                 vendorDB.insertOne(newVendor_1, function (err, res2) {
                     if (err) {
-                        res.send({
+                        res.json({
                             success: false,
                             error: err
                         });
                     }
                     else {
-                        res.send({
+                        res.json({
                             success: true,
                             vendor: newVendor_1
                         });
@@ -523,20 +523,26 @@ router.get('/initvendors', function (req, res) {
 router.get('/initkeywords', function (req, res) {
     var keywords = [
         {
+            keyword: "burrito"
+        },
+        {
+            keyword: "fruit"
+        },
+        {
+            keyword: "gelato"
+        },
+        {
+            keyword: "juice"
+        },
+        {
+            keyword: "pupusa"
+        },
+        {
+            keyword: "quesedilla"
+        },
+        {
             keyword: "taco"
         },
-        {
-            keyword: "ramen"
-        },
-        {
-            keyword: "usc"
-        },
-        {
-            keyword: "lemonade"
-        },
-        {
-            keyword: "noods"
-        }
     ];
     keywordDB.insertMany(keywords, function (err) {
         if (err) {

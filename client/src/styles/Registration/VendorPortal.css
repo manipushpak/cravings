@@ -27,5 +27,6 @@
 }
 
 :local .emailExists {
+    margin: 0 auto;
     display: none;
 }

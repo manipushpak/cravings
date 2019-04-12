@@ -75,38 +75,37 @@ router.post('/vendor/register', (req, res) => { //DONE
             },
             { returnNewDocument: true },
             (err:any, res2:any) =>{
-
                 let vendor = res2.value;
 
                 if(err){
-                    res.send({success : false, error: err.toString()});
+                    res.json({success : false, error: err.toString()});
                 }else if(res2 == null || res2.value == null){
-                    res.send({success: false, error: res2});
+                    res.json({success: false, error: res2});
                 }
                 else{
                     let arr:any[] = [];
                     for(let key in vendor.vendorInfo.keywords){
                         let obj = {
-                        keyword: vendor.vendorInfo.keywords[key]
+                            keyword: vendor.vendorInfo.keywords[key]
                         }
                         arr.push(obj);
                     }
-                        console.log(arr);
-                        if(arr.length == 0){
-                        res.send({success: true, vendor: vendor, keywords: false});
-                        }else{
-                         keywordDB.insertMany(arr, (err: any, ress: any)=>{
-                            if(err){
-                                 console.log({success: false, error: err});
-                            }else{
-                                res.send({success: true, vendor: vendor, keywords: true});
-                                }
-                         });
+                    console.log(arr);
+                    if(arr.length == 0){
+                        res.json({success: true, vendor: vendor, keywords: false});
+                    } else{
+                        keywordDB.insertMany(arr, (err: any, ress: any)=>{
+                        if(err){
+                                console.log({success: false, error: err});
+                        } else{
+                            res.json({success: true, vendor: vendor, keywords: true});
+                        }
+                        });
                     }
                 }            
             });
     }catch(e){
-        res.send({
+        res.json({
             success: false,
             error: e.toString()
         });
@@ -204,7 +203,6 @@ router.post('/filteredSearch', (req, res) => { //DONE
                 }
 
                 //keywords
-
                 if(!include){
                     if(keywords!=null && keywords.length>0){
                         for(let tt in terms){
@@ -235,7 +233,7 @@ router.post('/filteredSearch', (req, res) => { //DONE
 
             if(filters == null || filters.length == 0){
                 res.json({success: true, vendors: results, error: "No filters"});
-            }else{
+            } else{
         
                 let filterlist:Set<string> = new Set<string>();
                 for(let k in filters){
@@ -251,24 +249,13 @@ router.post('/filteredSearch', (req, res) => { //DONE
                                 return v;
                             }
                         }
-        
                     }
-                   
                 });
         
                 res.json({success: true, vendors: filtered});
-        
-        
-        
             }
-
-
-
-
-
         }
     });
-
 });
 
 
@@ -300,22 +287,15 @@ router.post('/vendor/filter', (req, res) => { //DONE
         });
 
         res.json({ vendors: filtered});
-
-
-
     }
 
 });
 
 
 router.post('/vendor/modify', (req, res) => { //DONE
-
-
     let vendor: Vendor = req.body.vendor;
-
     let success:boolean = false;
     try{
-
         vendorDB.findOneAndReplace(
             { 
                 loginInfo : vendor.loginInfo
@@ -346,15 +326,12 @@ router.post('/search', (req, res) => { //DONE
         let all: Vendor[] = vendors;
         if (err) {
             res.json({success: false, error: err.toString()});
-        }
-        else if(all == null || all.length == 0){
+        } else if(all == null || all.length == 0){
             res.json({success: false, error: "Error: no vendors"});
-        }else if(terms == null || terms == undefined || terms.length == 0){
+        } else if(terms == null || terms == undefined || terms.length == 0){
             console.log("no valid terms");
             return all;
-        }
-        else {
-
+        } else {
             let results:Vendor[] = [];
 
             for(let v in all){
@@ -430,40 +407,33 @@ router.post('/search', (req, res) => { //DONE
                 }
 
                 //keywords
-
                 if(!include){
                     if(keywords!=null && keywords.length>0){
                         for(let tt in terms){
                             if(include){
                                 break;
                             }
-                        for(let z in keywords){
-                            if(include){
-                                break;
-                            }
-                            let term = terms[tt].trim().toLowerCase();
-                            if(keywords[z].trim().toLowerCase().includes(term)){
-                                console.log("keywords: "+keywords[z]+" "+term);
-                                include = true;
+                            for(let z in keywords){
+                                if(include){
+                                    break;
+                                }
+                                let term = terms[tt].trim().toLowerCase();
+                                if(keywords[z].trim().toLowerCase().includes(term)){
+                                    console.log("keywords: "+keywords[z]+" "+term);
+                                    include = true;
+                                }
                             }
                         }
-                    }
                     }
                 }
 
                 if(include){
                     results.push(current);
                 }
-
-                
-
             }
-
             res.json({success: true, vendors: results});
-
         }
     });
-
 });
 
 router.get('/vendorId/:id', (req, res, next) => { //DONE!!!!
@@ -483,14 +453,11 @@ router.post('/vendor/signup', (req, res) => { //DONE
         hash: req.body.password
     };
 
-
     if (verification.email == null || verification.email == undefined || verification.email == ""
         || verification.hash == null || verification.hash == undefined || verification.hash == "") {
         res.json({ success: false, error: "Email or hash empty"});
-    }else{
-
+    } else{
         vendorDB.find({}).toArray((err: any, documents: any)=> {
-
             let found:boolean = false;
             for(let v in documents){
                 let obj = documents[v];
@@ -500,11 +467,11 @@ router.post('/vendor/signup', (req, res) => { //DONE
             }
     
             if(found){
-                res.send({
+                res.json({
                     success: false,
                     error: "email already exists"
                 });
-            }else{
+            } else{
                 let newVendor:Vendor = {
                     loginInfo: {
                         email: verification.email,
@@ -531,31 +498,26 @@ router.post('/vendor/signup', (req, res) => { //DONE
                             {open: false, startTime: -1, endTime: -1},
                             {open: false, startTime: -1, endTime: -1},
                             {open: false, startTime: -1, endTime: -1},
-                         ],
+                        ],
                     }
                 }
     
                 vendorDB.insertOne(newVendor, (err:any, res2:any)=>{
-    
                     if(err){
-                        res.send({
+                        res.json({
                             success: false,
                             error: err
                         }); 
-                    }else{
-                        res.send({
+                    } else{
+                        res.json({
                             success: true,
                             vendor: newVendor
                         });
                     }
-    
                 });
             }
-    
         });
-
     }
-
 });
 
 router.post('/vendor/authenticate', (req, res) => { //DONE!!!!
@@ -565,39 +527,32 @@ router.post('/vendor/authenticate', (req, res) => { //DONE!!!!
         hash: req.body.password
     };
 
-
     if (verification.email == null || verification.email == undefined || verification.email == ""
         || verification.hash == null || verification.hash == undefined || verification.hash == "") {
         res.json({ success: false });
     }
 
     vendorDB.findOne({
-        
-            loginInfo: {
-                email: verification.email,
-                password: verification.hash
-            }
+        loginInfo: {
+            email: verification.email,
+            password: verification.hash
         }
-    , (err: any, vendor: any) => {
+    }, (err: any, vendor: any) => {
         if (err) {
             res.json({ success: false, error: err });
         } else {
             {
                 if (vendor) {
-                    res.json({ success: true , vendor: vendor});
+                    res.json({ success: true, vendor: vendor});
                 } else {
                     res.json({ success: false });
                 }
             }
         }
     })
-
 });
 
-
-
 router.get('/initvendors', (req, res) => { //DONE
-
     vendorDB.insertMany(vendorS, (err: any) => {
         if (err) {
             res.send(err)
@@ -608,25 +563,29 @@ router.get('/initvendors', (req, res) => { //DONE
 });
 
 router.get('/initkeywords', (req, res) => { //DONE
-
     let keywords:any[] = [
+        {
+            keyword: "burrito"
+        },
+        {
+            keyword: "fruit"
+        },
+        {
+            keyword: "gelato"
+        },
+        {
+            keyword: "juice"
+        },
+        {
+            keyword: "pupusa"
+        },
+        {
+            keyword: "quesedilla"
+        },
         {
             keyword: "taco"
         },
-        {
-            keyword: "ramen"
-        },
-        {
-            keyword: "usc"
-        },
-        {
-            keyword: "lemonade"
-        },
-        {
-            keyword: "noods"
-        }
     ]
-
     keywordDB.insertMany(keywords, (err: any) => {
         if (err) {
             res.send(err)
@@ -636,13 +595,7 @@ router.get('/initkeywords', (req, res) => { //DONE
     });
 });
 
-
-
-
 router.get('/test', (req, res) => {//DONE
-
-
-
 
 });
 
