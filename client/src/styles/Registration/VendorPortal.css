@@ -25,3 +25,7 @@
     width: 50%;
     align-content: center;
 }
+
+:local .emailExists {
+    display: none;
+}

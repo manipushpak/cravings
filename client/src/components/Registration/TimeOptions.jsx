@@ -5,8 +5,8 @@ import Form from 'react-bootstrap/Form';
 
 const TimeOptions = props => {
     return (
-        <Form.Control size="sm" as="select" disabled= { props.disabled } className={ styles.timeOptions } onChange={ props.onChange } xs={6} md={3} required >
-            <option>{ props.placeholder }</option>
+        <Form.Control size="sm" as="select" disabled={ props.disabled } value={props.time} className={ styles.timeOptions } onChange={ props.onChange } xs={6} md={3} required >
+            <option value="-1">{ props.placeholder }</option>
             <option value="0000">12:00 AM</option>
             <option value="0030">12:30 AM</option>
             <option value="0100">01:00 AM</option>

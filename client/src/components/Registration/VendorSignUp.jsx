@@ -41,17 +41,32 @@ class VendorSignUp extends React.Component {
    }
 
    handleSubmit(event) {
-      // We don't want the form to submit, so we prevent the default behavior
-      event.preventDefault();
-      if (event.currentTarget.checkValidity() === false) {
-         event.stopPropagation;
-         this.setState({ validated: true });
-      }else {
-         this.isSuccessful = true; // change this to call api to sign up user and see if its successful
-         if(this.isSuccessful){
-            window.location.assign('/#/vendorportal/register');
+      var self = this;
+   
+      fetch('/vendor/signup',{
+         method: 'POST',
+         body: JSON.stringify({
+            email: self.state.email,
+            password: self.state.password,
+         }),
+         headers: {"Content-Type": "application/json"}
+      })
+      .then(res => res.json())
+      .then(response => {
+         if(response.success){
+            console.log(response.vendor);
+            self.props.history.push({
+               pathname:'/register',
+               state:{
+                     vendor: response.vendor
+               }
+            });
          }
-      }
+         else{
+            var x = document.getElementById("alertDiv");
+            x.style.display = "block";
+         }
+      })
    }
 
    updateFirstName(e){
@@ -72,10 +87,8 @@ class VendorSignUp extends React.Component {
    }
 
    render() {
-      var innerContainer = classNames(styles.innerContainer, global.formContainer);
-
       return(
-         <div className={innerContainer}>
+         <div className={classNames(styles.innerContainer, global.formContainer)}>
             <div className={styles.column}>
                <h1 className={global.formHeader}>Sign Up</h1>
                <br />

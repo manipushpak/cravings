@@ -12,16 +12,16 @@ class RegistrationVendor extends React.Component {
 
     render() {
         return (
-            <Form.Row xs={12}>
-                <Form.Group as={Col} controlId="firstName" xs={12} md>
+            <Form.Row>
+                <Form.Group as={Col} controlId="firstName" xs={12} md={this.props.readOnly ? 6 : 5}>
                     <Form.Label>First Name</Form.Label>
-                    <Form.Control readOnly={this.props.readOnly} placeholder="Enter first name" required />
+                    <Form.Control readOnly={this.props.readOnly} value={this.props.firstName} onChange={e => this.props.updateFirstName(e.target.value, this.props.number)} placeholder="Enter first name" required />
                     <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
                 </Form.Group>
 
-                <Form.Group as={Col} controlId="lastName" xs={12} md>
+                <Form.Group as={Col} controlId="lastName" xs={12} md={this.props.readOnly ? 6 : 5}>
                     <Form.Label>Last Name</Form.Label>
-                    <Form.Control readOnly={this.props.readOnly} placeholder="Enter last name" required />
+                    <Form.Control readOnly={this.props.readOnly} value={this.props.lastName} onChange={e => this.props.updateLastName(e.target.value, this.props.number)} placeholder="Enter last name" required />
                     <Form.Control.Feedback type="invalid">Please enter your last number.</Form.Control.Feedback>
                 </Form.Group>
                 <DeleteVendorButton readOnly={this.props.readOnly} onClick={this.props.onRemoveVendor} />
