@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import classNames from 'classnames';
 import global from '../../styles/Global.css';
@@ -11,7 +12,6 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 
 import ButtonSet from './ButtonSet.jsx';
-import RegistrationVendor from './RegistrationVendor.jsx';
 import WeekOptions from './WeekOptions.jsx';
 
 class Registration extends React.Component {
@@ -441,4 +441,4 @@ const AddressSet = props => {
    }
 }
 
-export default Registration;
+export default withRouter(Registration);

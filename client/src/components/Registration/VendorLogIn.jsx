@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 import classNames from 'classnames';
 import global from '../../styles/Global.css';
@@ -20,10 +21,10 @@ class VendorLogIn extends React.Component {
             isSuccessful: false,
             validated: false
         }
-        this.updateEmail = this.updateEmail.bind(this);
-        this.updatePassword = this.updatePassword.bind(this);
         this.handleClearForm = this.handleClearForm.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.updateEmail = this.updateEmail.bind(this);
+        this.updatePassword = this.updatePassword.bind(this);
     }
 
     handleSubmit(event) {
@@ -122,4 +123,4 @@ class VendorLogIn extends React.Component {
     }
 }
 
-export default VendorLogIn;
+export default withRouter(VendorLogIn);
