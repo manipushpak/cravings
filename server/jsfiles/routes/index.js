@@ -14,6 +14,7 @@ var express = __importStar(require("express"));
 var router = express.Router();
 var sampledb_1 = __importDefault(require("../data/sampledb"));
 var bson_1 = require("bson");
+var timehelper_1 = require("../helpers/timehelper");
 // import IUser from '../data/mongomanagers/usermanager';
 // import IVendor from '../data/mongomanagers/vendormanager';
 var MongoClient = require('mongodb').MongoClient;
@@ -71,7 +72,7 @@ router.get('/keywords/random', function (req, res, next) {
 router.post('/vendor/register', function (req, res) {
     var rvendor = req.body.vendor;
     var success = false;
-    var openNowV = false;
+    var openNowV = timehelper_1.TH.isOpen(rvendor);
     //DO OPEN LOGIC HERE
     try {
         vendorDB.findOneAndReplace({
@@ -385,10 +386,13 @@ router.post('/search', function (req, res) {
 router.post('/vendor/modify', function (req, res) {
     var vendor = req.body.vendor;
     var success = false;
+    var open = timehelper_1.TH.isOpen(vendor);
     try {
         vendorDB.findOneAndReplace({
             loginInfo: vendor.loginInfo
         }, {
+            phone: vendor.phone,
+            openNow: open,
             loginInfo: vendor.loginInfo,
             vendorInfo: vendor.vendorInfo
         }, { returnNewDocument: true }, function (err, res2) {
@@ -545,129 +549,75 @@ router.get('/initkeywords', function (req, res) {
     });
 });
 router.get('/test', function (req, res) {
-    var terms = ["usc"];
-    var filters = [];
-    vendorDB.find({}).toArray(function (err, vendors) {
-        var all = vendors;
-        if (err) {
-            res.json({ success: false, error: err.toString() });
-        }
-        else if (all == null || all.length == 0) {
-            res.json({ success: false, error: "Error: no vendors" });
-        }
-        else if (terms == null || terms == undefined || terms.length == 0) {
-            console.log("no valid terms");
-            return all;
-        }
-        else {
-            var results = [];
-            for (var v in all) {
-                var current = all[v];
-                if (current == null) {
-                    continue;
+    var vendor = {
+        phone: "+16508239461",
+        openNow: true,
+        loginInfo: {
+            email: "devikaku@usc.edu",
+            password: "hellohello"
+        },
+        vendorInfo: {
+            vendorName: [{
+                    firstName: "Devika",
+                    lastName: "Kumar"
+                },
+                {
+                    firstName: "Sonali",
+                    lastName: "Pai"
                 }
-                var currentVInfo = current.vendorInfo;
-                if (currentVInfo == null) {
-                    continue;
+            ],
+            stallName: "Devika's Pies",
+            address: {
+                address: "3760 Fig",
+                coordinates: {
+                    lat: 222,
+                    lng: 3333
                 }
-                var names = currentVInfo.vendorName;
-                var stallName = currentVInfo.stallName;
-                var address = null;
-                if (currentVInfo.address != null) {
-                    address = currentVInfo.address.address;
+            },
+            keywords: [
+                "pie", "usc"
+            ],
+            flags: ["v"],
+            hours: [
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 1750,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 1800,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: false,
+                    startTime: 900,
+                    endTime: 500,
                 }
-                var keywords = currentVInfo.keywords;
-                var include = false;
-                //names
-                if (names != null && names.length > 0) {
-                    for (var k in names) {
-                        var first = names[k].firstName.trim().toLowerCase();
-                        var last = names[k].lastName.trim().toLowerCase();
-                        var whole = first + " " + last;
-                        for (var tt in terms) {
-                            if (include) {
-                                break;
-                            }
-                            var term = terms[tt].trim().toLowerCase();
-                            if (first.includes(term) || last.includes(term) || whole.includes(term)) {
-                                include = true;
-                            }
-                        }
-                    }
-                }
-                //stallname
-                if (!include) {
-                    if (stallName != null && stallName != "") {
-                        for (var tt in terms) {
-                            if (include) {
-                                break;
-                            }
-                            var term = terms[tt].trim().toLowerCase();
-                            if (stallName.trim().toLowerCase().includes(term)) {
-                                include = true;
-                            }
-                        }
-                    }
-                }
-                //address
-                if (!include) {
-                    if (address != null && address != "") {
-                        for (var tt in terms) {
-                            if (include) {
-                                break;
-                            }
-                            var term = terms[tt].trim().toLowerCase();
-                            if (address.trim().toLowerCase().includes(term)) {
-                                include = true;
-                            }
-                        }
-                    }
-                }
-                //keywords
-                if (!include) {
-                    if (keywords != null && keywords.length > 0) {
-                        for (var tt in terms) {
-                            if (include) {
-                                break;
-                            }
-                            for (var z in keywords) {
-                                if (include) {
-                                    break;
-                                }
-                                var term = terms[tt].trim().toLowerCase();
-                                if (keywords[z].trim().toLowerCase().includes(term)) {
-                                    console.log("keywords: " + keywords[z] + " " + term);
-                                    include = true;
-                                }
-                            }
-                        }
-                    }
-                }
-                if (include) {
-                    results.push(current);
-                }
-            }
-            //handling filters now
-            if (filters == null || filters.length == 0) {
-                res.send({ success: true, vendors: results, error: "No filters" });
-            }
-            else {
-                var filterlist_3 = new Set();
-                for (var k in filters) {
-                    filterlist_3.add(filters[k].toLowerCase());
-                }
-                var filtered = results.filter(function (v) {
-                    if (!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)) {
-                        for (var f in v.vendorInfo.flags) {
-                            if (filterlist_3.has(v.vendorInfo.flags[f].toLowerCase())) {
-                                return v;
-                            }
-                        }
-                    }
-                });
-                res.send({ success: true, vendors: filtered });
-            }
-        }
-    });
+            ]
+        },
+    };
+    var open = timehelper_1.TH.isOpen(vendor);
+    res.send({ open: open });
 });
 exports.default = router;
