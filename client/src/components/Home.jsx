@@ -3,7 +3,7 @@ import React from 'react';
 import global from '../styles/Global.css';
 import styles from '../styles/Home.css';
 
-import taco from '../images/taco.svg';
+import mango from '../images/mango.gif';
 
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -78,8 +78,8 @@ class Home extends React.Component {
                </InputGroup.Prepend>
                <Form.Control className={ styles.searchInput } id="searchTerm" size="lg" placeholder="Tacos, Elote, Mexican Food, etc." onChange={e => this.handleChange(e)}/>
             </InputGroup>
-            <div className={styles.bubble}>Not sure what you want? Click me to explore!</div>
-            <img className={ styles.img } onClick={ this.handleExplore } src={taco} alt="Taco image"></img>
+            <div className={ styles.bubble }>Not sure what you want? Click me to explore!</div>
+            <img className={ styles.img } onClick={ this.handleExplore } src={mango} alt="Taco image"></img>
          </div>
       );
    }

@@ -13,7 +13,6 @@ import quesadilla from '../../images/quesadilla.svg';
 import unknownItem from '../../images/unknownItem.svg';
 
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
-import { createMuiTheme } from '@material-ui/core';
 
 const GoogleMapElement = withGoogleMap(props => (
    <GoogleMap
@@ -26,10 +25,10 @@ const GoogleMapElement = withGoogleMap(props => (
       props.vendors.map(vendor => {
          return (
             <Marker
-               key={ vendor._id}
+               key={ vendor._id }
                position={ vendor.vendorInfo.address.coordinates }
                onClick={ () => props.openModal(vendor.vendorInfo) }
-               icon= {whichEmoji(vendor)}
+               icon={ whichEmoji(vendor) }
             >
             </Marker>
          );

@@ -26,7 +26,7 @@ class Vendors extends React.Component {
       var searchTerm = this.props.location.state.searchTerm;
       this.state = {
          vendors: vendors.vendors,
-         distance: [15],
+         distance: [30],
          locationProvided: false,
          userLat: "",
          userLong: "",
@@ -139,7 +139,6 @@ class Vendors extends React.Component {
 
    handleHideInfo() {
       this.setState({ showInfo: false });
-      console.log("dis happenin");
    }
 
    deleteSearchTerm(searchTerm) {
@@ -239,13 +238,6 @@ class Vendors extends React.Component {
                   </div>
                </div>
             </div>
-            <ReactModal 
-               isOpen={ this.state.showModal }
-               onRequestClose={ this.handleCloseModal }
-               overlayClassName={ modalStyles.modalOverlay }
-               className={ modalStyles.modalContent }
-               >
-            </ReactModal>
          </div>
       );
    }
