@@ -20,7 +20,7 @@ class Registration extends React.Component {
       var ven = this.props.location.state !== 'undefined' && this.props.location.state.vendor !== null ? this.props.location.state.vendor : [];
       this.state = {
          vendor: ven,
-         vendors: ven.vendorInfo.vendorName,
+         vendors: [ven.vendorInfo.vendorName],
          status: {
             edit: props.isEdit,
             view: props.isView
@@ -57,7 +57,6 @@ class Registration extends React.Component {
       // Set State Functions
       this.setToView = this.setToView.bind(this);
       this.setToEdit = this.setToEdit.bind(this);
-      this.toggleReadOnly = this.toggleReadOnly.bind(this);
       this.updateStallName = this.updateStallName.bind(this);
       this.updatePhone = this.updatePhone.bind(this);
       this.updateAddress = this.updateAddress.bind(this);
@@ -149,15 +148,6 @@ class Registration extends React.Component {
          validated: false
       });
    }
-   // handleEditForm() {
-   //    this.toggleReadOnly();
-   // }
-   // handleSaveEdit(event) {
-   //    this.toggleReadOnly();
-   // }
-   // handleCancelEdit(event) {
-   //    this.toggleReadOnly();
-   // }
    handleEditForm() {
       this.setToEdit();
    }
@@ -167,10 +157,6 @@ class Registration extends React.Component {
    handleCancelEdit(event) {
       this.setToView();
    }
-
-   // toggleReadOnly() {
-   //    this.setState({ readOnly: !this.state.readOnly });
-   // }
 
    setToEdit() {
       this.setState({ status: {edit: true, view: false } });
@@ -296,8 +282,11 @@ class Registration extends React.Component {
             var gGeocoder = new google.maps.Geocoder();
             gGeocoder.geocode({ 'latLng': gPosition }, function(results, status) {
                if (status == google.maps.GeocoderStatus.OK && results[0]) {
+                  console.log("in here");
                   document.getElementById("userLocationText").innerHTML = "";
                   setAddressAndCoordinates(results[0].formatted_address, latitude, longitude);
+               } else {
+                  document.getElementById("userLocationText").innerHTML = "Current location cannot be detected. Please try again or type in your street address.";
                }
             });
 
@@ -307,6 +296,7 @@ class Registration extends React.Component {
             }
          },
          () => {
+            console.log("this happened");
             document.getElementById("userLocationText").innerHTML = "Current location cannot be detected. Please try again or type in your street address.";
          }
       );
@@ -401,7 +391,7 @@ class Registration extends React.Component {
 
                <br />
                
-               <ButtonSet readOnly={this.state.status}
+               <ButtonSet status={this.state.status}
                   onClickCancel={ this.handleCancelEdit }
                   onClickEdit={ this.handleEditForm }
                   onClickReset={ this.handleResetForm }

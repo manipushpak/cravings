@@ -29,7 +29,6 @@ class VendorLogIn extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        var self = this;
 
         if (event.currentTarget.checkValidity() === false) {
             event.stopPropagation;
@@ -38,15 +37,15 @@ class VendorLogIn extends React.Component {
             fetch('/vendor/authenticate',{
                method: 'POST',
                body: JSON.stringify({
-                  email: self.state.email,
-                  password: self.state.password,
+                  email: this.state.email,
+                  password: this.state.password,
                }),
                headers: {"Content-Type": "application/json"}
             })
             .then(res => res.json())
             .then(response => {
                 if(response.success){
-                    self.props.history.push({
+                    this.props.history.push({
                         pathname:'/account',
                         state:{
                             vendor: response.vendor
@@ -82,14 +81,14 @@ class VendorLogIn extends React.Component {
                     <br />
                     <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
                         <Form.Row>
-                            <Form.Group as={Col} controlId="email" xs={12} md={12}>
+                            <Form.Group as={Col} controlId="email">
                                 <Form.Label>Email</Form.Label>
                                 <Form.Control placeholder="Enter email" onChange={e => this.updateEmail(e)} required />
                                 <Form.Control.Feedback type="invalid">Please enter your email.</Form.Control.Feedback>
                             </Form.Group>
                         </Form.Row>
                         <Form.Row>
-                            <Form.Group as={Col} controlId="password" xs={12} md={12}>
+                            <Form.Group as={Col} controlId="password">
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control placeholder="********" type="password" onChange={e => this.updatePassword(e)} required />
                                 <Form.Control.Feedback type="invalid">Please enter correct password.</Form.Control.Feedback>

@@ -44,7 +44,6 @@ class VendorSignUp extends React.Component {
 
    handleSubmit(event) {
       event.preventDefault();
-      var self = this;
 
       if (event.currentTarget.checkValidity() === false) {
          event.stopPropagation;
@@ -53,8 +52,8 @@ class VendorSignUp extends React.Component {
          fetch('/vendor/signup',{
             method: 'POST',
             body: JSON.stringify({
-               email: self.state.email,
-               password: self.state.password,
+               email: this.state.email,
+               password: this.state.password,
             }),
             headers: {"Content-Type": "application/json"}
          })
@@ -62,7 +61,7 @@ class VendorSignUp extends React.Component {
          .then(response => {
             if(response.success){
                console.log(response.vendor);
-               self.props.history.push({
+               this.props.history.push({
                   pathname:'/register',
                   state: {
                      vendor: response.vendor

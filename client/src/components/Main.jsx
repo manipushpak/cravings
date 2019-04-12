@@ -11,7 +11,6 @@ import Faq from './Faq/Faq.jsx';
 import Registration from './Registration/Registration.jsx';
 import Vendors from './Vendors/Vendors.jsx';
 import VendorPortal from './Registration/VendorPortal.jsx';
-import VendorSignUp from './Registration/VendorSignUp.jsx';
 
 
 const Main = () => {
@@ -23,10 +22,9 @@ const Main = () => {
             <Route path='/mission' component={Mission}/>
             <Route path='/faq' component={Faq}/>
             <Route path='/vendors' component={Vendors}/>
-            <Route exact path='/vendorportal' component={VendorPortal}/>
-            <Route path={'/register'} render={() => <Registration isEdit={false} isView={false}/>} />
-            <Route path={'/account'} render={() => <Registration isEdit={false} isView={true}/>} />
-            <Route path='/vendorsignup' component={VendorSignUp}/>
+            <Route path='/vendorportal' component={VendorPortal}/>
+            <Route path='/register' render={() => <Registration isEdit={false} isView={false}/>} />
+            <Route path='/account' render={() => <Registration isEdit={false} isView={true}/>} />
          </Switch>
       </main>
    )
