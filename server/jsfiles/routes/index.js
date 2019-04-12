@@ -148,6 +148,7 @@ router.post('/vendor/filter', function (req, res) {
 router.post('/vendor/filteredSearch', function (req, res) {
     var terms = req.body.terms;
     var filters = req.body.filters;
+    var openSearch = req.body.open;
     vendorDB.find({}).toArray(function (err, vendors) {
         var all = vendors;
         if (err) {
@@ -269,7 +270,17 @@ router.post('/vendor/filteredSearch', function (req, res) {
                         }
                     }
                 });
-                res.send({ success: true, vendors: filtered });
+                if (openSearch) {
+                    var openFiltered = filtered.filter(function (v) {
+                        if (timehelper_1.TH.isOpen(v)) {
+                            return v;
+                        }
+                    });
+                    res.send({ success: true, vendors: openFiltered });
+                }
+                else {
+                    res.send({ success: true, vendors: filtered });
+                }
             }
         }
     });

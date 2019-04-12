@@ -176,6 +176,7 @@ router.post('/vendor/filter', (req, res) => { //DONE
 router.post('/vendor/filteredSearch', (req, res) => { //DONE
     let terms: string[] = req.body.terms;
     let filters: string[] = req.body.filters;
+    let openSearch:boolean = req.body.open;
     vendorDB.find({}).toArray((err: any, vendors: any) => {
         let all: Vendor[] = vendors;
         if (err) {
@@ -315,8 +316,21 @@ router.post('/vendor/filteredSearch', (req, res) => { //DONE
                     }
                    
                 });
-        
-                res.send({success: true, vendors: filtered});
+
+                if(openSearch){
+
+                    let openFiltered:Vendor[] = filtered.filter(v => {
+                        if(TH.isOpen(v)){
+                            return v;
+                        }
+                    });
+
+                    res.send({success: true, vendors: openFiltered});
+
+                }else{
+
+                    res.send({success: true, vendors: filtered});
+                }
         
         
         
