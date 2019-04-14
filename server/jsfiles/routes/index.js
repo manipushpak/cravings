@@ -322,11 +322,7 @@ router.post('/search', function (req, res) {
                 }
                 var keywords = currentVInfo.keywords;
                 var include = false;
-<<<<<<< HEAD
                 // //names
-=======
-                //names
->>>>>>> e1559e119d458157d0f7a598bc6fd3aff38f2747
                 // if(names!=null && names.length>0){
                 //     for(let k in names){
                 //         let first = names[k].firstName.trim().toLowerCase();

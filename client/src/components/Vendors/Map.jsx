@@ -83,48 +83,61 @@ class Map extends React.Component {
          vendorsInDistance: [],
          distance: this.props.distance[0],
          isMounted: false,
-         vendors: this.props.vendors
+         vendors: this.props.vendors,
+         loaded: false
       }
 
       this.componentDidMount = this.componentDidMount.bind(this);
       this.setActiveKey = this.setActiveKey.bind(this);
-      this.componentWillUnmount = this.componentWillUnmount.bind(this);
       this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
       this.setVendorsInDistance = this.setVendorsInDistance.bind(this);
+   //   this.componentDidUpdate = this.componentDidUpdate.bind(this);
    }
 
-   componentDidMount(props) {
-      navigator.geolocation.getCurrentPosition(
+   async componentDidMount(props) {
+      await this.setVendorsInDistance();
+      await navigator.geolocation.getCurrentPosition(
          position => {
             const { latitude, longitude } = position.coords;
 
             this.setState({
                userLocation: { lat: latitude, lng: longitude },
-               loading: false,
-               isMounted: true
+               loading: false
             });
          },
          () => {
             this.setState({ loading: false });
          }
-      );  
-      this.setVendorsInDistance();
+      ); 
+      this.setState({
+         isMounted: true,
+         loaded: true
+      }) 
    }
 
-   componentWillUnmount(){
-      this.state.isMounted = false;
-   }
-
-   componentWillReceiveProps(nextProps){
-      this.setVendorsInDistance();
+   async componentWillReceiveProps(nextProps){
+      this.setState({loaded: false});
+      console.log("FUCK YOUR MOTHERFUCKER PIECE OF ASS HOLE LISA SHIT");
       this.setState({
          distance: nextProps.distance,
          vendors: nextProps.vendors,
          vendorsInDistance: []
       })
+      await this.setVendorsInDistance();
+      this.setState({
+         loaded: true
+      }) 
    }
+
+   // componentDidUpdate(){
+   //    console.log("I LIKE TO RESET MYSELF ");
+   //    if (this.state.loaded === true){
+   //       this.setState({loaded: false});
+   //    }
+   // }
    
    setVendorsInDistance(){
+      this.setState({loaded: false});
       console.log("IN HERE");
       this.state.vendors.map(vendor => {
          var vendorInfo = vendor.vendorInfo;
@@ -159,16 +172,18 @@ class Map extends React.Component {
       });
    }
 
+
    render() {
-      const { loading } = this.state;
+      const { loading, loaded } = this.state;
 
       if (loading) {
          return <div className={ styles.loadingDiv }>Loading...</div>;
       }
 
-      return(
-         <div>
-            <GoogleMapElement
+      if (loaded) {
+         return(
+            <div>
+               <GoogleMapElement
                containerElement={ <div style={{ height: '500px', width: '100%' }} /> }
                mapElement={ <div style={{ height: '100%' }} /> }
                activeKey={ this.state.activeKey }
@@ -176,9 +191,13 @@ class Map extends React.Component {
                setActiveKey={ this.setActiveKey }
                userLocation={ this.state.userLocation }
                vendors={ this.state.vendorsInDistance }
-            />
-         </div>
-      );
+               />
+            </div>
+         )
+      }else{
+         return null;
+      }
+     
    }
 }
 

@@ -82,10 +82,11 @@ class Vendors extends React.Component {
       this.setState({
          searchTerms: terms
       })
-      fetch('/search', {
+      fetch('/filteredSearch', {
          method: 'POST',
          body: JSON.stringify({
-            terms: terms
+            terms: this.state.searchTerms,
+            filters: this.state.filterArray
          }),
          headers: {"Content-Type": "application/json"}
       })
@@ -93,7 +94,7 @@ class Vendors extends React.Component {
       .then(vendors => {
          this.setState({
             vendors: vendors.vendors
-         });
+         })
       })
    }
 
