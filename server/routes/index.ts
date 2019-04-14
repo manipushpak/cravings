@@ -60,7 +60,7 @@ router.get('/keywords/random', (req, res, next) => { //DONE
             res.send(err)
         }else{
             let num = Math.floor(Math.random()*documents.length);
-            res.send(documents[num].keyword);
+            res.json(documents[num].keyword);
         }
     });
 });
@@ -92,9 +92,9 @@ router.post('/vendor/register', (req, res) => { //DONE
                 let vendor = res2.value;
 
                 if(err){
-                    res.send({success : false, error: err.toString()});
+                    res.json({success : false, error: err.toString()});
                 }else if(res2 == null || res2.value == null){
-                    res.send({success: false, error: res2});
+                    res.json({success: false, error: res2});
                 }
                 else{
                     let arr:any[] = [];
@@ -106,13 +106,13 @@ router.post('/vendor/register', (req, res) => { //DONE
                     }
                         console.log(arr);
                         if(arr.length == 0){
-                        res.send({success: true, vendor: vendor, keywords: false});
+                        res.json({success: true, vendor: vendor, keywords: false});
                         }else{
                          keywordDB.insertMany(arr, (err: any, ress: any)=>{
                             if(err){
                                  console.log({success: false, error: err});
                             }else{
-                                res.send({success: true, vendor: vendor, keywords: true});
+                                res.json({success: true, vendor: vendor, keywords: true});
                                 }
                          });
     
@@ -124,7 +124,7 @@ router.post('/vendor/register', (req, res) => { //DONE
             });
 
     }catch(e){
-        res.send({
+        res.json({
             success: false,
             error: e.toString()
         });
@@ -173,7 +173,7 @@ router.post('/vendor/filter', (req, res) => { //DONE
 });
 
 
-router.post('/vendor/filteredSearch', (req, res) => { //DONE
+router.post('/filteredSearch', (req, res) => { //DONE
     let terms: string[] = req.body.terms;
     let filters: string[] = req.body.filters;
     let openSearch:boolean = req.body.open;
@@ -325,11 +325,11 @@ router.post('/vendor/filteredSearch', (req, res) => { //DONE
                         }
                     });
 
-                    res.send({success: true, vendors: openFiltered});
+                    res.json({success: true, vendors: openFiltered});
 
                 }else{
 
-                    res.send({success: true, vendors: filtered});
+                    res.json({success: true, vendors: filtered});
                 }
         
         
@@ -565,19 +565,27 @@ router.post('/vendor/signup', (req, res) => { //DONE
                         },
                         keywords: [],
                         flags: [],
-                        hours: []
+                        hours: [
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+                            {open: false, startTime: -1, endTime: -1},
+],
                     }
                 }
     
                 vendorDB.insertOne(newVendor, (err:any, res2:any)=>{
     
                     if(err){
-                        res.send({
+                        res.json({
                             success: false,
                             error: err
                         }); 
                     }else{
-                        res.send({
+                        res.json({
                             success: true,
                             vendor: newVendor
                         });

@@ -18,15 +18,20 @@ class Registration extends React.Component {
    constructor(props) {
       super(props);
       var ven = this.props.location.state !== 'undefined' && this.props.location.state.vendor !== null ? this.props.location.state.vendor : [];
+      var phone = ven.phone.substring(2);
+      if(phone.length > 3){
+         phone = phone.slice(0,3)+"-"+phone.slice(3,6)+"-"+phone.slice(6);
+      }
       this.state = {
          vendor: ven,
-         vendors: [ven.vendorInfo.vendorName],
+         firstName: ven.vendorInfo.vendorName.firstName,
+         lastName: ven.vendorInfo.vendorName.lastName,
          status: {
             edit: props.isEdit,
             view: props.isView
          },
          stallName: ven.vendorInfo.stallName,
-         phone: ven.vendorInfo.phone,
+         phone: phone,
          address: ven.vendorInfo.address.address,
          coordinates: {
             lat: 0, 
@@ -37,10 +42,7 @@ class Registration extends React.Component {
          flags: [],
          validated: false
       }
-      // this.state = { 
-      //    readOnly: true,
-      // }
-      
+
       // External Form Functions
       this.handleSubmit = this.handleSubmit.bind(this);
       this.handleResetForm = this.handleResetForm.bind(this);
@@ -73,6 +75,9 @@ class Registration extends React.Component {
    handleSubmit(event) {
       event.preventDefault();
       var geocoder = new google.maps.Geocoder();
+      var phone = this.state.phone;
+      var updatedPhoneFormat = phone.replace(/-/g, "");
+      updatedPhoneFormat = "+1" + updatedPhoneFormat;
 
       this.geocodeAddress(geocoder, this.state.address);
       if (event.currentTarget.checkValidity() === false) {
@@ -83,13 +88,16 @@ class Registration extends React.Component {
             method: 'POST',
             body: JSON.stringify({
                vendor: {
-                  phone: this.state.phone,
+                  phone: updatedPhoneFormat,
                   loginInfo: {
                      email: this.state.vendor.loginInfo.email,
                      password: this.state.vendor.loginInfo.password,
                   },
                   vendorInfo: {
-                     vendorName: this.state.vendors,
+                     vendorName: {
+                        firstName: this.state.firstName,
+                        lastName: this.state.lastName
+                     },
                      stallName: this.state.stallName,
                      address: {
                         address: this.state.address,
@@ -163,7 +171,7 @@ class Registration extends React.Component {
       this.setState({ stallName: e.target.value });
    }
    updatePhone(e) {
-      this.setState({ phone: e.target.value });
+      this.setState({ phone: e.target.value});
    }
    updateAddress(address) {
       this.setState({ address: address });
@@ -202,17 +210,13 @@ class Registration extends React.Component {
      }));
    }
    updateVendorFirstName(e){
-      var vendorList = this.state.vendors;
-      vendorList[0].firstName = e.target.value;
       this.setState({
-         vendors: vendorList
-      })
+         firstName: e.target.value
+      });
    }
    updateVendorLastName(e){
-      var vendorList = this.state.vendors;
-      vendorList[0].lastName = e.target.value;
       this.setState({
-         vendors: vendorList
+         lastName: e.target.value
       })
    }
    updateKeywords(e) {
@@ -369,13 +373,13 @@ class Registration extends React.Component {
                <Form.Row>
                   <Form.Group as={Col} controlId="firstName" xs={12} md={this.state.status.view ? 6 : 5}>
                      <Form.Label>First Name</Form.Label>
-                     <Form.Control readOnly={this.state.status.view} defaultValue={this.state.vendors[0].firstName} onChange={e => this.updateVendorFirstName(e)} placeholder="Enter first name" required />
+                     <Form.Control readOnly={this.state.status.view} defaultValue={this.state.firstName} onChange={e => this.updateVendorFirstName(e)} placeholder="Enter first name" required />
                      <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="lastName" xs={12} md={this.state.status.view ? 6 : 5}>
                      <Form.Label>Last Name</Form.Label>
-                     <Form.Control  readOnly={this.state.status.view} defaultValue={this.state.vendors[0].lastName} onChange={e => this.updateVendorLastName(e)} placeholder="Enter last name" required />
+                     <Form.Control  readOnly={this.state.status.view} defaultValue={this.state.lastName} onChange={e => this.updateVendorLastName(e)} placeholder="Enter last name" required />
                      <Form.Control.Feedback type="invalid">Please enter your last number.</Form.Control.Feedback>
                   </Form.Group>
                </Form.Row>
@@ -399,7 +403,7 @@ const AddressSet = props => {
       return(
          <Form.Group>
             <Form.Label>Address</Form.Label>
-            <Form.Control readOnly placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddressView } defaultValue={props.value} value={props.value} onChange={props.onChange} />
+            <Form.Control readOnly placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddressView } defaultValue={props.value} onChange={props.onChange} />
             <Form.Text id="userLocationText" className="text-muted"></Form.Text>
             <Form.Control.Feedback type="invalid">Please enter your street address.</Form.Control.Feedback>
          </Form.Group>
@@ -409,7 +413,7 @@ const AddressSet = props => {
          <Form.Group>
             <Form.Label>Address</Form.Label>
             <InputGroup>
-               <Form.Control placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddress } defaultValue={props.value} value={props.value} onChange={props.onChange} required />
+               <Form.Control placeholder="Enter street address" id="vendorRegistrationLocation" className={ styles.inputStreetAddress } defaultValue={props.value} onChange={props.onChange} required />
                <InputGroup.Append className={ styles.inputGroupAppend }>
                   <Button variant="light" onClick={props.onClick}>Use Current Location</Button>
                </InputGroup.Append>

@@ -65,7 +65,7 @@ router.get('/keywords/random', function (req, res, next) {
         }
         else {
             var num = Math.floor(Math.random() * documents.length);
-            res.send(documents[num].keyword);
+            res.json(documents[num].keyword);
         }
     });
 });
@@ -85,10 +85,10 @@ router.post('/vendor/register', function (req, res) {
         }, { returnNewDocument: true }, function (err, res2) {
             var vendor = res2.value;
             if (err) {
-                res.send({ success: false, error: err.toString() });
+                res.json({ success: false, error: err.toString() });
             }
             else if (res2 == null || res2.value == null) {
-                res.send({ success: false, error: res2 });
+                res.json({ success: false, error: res2 });
             }
             else {
                 var arr = [];
@@ -100,7 +100,7 @@ router.post('/vendor/register', function (req, res) {
                 }
                 console.log(arr);
                 if (arr.length == 0) {
-                    res.send({ success: true, vendor: vendor, keywords: false });
+                    res.json({ success: true, vendor: vendor, keywords: false });
                 }
                 else {
                     keywordDB.insertMany(arr, function (err, ress) {
@@ -108,7 +108,7 @@ router.post('/vendor/register', function (req, res) {
                             console.log({ success: false, error: err });
                         }
                         else {
-                            res.send({ success: true, vendor: vendor, keywords: true });
+                            res.json({ success: true, vendor: vendor, keywords: true });
                         }
                     });
                 }
@@ -116,7 +116,7 @@ router.post('/vendor/register', function (req, res) {
         });
     }
     catch (e) {
-        res.send({
+        res.json({
             success: false,
             error: e.toString()
         });
@@ -145,7 +145,7 @@ router.post('/vendor/filter', function (req, res) {
         res.send(filtered);
     }
 });
-router.post('/vendor/filteredSearch', function (req, res) {
+router.post('/filteredSearch', function (req, res) {
     var terms = req.body.terms;
     var filters = req.body.filters;
     var openSearch = req.body.open;
@@ -276,10 +276,10 @@ router.post('/vendor/filteredSearch', function (req, res) {
                             return v;
                         }
                     });
-                    res.send({ success: true, vendors: openFiltered });
+                    res.json({ success: true, vendors: openFiltered });
                 }
                 else {
-                    res.send({ success: true, vendors: filtered });
+                    res.json({ success: true, vendors: filtered });
                 }
             }
         }
@@ -471,18 +471,26 @@ router.post('/vendor/signup', function (req, res) {
                         },
                         keywords: [],
                         flags: [],
-                        hours: []
+                        hours: [
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                            { open: false, startTime: -1, endTime: -1 },
+                        ],
                     }
                 };
                 vendorDB.insertOne(newVendor_1, function (err, res2) {
                     if (err) {
-                        res.send({
+                        res.json({
                             success: false,
                             error: err
                         });
                     }
                     else {
-                        res.send({
+                        res.json({
                             success: true,
                             vendor: newVendor_1
                         });

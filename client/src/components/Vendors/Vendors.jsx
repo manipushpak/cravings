@@ -62,7 +62,8 @@ class Vendors extends React.Component {
          method: 'POST',
          body: JSON.stringify({
             terms: this.state.searchTerms,
-            filters: this.state.filterArray
+            filters: this.state.filterArray,
+            open: true
          }),
          headers: {"Content-Type": "application/json"}
       })
@@ -86,7 +87,8 @@ class Vendors extends React.Component {
          method: 'POST',
          body: JSON.stringify({
             terms: this.state.searchTerms,
-            filters: this.state.filterArray
+            filters: this.state.filterArray,
+            open: true
          }),
          headers: {"Content-Type": "application/json"}
       })
@@ -136,10 +138,12 @@ class Vendors extends React.Component {
             terms.splice(i, 1);
          }
       }
-      fetch('/search', {
+      fetch('/filteredSearch', {
          method: 'POST',
          body: JSON.stringify({
-            terms: terms
+            terms: terms,
+            filters: this.state.filterArray,
+            open: true
          }),
          headers: {"Content-Type": "application/json"}
       })
