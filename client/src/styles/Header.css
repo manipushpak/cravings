@@ -1,0 +1,39 @@
+:local .menuItem {
+    text-decoration: none;
+    color: #454545;
+}
+
+:local .menuItem:hover {
+    text-decoration: none;
+    color: #E04D05;
+}
+
+:local .menuItem:focus {
+    outline: none;
+}
+
+:local .menuItemHeader {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'Concert One';
+    font-size: 36px;
+    outline: none;
+}
+
+:local .chili {
+    color: #E04D05;
+}
+
+:local .mango {
+    color: #eebb00;
+}
+
+:local .menuItemText {
+    padding-left: 15px;
+    font-family: 'Concert One';
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}

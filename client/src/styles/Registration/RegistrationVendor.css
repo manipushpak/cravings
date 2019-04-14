@@ -1,2 +1,16 @@
+:local .aTag {
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+}
 
-:local .aTag>i { color: black; }
+:local .aTag>i { 
+    color: black; 
+}
+
+@media (max-width: 771px) {
+    :local .aTag {
+        padding: 0;
+        padding-bottom: 7px;
+    }    
+}

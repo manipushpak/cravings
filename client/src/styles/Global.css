@@ -1,0 +1,45 @@
+:local .outerContainer {
+    background: #eebb00;
+    height: 100vh;
+    overflow: scroll;
+}
+
+:local .floatingWindow {
+    background: #fcfcfc;
+    border-radius: 10px;
+    box-shadow: -25px 25px #c99d01;
+}
+
+:local .headerText {
+    font-family: 'Concert One';
+    text-transform: uppercase;}
+
+:local .h1 {
+    composes: headerText;
+    font-size: 120px;
+}
+
+:local .h2 {    
+    composes: headerText;
+    font-size: 60px;
+}
+
+:local .p {
+    margin: 40px auto;
+    max-width: 1000px;
+}
+
+:local .formContainer {
+    font-family: 'Rubik', Arial, Helvetica, sans-serif;
+}
+
+:local .formHeader {
+    font-weight: bold;
+}
+
+/* For phones and smaller devices */
+@media (max-width: 575px) {
+    :local .h1 {
+        font-size: 80px;
+    }
+}

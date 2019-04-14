@@ -1,7 +1,8 @@
 :local .outerContainer{
-    max-width: 800px;
+    max-width: 850px;
     margin-right: auto;
     margin-left: auto;
+    padding: 40px;
     position: relative;
 }
 
@@ -19,8 +20,8 @@
 :local .editButtonDiv {
     height: 48px;
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 40px;
+    right: 40px;
     display: flex;
     align-items: center;
 }
@@ -45,16 +46,18 @@
 
 :local .inputGroupAppend > button {
     border: 1px solid #ced4da;
+    border-top-right-radius: .25rem !important;
+    border-bottom-right-radius: .25rem !important;
 }
 
 :local .inputGroupButton {
-    /* width: 100%; */
     display: none;
     margin-top: 5px;
     border: 1px solid #ced4da;
 }
 
-@media (max-width: 576px) {
+/* For phones and smaller devices */
+@media (max-width: 575px) {
     :local .inputStreetAddress {
         border-radius: .25rem !important;
     }

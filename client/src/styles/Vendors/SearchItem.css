@@ -1,0 +1,23 @@
+:local .outerContainer {
+  padding: 5px 0;
+  padding-right: 10px;
+  float:left;
+}
+
+:local .round {
+  border: 3px solid black;
+  border-radius: 24px;
+  padding: 2px 15px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+  font-family: 'Rubik', Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+  
+:local .aTag {
+  display: flex;
+  margin-right: 10px;
+}

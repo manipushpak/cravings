@@ -8,14 +8,7 @@ const List = props => {
       <div className={ styles.outerContainer }>
          {
             props.vendors.map(vendor => {
-               return <ListItem 
-                  name={vendor.name} 
-                  location={vendor.location.address}
-                  coordinates={vendor.location.coordinates}
-                  keywords={vendor.keywords}
-                  phone={vendor.phone}
-                  open={vendor.open}
-                  />
+               return <ListItem vendor={vendor} openModal={props.openModal} />
             })
          }
       </div>
