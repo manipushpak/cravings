@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var vendors = [
     {
+        phone: "+16508239461",
+        openNow: true,
         loginInfo: {
             email: "devikaku@usc.edu",
             password: "hellohello"
@@ -17,7 +19,6 @@ var vendors = [
                 }
             ],
             stallName: "Devika's Pies",
-            phone: "6508239461",
             address: {
                 address: "3760 Fig",
                 coordinates: {
@@ -28,7 +29,7 @@ var vendors = [
             keywords: [
                 "pie", "usc"
             ],
-            flags: ["v", "g-f", "d-f", "h", "k"],
+            flags: ["v"],
             hours: [
                 {
                     open: true,
@@ -69,6 +70,8 @@ var vendors = [
         },
     },
     {
+        openNow: true,
+        phone: "+16508239461",
         loginInfo: {
             email: "sonalipa@usc.edu",
             password: "hellohello1"
@@ -84,7 +87,6 @@ var vendors = [
                 }
             ],
             stallName: "Sonali's Noodles",
-            phone: "6508239461",
             address: {
                 address: "3760 Fig",
                 coordinates: {
@@ -95,7 +97,7 @@ var vendors = [
             keywords: [
                 "noodles", "usc"
             ],
-            flags: ["v", "g-f", "d-f", "h", "k"],
+            flags: ["g-f"],
             hours: [
                 {
                     open: true,
@@ -136,6 +138,8 @@ var vendors = [
         },
     },
     {
+        openNow: true,
+        phone: "+16508239461",
         loginInfo: {
             email: "pia@usc.edu",
             password: "hellohello2"
@@ -147,7 +151,6 @@ var vendors = [
                 }
             ],
             stallName: "Pia's Pudding",
-            phone: "6508239461",
             address: {
                 address: "343 West Adams",
                 coordinates: {
@@ -158,7 +161,7 @@ var vendors = [
             keywords: [
                 "pudding", "usc", "trojans"
             ],
-            flags: ["v", "g-f", "h", "k"],
+            flags: ["h"],
             hours: [
                 {
                     open: true,
@@ -199,6 +202,8 @@ var vendors = [
         }
     },
     {
+        openNow: true,
+        phone: "+16508239461",
         loginInfo: {
             email: "miller@usc.edu",
             password: "hellohello4"
@@ -210,7 +215,6 @@ var vendors = [
                 }
             ],
             stallName: "Nalani's Girls Scout Cookies",
-            phone: "6508239461",
             address: {
                 address: "Stauffer Science Lecture Hall",
                 coordinates: {
@@ -221,7 +225,7 @@ var vendors = [
             keywords: [
                 "cookies"
             ],
-            flags: ["v", "g-f", "h", "k"],
+            flags: ["k"],
             hours: [
                 {
                     open: true,

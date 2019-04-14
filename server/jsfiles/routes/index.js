@@ -14,6 +14,7 @@ var express = __importStar(require("express"));
 var router = express.Router();
 var sampledb_1 = __importDefault(require("../data/sampledb"));
 var bson_1 = require("bson");
+var timehelper_1 = require("../helpers/timehelper");
 // import IUser from '../data/mongomanagers/usermanager';
 // import IVendor from '../data/mongomanagers/vendormanager';
 var MongoClient = require('mongodb').MongoClient;
@@ -64,26 +65,30 @@ router.get('/keywords/random', function (req, res, next) {
         }
         else {
             var num = Math.floor(Math.random() * documents.length);
-            res.json(documents[num].keyword);
+            res.send(documents[num].keyword);
         }
     });
 });
 router.post('/vendor/register', function (req, res) {
     var rvendor = req.body.vendor;
     var success = false;
+    var openNowV = timehelper_1.TH.isOpen(rvendor);
+    //DO OPEN LOGIC HERE
     try {
         vendorDB.findOneAndReplace({
             loginInfo: rvendor.loginInfo
         }, {
+            openNow: openNowV,
+            phone: rvendor.phone,
             loginInfo: rvendor.loginInfo,
             vendorInfo: rvendor.vendorInfo
         }, { returnNewDocument: true }, function (err, res2) {
             var vendor = res2.value;
             if (err) {
-                res.json({ success: false, error: err.toString() });
+                res.send({ success: false, error: err.toString() });
             }
             else if (res2 == null || res2.value == null) {
-                res.json({ success: false, error: res2 });
+                res.send({ success: false, error: res2 });
             }
             else {
                 var arr = [];
@@ -95,7 +100,7 @@ router.post('/vendor/register', function (req, res) {
                 }
                 console.log(arr);
                 if (arr.length == 0) {
-                    res.json({ success: true, vendor: vendor, keywords: false });
+                    res.send({ success: true, vendor: vendor, keywords: false });
                 }
                 else {
                     keywordDB.insertMany(arr, function (err, ress) {
@@ -103,7 +108,7 @@ router.post('/vendor/register', function (req, res) {
                             console.log({ success: false, error: err });
                         }
                         else {
-                            res.json({ success: true, vendor: vendor, keywords: true });
+                            res.send({ success: true, vendor: vendor, keywords: true });
                         }
                     });
                 }
@@ -111,15 +116,39 @@ router.post('/vendor/register', function (req, res) {
         });
     }
     catch (e) {
-        res.json({
+        res.send({
             success: false,
             error: e.toString()
         });
     }
 });
-router.post('/filteredSearch', function (req, res) {
+router.post('/vendor/filter', function (req, res) {
+    var vendors = req.body.vendors;
+    var filters = req.body.filters;
+    if (filters == null || filters.length == 0) {
+        res.send({ success: true, vendors: vendors, error: "No filters" });
+    }
+    else {
+        var filterlist_1 = new Set();
+        for (var k in filters) {
+            filterlist_1.add(filters[k].toLowerCase());
+        }
+        var filtered = vendors.filter(function (v) {
+            if (!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)) {
+                for (var f in v.vendorInfo.flags) {
+                    if (filterlist_1.has(v.vendorInfo.flags[f].toLowerCase())) {
+                        return v;
+                    }
+                }
+            }
+        });
+        res.send(filtered);
+    }
+});
+router.post('/vendor/filteredSearch', function (req, res) {
     var terms = req.body.terms;
     var filters = req.body.filters;
+    var openSearch = req.body.open;
     vendorDB.find({}).toArray(function (err, vendors) {
         var all = vendors;
         if (err) {
@@ -225,69 +254,36 @@ router.post('/filteredSearch', function (req, res) {
             }
             //handling filters now
             if (filters == null || filters.length == 0) {
-                res.json({ success: true, vendors: results, error: "No filters" });
+                res.send({ success: true, vendors: results, error: "No filters" });
             }
             else {
-                var filterlist_1 = new Set();
+                var filterlist_2 = new Set();
                 for (var k in filters) {
-                    filterlist_1.add(filters[k].toLowerCase());
+                    filterlist_2.add(filters[k].toLowerCase());
                 }
                 var filtered = results.filter(function (v) {
                     if (!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)) {
                         for (var f in v.vendorInfo.flags) {
-                            if (filterlist_1.has(v.vendorInfo.flags[f].toLowerCase())) {
+                            if (filterlist_2.has(v.vendorInfo.flags[f].toLowerCase())) {
                                 return v;
                             }
                         }
                     }
                 });
-                res.json({ success: true, vendors: filtered });
+                if (openSearch) {
+                    var openFiltered = filtered.filter(function (v) {
+                        if (timehelper_1.TH.isOpen(v)) {
+                            return v;
+                        }
+                    });
+                    res.send({ success: true, vendors: openFiltered });
+                }
+                else {
+                    res.send({ success: true, vendors: filtered });
+                }
             }
         }
     });
-});
-router.post('/vendor/filter', function (req, res) {
-    var vendors = req.body.vendors;
-    var filters = req.body.filters;
-    if (filters == null || filters.length == 0) {
-        res.send({ success: true, vendors: vendors, error: "No filters" });
-    }
-    else {
-        var filterlist_2 = new Set();
-        for (var k in filters) {
-            filterlist_2.add(filters[k].toLowerCase());
-        }
-        var filtered = vendors.filter(function (v) {
-            if (!(v.vendorInfo == null || v.vendorInfo.flags == null || v.vendorInfo.flags.length == 0)) {
-                for (var f in v.vendorInfo.flags) {
-                    if (filterlist_2.has(v.vendorInfo.flags[f].toLowerCase())) {
-                        return v;
-                    }
-                }
-            }
-        });
-        res.json({ vendors: filtered });
-    }
-});
-router.post('/vendor/modify', function (req, res) {
-    var vendor = req.body.vendor;
-    var success = false;
-    try {
-        vendorDB.findOneAndReplace({
-            loginInfo: vendor.loginInfo
-        }, {
-            loginInfo: vendor.loginInfo,
-            vendorInfo: vendor.vendorInfo
-        }, { returnNewDocument: true }, function (err, res2) {
-            res.send(res2.value);
-        });
-    }
-    catch (e) {
-        res.send({
-            success: false,
-            error: e.toString()
-        });
-    }
 });
 router.post('/search', function (req, res) {
     var terms = req.body.terms;
@@ -322,7 +318,7 @@ router.post('/search', function (req, res) {
                 }
                 var keywords = currentVInfo.keywords;
                 var include = false;
-                // //names
+                //names
                 // if(names!=null && names.length>0){
                 //     for(let k in names){
                 //         let first = names[k].firstName.trim().toLowerCase();
@@ -398,6 +394,29 @@ router.post('/search', function (req, res) {
         }
     });
 });
+router.post('/vendor/modify', function (req, res) {
+    var vendor = req.body.vendor;
+    var success = false;
+    var open = timehelper_1.TH.isOpen(vendor);
+    try {
+        vendorDB.findOneAndReplace({
+            loginInfo: vendor.loginInfo
+        }, {
+            phone: vendor.phone,
+            openNow: open,
+            loginInfo: vendor.loginInfo,
+            vendorInfo: vendor.vendorInfo
+        }, { returnNewDocument: true }, function (err, res2) {
+            res.send(res2.value);
+        });
+    }
+    catch (e) {
+        res.send({
+            success: false,
+            error: e.toString()
+        });
+    }
+});
 router.get('/vendorId/:id', function (req, res, next) {
     vendorDB.findOne({ _id: new bson_1.ObjectId(req.params.id) }, function (err, vendor) {
         if (err) {
@@ -427,13 +446,15 @@ router.post('/vendor/signup', function (req, res) {
                 }
             }
             if (found) {
-                res.json({
+                res.send({
                     success: false,
                     error: "email already exists"
                 });
             }
             else {
                 var newVendor_1 = {
+                    openNow: false,
+                    phone: "",
                     loginInfo: {
                         email: verification.email,
                         password: verification.hash
@@ -441,7 +462,6 @@ router.post('/vendor/signup', function (req, res) {
                     vendorInfo: {
                         vendorName: [],
                         stallName: "",
-                        phone: "",
                         address: {
                             address: "",
                             coordinates: {
@@ -451,26 +471,18 @@ router.post('/vendor/signup', function (req, res) {
                         },
                         keywords: [],
                         flags: [],
-                        hours: [
-                            { open: false, startTime: -1, endTime: -1 },
-                            { open: false, startTime: -1, endTime: -1 },
-                            { open: false, startTime: -1, endTime: -1 },
-                            { open: false, startTime: -1, endTime: -1 },
-                            { open: false, startTime: -1, endTime: -1 },
-                            { open: false, startTime: -1, endTime: -1 },
-                            { open: false, startTime: -1, endTime: -1 },
-                        ],
+                        hours: []
                     }
                 };
                 vendorDB.insertOne(newVendor_1, function (err, res2) {
                     if (err) {
-                        res.json({
+                        res.send({
                             success: false,
                             error: err
                         });
                     }
                     else {
-                        res.json({
+                        res.send({
                             success: true,
                             vendor: newVendor_1
                         });
@@ -523,26 +535,20 @@ router.get('/initvendors', function (req, res) {
 router.get('/initkeywords', function (req, res) {
     var keywords = [
         {
-            keyword: "burrito"
-        },
-        {
-            keyword: "fruit"
-        },
-        {
-            keyword: "gelato"
-        },
-        {
-            keyword: "juice"
-        },
-        {
-            keyword: "pupusa"
-        },
-        {
-            keyword: "quesedilla"
-        },
-        {
             keyword: "taco"
         },
+        {
+            keyword: "ramen"
+        },
+        {
+            keyword: "usc"
+        },
+        {
+            keyword: "lemonade"
+        },
+        {
+            keyword: "noods"
+        }
     ];
     keywordDB.insertMany(keywords, function (err) {
         if (err) {
@@ -554,5 +560,75 @@ router.get('/initkeywords', function (req, res) {
     });
 });
 router.get('/test', function (req, res) {
+    var vendor = {
+        phone: "+16508239461",
+        openNow: true,
+        loginInfo: {
+            email: "devikaku@usc.edu",
+            password: "hellohello"
+        },
+        vendorInfo: {
+            vendorName: [{
+                    firstName: "Devika",
+                    lastName: "Kumar"
+                },
+                {
+                    firstName: "Sonali",
+                    lastName: "Pai"
+                }
+            ],
+            stallName: "Devika's Pies",
+            address: {
+                address: "3760 Fig",
+                coordinates: {
+                    lat: 222,
+                    lng: 3333
+                }
+            },
+            keywords: [
+                "pie", "usc"
+            ],
+            flags: ["v"],
+            hours: [
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 1750,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 1800,
+                },
+                {
+                    open: true,
+                    startTime: 900,
+                    endTime: 500,
+                },
+                {
+                    open: false,
+                    startTime: 900,
+                    endTime: 500,
+                }
+            ]
+        },
+    };
+    var open = timehelper_1.TH.isOpen(vendor);
+    res.send({ open: open });
 });
 exports.default = router;
