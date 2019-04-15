@@ -101,7 +101,7 @@ class Map extends React.Component {
             const { latitude, longitude } = position.coords;
 
             this.setState({
-               userLocation: { lat: latitude, lng: longitude },
+               userLocation: { lat: 34.022227, lng: -118.285578 },
                loading: false
             });
          },

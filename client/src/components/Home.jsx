@@ -79,7 +79,7 @@ class Home extends React.Component {
                <Form.Control className={ styles.searchInput } id="searchTerm" size="lg" placeholder="Tacos, Elote, Mexican Food, etc." onChange={e => this.handleChange(e)}/>
             </InputGroup>
             <div className={ styles.bubble }>Not sure what you want? Click me to explore!</div>
-            <img className={ styles.img } onClick={ this.handleExplore } src={mango} alt="Taco image"></img>
+            <img className={ styles.img } onClick={ this.handleExplore } src={mango} alt="Mango image"></img>
          </div>
       );
    }

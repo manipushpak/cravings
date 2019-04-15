@@ -6,8 +6,8 @@
 
 :local .image {
     max-width: 800px;
-    width: 90%;
-    height: 50%;
+    width: 85%;
+    height: 500px;
     object-fit: cover;
 }
 
