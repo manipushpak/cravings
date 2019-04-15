@@ -3,7 +3,6 @@ import React from 'react';
 import classNames from 'classnames';
 import global from '../../styles/Global.css';
 import styles from '../../styles/Vendors/Vendors.css';
-import modalStyles from '../../styles/Vendors/ListModal.css';
 
 import FilterSlider from './FilterSlider.jsx';
 import Map from './Map.jsx';
@@ -26,7 +25,7 @@ class Vendors extends React.Component {
       var searchTerm = this.props.location.state.searchTerm;
       this.state = {
          vendors: vendors.vendors,
-         distance: [30],
+         distance: [25],
          locationProvided: false,
          userLat: "",
          userLong: "",
