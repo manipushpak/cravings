@@ -256,7 +256,6 @@ class Registration extends React.Component {
             var lat = results[0].geometry.location.lat();
             var lng = results[0].geometry.location.lng();
             self.updateCoordinates(lat, lng);
-            console.log("IN GEOCODE ADDRESS");
            
       } else {
          //  alert('Geocode was not successful for the following reason: ' + status);
