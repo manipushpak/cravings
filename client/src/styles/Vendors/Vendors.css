@@ -1,21 +1,103 @@
 :local .outerContainer {
+    margin: 0 auto;
+    padding: 10px;
     display: grid;
-    grid-template-columns: 60% 40%;
+    grid-template-columns: 70% 30%;
+    max-width: 1200px;
 }
 
-:local .searchBar {
-    grid-column-start: 1;
-    grid-column-end: 3;
-    border-bottom: 1px solid #DDD;
-    padding: 20px;
-}
-
-:local .listColumn {
+:local .mapColumn {
     grid-column-start: 1;
     grid-column-end: 2;
 }
 
-:local .mapColumn {
+:local .searchColumn {
     grid-column-start: 2;
     grid-column-end: 3;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+:local .searchBar {
+    border-radius: 50px;
+    border: 3px black solid;
+    flex: 0 0 45px;
+}
+
+:local .searchInput {
+    border-radius: 0 50px 50px 0;
+    border: none;
+    background: white;
+}
+
+:local .searchButton {
+    border-radius: 50px 0 0 50px;
+    border: none;
+    background: white;
+    color: #E04D05;
+}
+
+:local .searchButton:hover {
+    border: none;
+    background: white;
+    color: #E04D05;
+}
+ 
+:local .searchButton:active, .searchButton:focus {
+    border: none;
+    background: white !important;
+    color: rgb(156, 54, 3) !important;
+}
+
+:local .sliderDiv {
+    padding-top: 10px;
+    width: 50%;
+}
+
+:local .sliderStyle {
+    position: relative;
+}
+
+:local .infoDiv {
+    flex: 1;
+    margin-top: 10px;
+    align-items: center;
+}
+
+:local .searchListDiv {
+    flex: 0 0 35px;
+}
+
+:local .filters {
+    font-family: 'Rubik', Arial, Helvetica, sans-serif;
+    margin-bottom: 40px;
+    padding: 0 10px;
+    padding-top: 30px;
+    align-items: center;
+    border-top: 1px solid #c99d01;
+    border-bottom: 1px solid #c99d01;
+}
+
+/* For landscape phones and smaller devices */
+@media (max-width: 767px) {
+    :local .filters {
+        padding: 10px 20px 25px 20px;
+    }
+
+    :local .sliderDiv {
+        padding-top: 0;
+    }
+}
+
+/* For portrait phones and smaller devices */
+@media (max-width: 575px) {
+    :local .outerContainer {
+        display: block;
+    }
+
+    :local .searchColumn {
+        padding: 0 10px;
+        padding-top: 15px;
+    }
 }

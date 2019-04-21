@@ -1,5 +1,9 @@
 import React from 'react';
-import styles from '../../styles/UserLogInSignUp/UserLogInSignUp.css';
+import { withRouter } from 'react-router-dom';
+
+import classNames from 'classnames';
+import global from '../../styles/Global.css';
+import styles from '../../styles/Registration/VendorPortal.css';
 
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col'
@@ -7,7 +11,7 @@ import Form from 'react-bootstrap/Form';
 
 import md5 from 'md5';
 
-class SignUp extends React.Component {
+class VendorSignUp extends React.Component {
    constructor(props) {
       super(props);
       this.state = { 
@@ -15,15 +19,17 @@ class SignUp extends React.Component {
          lastName: '',
          phone: '',
          email: '',
-         password: ''
+         password: '',
+         isSuccessful: false,
+         validated: false
       }
+      this.handleClearForm = this.handleClearForm.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
       this.updateFirstName = this.updateFirstName.bind(this);
       this.updateLastName = this.updateLastName.bind(this);
       this.updatePhone = this.updatePhone.bind(this);
       this.updateEmail = this.updateEmail.bind(this);
       this.updatePassword = this.updatePassword.bind(this);
-      this.handleClearForm = this.handleClearForm.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
    }
 
    handleClearForm() {
@@ -37,27 +43,36 @@ class SignUp extends React.Component {
    }
 
    handleSubmit(event) {
-      // We don't want the form to submit, so we prevent the default behavior
       event.preventDefault();
+
       if (event.currentTarget.checkValidity() === false) {
          event.stopPropagation;
          this.setState({ validated: true });
       } else {
-         let completeName = this.state.firstName + " " + this.state.lastName;
-   
-         fetch('/user/create',{
+         fetch('/vendor/signup',{
             method: 'POST',
             body: JSON.stringify({
-               name: completeName,
                email: this.state.email,
                password: this.state.password,
-               phone: this.state.phone
             }),
             headers: {"Content-Type": "application/json"}
-         }).then(function(response){
-            alert("hell yeah");
-            return response.json();
-         });
+         })
+         .then(res => res.json())
+         .then(response => {
+            if(response.success){
+               console.log(response.vendor);
+               this.props.history.push({
+                  pathname:'/register',
+                  state: {
+                     vendor: response.vendor
+                  }
+               });
+            }
+            else{
+               var x = document.getElementById("alertDiv");
+               x.style.display = "block";
+            }
+         })
       }
    }
 
@@ -80,31 +95,31 @@ class SignUp extends React.Component {
 
    render() {
       return(
-         <div className={styles.innerContainer}>
+         <div className={classNames(styles.innerContainer, global.formContainer)}>
             <div className={styles.column}>
-               <h1>Sign Up</h1>
+               <h1 className={global.formHeader}>Sign Up</h1>
                <br />
                <Form noValidate validated={this.state.validated} onSubmit={e => this.handleSubmit(e)}>
                   <Form.Row>
-                    <Form.Group as={Col} controlId="firstName" xs={12} md={6}>
-                    <Form.Label>First Name</Form.Label>
-                    <Form.Control placeholder="Enter first name" onChange={e => this.updateFirstName(e)} required />
-                    <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
-                    </Form.Group>
+                     <Form.Group as={Col} controlId="firstName" xs={12} md={6}>
+                     <Form.Label>First Name</Form.Label>
+                     <Form.Control placeholder="Enter first name" onChange={e => this.updateFirstName(e)} required />
+                     <Form.Control.Feedback type="invalid">Please enter your first name.</Form.Control.Feedback>
+                     </Form.Group>
 
-                    <Form.Group as={Col} controlId="lastName" xs={12} md={6}>
-                    <Form.Label>Last Name</Form.Label>
-                    <Form.Control placeholder="Enter last name" onChange={e => this.updateLastName(e)} required />
-                    <Form.Control.Feedback type="invalid">Please enter your last name.</Form.Control.Feedback>
-                    </Form.Group>
+                     <Form.Group as={Col} controlId="lastName" xs={12} md={6}>
+                     <Form.Label>Last Name</Form.Label>
+                     <Form.Control placeholder="Enter last name" onChange={e => this.updateLastName(e)} required />
+                     <Form.Control.Feedback type="invalid">Please enter your last name.</Form.Control.Feedback>
+                     </Form.Group>
                   </Form.Row>
 
                   <Form.Row>
-                    <Form.Group as={Col} controlId="emailSignUp" xs={12} md={12}>
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control placeholder="Enter email" onChange={e => this.updateEmail(e)} required />
-                    <Form.Control.Feedback type="invalid">Please enter your email.</Form.Control.Feedback>
-                    </Form.Group>
+                     <Form.Group as={Col} controlId="emailSignUp" xs={12} md={12}>
+                     <Form.Label>Email</Form.Label>
+                     <Form.Control placeholder="Enter email" onChange={e => this.updateEmail(e)} required />
+                     <Form.Control.Feedback type="invalid">Please enter your email.</Form.Control.Feedback>
+                     </Form.Group>
                   </Form.Row>
 
                   <Form.Row>
@@ -125,7 +140,6 @@ class SignUp extends React.Component {
                      </Form.Group>
                   </Form.Row>
 
-
                   <Form.Row>
                      <Button className={ styles.button } variant="primary" type="submit">
                         Submit
@@ -136,9 +150,14 @@ class SignUp extends React.Component {
                   </Form.Row>
 
                   <Form.Row>
-                     <Form.Group as={Col} controlId="passwordSignUp" xs={12} md={12}>
-                        <p><a href="#" className="small" href="javascript:void(0)" onClick={this.props.toggleLogInSignUp}>Already have an account?</a></p>
+                     <Form.Group as={Col}>
+                        <a className="small" href="javascript:void(0)" onClick={this.props.toggleLogInSignUp}>Already have an account?</a>
                      </Form.Group>
+                  </Form.Row>
+                  <Form.Row>
+                     <div className={"alert alert-danger " + styles.emailExists} id="alertDiv" role="alert" display="none">
+                        An account with this email already exists<a href="#" className="alert-link"></a>.
+                     </div>
                   </Form.Row>
                </Form>
             </div>
@@ -147,4 +166,4 @@ class SignUp extends React.Component {
    }
 }
 
-export default SignUp;
+export default withRouter(VendorSignUp);

@@ -1,0 +1,32 @@
+:local .outerContainer {
+    max-width: 450px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 40px 25px;
+    font-family: 'Rubik';
+}
+
+:local .innerContainer {
+    position: relative;
+}
+
+:local .label{
+    width: 220px;
+    float: left;
+    text-align: right;
+    margin-right: 10px;
+}
+
+:local .button{
+    margin: 5px;
+}
+
+:local .input{
+    width: 50%;
+    align-content: center;
+}
+
+:local .emailExists {
+    margin: 0 auto;
+    display: none;
+}

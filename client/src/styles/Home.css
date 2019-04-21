@@ -1,0 +1,109 @@
+:local .outerContainer {
+    max-width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 50px;
+    text-align: center;
+}
+
+:local .searchBar {
+    margin-top: 30px;
+    border-radius: 50px;
+    border: 3px black solid;
+}
+
+:local .searchInput {
+    border-radius: 0 50px 50px 0;
+    -webkit-border-radius: 0 50px 50px 0;
+    -moz-border-radius: 0 50px 50px 0;
+    border: none;
+    background: white;
+    font-family: 'Rubik', Arial, Helvetica, sans-serif;
+}
+
+:local .searchButton {
+    border-radius: 50px 0 0 50px;
+    -webkit-border-radius: 50px 0 0 50px;
+    -moz-border-radius: 50px 0 0 50px;
+    border: none;
+    background: white;
+    color: #E04D05;
+    font-size: 20px;
+}
+
+:local .searchButton:hover {
+    border: none;
+    background: white;
+    color: #E04D05;
+}
+ 
+:local .searchButton:active, .searchButton:focus {
+    border: none;
+    background: white !important;
+    color: rgb(156, 54, 3) !important;
+}
+
+:local .img {
+    width: 25%;
+    height: 25%;
+    margin: 35px auto 0 auto;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    transform: translateX(100px);
+    background-color: #f0f3f5;
+    box-shadow: -7px 10px #c99d01;
+}
+
+:local .img:hover {
+    cursor: pointer;
+}
+
+:local .bubble {
+    position: relative;
+    margin: 120px auto 0 auto;
+    transform: translateX(200px);
+    padding: 10px;
+    width: 190px;
+    height: 60px;
+    text-align: center;
+    font-family: 'Rubik', Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    background: #f0f3f5;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    box-shadow: -7px 10px #c99d01;
+}
+
+:local .bubble:before {
+   content: '' ;
+    position: absolute;
+    z-index: 1;
+    bottom: -10px;
+    left: 43px;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-top-color: #c99d01;
+    border-bottom: 0;
+    border-left: 0;
+    margin-left: -10px;
+    margin-bottom: -20px;
+}
+
+:local .bubble:after {
+    content: '' ;
+    position: absolute;
+    z-index: 1;
+    bottom: 0px;
+    left: 50px;
+    width: 0;
+    height: 0;
+    border: 20px solid transparent;
+    border-top-color: #f0f3f5;
+    border-bottom: 0;
+    border-left: 0;
+    margin-left: -10px;
+    margin-bottom: -20px;
+}

@@ -1,23 +1,25 @@
 import React from 'react';
 
+import global from '../styles/Global.css';
+
 import Header from './Header.jsx';
 import Main from './Main.jsx';
-import Footer from './Footer.jsx';
+
+import { ParallaxProvider } from 'react-scroll-parallax';
 
 class App extends React.Component {
    constructor(props) {
       super(props);
-      this.state = {
-         // Define App state object contents here
-      };
+      this.state = {};
    }
    
    render() {
       return(
-         <div className>
-            <Header />
-            <Main />
-            <Footer />
+         <div id="bm-outer-container" className={ global.outerContainer }>
+            <ParallaxProvider>
+               <Header />
+               <Main />
+            </ParallaxProvider>
          </div>
       );
    }

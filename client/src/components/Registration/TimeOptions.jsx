@@ -5,8 +5,8 @@ import Form from 'react-bootstrap/Form';
 
 const TimeOptions = props => {
     return (
-        <Form.Control size="sm" as="select" disabled= { props.disabled } className={ styles.timeOptions } onChange={ props.onChange } xs={6} md={3} required >
-            <option>{ props.placeholder }</option>
+        <Form.Control size="sm" as="select" disabled={ props.disabled } value={props.time} className={ styles.timeOptions } onChange={ props.onChange } xs={6} md={3} required >
+            <option value="-1">{ props.placeholder }</option>
             <option value="0000">12:00 AM</option>
             <option value="0030">12:30 AM</option>
             <option value="0100">01:00 AM</option>
@@ -57,6 +57,17 @@ const TimeOptions = props => {
             <option value="2330">11:30 PM</option>
         </Form.Control>
     );
+}
+
+export function TimeConversion(time) {
+    var hour = parseInt(time)/100;
+    var min = parseInt(time)%100;
+
+    var output = (hour%12 < 10 ? "0" : "") + hour%12 + ":";
+    output += (min%60 < 10 ? "0" : "") + min%60 + " ";
+    output += (hour < 12 ? "AM" : "PM"); 
+
+    return output;
 }
 
 export default TimeOptions;
