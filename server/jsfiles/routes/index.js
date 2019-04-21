@@ -80,10 +80,26 @@ router.post('/vendor/register', function (req, res) {
         vendorDB.findOneAndReplace({
             loginInfo: rvendor.loginInfo
         }, {
-            openNow: openNowV,
             phone: rvendor.phone,
-            loginInfo: rvendor.loginInfo,
-            vendorInfo: rvendor.vendorInfo
+            openNow: openNowV,
+            loginInfo: {
+                email: rvendor.loginInfo.email,
+                password: rvendor.loginInfo.password
+            },
+            vendorInfo: {
+                vendorName: rvendor.vendorInfo.vendorName,
+                stallName: rvendor.vendorInfo.stallName,
+                address: {
+                    address: rvendor.vendorInfo.address.address,
+                    coordinates: {
+                        lat: rvendor.vendorInfo.address.coordinates.lat,
+                        lng: rvendor.vendorInfo.address.coordinates.lng
+                    }
+                },
+                keywords: rvendor.vendorInfo.keywords,
+                flags: rvendor.vendorInfo.flags,
+                hours: timehelper_1.TH.getHours(rvendor.vendorInfo.hours)
+            }
         }, { returnNewDocument: true }, function (err, res2) {
             var vendor = res2.value;
             if (err) {
@@ -396,31 +412,51 @@ router.post('/search', function (req, res) {
         }
     });
 });
-router.post('/vendor/modify', function (req, res) {
-    var vendor = req.body.vendor;
-    console.log("HEREEEEE2");
-    console.log(vendor.vendorInfo.flags);
-    var success = false;
-    var open = timehelper_1.TH.isOpen(vendor);
-    try {
-        vendorDB.findOneAndReplace({
-            loginInfo: vendor.loginInfo
-        }, {
-            phone: vendor.phone,
-            openNow: open,
-            loginInfo: vendor.loginInfo,
-            vendorInfo: vendor.vendorInfo
-        }, { returnNewDocument: true }, function (err, res2) {
-            res.send(res2.value);
-        });
-    }
-    catch (e) {
-        res.send({
-            success: false,
-            error: e.toString()
-        });
-    }
-});
+// router.post('/vendor/modify', (req, res) => { //DONE
+//     let vendor: Vendor = req.body.vendor;
+//     console.log("HEREEEEE2");
+//     console.log(vendor.vendorInfo.flags);
+//     let success:boolean = false;
+//     let open:boolean = TH.isOpen(vendor);
+//     try{
+//         vendorDB.findOneAndReplace(
+//             { 
+//                 loginInfo : vendor.loginInfo
+//             },
+//             {
+//                 phone: vendor.phone,
+//                 openNow: open,
+//                 loginInfo: {
+//                     email: vendor.loginInfo.email,
+//                     password: vendor.loginInfo.password
+//                 },
+//                 vendorInfo: {
+//                     vendorName: vendor.vendorInfo.vendorName,
+//                     stallName: vendor.vendorInfo.stallName,
+//                     address: {
+//                         address: vendor.vendorInfo.address.address,
+//                         coordinates: {
+//                             lat: vendor.vendorInfo.address.coordinates.lat,
+//                             lng: vendor.vendorInfo.address.coordinates.lng
+//                         }
+//                     },
+//                     keywords: vendor.vendorInfo.keywords,
+//                     flags: vendor.vendorInfo.flags,
+//                     hours: TH.getHours(vendor.vendorInfo.hours)
+//                 }
+//             },
+//             { returnNewDocument: true },
+//             (err:any, res2:any) =>{
+//                 res.send(res2.value);
+//             }
+//         );
+//     }catch(e){
+//         res.send({
+//             success: false,
+//             error: e.toString()
+//         });
+//     }
+// });
 router.get('/vendorId/:id', function (req, res, next) {
     vendorDB.findOne({ _id: new bson_1.ObjectId(req.params.id) }, function (err, vendor) {
         if (err) {

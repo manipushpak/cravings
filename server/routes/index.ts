@@ -83,10 +83,26 @@ router.post('/vendor/register', (req, res) => { //DONE
                 loginInfo : rvendor.loginInfo
             },
             {
-                openNow: openNowV,
                 phone: rvendor.phone,
-                loginInfo: rvendor.loginInfo,
-                vendorInfo: rvendor.vendorInfo
+                openNow: openNowV,
+                loginInfo: {
+                    email: rvendor.loginInfo.email,
+                    password: rvendor.loginInfo.password
+                },
+                vendorInfo: {
+                    vendorName: rvendor.vendorInfo.vendorName,
+                    stallName: rvendor.vendorInfo.stallName,
+                    address: {
+                        address: rvendor.vendorInfo.address.address,
+                        coordinates: {
+                            lat: rvendor.vendorInfo.address.coordinates.lat,
+                            lng: rvendor.vendorInfo.address.coordinates.lng
+                        }
+                    },
+                    keywords: rvendor.vendorInfo.keywords,
+                    flags: rvendor.vendorInfo.flags,
+                    hours: TH.getHours(rvendor.vendorInfo.hours)
+                }
             },
             { returnNewDocument: true },
             (err:any, res2:any) =>{
@@ -474,43 +490,59 @@ router.post('/search', (req, res) => { //USED ONCE
 
 });
 
-router.post('/vendor/modify', (req, res) => { //DONE
+// router.post('/vendor/modify', (req, res) => { //DONE
 
 
-    let vendor: Vendor = req.body.vendor;
+//     let vendor: Vendor = req.body.vendor;
 
-    console.log("HEREEEEE2");
-    console.log(vendor.vendorInfo.flags);
+//     console.log("HEREEEEE2");
+//     console.log(vendor.vendorInfo.flags);
 
-    let success:boolean = false;
-    let open:boolean = TH.isOpen(vendor);
-    try{
+//     let success:boolean = false;
+//     let open:boolean = TH.isOpen(vendor);
+//     try{
 
-        vendorDB.findOneAndReplace(
-            { 
-                loginInfo : vendor.loginInfo
-            },
-            {
-                phone: vendor.phone,
-                openNow: open,
-                loginInfo: vendor.loginInfo,
-                vendorInfo: vendor.vendorInfo
-            },
-            { returnNewDocument: true },
-            (err:any, res2:any) =>{
-                res.send(res2.value);
-            }
-        );
+//         vendorDB.findOneAndReplace(
+//             { 
+//                 loginInfo : vendor.loginInfo
+//             },
+//             {
+//                 phone: vendor.phone,
+//                 openNow: open,
+//                 loginInfo: {
+//                     email: vendor.loginInfo.email,
+//                     password: vendor.loginInfo.password
+//                 },
+//                 vendorInfo: {
+//                     vendorName: vendor.vendorInfo.vendorName,
+//                     stallName: vendor.vendorInfo.stallName,
+//                     address: {
+//                         address: vendor.vendorInfo.address.address,
+//                         coordinates: {
+//                             lat: vendor.vendorInfo.address.coordinates.lat,
+//                             lng: vendor.vendorInfo.address.coordinates.lng
+//                         }
+//                     },
+//                     keywords: vendor.vendorInfo.keywords,
+//                     flags: vendor.vendorInfo.flags,
+//                     hours: TH.getHours(vendor.vendorInfo.hours)
+//                 }
+//             },
+//             { returnNewDocument: true },
+//             (err:any, res2:any) =>{
+//                 res.send(res2.value);
+//             }
+//         );
 
-    }catch(e){
-        res.send({
-            success: false,
-            error: e.toString()
-        });
+//     }catch(e){
+//         res.send({
+//             success: false,
+//             error: e.toString()
+//         });
 
-    }
+//     }
 
-});
+// });
 
 router.get('/vendorId/:id', (req, res, next) => { //DONE!!!!
     vendorDB.findOne({_id: new ObjectId(req.params.id)}, (err: any, vendor: any) => {
