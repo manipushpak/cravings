@@ -70,7 +70,9 @@ router.get('/keywords/random', function (req, res, next) {
     });
 });
 router.post('/vendor/register', function (req, res) {
+    console.log("HEREEEEE");
     var rvendor = req.body.vendor;
+    console.log(rvendor.vendorInfo.flags);
     var success = false;
     var openNowV = timehelper_1.TH.isOpen(rvendor);
     //DO OPEN LOGIC HERE
@@ -396,6 +398,8 @@ router.post('/search', function (req, res) {
 });
 router.post('/vendor/modify', function (req, res) {
     var vendor = req.body.vendor;
+    console.log("HEREEEEE2");
+    console.log(vendor.vendorInfo.flags);
     var success = false;
     var open = timehelper_1.TH.isOpen(vendor);
     try {
@@ -533,24 +537,20 @@ router.get('/initvendors', function (req, res) {
     });
 });
 router.get('/initkeywords', function (req, res) {
-    var keywords = [
-        {
-            keyword: "taco"
-        },
-        {
-            keyword: "ramen"
-        },
-        {
-            keyword: "usc"
-        },
-        {
-            keyword: "lemonade"
-        },
-        {
-            keyword: "noods"
-        }
-    ];
-    keywordDB.insertMany(keywords, function (err) {
+    var keywords = new Set();
+    sampledb_1.default.forEach(function (x) {
+        x.vendorInfo.keywords.forEach(function (k) {
+            k = k.trim().toLowerCase();
+            if (!keywords.has(k)) {
+                keywords.add(k);
+            }
+        });
+    });
+    var karray = [];
+    Array.from(keywords).forEach(function (x) {
+        karray.push({ keyword: x });
+    });
+    keywordDB.insertMany(karray, function (err) {
         if (err) {
             res.send(err);
         }

@@ -67,8 +67,10 @@ router.get('/keywords/random', (req, res, next) => { //DONE
 
 router.post('/vendor/register', (req, res) => { //DONE
 
+    console.log("HEREEEEE");
 
     let rvendor: Vendor = req.body.vendor
+    console.log(rvendor.vendorInfo.flags);
     let success:boolean = false;
 
     let openNowV:boolean = TH.isOpen(rvendor);
@@ -135,7 +137,7 @@ router.post('/vendor/register', (req, res) => { //DONE
 
 
 
-router.post('/vendor/filter', (req, res) => { //DONE
+router.post('/vendor/filter', (req, res) => { //NOT USED
 
 
     let vendors: Vendor[] = req.body.vendors;
@@ -346,7 +348,7 @@ router.post('/vendor/filteredSearch', (req, res) => { //DONE
 });
 
 
-router.post('/search', (req, res) => { //DONE
+router.post('/search', (req, res) => { //USED ONCE
     let terms: string[] = req.body.terms;
     vendorDB.find({}).toArray((err: any, vendors: any) => {
         let all: Vendor[] = vendors;
@@ -476,6 +478,9 @@ router.post('/vendor/modify', (req, res) => { //DONE
 
 
     let vendor: Vendor = req.body.vendor;
+
+    console.log("HEREEEEE2");
+    console.log(vendor.vendorInfo.flags);
 
     let success:boolean = false;
     let open:boolean = TH.isOpen(vendor);
@@ -642,32 +647,33 @@ router.get('/initvendors', (req, res) => { //DONE
 
 router.get('/initkeywords', (req, res) => { //DONE
 
-    let keywords:any[] = [
-        {
-            keyword: "taco"
-        },
-        {
-            keyword: "ramen"
-        },
-        {
-            keyword: "usc"
-        },
-        {
-            keyword: "lemonade"
-        },
-        {
-            keyword: "noods"
-        }
-    ]
+    let keywords:Set<String> = new Set<String>();
+    
+    vendorS.forEach(x =>{
+        x.vendorInfo.keywords.forEach(k => {
+            k = k.trim().toLowerCase();
+            if(!keywords.has(k)){
+                keywords.add(k);
+            }
+        });
+    });
 
-    keywordDB.insertMany(keywords, (err: any) => {
+    let karray:any[] = [];
+    
+    Array.from(keywords).forEach(x => {
+
+        karray.push({keyword: x});
+
+    });
+
+    keywordDB.insertMany(karray, (err: any) => {
         if (err) {
-            res.send(err)
+            res.send(err);
         } else {
             res.send("success");
         }
     });
-});
+}); 
 
 
 
