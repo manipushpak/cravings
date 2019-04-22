@@ -10,7 +10,28 @@ class TimeHelper{
 
 
     }
+public static getHours(info:any[]):TimeFrame[] {
 
+
+    let hours:TimeFrame[] = [];
+
+    info.forEach(i =>{
+
+        let t:TimeFrame = {
+            open: i.open,
+            startTime: parseInt(i.startTime) || -1,
+            endTime: parseInt(i.endTime) || -1,
+        }
+
+        hours.push(t);
+
+    });
+
+
+    console.log(hours);
+    return hours;
+
+}
   public static isOpen(vendor:Vendor):boolean {
 
     let times:TimeFrame[] = vendor.vendorInfo.hours;

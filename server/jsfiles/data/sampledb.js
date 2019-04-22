@@ -22,42 +22,42 @@ var vendors = [
             address: {
                 address: "3760 Fig",
                 coordinates: {
-                    lat: 222,
-                    lng: 3333
+                    lat: 34.019009,
+                    lng: -118.291155
                 }
             },
             keywords: [
-                "pie", "usc"
+                "pies", "usc"
             ],
             flags: ["v"],
             hours: [
                 {
                     open: true,
                     startTime: 900,
-                    endTime: 500,
+                    endTime: 1730,
                 },
                 {
-                    open: true,
+                    open: false,
                     startTime: 900,
                     endTime: 500,
                 },
                 {
-                    open: true,
+                    open: false,
                     startTime: 900,
                     endTime: 500,
                 },
                 {
-                    open: true,
+                    open: false,
                     startTime: 900,
                     endTime: 500,
                 },
                 {
-                    open: true,
+                    open: false,
                     startTime: 900,
                     endTime: 500,
                 },
                 {
-                    open: true,
+                    open: false,
                     startTime: 900,
                     endTime: 500,
                 },
@@ -90,42 +90,42 @@ var vendors = [
             address: {
                 address: "3760 Fig",
                 coordinates: {
-                    lat: 225,
-                    lng: 333
+                    lat: 34.017799,
+                    lng: -118.281843
                 }
             },
             keywords: [
-                "noodles", "usc"
+                "noodles", "usc", "yummy"
             ],
             flags: ["g-f"],
             hours: [
                 {
-                    open: true,
+                    open: false,
                     startTime: 900,
                     endTime: 500,
                 },
                 {
                     open: true,
                     startTime: 900,
+                    endTime: 2030,
+                },
+                {
+                    open: false,
+                    startTime: 900,
                     endTime: 500,
                 },
                 {
-                    open: true,
+                    open: false,
                     startTime: 900,
                     endTime: 500,
                 },
                 {
                     open: true,
                     startTime: 900,
-                    endTime: 500,
+                    endTime: 1730,
                 },
                 {
-                    open: true,
-                    startTime: 900,
-                    endTime: 500,
-                },
-                {
-                    open: true,
+                    open: false,
                     startTime: 900,
                     endTime: 500,
                 },
@@ -154,8 +154,8 @@ var vendors = [
             address: {
                 address: "343 West Adams",
                 coordinates: {
-                    lat: 555,
-                    lng: 340
+                    lat: 34.022334,
+                    lng: -118.280621
                 }
             },
             keywords: [
@@ -166,7 +166,7 @@ var vendors = [
                 {
                     open: true,
                     startTime: 900,
-                    endTime: 500,
+                    endTime: 1700,
                 },
                 {
                     open: false,
@@ -176,27 +176,27 @@ var vendors = [
                 {
                     open: true,
                     startTime: 900,
-                    endTime: 500,
+                    endTime: 1700,
                 },
                 {
                     open: true,
                     startTime: 900,
-                    endTime: 500,
+                    endTime: 1700,
                 },
                 {
                     open: true,
                     startTime: 900,
-                    endTime: 500,
+                    endTime: 1700,
                 },
                 {
                     open: true,
                     startTime: 900,
-                    endTime: 500,
+                    endTime: 1700,
                 },
                 {
                     open: false,
                     startTime: 900,
-                    endTime: 500,
+                    endTime: 1700,
                 }
             ]
         }
@@ -218,19 +218,19 @@ var vendors = [
             address: {
                 address: "Stauffer Science Lecture Hall",
                 coordinates: {
-                    lat: 600,
-                    lng: 340
+                    lat: 34.023838,
+                    lng: -118.291927
                 }
             },
             keywords: [
-                "cookies"
+                "cookies", "usc"
             ],
             flags: ["k"],
             hours: [
                 {
                     open: true,
-                    startTime: 900,
-                    endTime: 500,
+                    startTime: 1000,
+                    endTime: 1700,
                 },
                 {
                     open: false,
@@ -239,29 +239,62 @@ var vendors = [
                 },
                 {
                     open: true,
-                    startTime: 900,
-                    endTime: 500,
+                    startTime: 1000,
+                    endTime: 1700,
                 },
                 {
                     open: true,
-                    startTime: 900,
-                    endTime: 500,
+                    startTime: 1000,
+                    endTime: 1700,
                 },
                 {
                     open: true,
-                    startTime: 900,
-                    endTime: 500,
+                    startTime: 1000,
+                    endTime: 1700,
                 },
                 {
                     open: true,
-                    startTime: 900,
-                    endTime: 500,
+                    startTime: 1000,
+                    endTime: 1700,
                 },
                 {
                     open: false,
-                    startTime: 900,
-                    endTime: 500,
+                    startTime: 1000,
+                    endTime: 1700,
                 }
+            ]
+        }
+    },
+    {
+        openNow: false,
+        phone: "+11111111111",
+        loginInfo: {
+            email: "rpai",
+            password: "6f9dff5af05096ea9f23cc7bedd65683"
+        },
+        vendorInfo: {
+            vendorName: [
+                { firstName: "Roopa",
+                    lastName: "Pai" }
+            ],
+            stallName: "Roopa's Quesadillas",
+            address: {
+                address: "849 W 34th St, Los Angeles, CA 90089",
+                coordinates: {
+                    lat: 34.028754,
+                    lng: -118.287691
+                }
+            },
+            keywords: ["quesadilla"],
+            flags: [],
+            hours: [
+                { open: false, startTime: 30, endTime: 30 },
+                { open: true, startTime: 0, endTime: 130 },
+                { open: false, startTime: 0, endTime: 0 },
+                { open: false, startTime: 0, endTime: 0 },
+                { open: false, startTime: 0, endTime: 0 },
+                { open: false, startTime: 0, endTime: 0 },
+                { open: false, startTime: 0, endTime: 0 }
             ]
         }
     }

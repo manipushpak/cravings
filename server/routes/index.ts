@@ -60,15 +60,17 @@ router.get('/keywords/random', (req, res, next) => { //DONE
             res.send(err)
         }else{
             let num = Math.floor(Math.random()*documents.length);
-            res.json(documents[num].keyword);
+            res.send(documents[num].keyword);
         }
     });
 });
 
 router.post('/vendor/register', (req, res) => { //DONE
 
+    console.log("HEREEEEE");
 
     let rvendor: Vendor = req.body.vendor
+    console.log(rvendor.vendorInfo.flags);
     let success:boolean = false;
 
     let openNowV:boolean = TH.isOpen(rvendor);
@@ -81,10 +83,26 @@ router.post('/vendor/register', (req, res) => { //DONE
                 loginInfo : rvendor.loginInfo
             },
             {
-                openNow: openNowV,
                 phone: rvendor.phone,
-                loginInfo: rvendor.loginInfo,
-                vendorInfo: rvendor.vendorInfo
+                openNow: openNowV,
+                loginInfo: {
+                    email: rvendor.loginInfo.email,
+                    password: rvendor.loginInfo.password
+                },
+                vendorInfo: {
+                    vendorName: rvendor.vendorInfo.vendorName,
+                    stallName: rvendor.vendorInfo.stallName,
+                    address: {
+                        address: rvendor.vendorInfo.address.address,
+                        coordinates: {
+                            lat: rvendor.vendorInfo.address.coordinates.lat,
+                            lng: rvendor.vendorInfo.address.coordinates.lng
+                        }
+                    },
+                    keywords: rvendor.vendorInfo.keywords,
+                    flags: rvendor.vendorInfo.flags,
+                    hours: TH.getHours(rvendor.vendorInfo.hours)
+                }
             },
             { returnNewDocument: true },
             (err:any, res2:any) =>{
@@ -92,9 +110,9 @@ router.post('/vendor/register', (req, res) => { //DONE
                 let vendor = res2.value;
 
                 if(err){
-                    res.json({success : false, error: err.toString()});
+                    res.send({success : false, error: err.toString()});
                 }else if(res2 == null || res2.value == null){
-                    res.json({success: false, error: res2});
+                    res.send({success: false, error: res2});
                 }
                 else{
                     let arr:any[] = [];
@@ -106,13 +124,13 @@ router.post('/vendor/register', (req, res) => { //DONE
                     }
                         console.log(arr);
                         if(arr.length == 0){
-                        res.json({success: true, vendor: vendor, keywords: false});
+                        res.send({success: true, vendor: vendor, keywords: false});
                         }else{
                          keywordDB.insertMany(arr, (err: any, ress: any)=>{
                             if(err){
                                  console.log({success: false, error: err});
                             }else{
-                                res.json({success: true, vendor: vendor, keywords: true});
+                                res.send({success: true, vendor: vendor, keywords: true});
                                 }
                          });
     
@@ -124,7 +142,7 @@ router.post('/vendor/register', (req, res) => { //DONE
             });
 
     }catch(e){
-        res.json({
+        res.send({
             success: false,
             error: e.toString()
         });
@@ -135,7 +153,7 @@ router.post('/vendor/register', (req, res) => { //DONE
 
 
 
-router.post('/vendor/filter', (req, res) => { //DONE
+router.post('/vendor/filter', (req, res) => { //NOT USED
 
 
     let vendors: Vendor[] = req.body.vendors;
@@ -173,7 +191,7 @@ router.post('/vendor/filter', (req, res) => { //DONE
 });
 
 
-router.post('/filteredSearch', (req, res) => { //DONE
+router.post('/vendor/filteredSearch', (req, res) => { //DONE
     let terms: string[] = req.body.terms;
     let filters: string[] = req.body.filters;
     let openSearch:boolean = req.body.open;
@@ -212,23 +230,23 @@ router.post('/filteredSearch', (req, res) => { //DONE
                 let include:boolean = false;
 
                 //names
-                // if(names!=null && names.length>0){
-                //     for(let k in names){
-                //         let first = names[k].firstName.trim().toLowerCase();
-                //         let last = names[k].lastName.trim().toLowerCase();
-                //         let whole = first + " " + last;
-                //         for(let tt in terms){
-                //             if(include){
-                //                 break;
-                //             }
-                //             let term = terms[tt].trim().toLowerCase();
-                //             if (first.includes(term) || last.includes(term) || whole.includes(term)){
-                //                 console.log("first or last: "+first + " "+last + " "+ term);
-                //                 include = true;
-                //             }
-                //         }
-                //     }
-                // }
+                if(names!=null && names.length>0){
+                    for(let k in names){
+                        let first = names[k].firstName.trim().toLowerCase();
+                        let last = names[k].lastName.trim().toLowerCase();
+                        let whole = first + " " + last;
+                        for(let tt in terms){
+                            if(include){
+                                break;
+                            }
+                            let term = terms[tt].trim().toLowerCase();
+                            if (first.includes(term) || last.includes(term) || whole.includes(term)){
+                                console.log("first or last: "+first + " "+last + " "+ term);
+                                include = true;
+                            }
+                        }
+                    }
+                }
 
                 //stallname
                 if(!include){
@@ -325,11 +343,11 @@ router.post('/filteredSearch', (req, res) => { //DONE
                         }
                     });
 
-                    res.json({success: true, vendors: openFiltered});
+                    res.send({success: true, vendors: openFiltered});
 
                 }else{
 
-                    res.json({success: true, vendors: filtered});
+                    res.send({success: true, vendors: filtered});
                 }
         
         
@@ -346,7 +364,7 @@ router.post('/filteredSearch', (req, res) => { //DONE
 });
 
 
-router.post('/search', (req, res) => { //DONE
+router.post('/search', (req, res) => { //USED ONCE
     let terms: string[] = req.body.terms;
     vendorDB.find({}).toArray((err: any, vendors: any) => {
         let all: Vendor[] = vendors;
@@ -383,23 +401,23 @@ router.post('/search', (req, res) => { //DONE
                 let include:boolean = false;
 
                 //names
-                // if(names!=null && names.length>0){
-                //     for(let k in names){
-                //         let first = names[k].firstName.trim().toLowerCase();
-                //         let last = names[k].lastName.trim().toLowerCase();
-                //         let whole = first + " " + last;
-                //         for(let tt in terms){
-                //             if(include){
-                //                 break;
-                //             }
-                //             let term = terms[tt].trim().toLowerCase();
-                //             if (first.includes(term) || last.includes(term) || whole.includes(term)){
-                //                 console.log("first or last: "+first + " "+last + " "+ term);
-                //                 include = true;
-                //             }
-                //         }
-                //     }
-                // }
+                if(names!=null && names.length>0){
+                    for(let k in names){
+                        let first = names[k].firstName.trim().toLowerCase();
+                        let last = names[k].lastName.trim().toLowerCase();
+                        let whole = first + " " + last;
+                        for(let tt in terms){
+                            if(include){
+                                break;
+                            }
+                            let term = terms[tt].trim().toLowerCase();
+                            if (first.includes(term) || last.includes(term) || whole.includes(term)){
+                                console.log("first or last: "+first + " "+last + " "+ term);
+                                include = true;
+                            }
+                        }
+                    }
+                }
 
                 //stallname
                 if(!include){
@@ -472,40 +490,59 @@ router.post('/search', (req, res) => { //DONE
 
 });
 
-router.post('/vendor/modify', (req, res) => { //DONE
+// router.post('/vendor/modify', (req, res) => { //DONE
 
 
-    let vendor: Vendor = req.body.vendor;
+//     let vendor: Vendor = req.body.vendor;
 
-    let success:boolean = false;
-    let open:boolean = TH.isOpen(vendor);
-    try{
+//     console.log("HEREEEEE2");
+//     console.log(vendor.vendorInfo.flags);
 
-        vendorDB.findOneAndReplace(
-            { 
-                loginInfo : vendor.loginInfo
-            },
-            {
-                phone: vendor.phone,
-                openNow: open,
-                loginInfo: vendor.loginInfo,
-                vendorInfo: vendor.vendorInfo
-            },
-            { returnNewDocument: true },
-            (err:any, res2:any) =>{
-                res.send(res2.value);
-            }
-        );
+//     let success:boolean = false;
+//     let open:boolean = TH.isOpen(vendor);
+//     try{
 
-    }catch(e){
-        res.send({
-            success: false,
-            error: e.toString()
-        });
+//         vendorDB.findOneAndReplace(
+//             { 
+//                 loginInfo : vendor.loginInfo
+//             },
+//             {
+//                 phone: vendor.phone,
+//                 openNow: open,
+//                 loginInfo: {
+//                     email: vendor.loginInfo.email,
+//                     password: vendor.loginInfo.password
+//                 },
+//                 vendorInfo: {
+//                     vendorName: vendor.vendorInfo.vendorName,
+//                     stallName: vendor.vendorInfo.stallName,
+//                     address: {
+//                         address: vendor.vendorInfo.address.address,
+//                         coordinates: {
+//                             lat: vendor.vendorInfo.address.coordinates.lat,
+//                             lng: vendor.vendorInfo.address.coordinates.lng
+//                         }
+//                     },
+//                     keywords: vendor.vendorInfo.keywords,
+//                     flags: vendor.vendorInfo.flags,
+//                     hours: TH.getHours(vendor.vendorInfo.hours)
+//                 }
+//             },
+//             { returnNewDocument: true },
+//             (err:any, res2:any) =>{
+//                 res.send(res2.value);
+//             }
+//         );
 
-    }
+//     }catch(e){
+//         res.send({
+//             success: false,
+//             error: e.toString()
+//         });
 
-});
+//     }
+
+// });
 
 router.get('/vendorId/:id', (req, res, next) => { //DONE!!!!
     vendorDB.findOne({_id: new ObjectId(req.params.id)}, (err: any, vendor: any) => {
@@ -565,27 +602,19 @@ router.post('/vendor/signup', (req, res) => { //DONE
                         },
                         keywords: [],
                         flags: [],
-                        hours: [
-                            {open: false, startTime: -1, endTime: -1},
-                            {open: false, startTime: -1, endTime: -1},
-                            {open: false, startTime: -1, endTime: -1},
-                            {open: false, startTime: -1, endTime: -1},
-                            {open: false, startTime: -1, endTime: -1},
-                            {open: false, startTime: -1, endTime: -1},
-                            {open: false, startTime: -1, endTime: -1},
-],
+                        hours: []
                     }
                 }
     
                 vendorDB.insertOne(newVendor, (err:any, res2:any)=>{
     
                     if(err){
-                        res.json({
+                        res.send({
                             success: false,
                             error: err
                         }); 
                     }else{
-                        res.json({
+                        res.send({
                             success: true,
                             vendor: newVendor
                         });
@@ -650,32 +679,33 @@ router.get('/initvendors', (req, res) => { //DONE
 
 router.get('/initkeywords', (req, res) => { //DONE
 
-    let keywords:any[] = [
-        {
-            keyword: "taco"
-        },
-        {
-            keyword: "ramen"
-        },
-        {
-            keyword: "usc"
-        },
-        {
-            keyword: "lemonade"
-        },
-        {
-            keyword: "noods"
-        }
-    ]
+    let keywords:Set<String> = new Set<String>();
+    
+    vendorS.forEach(x =>{
+        x.vendorInfo.keywords.forEach(k => {
+            k = k.trim().toLowerCase();
+            if(!keywords.has(k)){
+                keywords.add(k);
+            }
+        });
+    });
 
-    keywordDB.insertMany(keywords, (err: any) => {
+    let karray:any[] = [];
+    
+    Array.from(keywords).forEach(x => {
+
+        karray.push({keyword: x});
+
+    });
+
+    keywordDB.insertMany(karray, (err: any) => {
         if (err) {
-            res.send(err)
+            res.send(err);
         } else {
             res.send("success");
         }
     });
-});
+}); 
 
 
 

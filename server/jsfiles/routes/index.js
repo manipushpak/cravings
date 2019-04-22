@@ -65,12 +65,14 @@ router.get('/keywords/random', function (req, res, next) {
         }
         else {
             var num = Math.floor(Math.random() * documents.length);
-            res.json(documents[num].keyword);
+            res.send(documents[num].keyword);
         }
     });
 });
 router.post('/vendor/register', function (req, res) {
+    console.log("HEREEEEE");
     var rvendor = req.body.vendor;
+    console.log(rvendor.vendorInfo.flags);
     var success = false;
     var openNowV = timehelper_1.TH.isOpen(rvendor);
     //DO OPEN LOGIC HERE
@@ -78,17 +80,33 @@ router.post('/vendor/register', function (req, res) {
         vendorDB.findOneAndReplace({
             loginInfo: rvendor.loginInfo
         }, {
-            openNow: openNowV,
             phone: rvendor.phone,
-            loginInfo: rvendor.loginInfo,
-            vendorInfo: rvendor.vendorInfo
+            openNow: openNowV,
+            loginInfo: {
+                email: rvendor.loginInfo.email,
+                password: rvendor.loginInfo.password
+            },
+            vendorInfo: {
+                vendorName: rvendor.vendorInfo.vendorName,
+                stallName: rvendor.vendorInfo.stallName,
+                address: {
+                    address: rvendor.vendorInfo.address.address,
+                    coordinates: {
+                        lat: rvendor.vendorInfo.address.coordinates.lat,
+                        lng: rvendor.vendorInfo.address.coordinates.lng
+                    }
+                },
+                keywords: rvendor.vendorInfo.keywords,
+                flags: rvendor.vendorInfo.flags,
+                hours: timehelper_1.TH.getHours(rvendor.vendorInfo.hours)
+            }
         }, { returnNewDocument: true }, function (err, res2) {
             var vendor = res2.value;
             if (err) {
-                res.json({ success: false, error: err.toString() });
+                res.send({ success: false, error: err.toString() });
             }
             else if (res2 == null || res2.value == null) {
-                res.json({ success: false, error: res2 });
+                res.send({ success: false, error: res2 });
             }
             else {
                 var arr = [];
@@ -100,7 +118,7 @@ router.post('/vendor/register', function (req, res) {
                 }
                 console.log(arr);
                 if (arr.length == 0) {
-                    res.json({ success: true, vendor: vendor, keywords: false });
+                    res.send({ success: true, vendor: vendor, keywords: false });
                 }
                 else {
                     keywordDB.insertMany(arr, function (err, ress) {
@@ -108,7 +126,7 @@ router.post('/vendor/register', function (req, res) {
                             console.log({ success: false, error: err });
                         }
                         else {
-                            res.json({ success: true, vendor: vendor, keywords: true });
+                            res.send({ success: true, vendor: vendor, keywords: true });
                         }
                     });
                 }
@@ -116,7 +134,7 @@ router.post('/vendor/register', function (req, res) {
         });
     }
     catch (e) {
-        res.json({
+        res.send({
             success: false,
             error: e.toString()
         });
@@ -145,7 +163,7 @@ router.post('/vendor/filter', function (req, res) {
         res.send(filtered);
     }
 });
-router.post('/filteredSearch', function (req, res) {
+router.post('/vendor/filteredSearch', function (req, res) {
     var terms = req.body.terms;
     var filters = req.body.filters;
     var openSearch = req.body.open;
@@ -181,23 +199,23 @@ router.post('/filteredSearch', function (req, res) {
                 var keywords = currentVInfo.keywords;
                 var include = false;
                 //names
-                // if(names!=null && names.length>0){
-                //     for(let k in names){
-                //         let first = names[k].firstName.trim().toLowerCase();
-                //         let last = names[k].lastName.trim().toLowerCase();
-                //         let whole = first + " " + last;
-                //         for(let tt in terms){
-                //             if(include){
-                //                 break;
-                //             }
-                //             let term = terms[tt].trim().toLowerCase();
-                //             if (first.includes(term) || last.includes(term) || whole.includes(term)){
-                //                 console.log("first or last: "+first + " "+last + " "+ term);
-                //                 include = true;
-                //             }
-                //         }
-                //     }
-                // }
+                if (names != null && names.length > 0) {
+                    for (var k in names) {
+                        var first = names[k].firstName.trim().toLowerCase();
+                        var last = names[k].lastName.trim().toLowerCase();
+                        var whole = first + " " + last;
+                        for (var tt in terms) {
+                            if (include) {
+                                break;
+                            }
+                            var term = terms[tt].trim().toLowerCase();
+                            if (first.includes(term) || last.includes(term) || whole.includes(term)) {
+                                console.log("first or last: " + first + " " + last + " " + term);
+                                include = true;
+                            }
+                        }
+                    }
+                }
                 //stallname
                 if (!include) {
                     if (stallName != null && stallName != "") {
@@ -276,10 +294,10 @@ router.post('/filteredSearch', function (req, res) {
                             return v;
                         }
                     });
-                    res.json({ success: true, vendors: openFiltered });
+                    res.send({ success: true, vendors: openFiltered });
                 }
                 else {
-                    res.json({ success: true, vendors: filtered });
+                    res.send({ success: true, vendors: filtered });
                 }
             }
         }
@@ -319,23 +337,23 @@ router.post('/search', function (req, res) {
                 var keywords = currentVInfo.keywords;
                 var include = false;
                 //names
-                // if(names!=null && names.length>0){
-                //     for(let k in names){
-                //         let first = names[k].firstName.trim().toLowerCase();
-                //         let last = names[k].lastName.trim().toLowerCase();
-                //         let whole = first + " " + last;
-                //         for(let tt in terms){
-                //             if(include){
-                //                 break;
-                //             }
-                //             let term = terms[tt].trim().toLowerCase();
-                //             if (first.includes(term) || last.includes(term) || whole.includes(term)){
-                //                 console.log("first or last: "+first + " "+last + " "+ term);
-                //                 include = true;
-                //             }
-                //         }
-                //     }
-                // }
+                if (names != null && names.length > 0) {
+                    for (var k in names) {
+                        var first = names[k].firstName.trim().toLowerCase();
+                        var last = names[k].lastName.trim().toLowerCase();
+                        var whole = first + " " + last;
+                        for (var tt in terms) {
+                            if (include) {
+                                break;
+                            }
+                            var term = terms[tt].trim().toLowerCase();
+                            if (first.includes(term) || last.includes(term) || whole.includes(term)) {
+                                console.log("first or last: " + first + " " + last + " " + term);
+                                include = true;
+                            }
+                        }
+                    }
+                }
                 //stallname
                 if (!include) {
                     if (stallName != null && stallName != "") {
@@ -394,29 +412,51 @@ router.post('/search', function (req, res) {
         }
     });
 });
-router.post('/vendor/modify', function (req, res) {
-    var vendor = req.body.vendor;
-    var success = false;
-    var open = timehelper_1.TH.isOpen(vendor);
-    try {
-        vendorDB.findOneAndReplace({
-            loginInfo: vendor.loginInfo
-        }, {
-            phone: vendor.phone,
-            openNow: open,
-            loginInfo: vendor.loginInfo,
-            vendorInfo: vendor.vendorInfo
-        }, { returnNewDocument: true }, function (err, res2) {
-            res.send(res2.value);
-        });
-    }
-    catch (e) {
-        res.send({
-            success: false,
-            error: e.toString()
-        });
-    }
-});
+// router.post('/vendor/modify', (req, res) => { //DONE
+//     let vendor: Vendor = req.body.vendor;
+//     console.log("HEREEEEE2");
+//     console.log(vendor.vendorInfo.flags);
+//     let success:boolean = false;
+//     let open:boolean = TH.isOpen(vendor);
+//     try{
+//         vendorDB.findOneAndReplace(
+//             { 
+//                 loginInfo : vendor.loginInfo
+//             },
+//             {
+//                 phone: vendor.phone,
+//                 openNow: open,
+//                 loginInfo: {
+//                     email: vendor.loginInfo.email,
+//                     password: vendor.loginInfo.password
+//                 },
+//                 vendorInfo: {
+//                     vendorName: vendor.vendorInfo.vendorName,
+//                     stallName: vendor.vendorInfo.stallName,
+//                     address: {
+//                         address: vendor.vendorInfo.address.address,
+//                         coordinates: {
+//                             lat: vendor.vendorInfo.address.coordinates.lat,
+//                             lng: vendor.vendorInfo.address.coordinates.lng
+//                         }
+//                     },
+//                     keywords: vendor.vendorInfo.keywords,
+//                     flags: vendor.vendorInfo.flags,
+//                     hours: TH.getHours(vendor.vendorInfo.hours)
+//                 }
+//             },
+//             { returnNewDocument: true },
+//             (err:any, res2:any) =>{
+//                 res.send(res2.value);
+//             }
+//         );
+//     }catch(e){
+//         res.send({
+//             success: false,
+//             error: e.toString()
+//         });
+//     }
+// });
 router.get('/vendorId/:id', function (req, res, next) {
     vendorDB.findOne({ _id: new bson_1.ObjectId(req.params.id) }, function (err, vendor) {
         if (err) {
@@ -471,26 +511,18 @@ router.post('/vendor/signup', function (req, res) {
                         },
                         keywords: [],
                         flags: [],
-                        hours: [
-                            { open: false, startTime: -1, endTime: -1 },
-                            { open: false, startTime: -1, endTime: -1 },
-                            { open: false, startTime: -1, endTime: -1 },
-                            { open: false, startTime: -1, endTime: -1 },
-                            { open: false, startTime: -1, endTime: -1 },
-                            { open: false, startTime: -1, endTime: -1 },
-                            { open: false, startTime: -1, endTime: -1 },
-                        ],
+                        hours: []
                     }
                 };
                 vendorDB.insertOne(newVendor_1, function (err, res2) {
                     if (err) {
-                        res.json({
+                        res.send({
                             success: false,
                             error: err
                         });
                     }
                     else {
-                        res.json({
+                        res.send({
                             success: true,
                             vendor: newVendor_1
                         });
@@ -541,24 +573,20 @@ router.get('/initvendors', function (req, res) {
     });
 });
 router.get('/initkeywords', function (req, res) {
-    var keywords = [
-        {
-            keyword: "taco"
-        },
-        {
-            keyword: "ramen"
-        },
-        {
-            keyword: "usc"
-        },
-        {
-            keyword: "lemonade"
-        },
-        {
-            keyword: "noods"
-        }
-    ];
-    keywordDB.insertMany(keywords, function (err) {
+    var keywords = new Set();
+    sampledb_1.default.forEach(function (x) {
+        x.vendorInfo.keywords.forEach(function (k) {
+            k = k.trim().toLowerCase();
+            if (!keywords.has(k)) {
+                keywords.add(k);
+            }
+        });
+    });
+    var karray = [];
+    Array.from(keywords).forEach(function (x) {
+        karray.push({ keyword: x });
+    });
+    keywordDB.insertMany(karray, function (err) {
         if (err) {
             res.send(err);
         }

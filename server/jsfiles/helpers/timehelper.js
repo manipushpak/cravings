@@ -4,6 +4,19 @@ var moment = require("moment");
 var TimeHelper = /** @class */ (function () {
     function TimeHelper() {
     }
+    TimeHelper.getHours = function (info) {
+        var hours = [];
+        info.forEach(function (i) {
+            var t = {
+                open: i.open,
+                startTime: parseInt(i.startTime) || -1,
+                endTime: parseInt(i.endTime) || -1,
+            };
+            hours.push(t);
+        });
+        console.log(hours);
+        return hours;
+    };
     TimeHelper.isOpen = function (vendor) {
         var times = vendor.vendorInfo.hours;
         if (times == null || times.length == 0) {
