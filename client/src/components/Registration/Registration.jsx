@@ -34,12 +34,12 @@ class Registration extends React.Component {
          phone: phone,
          address: ven.vendorInfo.address.address,
          coordinates: {
-            lat: 0, 
-            lng: 0
+            lat: ven.vendorInfo.address.coordinates.lat, 
+            lng: ven.vendorInfo.address.coordinates.lng
          },
          hours: ven.vendorInfo.hours,
          keywords: ven.vendorInfo.keywords,
-         flags: [],
+         flags: ven.vendorInfo.flags,
          validated: false
       }
 
@@ -75,11 +75,11 @@ class Registration extends React.Component {
    handleSubmit(event) {
       event.preventDefault();
       var geocoder = new google.maps.Geocoder();
+      this.geocodeAddress(geocoder, this.state.address);
       var phone = this.state.phone;
       var updatedPhoneFormat = phone.replace(/-/g, "");
       updatedPhoneFormat = "+1" + updatedPhoneFormat;
 
-      this.geocodeAddress(geocoder, this.state.address);
       if (event.currentTarget.checkValidity() === false) {
          event.stopPropagation;
          this.setState({ validated: true });
@@ -104,7 +104,7 @@ class Registration extends React.Component {
                         coordinates: this.state.coordinates,
                      },
                      keywords: this.state.keywords,
-                     flags: [],
+                     flags: this.state.flags,
                      hours: this.state.hours,
                   }
                },
@@ -180,6 +180,7 @@ class Registration extends React.Component {
       var coordinates = {...this.state.coordinates};
       coordinates.lat = lat; coordinates.lng = lng;
       this.setState({ coordinates: coordinates });
+      console.log(this.state.coordinates);
    }
    updateWeek(e, index) {
       var weekday = this.state.hours[index];
@@ -353,8 +354,8 @@ class Registration extends React.Component {
                         <Form.Row>
                            <Form.Group as={Col} xs={12} sm={6}>
                               <Form.Check disabled={this.state.status.view} checked={this.state.flags.v} label="Vegetarian/Vegan" name="v" type="checkbox" onChange={e => this.updateFlags(e)} />
-                              <Form.Check disabled={this.state.status.view} checked={this.state.flags.gf} label="Gluten-free" name="gf" type="checkbox" onChange={e => this.updateFlags(e)} />
-                              <Form.Check disabled={this.state.status.view} checked={this.state.flags.df} label="Dairy-free" name="df" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check disabled={this.state.status.view} checked={this.state.flags.gf} label="Gluten-free" name="g-f" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check disabled={this.state.status.view} checked={this.state.flags.df} label="Dairy-free" name="d-f" type="checkbox" onChange={e => this.updateFlags(e)} />
                            </Form.Group>
                            <Form.Group as={Col} xs={12} sm={6}>
                               <Form.Check disabled={this.state.status.view} checked={this.state.flags.k} label="Kosher" name="k" type="checkbox" onChange={e => this.updateFlags(e)} />
