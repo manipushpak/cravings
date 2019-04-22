@@ -43,6 +43,8 @@ class Registration extends React.Component {
          validated: false
       }
 
+      console.log(this.state.hours);
+
       // External Form Functions
       this.handleSubmit = this.handleSubmit.bind(this);
       this.handleResetForm = this.handleResetForm.bind(this);
