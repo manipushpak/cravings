@@ -53,7 +53,7 @@ class Vendors extends React.Component {
          filterArray.splice(index, 1)
       }
          
-     fetch('/filteredSearch', {
+     fetch('/vendor/filteredSearch', {
          method: 'POST',
          body: JSON.stringify({
             terms: this.state.searchTerms,
@@ -79,7 +79,7 @@ class Vendors extends React.Component {
       this.setState({
          searchTerms: terms
       })
-      fetch('/filteredSearch', {
+      fetch('/vendor/filteredSearch', {
          method: 'POST',
          body: JSON.stringify({
             terms: this.state.searchTerms,
@@ -134,7 +134,7 @@ class Vendors extends React.Component {
             terms.splice(i, 1);
          }
       }
-      fetch('/filteredSearch', {
+      fetch('/vendor/filteredSearch', {
          method: 'POST',
          body: JSON.stringify({
             terms: terms,
