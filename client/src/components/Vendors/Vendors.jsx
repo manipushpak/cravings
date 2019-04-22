@@ -52,24 +52,21 @@ class Vendors extends React.Component {
          index = filterArray.indexOf(e.target.id);
          filterArray.splice(index, 1)
       }
-
-      this.setState({
-         filterArray: filterArray
-      })
          
      fetch('/filteredSearch', {
          method: 'POST',
          body: JSON.stringify({
             terms: this.state.searchTerms,
-            filters: this.state.filterArray,
-            open: true
+            filters: filterArray,
+            open: false
          }),
          headers: {"Content-Type": "application/json"}
       })
       .then(res => res.json())
       .then(vendors => {
          this.setState({
-            vendors: vendors.vendors
+            vendors: vendors.vendors,
+            filterArray: filterArray
          })
       })
    }
