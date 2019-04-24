@@ -40,10 +40,17 @@ class Registration extends React.Component {
          hours: ven.vendorInfo.hours,
          keywords: ven.vendorInfo.keywords,
          flags: ven.vendorInfo.flags,
+         flagBool:{
+            v: false,
+            gf: false,
+            df: false,
+            k: false,
+            h: false
+         },
          validated: false
       }
 
-      console.log(this.state.hours);
+      this.setFlagBool();
 
       // External Form Functions
       this.handleSubmit = this.handleSubmit.bind(this);
@@ -69,6 +76,7 @@ class Registration extends React.Component {
       this.updateVendorLastName = this.updateVendorLastName.bind(this);
       this.geocodeAddress = this.geocodeAddress.bind(this);
       this.callRegisterApi = this.callRegisterApi.bind(this);
+      this.setFlagBool = this.setFlagBool.bind(this);
 
       // Internal Form Functions
       this.activatePlacesSearch = this.activatePlacesSearch.bind(this);
@@ -79,45 +87,30 @@ class Registration extends React.Component {
       event.preventDefault();
       var geocoder = new google.maps.Geocoder();
       this.geocodeAddress(geocoder, this.state.address);
-      // if (event.currentTarget.checkValidity() === false) {
-      //    event.stopPropagation;
-      //    this.setState({ validated: true });
-      // } else { 
-      //    fetch('/vendor/register',{
-      //       method: 'POST',
-      //       body: JSON.stringify({
-      //          vendor: {
-      //             phone: updatedPhoneFormat,
-      //             loginInfo: {
-      //                email: this.state.vendor.loginInfo.email,
-      //                password: this.state.vendor.loginInfo.password,
-      //             },
-      //             vendorInfo: {
-      //                vendorName: {
-      //                   firstName: this.state.firstName,
-      //                   lastName: this.state.lastName
-      //                },
-      //                stallName: this.state.stallName,
-      //                address: {
-      //                   address: this.state.address,
-      //                   coordinates: this.state.coordinates,
-      //                },
-      //                keywords: this.state.keywords,
-      //                flags: this.state.flags,
-      //                hours: this.state.hours,
-      //             }
-      //          },
-      //       }),
-      //       headers: {"Content-Type": "application/json"}
-      //    }).then((response) => {
-      //          if(this.state.status.edit){
-      //             this.setToView();
-      //          }
-      //          else{
-      //             this.setToEdit();
-      //          }
-      //    });
-      // }
+   }
+
+   setFlagBool(){
+      var flags = this.state.flags;
+      var flagBool = this.state.flagBool;
+      if(flags.indexOf("g-f") !== -1){
+         flagBool.gf = true;
+      }
+      if(flags.indexOf("d-f") !== -1){
+         flagBool.df = true;
+      }
+      if(flags.indexOf("v") !== -1){
+         flagBool.v = true;
+      }
+      if(flags.indexOf("h") !== -1){
+         flagBool.h = true;
+      }
+      if(flags.indexOf("k") !== -1){
+         flagBool.k = true;
+      }
+      this.setState({
+         flagBool: flagBool
+      })
+      
    }
 
    callRegisterApi(){
@@ -267,18 +260,21 @@ class Registration extends React.Component {
    }
    updateFlags(e) {
       var flags = this.state.flags;
+      var flagBool = this.state.flagBool;
+      flagBool[e.target.value] = !flagBool[e.target.value];
+
       if (e.target.checked) {
          flags.push(e.target.name);
       } else {
          var index = flags.indexOf(e.target.name);
          flags.splice(index, 1);
       }
+      console.log(flagBool);
 
-      this.setState({ flags: flags });
+      this.setState({ flags: flags, flagBool: flagBool });
    }
 
    activatePlacesSearch() {
-      console.log("entered");
       var self = this;
       var autocomplete = new google.maps.places.Autocomplete(document.getElementById('vendorRegistrationLocation'));
       google.maps.event.addListener(autocomplete, 'place_changed', function() {
@@ -395,13 +391,13 @@ class Registration extends React.Component {
                         <Form.Label>Dietary Options (optional)</Form.Label>
                         <Form.Row>
                            <Form.Group as={Col} xs={12} sm={6}>
-                              <Form.Check disabled={this.state.status.view} checked={this.state.flags.v} label="Vegetarian/Vegan" name="v" type="checkbox" onChange={e => this.updateFlags(e)} />
-                              <Form.Check disabled={this.state.status.view} checked={this.state.flags.gf} label="Gluten-free" name="g-f" type="checkbox" onChange={e => this.updateFlags(e)} />
-                              <Form.Check disabled={this.state.status.view} checked={this.state.flags.df} label="Dairy-free" name="d-f" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check disabled={this.state.status.view} checked={this.state.flagBool.v} label="Vegetarian/Vegan" name="v" value="v" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check disabled={this.state.status.view} checked={this.state.flagBool.gf} label="Gluten-free" name="g-f" value="gf" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check disabled={this.state.status.view} checked={this.state.flagBool.df} label="Dairy-free" name="d-f" value="df" type="checkbox" onChange={e => this.updateFlags(e)} />
                            </Form.Group>
                            <Form.Group as={Col} xs={12} sm={6}>
-                              <Form.Check disabled={this.state.status.view} checked={this.state.flags.k} label="Kosher" name="k" type="checkbox" onChange={e => this.updateFlags(e)} />
-                              <Form.Check disabled={this.state.status.view} checked={this.state.flags.h} label="Halal" name="h" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check disabled={this.state.status.view} checked={this.state.flagBool.k} label="Kosher" name="k" value="k" type="checkbox" onChange={e => this.updateFlags(e)} />
+                              <Form.Check disabled={this.state.status.view} checked={this.state.flagBool.h} label="Halal" name="h" value="h" type="checkbox" onChange={e => this.updateFlags(e)} />
                            </Form.Group>
                         </Form.Row>
                      </Form.Group>
