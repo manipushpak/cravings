@@ -68,6 +68,7 @@ class Registration extends React.Component {
       this.updateVendorFirstName = this.updateVendorFirstName.bind(this);
       this.updateVendorLastName = this.updateVendorLastName.bind(this);
       this.geocodeAddress = this.geocodeAddress.bind(this);
+      this.callRegisterApi = this.callRegisterApi.bind(this);
 
       // Internal Form Functions
       this.activatePlacesSearch = this.activatePlacesSearch.bind(this);
@@ -78,49 +79,87 @@ class Registration extends React.Component {
       event.preventDefault();
       var geocoder = new google.maps.Geocoder();
       this.geocodeAddress(geocoder, this.state.address);
+      // if (event.currentTarget.checkValidity() === false) {
+      //    event.stopPropagation;
+      //    this.setState({ validated: true });
+      // } else { 
+      //    fetch('/vendor/register',{
+      //       method: 'POST',
+      //       body: JSON.stringify({
+      //          vendor: {
+      //             phone: updatedPhoneFormat,
+      //             loginInfo: {
+      //                email: this.state.vendor.loginInfo.email,
+      //                password: this.state.vendor.loginInfo.password,
+      //             },
+      //             vendorInfo: {
+      //                vendorName: {
+      //                   firstName: this.state.firstName,
+      //                   lastName: this.state.lastName
+      //                },
+      //                stallName: this.state.stallName,
+      //                address: {
+      //                   address: this.state.address,
+      //                   coordinates: this.state.coordinates,
+      //                },
+      //                keywords: this.state.keywords,
+      //                flags: this.state.flags,
+      //                hours: this.state.hours,
+      //             }
+      //          },
+      //       }),
+      //       headers: {"Content-Type": "application/json"}
+      //    }).then((response) => {
+      //          if(this.state.status.edit){
+      //             this.setToView();
+      //          }
+      //          else{
+      //             this.setToEdit();
+      //          }
+      //    });
+      // }
+   }
+
+   callRegisterApi(){
       var phone = this.state.phone;
       var updatedPhoneFormat = phone.replace(/-/g, "");
       updatedPhoneFormat = "+1" + updatedPhoneFormat;
-
-      if (event.currentTarget.checkValidity() === false) {
-         event.stopPropagation;
-         this.setState({ validated: true });
-      } else { 
-         fetch('/vendor/register',{
-            method: 'POST',
-            body: JSON.stringify({
-               vendor: {
-                  phone: updatedPhoneFormat,
-                  loginInfo: {
-                     email: this.state.vendor.loginInfo.email,
-                     password: this.state.vendor.loginInfo.password,
-                  },
-                  vendorInfo: {
-                     vendorName: {
-                        firstName: this.state.firstName,
-                        lastName: this.state.lastName
-                     },
-                     stallName: this.state.stallName,
-                     address: {
-                        address: this.state.address,
-                        coordinates: this.state.coordinates,
-                     },
-                     keywords: this.state.keywords,
-                     flags: this.state.flags,
-                     hours: this.state.hours,
-                  }
+      console.log(this.state.coordinates);
+      fetch('/vendor/register',{
+         method: 'POST',
+         body: JSON.stringify({
+            vendor: {
+               phone: updatedPhoneFormat,
+               loginInfo: {
+                  email: this.state.vendor.loginInfo.email,
+                  password: this.state.vendor.loginInfo.password,
                },
-            }),
-            headers: {"Content-Type": "application/json"}
-         }).then((response) => {
-               if(this.state.status.edit){
-                  this.setToView();
+               vendorInfo: {
+                  vendorName: {
+                     firstName: this.state.firstName,
+                     lastName: this.state.lastName
+                  },
+                  stallName: this.state.stallName,
+                  address: {
+                     address: this.state.address,
+                     coordinates: this.state.coordinates,
+                  },
+                  keywords: this.state.keywords,
+                  flags: this.state.flags,
+                  hours: this.state.hours,
                }
-               else{
-                  this.setToEdit();
-               }
-         });
-      }
+            },
+         }),
+         headers: {"Content-Type": "application/json"}
+      }).then((response) => {
+            if(this.state.status.edit){
+               this.setToView();
+            }
+            else{
+               this.setToEdit();
+            }
+      });
+
    }
  
    handleResetForm() {
@@ -181,8 +220,9 @@ class Registration extends React.Component {
    updateCoordinates(lat, lng) {
       var coordinates = {...this.state.coordinates};
       coordinates.lat = lat; coordinates.lng = lng;
-      this.setState({ coordinates: coordinates });
-      console.log(this.state.coordinates);
+      this.setState({ coordinates: coordinates 
+      }, () => {
+            this.callRegisterApi() });
    }
    updateWeek(e, index) {
       var weekday = this.state.hours[index];

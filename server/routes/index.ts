@@ -60,7 +60,7 @@ router.get('/keywords/random', (req, res, next) => { //DONE
             res.send(err)
         }else{
             let num = Math.floor(Math.random()*documents.length);
-            res.json(documents[num].keyword);
+            res.json("usc");
         }
     });
 });
@@ -165,8 +165,6 @@ router.post('/vendor/filter', (req, res) => { //DONE
         });
 
         res.send(filtered);
-
-
 
     }
 

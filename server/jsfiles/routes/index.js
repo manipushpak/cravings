@@ -65,7 +65,7 @@ router.get('/keywords/random', function (req, res, next) {
         }
         else {
             var num = Math.floor(Math.random() * documents.length);
-            res.json(documents[num].keyword);
+            res.json("usc");
         }
     });
 });
