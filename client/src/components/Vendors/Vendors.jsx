@@ -73,27 +73,29 @@ class Vendors extends React.Component {
 
    handleSearch() {
       var searchTerm = document.getElementById("searchTerm").value;
-      var terms = this.state.searchTerms;
-      document.getElementById("searchTerm").value = "";
-      terms.push(searchTerm);
-      this.setState({
-         searchTerms: terms
-      })
-      fetch('/vendor/filteredSearch', {
-         method: 'POST',
-         body: JSON.stringify({
-            terms: this.state.searchTerms,
-            filters: this.state.filterArray,
-            open: true
-         }),
-         headers: {"Content-Type": "application/json"}
-      })
-      .then(res => res.json())
-      .then(vendors => {
+      if(searchTerm != ""){
+         var terms = this.state.searchTerms;
+         document.getElementById("searchTerm").value = "";
+         terms.push(searchTerm);
          this.setState({
-            vendors: vendors.vendors
+            searchTerms: terms
          })
-      })
+         fetch('/vendor/filteredSearch', {
+            method: 'POST',
+            body: JSON.stringify({
+               terms: this.state.searchTerms,
+               filters: this.state.filterArray,
+               open: true
+            }),
+            headers: {"Content-Type": "application/json"}
+         })
+         .then(res => res.json())
+         .then(vendors => {
+            this.setState({
+               vendors: vendors.vendors
+            })
+         })
+      }
    }
 
    didProvideLocation() {
