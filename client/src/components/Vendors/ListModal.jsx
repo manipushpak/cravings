@@ -22,7 +22,7 @@ const ListModal = props => {
     const days = ["M", "T", "W", "T", "F", "S", "S"];
     var i = 0;
 
-    var vendorTime = Array.from(vendor.hours).map(hour => {
+    var vendorTime = Object.values(vendor.hours).map(hour => {
         var vt = days[i++] + ": ";
         
         if (hour.open) {
