@@ -390,7 +390,7 @@ router.post('/search', function (req, res) {
                     results.push(current);
                 }
             }
-            res.json({ success: true, vendors: results });
+            res.send({ success: true, vendors: results });
         }
     });
 });
