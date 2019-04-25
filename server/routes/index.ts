@@ -463,7 +463,7 @@ router.post('/search', (req, res) => { //DONE
 
             }
 
-            res.json({success: true, vendors: results});
+            res.send({success: true, vendors: results});
 
         }
     });
