@@ -20,7 +20,7 @@
 
 :local .carouselDiv {
     margin-top: 25px;
-    height: 200px;
+    height: 160px;
 }
 
 :local .infoDiv {
@@ -33,8 +33,13 @@
     line-height: 0.9;
 }
 
-:local .infoList {
-    font-size: 16px;
+:local .infoAddress {
+    font-size: 14px;
+}
+
+:local .infoTime {
+    padding-top: 7px;
+    font-size: 10px;
 }
 
 /* For tablets and smaller devices */

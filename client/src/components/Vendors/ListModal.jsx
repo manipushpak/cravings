@@ -19,21 +19,20 @@ const ListModal = props => {
         mapURL += "%2C" + vendor.address.coordinates.lng;
     }
 
-    var vendorTime = '';
     const days = ["M", "T", "W", "T", "F", "S", "S"];
-    for (var i=0; i<vendor.hours.length; i++) {
-        vendorTime += days[i] + ": ";
+    var i = 0;
 
-        if (vendor.hours[i].open) {
-            vendorTime += TimeConversion(vendor.hours[i].startTime) + " - " + TimeConversion(vendor.hours[i].endTime);
+    var vendorTime = vendor.hours.map(hour => {
+        var vt = days[i++] + ": ";
+        
+        if (hour.open) {
+            vt += TimeConversion(hour.startTime) + " - " + TimeConversion(hour.endTime);
         } else {
-            vendorTime += "closed";
+            vt += "closed";
         }
 
-        if (i !== vendor.hours.length-1) {
-            vendorTime += ", ";
-        }
-    }
+        return vt;
+    })
 
     return(
         <div className={styles.listModal}>
@@ -67,13 +66,22 @@ const ListModal = props => {
                 <div className={styles.infoName}>
                     {vendor.stallName}
                 </div>
-                <div className={styles.infoList}>
-                    
-                    {vendor.address.address}
-                    <br />
-                    {vendorTime}
-                    <br />
-                    <a href={mapURL}>Show directions on map</a>
+                <div className={styles.infoAddress}>
+                    {vendor.address.address} <br />
+                    {
+                        typeof vendor.address.coordinates.lat !== undefined
+                        &&
+                        <a href={mapURL}>Show directions on map</a>
+                    }
+                </div>
+                <div className={styles.infoTime}>
+                {
+                    vendorTime.map(time => {
+                        return (
+                            <div>{time}</div>
+                        );
+                    })
+                }
                 </div>
             </div>
             <button onClick={props.handleHideInfo} className={styles.listModalButton}>
